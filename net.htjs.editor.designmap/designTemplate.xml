@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<designMap namespace="module" validate="false">
+  
+  
+  <pojos>
+    <pojo id="module" class="net.htjs.sys.model.Module" dataset="user">
+      <description><![CDATA[aaaaa]]></description>
+      <property name="id" type="Integer" default-value=""/>
+    </pojo>
+  </pojos>
+  
+   
+  <daos>
+    <dao id="moduleDao" class="net.htjs.sys.dao.ModuleDao" dataset="user">
+      <description><![CDATA[aaaaa]]></description>
+      <method id="selectModule" methodName="selectModule" type="select">
+        <description><![CDATA[aaaaa]]></description>
+        <params>
+          <param name="aaa" type="java.util.List" description=""></param>
+          <param name="bbb" type="java.util.List" description=""></param>
+          <param name="ccc" type="java.util.List" description=""></param>
+        </params>
+        <exceptions>
+          <exception>java.util.DAOException</exception>
+          <exception>java.util.Exception</exception>
+        </exceptions>
+        <return>java.lang.String</return>
+      </method>
+    </dao>
+  </daos>
+  
+  <services>
+    <service id="moduleService" class="net.htjs.sys.service.ModuleService">
+      <description><![CDATA[aaaaa]]></description>
+      <method id="selectModule" methodName="selectModule" ref="moduleDao.selectModule">
+        <description><![CDATA[aaaaa]]></description>
+        <params>
+          <param name="aaa" type="java.util.List" description=""></param>
+          <param name="bbb" type="java.util.List" description=""></param>
+          <param name="ccc" type="java.util.List" description=""></param>
+        </params>
+        <exceptions>
+          <exception>java.util.DAOException</exception>
+          <exception>java.util.DAOException</exception>
+        </exceptions>
+        <return>java.lang.String</return>
+      </method>
+    </service>
+  </services>
+  
+  <ejbs>
+    <ejb id="moduleEjb" class="net.htjs.sys.ejbs.ModuleEjb">
+      <description><![CDATA[aaaaa]]></description>
+      <method id="selectModule" methodName="selectModule" ref="moduleService.selectModule">
+        <description><![CDATA[aaaaa]]></description>
+        <params>
+          <param name="aaa" type="java.util.List" description=""></param>
+          <param name="bbb" type="java.util.List" description=""></param>
+          <param name="ccc" type="java.util.List" description=""></param>
+        </params>
+        <exceptions>
+          <exception>java.util.DAOException</exception>
+          <exception>java.util.DAOException</exception>
+        </exceptions>
+        <return>java.lang.String</return>
+      </method>
+    </ejb>
+  </ejbs>
+  
+  
+  
+  <contentProviders>
+    <contentProvider id="moduleBean" class="net.htjs.sys.beans.ModuleBean">
+      <description><![CDATA[主页面]]></description>
+      <method id="getModuleSelect" methodName="getModuleParentSelect" ref="moduleService.selectModule">
+        <description><![CDATA[主页面]]></description>
+        <params>
+          <param name="aaa" type="java.util.List" description=""></param>
+          <param name="bbb" type="java.util.List" description=""></param>
+          <param name="ccc" type="java.util.List" description=""></param>
+        </params>
+        <exceptions>
+          <exception>java.util.DAOException</exception>
+          <exception>java.util.DAOException</exception>
+        </exceptions>
+        <return>java.lang.String</return>
+      </method>
+    </contentProvider>
+  </contentProviders>
+  
+  
+  <labelProviders description="模块管理表单">
+    <labelProvider id="viewAdd" name="form1">
+      <description><![CDATA[用户添加页面]]></description>
+      <input id="moduleName" htmlName="model.name" htmlType="password" dataType="string" label="模块名：" readOnly="true" disabled="true" isNull="false" display="true"></input>
+      <input id="moduleParent" htmlName="model.parent.id" htmlType="select" label="模块父级：" value="-1" contentProvider="module.moduleBean.selectModule" textName="name" valueName="id">
+        <option value="-1">无父级</option>
+      </input>
+      <input id="protect" htmlName="model.protect" htmlType="select" label="是否保护：" value="1">
+        <option value="0">保护</option>
+        <option value="1">不保护</option>
+      </input>
+      <input id="btnAction" htmlName="btnAction" htmlType="button" value="添加" onClick="jsDispatcher('url=/server/system/module/add.do`callback=buildXHTML','viewAdd','viewAdd1')"></input>
+    </labelProvider>
+  </labelProviders>
+  
+  
+  <action id="moduleAction" class="net.htjs.sys.actions.ModuleAction" path="/server/system/module/">
+    <description><![CDATA[查询页面的方法配置(id的名字也是jsp的文件名)]]></description>
+    <method id="viewMain" buildMode="js">
+      <description><![CDATA[主页面]]></description>
+      <data id="a1" >
+        <description><![CDATA[主页面]]></description>
+        <contentProvider ref="moduleBean.getModuleSelect" store="aaaa"></contentProvider>
+        <labelProvider ref="viewAdd" page="selectModulePage.html"></labelProvider>
+      </data>
+      <data id="a2">
+        <description><![CDATA[主页面]]></description>
+        <contentProvider ref="moduleBean.getModuleSelect" store=""></contentProvider>
+        <labelProvider ref="module.select" page="selectModulePage.html"></labelProvider>
+      </data>
+      <params>
+        <param target="model" ref="module.module" description=""/>
+      </params>
+    </method>
+  </action>
+  
+  
+</designMap>

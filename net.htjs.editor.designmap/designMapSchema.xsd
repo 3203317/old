@@ -1,0 +1,644 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:simpleType name="idType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{6}-\d{4}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="yearType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="1970"/>
+			<xs:maxInclusive value="2000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="cacheLevelType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="9"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="emailType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-zA-Z1-9.]+@[a-zA-Z1-9.]+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="booleanType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="true"/>
+			<xs:enumeration value="false"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="datatypeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Require"/>
+			<xs:enumeration value="English"/>
+			<xs:enumeration value="Chinese"/>
+			<xs:enumeration value="Username"/>
+			<xs:enumeration value="Url"/>
+			<xs:enumeration value="SafeString"/>
+			<xs:enumeration value="Repeat"/>
+			<xs:enumeration value="Email"/>
+			<xs:enumeration value="QQ"/>
+			<xs:enumeration value="Range"/>
+			<xs:enumeration value="Compare"/>
+			<xs:enumeration value="Phone"/>
+			<xs:enumeration value="Mobile"/>
+			<xs:enumeration value="Date"/>
+			<xs:enumeration value="Custom"/>
+			<xs:enumeration value="Zip"/>
+			<xs:enumeration value="Group"/>
+			<xs:enumeration value="Limit"/>
+			<xs:enumeration value="LimitB"/>
+			<xs:enumeration value="Filter"/>
+			<xs:enumeration value="IdCard"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="l-charset">
+		<xs:attribute name="contentType" type="xs:string"/>
+		<xs:attribute name="from" type="xs:string"/>
+		<xs:attribute name="to" type="xs:string"/>
+		<xs:attribute name="jFrom" type="xs:string"/>
+		<xs:attribute name="jTo" type="xs:string"/>
+		<xs:attribute name="dbFrom" type="xs:string"/>
+		<xs:attribute name="dbTo" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="l-staticList">
+    <xs:sequence>
+      <xs:element name="list" type="l-list" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="l-list">
+    <xs:sequence>
+      <xs:element name="option" type="l-option" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string"/>
+    <xs:attribute name="contentPrivoder" type="xs:string" use="optional"/>
+    <xs:attribute name="privoderType" type="xs:string" use="optional"/>
+    <xs:attribute name="textName" type="xs:string" use="optional"/>
+    <xs:attribute name="valueName" type="xs:string" use="optional"/>
+  </xs:complexType>
+	<xs:complexType name="pub-property">
+		<xs:attribute name="id" type="xs:string"/>
+		<xs:attribute name="resource" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="l-pojos">
+		<xs:sequence>
+			<xs:element name="pojo" type="l-pojo" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="l-services">
+		<xs:sequence>
+			<xs:element name="service" type="l-service" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="l-ejbs">
+		<xs:sequence>
+			<xs:element name="ejb" type="l-service" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="l-contentProviders">
+		<xs:sequence>
+			<xs:element name="contentProvider" type="l-service" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="l-pojo">
+		<xs:sequence>
+			<xs:element name="property" type="l-pojoproperty" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="class" type="xs:string" use="required"/>
+		<xs:attribute name="dataset" type="xs:string" use="optional"/>
+		<xs:attribute name="isDefault" type="booleanType" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="l-daos">
+		<xs:sequence>
+			<xs:element name="dao" type="l-dao" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="l-dao">
+		<xs:sequence>
+			<xs:element name="description" type="xs:string"/>
+			<xs:element name="method" type="l-daos-method" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="class" type="xs:string" use="required"/>
+		<xs:attribute name="dataset" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="l-daos-method">
+		<xs:sequence>
+			<xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="params" type="l-params" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="exceptions" type="l-exceptions" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="return" type="l-return"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="methodName" type="xs:string" use="required"/>
+		<xs:attribute name="type" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="l-params">
+		<xs:sequence>
+			<xs:element name="param" type="l-param" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="l-param">
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="type" type="xs:string" use="required"/>
+		<xs:attribute name="description" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="l-exceptions">
+		<xs:sequence>
+			<xs:element name="exception" type="l-return" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="l-service">
+		<xs:sequence>
+			<xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="method" type="l-s-method" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="class" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="l-s-method">
+		<xs:sequence>
+			<xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="params" type="l-params" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="exceptions" type="l-exceptions" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="return" type="l-return" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="methodName" type="xs:string" use="required"/>
+		<xs:attribute name="ref" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="l-return">
+		<xs:attribute name="type" type="xs:string" use="required"/>
+		<xs:attribute name="description" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="l-pojoproperty">
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="type" type="xs:string" use="required" />
+		<xs:attribute name="column" type="xs:string" use="required" />
+		<xs:attribute name="columnType" type="xs:string" use="required" />
+		<xs:attribute name="isPrimaryKey" type="booleanType"
+			use="optional" />
+		<xs:attribute name="initValue" type="xs:string" use="optional" />
+		<xs:attribute name="description" type="xs:string"
+			use="optional" />
+		<xs:attribute name="isSlavery" type="xs:string"></xs:attribute>
+		<xs:attribute name="dao" type="xs:string"></xs:attribute>
+		<xs:attribute name="fkName" type="xs:string"></xs:attribute>
+		<xs:attribute name="isDataPriv" type="xs:string"></xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="l-labelProviders">
+		<xs:sequence>
+			<xs:element name="labelProvider" type="l-labelProvider" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="description" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="l-labelProvider">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="description" type="xs:string"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="a" type="l-a" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xs:element name="button" type="l-button" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xs:element name="checkbox" type="l-checkbox" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xs:element name="date" type="l-date" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xs:element name="file" type="l-file" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xs:element name="hidden" type="l-hidden" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xs:element name="input" type="l-input" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xs:element name="img" type="l-img" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xs:element name="image" type="l-image" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xs:element name="iframe" type="l-iframe" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xs:element name="label" type="l-label" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xs:element name="radio" type="l-radio" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xs:element name="reset" type="l-reset" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xs:element name="request" type="l-request" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xs:element name="select" type="l-select" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xs:element name="submit" type="l-submit" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xs:element name="session" type="l-session" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xs:element name="textarea" type="l-textarea" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xs:element name="tree" type="l-tree" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xs:element name="child" type="l_child" maxOccurs="unbounded" minOccurs="0"></xs:element>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:string" use="required" />
+		<xs:attribute name="name" type="xs:string" />
+		<xs:attribute name="extends" type="xs:string" />
+		<xs:attribute name="exclude" type="xs:string" />
+
+	</xs:complexType>
+	<xs:complexType name="l-input">
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="javaName" type="xs:string" use="optional"/>
+		<xs:attribute name="javaType" type="xs:string" use="optional"/>
+		<xs:attribute name="javaFormat" type="xs:string" use="optional"/>
+		<xs:attribute name="htmlName" type="xs:string" use="optional"/>
+		<xs:attribute name="htmlType" type="xs:string" use="required"/>
+		<xs:attribute name="label" type="xs:string" use="optional"/>
+		<xs:attribute name="value" type="xs:string" use="optional"/>
+		<xs:attribute name="states" type="xs:string" use="optional"/>
+		<xs:attribute name="securityLevel" type="xs:string" use="optional"/>
+		<xs:attribute name="notNull" type="booleanType" use="optional"/>
+		<xs:attribute name="readOnly" type="booleanType" use="optional"/>
+		<xs:attribute name="disabled" type="booleanType" use="optional"/>
+		<xs:attribute name="description" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="l-text">
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="javaName" type="xs:string" use="optional"/>
+		<xs:attribute name="javaType" type="xs:string" use="optional"/>
+		<xs:attribute name="javaFormat" type="xs:string" use="optional"/>
+		<xs:attribute name="htmlName" type="xs:string" use="optional"/>
+		<xs:attribute name="label" type="xs:string" use="optional"/>
+		<xs:attribute name="value" type="xs:string" use="optional"/>
+		<xs:attribute name="states" type="xs:string" use="optional"/>
+		<xs:attribute name="securityLevel" type="xs:string" use="optional"/>
+		<xs:attribute name="notNull" type="booleanType" use="optional"/>
+		<xs:attribute name="readOnly" type="booleanType" use="optional"/>
+		<xs:attribute name="disabled" type="booleanType" use="optional"/>
+		<xs:attribute name="description" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="l-password">
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="javaName" type="xs:string" use="optional"/>
+		<xs:attribute name="javaType" type="xs:string" use="optional"/>
+		<xs:attribute name="htmlName" type="xs:string" use="optional"/>
+		<xs:attribute name="label" type="xs:string" use="optional"/>
+		<xs:attribute name="value" type="xs:string" use="optional"/>
+		<xs:attribute name="states" type="xs:string" use="optional"/>
+		<xs:attribute name="securityLevel" type="xs:string" use="optional"/>
+		<xs:attribute name="notNull" type="booleanType" use="optional"/>
+		<xs:attribute name="readOnly" type="booleanType" use="optional"/>
+		<xs:attribute name="disabled" type="booleanType" use="optional"/>
+		<xs:attribute name="description" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="l-checkbox">
+    <xs:attribute name="id" type="xs:string" use="required"/>
+    <xs:attribute name="javaName" type="xs:string" use="optional"/>
+    <xs:attribute name="javaType" type="xs:string" use="optional"/>
+    <xs:attribute name="htmlName" type="xs:string" use="optional"/>
+    <xs:attribute name="label" type="xs:string" use="optional"/>
+    <xs:attribute name="value" type="xs:string" use="optional"/>
+		<xs:attribute name="states" type="xs:string" use="optional"/>
+		<xs:attribute name="securityLevel" type="xs:string" use="optional"/>
+    <xs:attribute name="notNull" type="booleanType" use="optional"/>
+    <xs:attribute name="readOnly" type="booleanType" use="optional"/>
+    <xs:attribute name="disabled" type="booleanType" use="optional"/>
+    <xs:attribute name="description" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="l-radio">
+    <xs:attribute name="id" type="xs:string" use="required"/>
+    <xs:attribute name="javaName" type="xs:string" use="optional"/>
+    <xs:attribute name="javaType" type="xs:string" use="optional"/>
+    <xs:attribute name="htmlName" type="xs:string" use="optional"/>
+    <xs:attribute name="label" type="xs:string" use="optional"/>
+    <xs:attribute name="value" type="xs:string" use="optional"/>
+		<xs:attribute name="states" type="xs:string" use="optional"/>
+		<xs:attribute name="securityLevel" type="xs:string" use="optional"/>
+    <xs:attribute name="notNull" type="booleanType" use="optional"/>
+    <xs:attribute name="readOnly" type="booleanType" use="optional"/>
+    <xs:attribute name="disabled" type="booleanType" use="optional"/>
+    <xs:attribute name="description" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="l-hidden">
+    <xs:attribute name="id" type="xs:string" use="required"/>
+    <xs:attribute name="javaName" type="xs:string" use="optional"/>
+    <xs:attribute name="javaType" type="xs:string" use="optional"/>
+    <xs:attribute name="htmlName" type="xs:string" use="optional"/>
+    <xs:attribute name="value" type="xs:string" use="optional"/>
+    <xs:attribute name="notNull" type="booleanType" use="optional"/>
+    <xs:attribute name="readOnly" type="booleanType" use="optional"/>
+    <xs:attribute name="disabled" type="booleanType" use="optional"/>
+    <xs:attribute name="description" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="l-submit">
+    <xs:attribute name="id" type="xs:string" use="required"/>
+    <xs:attribute name="htmlName" type="xs:string" use="optional"/>
+    <xs:attribute name="value" type="xs:string" use="optional"/>
+    <xs:attribute name="disabled" type="booleanType" use="optional"/>
+    <xs:attribute name="description" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="l-button">
+    <xs:attribute name="id" type="xs:string" use="required"/>
+    <xs:attribute name="htmlName" type="xs:string" use="optional"/>
+    <xs:attribute name="value" type="xs:string" use="optional"/>
+    <xs:attribute name="disabled" type="booleanType" use="optional"/>
+    <xs:attribute name="description" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="l-reset">
+    <xs:attribute name="id" type="xs:string" use="required"/>
+    <xs:attribute name="htmlName" type="xs:string" use="optional"/>
+    <xs:attribute name="value" type="xs:string" use="optional"/>
+    <xs:attribute name="disabled" type="booleanType" use="optional"/>
+    <xs:attribute name="description" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="l-image">
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="javaName" type="xs:string" use="optional"/>
+		<xs:attribute name="javaType" type="xs:string" use="optional"/>
+		<xs:attribute name="htmlName" type="xs:string" use="optional"/>
+		<xs:attribute name="label" type="xs:string" use="optional"/>
+		<xs:attribute name="value" type="xs:string" use="optional"/>
+		<xs:attribute name="states" type="xs:string" use="optional"/>
+		<xs:attribute name="securityLevel" type="xs:string" use="optional"/>
+		<xs:attribute name="src" type="xs:string" use="optional"/>
+		<xs:attribute name="description" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="l-file">
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="javaName" type="xs:string" use="optional"/>
+		<xs:attribute name="javaType" type="xs:string" use="optional"/>
+		<xs:attribute name="htmlName" type="xs:string" use="optional"/>
+		<xs:attribute name="label" type="xs:string" use="optional"/>
+		<xs:attribute name="value" type="xs:string" use="optional"/>
+		<xs:attribute name="states" type="xs:string" use="optional"/>
+		<xs:attribute name="securityLevel" type="xs:string" use="optional"/>
+		<xs:attribute name="notNull" type="booleanType" use="optional"/>
+		<xs:attribute name="readOnly" type="booleanType" use="optional"/>
+		<xs:attribute name="disabled" type="booleanType" use="optional"/>
+		<xs:attribute name="description" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="l-textarea">
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="javaName" type="xs:string" use="optional"/>
+		<xs:attribute name="javaType" type="xs:string" use="optional"/>
+		<xs:attribute name="htmlName" type="xs:string" use="optional"/>
+		<xs:attribute name="label" type="xs:string" use="optional"/>
+		<xs:attribute name="value" type="xs:string" use="optional"/>
+		<xs:attribute name="states" type="xs:string" use="optional"/>
+		<xs:attribute name="securityLevel" type="xs:string" use="optional"/>
+		<xs:attribute name="notNull" type="booleanType" use="optional"/>
+		<xs:attribute name="readOnly" type="booleanType" use="optional"/>
+		<xs:attribute name="disabled" type="booleanType" use="optional"/>
+		<xs:attribute name="description" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="l-select">
+		<xs:sequence>
+			<xs:element name="option" type="l-option" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" use="required" />
+		<xs:attribute name="javaName" type="xs:string" use="optional" />
+		<xs:attribute name="javaType" type="xs:string" use="optional" />
+		<xs:attribute name="htmlType" type="xs:string" use="optional" />
+		<xs:attribute name="htmlName" type="xs:string" use="optional" />
+		<xs:attribute name="label" type="xs:string" use="optional" />
+		<xs:attribute name="value" type="xs:string" use="optional" />
+		<xs:attribute name="contentProvider" type="xs:string"
+			use="optional" />
+		<xs:attribute name="providerType" type="xs:string"
+			use="optional" />
+		<xs:attribute name="textName" type="xs:string" use="optional" />
+		<xs:attribute name="valueName" type="xs:string" use="optional" />
+		<xs:attribute name="notNull" type="booleanType" use="optional" />
+		<xs:attribute name="readOnly" type="booleanType" use="optional" />
+		<xs:attribute name="disabled" type="booleanType" use="optional" />
+		<xs:attribute name="description" type="xs:string"
+			use="optional" />
+		<xs:attribute name="contentPath" type="xs:string"></xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="l-tree">
+    <xs:attribute name="id" type="xs:string" use="required"/>
+    <xs:attribute name="htmlName" type="xs:string"/>
+    <xs:attribute name="label" type="xs:string"/>
+    <xs:attribute name="contentProvider" type="xs:string"/>
+    <xs:attribute name="nodeID" type="xs:string"/>
+    <xs:attribute name="parentID" type="xs:string"/>
+    <xs:attribute name="nodeName" type="xs:string"/>
+    <xs:attribute name="nodeDesc" type="xs:string"/>
+    <xs:attribute name="nodeType" type="xs:string"/>
+    <xs:attribute name="nodeOpen" type="xs:string"/>
+    <xs:attribute name="nodeLeaf" type="xs:string"/>
+    <xs:attribute name="nodeSelect" type="xs:string"/>
+    <xs:attribute name="nodeUrl" type="xs:string"/>
+    <xs:attribute name="nodeData" type="xs:string"/>
+    <xs:attribute name="treeType" type="xs:string"/><!-- 树类型（checkbox） -->
+    <xs:attribute name="contentProvider2" type="xs:string"/>
+    <xs:attribute name="compareValue" type="xs:string"/>
+    <xs:attribute name="notNull" type="booleanType"/>
+    <xs:attribute name="readOnly" type="booleanType"/>
+    <xs:attribute name="disabled" type="booleanType"/>
+    <xs:attribute name="description" type="xs:string"/>
+  </xs:complexType>
+	<xs:complexType name="l-session">
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="javaName" type="xs:string"/>
+		<xs:attribute name="javaType" type="xs:string"/>
+		<xs:attribute name="javaFormat" type="xs:string"/>
+		<xs:attribute name="htmlName" type="xs:string"/>
+		<xs:attribute name="htmlType" type="xs:string"/>
+		<xs:attribute name="label" type="xs:string"/>
+		<xs:attribute name="value" type="xs:string" use="optional"/>
+		<xs:attribute name="states" type="xs:string" use="optional"/>
+		<xs:attribute name="securityLevel" type="xs:string" use="optional"/>
+    <xs:attribute name="notNull" type="booleanType"/>
+    <xs:attribute name="readOnly" type="booleanType"/>
+    <xs:attribute name="disabled" type="booleanType"/>
+    <xs:attribute name="description" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="l-request">
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="javaName" type="xs:string"/>
+		<xs:attribute name="javaType" type="xs:string"/>
+		<xs:attribute name="javaFormat" type="xs:string"/>
+		<xs:attribute name="htmlName" type="xs:string"/>
+		<xs:attribute name="htmlType" type="xs:string"/>
+		<xs:attribute name="label" type="xs:string"/>
+		<xs:attribute name="value" type="xs:string" use="optional"/>
+		<xs:attribute name="states" type="xs:string" use="optional"/>
+		<xs:attribute name="securityLevel" type="xs:string" use="optional"/>
+		<xs:attribute name="notNull" type="booleanType"/>
+		<xs:attribute name="readOnly" type="booleanType"/>
+		<xs:attribute name="disabled" type="booleanType"/>
+		<xs:attribute name="description" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="l-date">
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="javaName" type="xs:string"/>
+		<xs:attribute name="javaType" type="xs:string"/>
+		<xs:attribute name="javaFormat" type="xs:string"/>
+		<xs:attribute name="htmlName" type="xs:string"/>
+		<xs:attribute name="htmlType" type="xs:string"/>
+		<xs:attribute name="label" type="xs:string"/>
+		<xs:attribute name="value" type="xs:string" use="optional"/>
+		<xs:attribute name="states" type="xs:string" use="optional"/>
+		<xs:attribute name="securityLevel" type="xs:string" use="optional"/>
+		<xs:attribute name="notNull" type="booleanType"/>
+		<xs:attribute name="readOnly" type="booleanType"/>
+		<xs:attribute name="disabled" type="booleanType"/>
+		<xs:attribute name="description" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="l-number">
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="javaName" type="xs:string"/>
+		<xs:attribute name="javaType" type="xs:string"/>
+		<xs:attribute name="javaFormat" type="xs:string"/>
+		<xs:attribute name="htmlName" type="xs:string"/>
+		<xs:attribute name="htmlType" type="xs:string"/>
+		<xs:attribute name="label" type="xs:string"/>
+		<xs:attribute name="value" type="xs:string" use="optional"/>
+		<xs:attribute name="states" type="xs:string" use="optional"/>
+		<xs:attribute name="securityLevel" type="xs:string" use="optional"/>
+		<xs:attribute name="notNull" type="booleanType"/>
+		<xs:attribute name="readOnly" type="booleanType"/>
+		<xs:attribute name="disabled" type="booleanType"/>
+		<xs:attribute name="description" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="l-label">
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="htmlName" type="xs:string"/>
+		<xs:attribute name="javaName" type="xs:string"/>
+		<xs:attribute name="javaType" type="xs:string"/>
+		<xs:attribute name="javaFormat" type="xs:string"/>
+		<xs:attribute name="label" type="xs:string"/>
+		<xs:attribute name="value" type="xs:string" use="optional"/>
+		<xs:attribute name="states" type="xs:string" use="optional"/>
+		<xs:attribute name="securityLevel" type="xs:string" use="optional"/>
+		<xs:attribute name="notNull" type="booleanType"/>
+		<xs:attribute name="readOnly" type="booleanType"/>
+		<xs:attribute name="disabled" type="booleanType"/>
+		<xs:attribute name="description" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="l-a">
+    <xs:attribute name="id" type="xs:string" use="required"/>
+    <xs:attribute name="javaName" type="xs:string" use="optional"/>
+    <xs:attribute name="javaType" type="xs:string"/>
+    <xs:attribute name="htmlName" type="xs:string"/>
+    <xs:attribute name="href" type="xs:string"/>
+    <xs:attribute name="label" type="xs:string"/>
+    <xs:attribute name="value" type="xs:string"/>
+    <xs:attribute name="description" type="xs:string"/>
+  </xs:complexType>
+  
+  <xs:complexType name="l-iframe">
+    <xs:attribute name="id" type="xs:string" use="required"/>
+    <xs:attribute name="javaName" type="xs:string" use="optional"/>
+    <xs:attribute name="javaType" type="xs:string"/>
+    <xs:attribute name="htmlName" type="xs:string"/>
+    <xs:attribute name="src" type="xs:string"/>
+    <xs:attribute name="label" type="xs:string"/>
+    <xs:attribute name="description" type="xs:string"/>
+  </xs:complexType>
+  
+	<xs:complexType name="l-img">
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="javaName" type="xs:string" use="optional"/>
+		<xs:attribute name="javaType" type="xs:string"/>
+		<xs:attribute name="htmlName" type="xs:string"/>
+		<xs:attribute name="label" type="xs:string"/>
+		<xs:attribute name="value" type="xs:string"/>
+		<xs:attribute name="src" type="xs:string"/>
+		<xs:attribute name="description" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="l-option" >
+	  <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="value" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="l-action">
+		<xs:sequence>
+		  <xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="method" type="l-actionMethod" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="class" type="xs:string" use="required"/>
+		<xs:attribute name="path" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="l-actionMethod">
+		<xs:sequence>
+		  <xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="data" type="l-data" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="params" type="l-actionModels-params" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="methodName" type="xs:string" use="required"/>
+		<xs:attribute name="resultType" type="xs:string" use="optional"/>
+		<xs:attribute name="page" type="xs:string" use="optional"/>
+		<xs:attribute name="template" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="l-actionModels-params">
+		<xs:sequence>
+			<xs:element name="param" type="l-actionModels-param" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="l-actionModels-param">
+		<xs:attribute name="target" type="xs:string" use="required"/>
+		<xs:attribute name="ref" type="xs:string" use="required"/>
+		<xs:attribute name="description" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="l-data">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="description" type="xs:string"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="contentProvider"
+				type="l-data-contentProvider" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="labelProvider" type="l-data-labelProvider"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xs:choice>
+		<xs:attribute name="id" type="xs:string" use="required" />
+		<xs:attribute name="showType" type="xs:string"></xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="l-data-contentProvider">
+		<xs:attribute name="ref" type="xs:string" use="optional"/>
+		<xs:attribute name="store" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="l-data-labelProvider">
+		<xs:attribute name="ref" type="xs:string" use="required"/>
+		<xs:attribute name="prefix" type="xs:string" use="optional"/>
+		<xs:attribute name="refStore" type="xs:string" use="optional"/>
+		<xs:attribute name="viewMode" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="l-import">
+		<xs:attribute name="resource" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:element name="designMap">
+		<xs:complexType>
+			<xs:sequence>
+			  <xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="charset" type="l-charset" minOccurs="0"/>
+				<xs:element name="staticList" type="l-staticList" minOccurs="0"/>
+				<xs:element name="pojos" type="l-pojos" minOccurs="0"/>
+				<xs:element name="daos" type="l-daos" minOccurs="0"/>
+				<xs:element name="services" type="l-services" minOccurs="0"/>
+				<xs:element name="ejbs" type="l-ejbs" minOccurs="0"/>
+				<xs:element name="contentProviders" type="l-contentProviders" minOccurs="0"/>
+				<xs:element name="labelProviders" type="l-labelProviders" minOccurs="0"/>
+				<xs:element name="action" type="l-action" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="import" type="l-import" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="namespace" type="xs:string" use="required"/>
+			<xs:attribute name="validate" type="booleanType" use="required"/>
+		  <xs:attribute name="springPath" type="xs:string" use="optional"/>
+      <xs:attribute name="ormPath" type="xs:string" use="optional"/>
+      <xs:attribute name="strutsPath" type="xs:string" use="optional"/>
+      <xs:attribute name="description" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="l_child">
+		<xs:attribute name="id" type="xs:string"></xs:attribute>
+		<xs:attribute name="name" type="xs:string"></xs:attribute>
+		<xs:attribute name="ref" type="xs:string"></xs:attribute>
+		<xs:attribute name="type" type="xs:string"></xs:attribute>
+		<xs:attribute name="target" type="xs:string"></xs:attribute>
+	</xs:complexType>
+</xs:schema>

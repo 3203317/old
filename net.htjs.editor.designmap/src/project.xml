@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="" path="" validate="">
+	<description></description>
+	<package name="车辆信息">
+		<module name="车辆信息" containerName="/net.htjs.editor.designmap/src" fileName="1.dm"></module>
+	</package>
+	<package name="费用信息">
+		<module name="按车辆汇总"></module>
+		<module name="按单位汇总"></module>
+	</package>
+	<package name="车辆购置">
+		<module name="购置申请"></module>
+		<module name="购置审批"></module>
+	</package>
+</project>

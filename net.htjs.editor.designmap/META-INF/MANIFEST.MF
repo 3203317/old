@@ -1,0 +1,47 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: DesignMap Plug-in
+Bundle-SymbolicName: net.htjs.editor.designmap; singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: net.htjs.editor.designmap.Activator
+Bundle-Vendor: HENAN HTJS HUANGXIN
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.jface.text,
+ org.eclipse.core.resources,
+ org.eclipse.ui.console,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.forms,
+ org.eclipse.ui.ide,
+ org.eclipse.jdt.ui,
+ org.eclipse.gef,
+ org.eclipse.pde.ui
+Eclipse-LazyStart: true
+Bundle-ClassPath: .,
+ lib/commons-lang.jar,
+ lib/commons-collections-3.2.jar,
+ lib/commons-dbcp-1.2.2.jar,
+ lib/commons-logging-1.0.4.jar,
+ lib/commons-pool-1.4.jar,
+ lib/dom4j-1.6.1.jar,
+ lib/htjs-util.jar,
+ lib/jaxen-1.1-beta-5.jar,
+ lib/jdom.jar,
+ lib/log4j-1.2.14.jar,
+ lib/net.sf.rcpforms.bindingvalidation_0.7.2.jar,
+ lib/net.sf.rcpforms.form_0.7.2.jar,
+ lib/net.sf.rcpforms.modeladapter_0.7.2.jar,
+ lib/net.sf.rcpforms.tablesupport_0.7.2.jar,
+ lib/net.sf.rcpforms.widgetwrapper_0.7.2.jar,
+ lib/ognl-2.6.11.jar,
+ lib/saxpath.jar,
+ lib/struts2-core-j4-2.0.11.jar,
+ lib/xalan-2.7.0.jar,
+ lib/xwork-j4-2.0.4.jar,
+ lib/iText-2.1.4.jar,
+ lib/iTextAsian.jar,
+ lib/iText-rtf-2.1.3.jar,
+ lib/iText-rtf-2.1.4.jar,
+ lib/tm-extractors-0.4.jar,
+ lib/xercesImpl-2.7.1.jar,
+ lib/ojdbc5.jar
