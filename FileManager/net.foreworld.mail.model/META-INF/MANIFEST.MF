@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Mail Model
+Bundle-SymbolicName: net.foreworld.mail.model
+Bundle-Version: 1.2.1.v20110817
+Bundle-Vendor: foreworld.net
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: net.foreworld.java.domain,
+ net.foreworld.java.mail.mail_mail,
+ net.foreworld.java.mail.mail_mailaccount,
+ net.foreworld.java.mail.mail_mailfile,
+ net.foreworld.java.models

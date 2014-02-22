@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Ognl Lib
+Bundle-SymbolicName: net.foreworld.lib.ognl
+Bundle-Version: 1.0.0.v20110726
+Bundle-Vendor: foreworld.net
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ClassPath: ognl-2.6.11.jar,
+ .
+Export-Package: ognl

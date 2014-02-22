@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Mail Core
+Bundle-SymbolicName: net.foreworld.mail.core
+Bundle-Version: 1.2.1.v20110817
+Bundle-Vendor: foreworld.net
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: net.foreworld.mail.libs;bundle-version="1.2.1",
+ net.foreworld.mail.model;bundle-version="1.2.1"
+Export-Package: net.foreworld.mail.core

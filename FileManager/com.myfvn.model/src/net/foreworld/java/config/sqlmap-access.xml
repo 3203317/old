@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE sqlMapConfig    
+PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"    
+"http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<settings cacheModelsEnabled="true" enhancementEnabled="true"
+		lazyLoadingEnabled="false" useStatementNamespaces="true"
+		statementCachingEnabled="true" classInfoCacheEnabled="true"
+		maxSessions="1024" maxTransactions="512" maxRequests="5120" />
+
+
+	<transactionManager type="JDBC">
+		<dataSource type="SIMPLE">
+			<property name="JDBC.Driver"
+				value="${driver}" />
+			<property name="JDBC.ConnectionURL"
+				value="${url}" />
+			<property name="JDBC.Username" value="${username}" />
+			<property name="JDBC.Password" value="${password}" />
+			<property name="Pool.PingQuery" value="select 1 from sysmanage_website" />
+			
+		</dataSource>
+	</transactionManager>	
+
+	<sqlMap
+		resource="net/foreworld/java/sysmanage/sysmanage_user/sqlmap-access-sysmanage_user.xml" />
+	<sqlMap
+		resource="net/foreworld/java/sysmanage/sysmanage_website/sqlmap-access-sysmanage_website.xml" />
+	<sqlMap
+		resource="net/foreworld/java/sysmanage/sysmanage_codetype/sqlmap-access-sysmanage_codetype.xml" />
+	<sqlMap
+		resource="net/foreworld/java/sysmanage/sysmanage_code/sqlmap-access-sysmanage_code.xml" />
+	<sqlMap
+		resource="net/foreworld/java/sysmanage/sysmanage_user_preference/sqlmap-access-sysmanage_user_preference.xml" />
+	<sqlMap
+		resource="net/foreworld/java/mail/mail_mailaccountt/sqlmap-access-mail_mailaccountt.xml" />
+	<sqlMap
+		resource="net/foreworld/java/mail/mail_maill/sqlmap-access-mail_maill.xml" />
+	<sqlMap
+		resource="net/foreworld/java/mail/mail_mailfilee/sqlmap-access-mail_mailfilee.xml" />
+	<sqlMap
+		resource="net/foreworld/java/mail/v_file_navigator/sqlmap-access-v_file_navigator.xml" />
+
+</sqlMapConfig>

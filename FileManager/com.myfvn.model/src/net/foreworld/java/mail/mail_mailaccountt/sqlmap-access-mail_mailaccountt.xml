@@ -1,0 +1,615 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="mail_mailaccountt">
+
+	<!--typeAlias alias="mapModel" type="net.foreworld.java.models.MapModel" /-->
+	<typeAlias alias="mapResultModel" type="net.foreworld.java.models.MapResultModel" />
+	
+	<cacheModel id="mail_mailaccountt-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="mail_mailaccountt.insert"/>
+		<property name="size" value="1000"/>
+	</cacheModel>
+	
+	<typeAlias alias="mail_mailaccountt" type="net.foreworld.java.mail.mail_mailaccountt.Mail_mailaccountt"/>  
+
+	
+	<select id="selectById" resultClass="mapResultModel" parameterClass="mail_mailaccountt">
+		select 		
+		
+		id,
+		mail_user
+,		mail_pass
+,		mail_smtp_host
+,		mail_smtp_auth
+,		uuid
+,		version
+,		tab_sysmanage_user_id
+,		tab_sysmanage_user_uuid
+,
+		addtime,
+		opt_sysmanage_user_id,
+		availsign,
+		startusing
+		
+		from mail_mailaccountt
+		where
+		id=#id:DECIMAL#	
+	</select>
+	
+	<select id="select" resultClass="mapResultModel" parameterClass="mail_mailaccountt" remapResults="true">
+		select 
+		
+		$fields$
+		
+		
+		
+		from mail_mailaccountt
+		<dynamic prepend="where">
+			<isNull property="id_operate">
+				<isNotNull prepend="and" property="id">
+					id = #id:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="id_operate">
+				<isNotNull prepend="and" property="id">
+					id $id_operate$ #id:DECIMAL#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="mail_user_operate">
+				<isNotNull prepend="and" property="mail_user">
+					mail_user = #mail_user:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="mail_user_operate">
+				<isNotNull prepend="and" property="mail_user">
+					mail_user $mail_user_operate$ '%$mail_user$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="mail_pass_operate">
+				<isNotNull prepend="and" property="mail_pass">
+					mail_pass = #mail_pass:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="mail_pass_operate">
+				<isNotNull prepend="and" property="mail_pass">
+					mail_pass $mail_pass_operate$ '%$mail_pass$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="mail_smtp_host_operate">
+				<isNotNull prepend="and" property="mail_smtp_host">
+					mail_smtp_host = #mail_smtp_host:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="mail_smtp_host_operate">
+				<isNotNull prepend="and" property="mail_smtp_host">
+					mail_smtp_host $mail_smtp_host_operate$ '%$mail_smtp_host$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="mail_smtp_auth_operate">
+				<isNotNull prepend="and" property="mail_smtp_auth">
+					mail_smtp_auth = #mail_smtp_auth:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="mail_smtp_auth_operate">
+				<isNotNull prepend="and" property="mail_smtp_auth">
+					mail_smtp_auth $mail_smtp_auth_operate$ '%$mail_smtp_auth$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="uuid_operate">
+				<isNotNull prepend="and" property="uuid">
+					uuid = #uuid:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="uuid_operate">
+				<isNotNull prepend="and" property="uuid">
+					uuid $uuid_operate$ '%$uuid$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="version_operate">
+				<isNotNull prepend="and" property="version">
+					version = #version:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="version_operate">
+				<isNotNull prepend="and" property="version">
+					version $version_operate$ '%$version$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="tab_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="tab_sysmanage_user_id">
+					tab_sysmanage_user_id = #tab_sysmanage_user_id:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="tab_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="tab_sysmanage_user_id">
+					tab_sysmanage_user_id $tab_sysmanage_user_id_operate$ '%$tab_sysmanage_user_id$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="tab_sysmanage_user_uuid_operate">
+				<isNotNull prepend="and" property="tab_sysmanage_user_uuid">
+					tab_sysmanage_user_uuid = #tab_sysmanage_user_uuid:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="tab_sysmanage_user_uuid_operate">
+				<isNotNull prepend="and" property="tab_sysmanage_user_uuid">
+					tab_sysmanage_user_uuid $tab_sysmanage_user_uuid_operate$ '%$tab_sysmanage_user_uuid$%'
+				</isNotNull>
+			</isNotNull>
+			
+
+			
+			<isNull property="addtime_operate">
+				<isNotNull prepend="and" property="addtime">
+					addtime = #addtime:Date#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="addtime_operate">
+				<isNotNull prepend="and" property="addtime">
+					addtime $addtime_operate$ #addtime:Date#
+				</isNotNull>
+			</isNotNull>
+			<isNotNull property="addtime_startdate">
+				<isNotNull prepend="and" property="addtime_enddate">
+					addtime between #addtime_startdate:Date# and #addtime_enddate:Date#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="opt_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="opt_sysmanage_user_id">
+					opt_sysmanage_user_id = #opt_sysmanage_user_id:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="opt_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="opt_sysmanage_user_id">
+					opt_sysmanage_user_id $opt_sysmanage_user_id_operate$ #opt_sysmanage_user_id:DECIMAL#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNotNull prepend="and" property="availsign">
+				availsign = #availsign:DECIMAL#
+			</isNotNull>
+			
+			<isNotNull prepend="and" property="startusing">
+				startusing = #startusing:DECIMAL#
+			</isNotNull>
+		</dynamic>
+		order by $orderbywhat$ $orderby$
+		<isNotNull property="recordstart">
+			<isNotNull property="pagesize">
+				limit #recordstart:DECIMAL#, #pagesize:DECIMAL#
+			</isNotNull>
+		</isNotNull>
+	</select>
+	
+	<select id="select2" resultClass="mapResultModel" parameterClass="mail_mailaccountt" remapResults="true">
+		select 
+		
+		$fields$
+		
+		
+		
+		from mail_mailaccountt
+		<dynamic prepend="where">
+			<isNull property="id_operate">
+				<isNotNull prepend="and" property="id">
+					id = #id:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="id_operate">
+				<isNotNull prepend="and" property="id">
+					id $id_operate$ #id:DECIMAL#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="mail_user_operate">
+				<isNotNull prepend="and" property="mail_user">
+					mail_user = #mail_user:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="mail_user_operate">
+				<isNotNull prepend="and" property="mail_user">
+					mail_user $mail_user_operate$ '%$mail_user$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="mail_pass_operate">
+				<isNotNull prepend="and" property="mail_pass">
+					mail_pass = #mail_pass:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="mail_pass_operate">
+				<isNotNull prepend="and" property="mail_pass">
+					mail_pass $mail_pass_operate$ '%$mail_pass$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="mail_smtp_host_operate">
+				<isNotNull prepend="and" property="mail_smtp_host">
+					mail_smtp_host = #mail_smtp_host:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="mail_smtp_host_operate">
+				<isNotNull prepend="and" property="mail_smtp_host">
+					mail_smtp_host $mail_smtp_host_operate$ '%$mail_smtp_host$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="mail_smtp_auth_operate">
+				<isNotNull prepend="and" property="mail_smtp_auth">
+					mail_smtp_auth = #mail_smtp_auth:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="mail_smtp_auth_operate">
+				<isNotNull prepend="and" property="mail_smtp_auth">
+					mail_smtp_auth $mail_smtp_auth_operate$ '%$mail_smtp_auth$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="uuid_operate">
+				<isNotNull prepend="and" property="uuid">
+					uuid = #uuid:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="uuid_operate">
+				<isNotNull prepend="and" property="uuid">
+					uuid $uuid_operate$ '%$uuid$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="version_operate">
+				<isNotNull prepend="and" property="version">
+					version = #version:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="version_operate">
+				<isNotNull prepend="and" property="version">
+					version $version_operate$ '%$version$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="tab_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="tab_sysmanage_user_id">
+					tab_sysmanage_user_id = #tab_sysmanage_user_id:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="tab_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="tab_sysmanage_user_id">
+					tab_sysmanage_user_id $tab_sysmanage_user_id_operate$ '%$tab_sysmanage_user_id$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="tab_sysmanage_user_uuid_operate">
+				<isNotNull prepend="and" property="tab_sysmanage_user_uuid">
+					tab_sysmanage_user_uuid = #tab_sysmanage_user_uuid:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="tab_sysmanage_user_uuid_operate">
+				<isNotNull prepend="and" property="tab_sysmanage_user_uuid">
+					tab_sysmanage_user_uuid $tab_sysmanage_user_uuid_operate$ '%$tab_sysmanage_user_uuid$%'
+				</isNotNull>
+			</isNotNull>
+			
+
+			
+			<isNull property="addtime_operate">
+				<isNotNull prepend="and" property="addtime">
+					addtime = #addtime:Date#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="addtime_operate">
+				<isNotNull prepend="and" property="addtime">
+					addtime $addtime_operate$ #addtime:Date#
+				</isNotNull>
+			</isNotNull>
+			<isNotNull property="addtime_startdate">
+				<isNotNull prepend="and" property="addtime_enddate">
+					addtime between #addtime_startdate:Date# and #addtime_enddate:Date#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="opt_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="opt_sysmanage_user_id">
+					opt_sysmanage_user_id = #opt_sysmanage_user_id:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="opt_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="opt_sysmanage_user_id">
+					opt_sysmanage_user_id $opt_sysmanage_user_id_operate$ #opt_sysmanage_user_id:DECIMAL#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNotNull prepend="and" property="availsign">
+				availsign = #availsign:DECIMAL#
+			</isNotNull>
+			
+			<isNotNull prepend="and" property="startusing">
+				startusing = #startusing:DECIMAL#
+			</isNotNull>
+		</dynamic>
+		order by $orderbywhat$ $orderby$
+		<isNotNull property="recordstart">
+			<isNotNull property="pagesize">
+				limit #recordstart:DECIMAL#, #pagesize:DECIMAL#
+			</isNotNull>
+		</isNotNull>
+	</select>
+	
+	<select id="selectCount" resultClass="java.lang.Integer" parameterClass="mail_mailaccountt">
+		select 
+		count(1)		
+		from mail_mailaccountt a
+		<dynamic prepend="where">
+			<isNull property="id_operate">
+				<isNotNull prepend="and" property="id">
+					a.id = #id:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="id_operate">
+				<isNotNull prepend="and" property="id">
+					a.id $id_operate$ #id:DECIMAL#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="mail_user_operate">
+				<isNotNull prepend="and" property="mail_user">
+					a.mail_user = #mail_user:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="mail_user_operate">
+				<isNotNull prepend="and" property="mail_user">
+					a.mail_user $mail_user_operate$ '%$mail_user$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="mail_pass_operate">
+				<isNotNull prepend="and" property="mail_pass">
+					a.mail_pass = #mail_pass:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="mail_pass_operate">
+				<isNotNull prepend="and" property="mail_pass">
+					a.mail_pass $mail_pass_operate$ '%$mail_pass$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="mail_smtp_host_operate">
+				<isNotNull prepend="and" property="mail_smtp_host">
+					a.mail_smtp_host = #mail_smtp_host:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="mail_smtp_host_operate">
+				<isNotNull prepend="and" property="mail_smtp_host">
+					a.mail_smtp_host $mail_smtp_host_operate$ '%$mail_smtp_host$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="mail_smtp_auth_operate">
+				<isNotNull prepend="and" property="mail_smtp_auth">
+					a.mail_smtp_auth = #mail_smtp_auth:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="mail_smtp_auth_operate">
+				<isNotNull prepend="and" property="mail_smtp_auth">
+					a.mail_smtp_auth $mail_smtp_auth_operate$ '%$mail_smtp_auth$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="uuid_operate">
+				<isNotNull prepend="and" property="uuid">
+					a.uuid = #uuid:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="uuid_operate">
+				<isNotNull prepend="and" property="uuid">
+					a.uuid $uuid_operate$ '%$uuid$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="version_operate">
+				<isNotNull prepend="and" property="version">
+					a.version = #version:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="version_operate">
+				<isNotNull prepend="and" property="version">
+					a.version $version_operate$ '%$version$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="tab_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="tab_sysmanage_user_id">
+					a.tab_sysmanage_user_id = #tab_sysmanage_user_id:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="tab_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="tab_sysmanage_user_id">
+					a.tab_sysmanage_user_id $tab_sysmanage_user_id_operate$ '%$tab_sysmanage_user_id$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="tab_sysmanage_user_uuid_operate">
+				<isNotNull prepend="and" property="tab_sysmanage_user_uuid">
+					a.tab_sysmanage_user_uuid = #tab_sysmanage_user_uuid:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="tab_sysmanage_user_uuid_operate">
+				<isNotNull prepend="and" property="tab_sysmanage_user_uuid">
+					a.tab_sysmanage_user_uuid $tab_sysmanage_user_uuid_operate$ '%$tab_sysmanage_user_uuid$%'
+				</isNotNull>
+			</isNotNull>
+			
+
+			
+			<isNull property="addtime_operate">
+				<isNotNull prepend="and" property="addtime">
+					a.addtime = #addtime:Date#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="addtime_operate">
+				<isNotNull prepend="and" property="addtime">
+					a.addtime $addtime_operate$ #addtime:Date#
+				</isNotNull>
+			</isNotNull>
+			<isNotNull property="addtime_startdate">
+				<isNotNull prepend="and" property="addtime_enddate">
+					a.addtime between #addtime_startdate:Date# and #addtime_enddate:Date#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="opt_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="opt_sysmanage_user_id">
+					a.opt_sysmanage_user_id = #opt_sysmanage_user_id:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="opt_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="opt_sysmanage_user_id">
+					a.opt_sysmanage_user_id $opt_sysmanage_user_id_operate$ #opt_sysmanage_user_id:DECIMAL#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNotNull prepend="and" property="availsign">
+				a.availsign = #availsign:DECIMAL#
+			</isNotNull>
+			
+			<isNotNull prepend="and" property="startusing">
+				a.startusing = #startusing:DECIMAL#
+			</isNotNull>
+		</dynamic>
+	</select>
+	
+	<insert id="insert" parameterClass="mail_mailaccountt">
+		insert into mail_mailaccountt
+		(
+			mail_user,
+			mail_pass,
+			mail_smtp_host,
+			mail_smtp_auth,
+			uuid,
+			version,
+			tab_sysmanage_user_id,
+			tab_sysmanage_user_uuid,
+			opt_sysmanage_user_id,
+			availsign,
+			startusing	
+		)
+		values
+		(
+			#mail_user:VARCHAR#,
+			#mail_pass:VARCHAR#,
+			#mail_smtp_host:VARCHAR#,
+			#mail_smtp_auth:DECIMAL#,
+			#uuid:VARCHAR#,
+			#version:VARCHAR#,
+			#tab_sysmanage_user_id:DECIMAL#,
+			#tab_sysmanage_user_uuid:VARCHAR#,
+			#opt_sysmanage_user_id:DECIMAL#,
+			#availsign:DECIMAL#,
+			#startusing:DECIMAL#
+		);
+		<selectKey resultClass="int" type="post">
+			select seq
+	        from sqlite_sequence
+	        where (name = 'mail_mailaccountt')
+		</selectKey>
+	</insert>
+	
+	<update id="update" parameterClass="mail_mailaccountt">
+		update mail_mailaccountt
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="mail_user">
+				mail_user = #mail_user:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="mail_pass">
+				mail_pass = #mail_pass:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="mail_smtp_host">
+				mail_smtp_host = #mail_smtp_host:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="mail_smtp_auth">
+				mail_smtp_auth = #mail_smtp_auth:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="uuid">
+				uuid = #uuid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="version">
+				version = #version:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="tab_sysmanage_user_id">
+				tab_sysmanage_user_id = #tab_sysmanage_user_id:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="tab_sysmanage_user_uuid">
+				tab_sysmanage_user_uuid = #tab_sysmanage_user_uuid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="opt_sysmanage_user_id">
+				opt_sysmanage_user_id = #opt_sysmanage_user_id:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="availsign">
+				availsign = #availsign:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="startusing">
+				startusing = #startusing:DECIMAL#
+			</isNotNull>	
+		</dynamic>
+		where 
+		id = #id:DECIMAL#
+	</update>
+	
+	<delete id="delete" parameterClass="mail_mailaccountt">
+		delete from mail_mailaccountt
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="id">
+				id = #id:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="and" property="mail_user">
+				mail_user = #mail_user:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="and" property="mail_pass">
+				mail_pass = #mail_pass:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="and" property="mail_smtp_host">
+				mail_smtp_host = #mail_smtp_host:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="and" property="mail_smtp_auth">
+				mail_smtp_auth = #mail_smtp_auth:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="and" property="uuid">
+				uuid = #uuid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="and" property="version">
+				version = #version:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="and" property="tab_sysmanage_user_id">
+				tab_sysmanage_user_id = #tab_sysmanage_user_id:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="and" property="tab_sysmanage_user_uuid">
+				tab_sysmanage_user_uuid = #tab_sysmanage_user_uuid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="and" property="opt_sysmanage_user_id">
+				opt_sysmanage_user_id = #opt_sysmanage_user_id:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="and" property="availsign">
+				availsign = #availsign:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="and" property="startusing">
+				startusing = #startusing:DECIMAL#
+			</isNotNull>	
+		</dynamic>
+	</delete>
+	
+	<delete id="deleteById" parameterClass="mail_mailaccountt">
+		delete from mail_mailaccountt
+		where
+		id=#id:DECIMAL#	
+	</delete>
+	
+	
+</sqlMap>

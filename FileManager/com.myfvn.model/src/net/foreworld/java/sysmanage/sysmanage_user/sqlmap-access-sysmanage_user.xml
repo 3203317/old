@@ -1,0 +1,954 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="sysmanage_user">
+
+	<!--typeAlias alias="mapModel" type="net.foreworld.java.models.MapModel" /-->
+	<typeAlias alias="mapResultModel" type="net.foreworld.java.models.MapResultModel" />
+	
+	<cacheModel id="sysmanage_user-cache" type="LRU">
+		<flushInterval hours="24"/>
+		<flushOnExecute statement="sysmanage_user.insert"/>
+		<property name="size" value="1000"/>
+	</cacheModel>
+	
+	<typeAlias alias="sysmanage_user" type="net.foreworld.java.sysmanage.sysmanage_user.Sysmanage_user"/>  
+
+	
+	<select id="selectById" resultClass="mapResultModel" parameterClass="sysmanage_user">
+		select 		
+		
+		id,
+		uuid
+,		user_code
+,		user_name
+,		password
+,		lpassword
+,		realname
+,		sex
+,		country
+,		province
+,		city
+,		birthday
+,		last_logintime
+,		last_logouttime
+,		isrememberpassword
+,		isautologin
+,
+		addtime,
+		opt_sysmanage_user_id,
+		availsign,
+		startusing
+		
+		from sysmanage_user
+		where
+		id=#id:DECIMAL#	
+	</select>
+	
+	<select id="select" resultClass="mapResultModel" parameterClass="sysmanage_user" remapResults="true">
+		select 
+		
+		$fields$
+		
+		
+		
+		from sysmanage_user
+		<dynamic prepend="where">
+			<isNull property="id_operate">
+				<isNotNull prepend="and" property="id">
+					id = #id:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="id_operate">
+				<isNotNull prepend="and" property="id">
+					id $id_operate$ #id:DECIMAL#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="uuid_operate">
+				<isNotNull prepend="and" property="uuid">
+					uuid = #uuid:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="uuid_operate">
+				<isNotNull prepend="and" property="uuid">
+					uuid $uuid_operate$ '%$uuid$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="user_code_operate">
+				<isNotNull prepend="and" property="user_code">
+					user_code = #user_code:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="user_code_operate">
+				<isNotNull prepend="and" property="user_code">
+					user_code $user_code_operate$ '%$user_code$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="user_name_operate">
+				<isNotNull prepend="and" property="user_name">
+					user_name = #user_name:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="user_name_operate">
+				<isNotNull prepend="and" property="user_name">
+					user_name $user_name_operate$ '%$user_name$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="password_operate">
+				<isNotNull prepend="and" property="password">
+					password = #password:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="password_operate">
+				<isNotNull prepend="and" property="password">
+					password $password_operate$ '%$password$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="lpassword_operate">
+				<isNotNull prepend="and" property="lpassword">
+					lpassword = #lpassword:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="lpassword_operate">
+				<isNotNull prepend="and" property="lpassword">
+					lpassword $lpassword_operate$ '%$lpassword$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="realname_operate">
+				<isNotNull prepend="and" property="realname">
+					realname = #realname:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="realname_operate">
+				<isNotNull prepend="and" property="realname">
+					realname $realname_operate$ '%$realname$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="sex_operate">
+				<isNotNull prepend="and" property="sex">
+					sex = #sex:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="sex_operate">
+				<isNotNull prepend="and" property="sex">
+					sex $sex_operate$ '%$sex$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="country_operate">
+				<isNotNull prepend="and" property="country">
+					country = #country:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="country_operate">
+				<isNotNull prepend="and" property="country">
+					country $country_operate$ '%$country$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="province_operate">
+				<isNotNull prepend="and" property="province">
+					province = #province:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="province_operate">
+				<isNotNull prepend="and" property="province">
+					province $province_operate$ '%$province$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="city_operate">
+				<isNotNull prepend="and" property="city">
+					city = #city:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="city_operate">
+				<isNotNull prepend="and" property="city">
+					city $city_operate$ '%$city$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="birthday_operate">
+				<isNotNull prepend="and" property="birthday">
+					birthday = #birthday:Date#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="birthday_operate">
+				<isNotNull prepend="and" property="birthday">
+					birthday $birthday_operate$ '%$birthday$%'
+				</isNotNull>
+			</isNotNull>
+			<isNotNull property="birthday_startdate">
+				<isNotNull prepend="and" property="birthday_enddate">
+					birthday between #birthday_startdate:Date# and #birthday_enddate:Date#
+				</isNotNull>
+			</isNotNull>		
+			
+			<isNull property="last_logintime_operate">
+				<isNotNull prepend="and" property="last_logintime">
+					last_logintime = #last_logintime:Date#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="last_logintime_operate">
+				<isNotNull prepend="and" property="last_logintime">
+					last_logintime $last_logintime_operate$ '%$last_logintime$%'
+				</isNotNull>
+			</isNotNull>
+			<isNotNull property="last_logintime_startdate">
+				<isNotNull prepend="and" property="last_logintime_enddate">
+					last_logintime between #last_logintime_startdate:Date# and #last_logintime_enddate:Date#
+				</isNotNull>
+			</isNotNull>		
+			
+			<isNull property="last_logouttime_operate">
+				<isNotNull prepend="and" property="last_logouttime">
+					last_logouttime = #last_logouttime:Date#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="last_logouttime_operate">
+				<isNotNull prepend="and" property="last_logouttime">
+					last_logouttime $last_logouttime_operate$ '%$last_logouttime$%'
+				</isNotNull>
+			</isNotNull>
+			<isNotNull property="last_logouttime_startdate">
+				<isNotNull prepend="and" property="last_logouttime_enddate">
+					last_logouttime between #last_logouttime_startdate:Date# and #last_logouttime_enddate:Date#
+				</isNotNull>
+			</isNotNull>		
+			
+			<isNull property="isrememberpassword_operate">
+				<isNotNull prepend="and" property="isrememberpassword">
+					isrememberpassword = #isrememberpassword:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="isrememberpassword_operate">
+				<isNotNull prepend="and" property="isrememberpassword">
+					isrememberpassword $isrememberpassword_operate$ '%$isrememberpassword$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="isautologin_operate">
+				<isNotNull prepend="and" property="isautologin">
+					isautologin = #isautologin:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="isautologin_operate">
+				<isNotNull prepend="and" property="isautologin">
+					isautologin $isautologin_operate$ '%$isautologin$%'
+				</isNotNull>
+			</isNotNull>
+			
+
+			
+			<isNull property="addtime_operate">
+				<isNotNull prepend="and" property="addtime">
+					addtime = #addtime:Date#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="addtime_operate">
+				<isNotNull prepend="and" property="addtime">
+					addtime $addtime_operate$ #addtime:Date#
+				</isNotNull>
+			</isNotNull>
+			<isNotNull property="addtime_startdate">
+				<isNotNull prepend="and" property="addtime_enddate">
+					addtime between #addtime_startdate:Date# and #addtime_enddate:Date#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="opt_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="opt_sysmanage_user_id">
+					opt_sysmanage_user_id = #opt_sysmanage_user_id:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="opt_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="opt_sysmanage_user_id">
+					opt_sysmanage_user_id $opt_sysmanage_user_id_operate$ #opt_sysmanage_user_id:DECIMAL#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNotNull prepend="and" property="availsign">
+				availsign = #availsign:DECIMAL#
+			</isNotNull>
+			
+			<isNotNull prepend="and" property="startusing">
+				startusing = #startusing:DECIMAL#
+			</isNotNull>
+		</dynamic>
+		order by $orderbywhat$ $orderby$
+		<isNotNull property="recordstart">
+			<isNotNull property="pagesize">
+				limit #recordstart:DECIMAL#, #pagesize:DECIMAL#
+			</isNotNull>
+		</isNotNull>
+	</select>
+	
+	<select id="select2" resultClass="mapResultModel" parameterClass="sysmanage_user" remapResults="true">
+		select 
+		
+		$fields$
+		
+		
+		
+		from sysmanage_user
+		<dynamic prepend="where">
+			<isNull property="id_operate">
+				<isNotNull prepend="and" property="id">
+					id = #id:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="id_operate">
+				<isNotNull prepend="and" property="id">
+					id $id_operate$ #id:DECIMAL#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="uuid_operate">
+				<isNotNull prepend="and" property="uuid">
+					uuid = #uuid:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="uuid_operate">
+				<isNotNull prepend="and" property="uuid">
+					uuid $uuid_operate$ '%$uuid$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="user_code_operate">
+				<isNotNull prepend="and" property="user_code">
+					user_code = #user_code:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="user_code_operate">
+				<isNotNull prepend="and" property="user_code">
+					user_code $user_code_operate$ '%$user_code$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="user_name_operate">
+				<isNotNull prepend="and" property="user_name">
+					user_name = #user_name:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="user_name_operate">
+				<isNotNull prepend="and" property="user_name">
+					user_name $user_name_operate$ '%$user_name$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="password_operate">
+				<isNotNull prepend="and" property="password">
+					password = #password:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="password_operate">
+				<isNotNull prepend="and" property="password">
+					password $password_operate$ '%$password$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="lpassword_operate">
+				<isNotNull prepend="and" property="lpassword">
+					lpassword = #lpassword:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="lpassword_operate">
+				<isNotNull prepend="and" property="lpassword">
+					lpassword $lpassword_operate$ '%$lpassword$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="realname_operate">
+				<isNotNull prepend="and" property="realname">
+					realname = #realname:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="realname_operate">
+				<isNotNull prepend="and" property="realname">
+					realname $realname_operate$ '%$realname$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="sex_operate">
+				<isNotNull prepend="and" property="sex">
+					sex = #sex:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="sex_operate">
+				<isNotNull prepend="and" property="sex">
+					sex $sex_operate$ '%$sex$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="country_operate">
+				<isNotNull prepend="and" property="country">
+					country = #country:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="country_operate">
+				<isNotNull prepend="and" property="country">
+					country $country_operate$ '%$country$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="province_operate">
+				<isNotNull prepend="and" property="province">
+					province = #province:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="province_operate">
+				<isNotNull prepend="and" property="province">
+					province $province_operate$ '%$province$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="city_operate">
+				<isNotNull prepend="and" property="city">
+					city = #city:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="city_operate">
+				<isNotNull prepend="and" property="city">
+					city $city_operate$ '%$city$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="birthday_operate">
+				<isNotNull prepend="and" property="birthday">
+					birthday = #birthday:Date#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="birthday_operate">
+				<isNotNull prepend="and" property="birthday">
+					birthday $birthday_operate$ '%$birthday$%'
+				</isNotNull>
+			</isNotNull>
+			<isNotNull property="birthday_startdate">
+				<isNotNull prepend="and" property="birthday_enddate">
+					birthday between #birthday_startdate:Date# and #birthday_enddate:Date#
+				</isNotNull>
+			</isNotNull>		
+			
+			<isNull property="last_logintime_operate">
+				<isNotNull prepend="and" property="last_logintime">
+					last_logintime = #last_logintime:Date#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="last_logintime_operate">
+				<isNotNull prepend="and" property="last_logintime">
+					last_logintime $last_logintime_operate$ '%$last_logintime$%'
+				</isNotNull>
+			</isNotNull>
+			<isNotNull property="last_logintime_startdate">
+				<isNotNull prepend="and" property="last_logintime_enddate">
+					last_logintime between #last_logintime_startdate:Date# and #last_logintime_enddate:Date#
+				</isNotNull>
+			</isNotNull>		
+			
+			<isNull property="last_logouttime_operate">
+				<isNotNull prepend="and" property="last_logouttime">
+					last_logouttime = #last_logouttime:Date#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="last_logouttime_operate">
+				<isNotNull prepend="and" property="last_logouttime">
+					last_logouttime $last_logouttime_operate$ '%$last_logouttime$%'
+				</isNotNull>
+			</isNotNull>
+			<isNotNull property="last_logouttime_startdate">
+				<isNotNull prepend="and" property="last_logouttime_enddate">
+					last_logouttime between #last_logouttime_startdate:Date# and #last_logouttime_enddate:Date#
+				</isNotNull>
+			</isNotNull>		
+			
+			<isNull property="isrememberpassword_operate">
+				<isNotNull prepend="and" property="isrememberpassword">
+					isrememberpassword = #isrememberpassword:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="isrememberpassword_operate">
+				<isNotNull prepend="and" property="isrememberpassword">
+					isrememberpassword $isrememberpassword_operate$ '%$isrememberpassword$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="isautologin_operate">
+				<isNotNull prepend="and" property="isautologin">
+					isautologin = #isautologin:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="isautologin_operate">
+				<isNotNull prepend="and" property="isautologin">
+					isautologin $isautologin_operate$ '%$isautologin$%'
+				</isNotNull>
+			</isNotNull>
+			
+
+			
+			<isNull property="addtime_operate">
+				<isNotNull prepend="and" property="addtime">
+					addtime = #addtime:Date#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="addtime_operate">
+				<isNotNull prepend="and" property="addtime">
+					addtime $addtime_operate$ #addtime:Date#
+				</isNotNull>
+			</isNotNull>
+			<isNotNull property="addtime_startdate">
+				<isNotNull prepend="and" property="addtime_enddate">
+					addtime between #addtime_startdate:Date# and #addtime_enddate:Date#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="opt_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="opt_sysmanage_user_id">
+					opt_sysmanage_user_id = #opt_sysmanage_user_id:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="opt_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="opt_sysmanage_user_id">
+					opt_sysmanage_user_id $opt_sysmanage_user_id_operate$ #opt_sysmanage_user_id:DECIMAL#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNotNull prepend="and" property="availsign">
+				availsign = #availsign:DECIMAL#
+			</isNotNull>
+			
+			<isNotNull prepend="and" property="startusing">
+				startusing = #startusing:DECIMAL#
+			</isNotNull>
+		</dynamic>
+		order by $orderbywhat$ $orderby$
+		<isNotNull property="recordstart">
+			<isNotNull property="pagesize">
+				limit #recordstart:DECIMAL#, #pagesize:DECIMAL#
+			</isNotNull>
+		</isNotNull>
+	</select>
+	
+	<select id="selectCount" resultClass="java.lang.Integer" parameterClass="sysmanage_user">
+		select 
+		count(1)		
+		from sysmanage_user a
+		<dynamic prepend="where">
+			<isNull property="id_operate">
+				<isNotNull prepend="and" property="id">
+					a.id = #id:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="id_operate">
+				<isNotNull prepend="and" property="id">
+					a.id $id_operate$ #id:DECIMAL#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="uuid_operate">
+				<isNotNull prepend="and" property="uuid">
+					a.uuid = #uuid:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="uuid_operate">
+				<isNotNull prepend="and" property="uuid">
+					a.uuid $uuid_operate$ '%$uuid$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="user_code_operate">
+				<isNotNull prepend="and" property="user_code">
+					a.user_code = #user_code:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="user_code_operate">
+				<isNotNull prepend="and" property="user_code">
+					a.user_code $user_code_operate$ '%$user_code$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="user_name_operate">
+				<isNotNull prepend="and" property="user_name">
+					a.user_name = #user_name:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="user_name_operate">
+				<isNotNull prepend="and" property="user_name">
+					a.user_name $user_name_operate$ '%$user_name$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="password_operate">
+				<isNotNull prepend="and" property="password">
+					a.password = #password:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="password_operate">
+				<isNotNull prepend="and" property="password">
+					a.password $password_operate$ '%$password$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="lpassword_operate">
+				<isNotNull prepend="and" property="lpassword">
+					a.lpassword = #lpassword:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="lpassword_operate">
+				<isNotNull prepend="and" property="lpassword">
+					a.lpassword $lpassword_operate$ '%$lpassword$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="realname_operate">
+				<isNotNull prepend="and" property="realname">
+					a.realname = #realname:VARCHAR#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="realname_operate">
+				<isNotNull prepend="and" property="realname">
+					a.realname $realname_operate$ '%$realname$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="sex_operate">
+				<isNotNull prepend="and" property="sex">
+					a.sex = #sex:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="sex_operate">
+				<isNotNull prepend="and" property="sex">
+					a.sex $sex_operate$ '%$sex$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="country_operate">
+				<isNotNull prepend="and" property="country">
+					a.country = #country:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="country_operate">
+				<isNotNull prepend="and" property="country">
+					a.country $country_operate$ '%$country$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="province_operate">
+				<isNotNull prepend="and" property="province">
+					a.province = #province:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="province_operate">
+				<isNotNull prepend="and" property="province">
+					a.province $province_operate$ '%$province$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="city_operate">
+				<isNotNull prepend="and" property="city">
+					a.city = #city:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="city_operate">
+				<isNotNull prepend="and" property="city">
+					a.city $city_operate$ '%$city$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="birthday_operate">
+				<isNotNull prepend="and" property="birthday">
+					a.birthday = #birthday:Date#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="birthday_operate">
+				<isNotNull prepend="and" property="birthday">
+					a.birthday $birthday_operate$ '%$birthday$%'
+				</isNotNull>
+			</isNotNull>
+			<isNotNull property="birthday_startdate">
+				<isNotNull prepend="and" property="birthday_enddate">
+					a.birthday between #birthday_startdate:Date# and #birthday_enddate:Date#
+				</isNotNull>
+			</isNotNull>		
+			
+			<isNull property="last_logintime_operate">
+				<isNotNull prepend="and" property="last_logintime">
+					a.last_logintime = #last_logintime:Date#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="last_logintime_operate">
+				<isNotNull prepend="and" property="last_logintime">
+					a.last_logintime $last_logintime_operate$ '%$last_logintime$%'
+				</isNotNull>
+			</isNotNull>
+			<isNotNull property="last_logintime_startdate">
+				<isNotNull prepend="and" property="last_logintime_enddate">
+					a.last_logintime between #last_logintime_startdate:Date# and #last_logintime_enddate:Date#
+				</isNotNull>
+			</isNotNull>		
+			
+			<isNull property="last_logouttime_operate">
+				<isNotNull prepend="and" property="last_logouttime">
+					a.last_logouttime = #last_logouttime:Date#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="last_logouttime_operate">
+				<isNotNull prepend="and" property="last_logouttime">
+					a.last_logouttime $last_logouttime_operate$ '%$last_logouttime$%'
+				</isNotNull>
+			</isNotNull>
+			<isNotNull property="last_logouttime_startdate">
+				<isNotNull prepend="and" property="last_logouttime_enddate">
+					a.last_logouttime between #last_logouttime_startdate:Date# and #last_logouttime_enddate:Date#
+				</isNotNull>
+			</isNotNull>		
+			
+			<isNull property="isrememberpassword_operate">
+				<isNotNull prepend="and" property="isrememberpassword">
+					a.isrememberpassword = #isrememberpassword:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="isrememberpassword_operate">
+				<isNotNull prepend="and" property="isrememberpassword">
+					a.isrememberpassword $isrememberpassword_operate$ '%$isrememberpassword$%'
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="isautologin_operate">
+				<isNotNull prepend="and" property="isautologin">
+					a.isautologin = #isautologin:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="isautologin_operate">
+				<isNotNull prepend="and" property="isautologin">
+					a.isautologin $isautologin_operate$ '%$isautologin$%'
+				</isNotNull>
+			</isNotNull>
+			
+
+			
+			<isNull property="addtime_operate">
+				<isNotNull prepend="and" property="addtime">
+					a.addtime = #addtime:Date#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="addtime_operate">
+				<isNotNull prepend="and" property="addtime">
+					a.addtime $addtime_operate$ #addtime:Date#
+				</isNotNull>
+			</isNotNull>
+			<isNotNull property="addtime_startdate">
+				<isNotNull prepend="and" property="addtime_enddate">
+					a.addtime between #addtime_startdate:Date# and #addtime_enddate:Date#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="opt_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="opt_sysmanage_user_id">
+					a.opt_sysmanage_user_id = #opt_sysmanage_user_id:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="opt_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="opt_sysmanage_user_id">
+					a.opt_sysmanage_user_id $opt_sysmanage_user_id_operate$ #opt_sysmanage_user_id:DECIMAL#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNotNull prepend="and" property="availsign">
+				a.availsign = #availsign:DECIMAL#
+			</isNotNull>
+			
+			<isNotNull prepend="and" property="startusing">
+				a.startusing = #startusing:DECIMAL#
+			</isNotNull>
+		</dynamic>
+	</select>
+	
+	<insert id="insert" parameterClass="sysmanage_user">
+		insert into sysmanage_user
+		(
+			uuid,
+			user_code,
+			user_name,
+			password,
+			lpassword,
+			realname,
+			sex,
+			country,
+			province,
+			city,
+			birthday,
+			last_logintime,
+			last_logouttime,
+			isrememberpassword,
+			isautologin,
+			opt_sysmanage_user_id,
+			availsign,
+			startusing	
+		)
+		values
+		(
+			#uuid:VARCHAR#,
+			#user_code:VARCHAR#,
+			#user_name:VARCHAR#,
+			#password:VARCHAR#,
+			#lpassword:VARCHAR#,
+			#realname:VARCHAR#,
+			#sex:DECIMAL#,
+			#country:DECIMAL#,
+			#province:DECIMAL#,
+			#city:DECIMAL#,
+			#birthday:Date#,
+			#last_logintime:Date#,
+			#last_logouttime:Date#,
+			#isrememberpassword:DECIMAL#,
+			#isautologin:DECIMAL#,
+			#opt_sysmanage_user_id:DECIMAL#,
+			#availsign:DECIMAL#,
+			#startusing:DECIMAL#
+		);
+		<selectKey resultClass="int" type="post">
+			select seq
+	        from sqlite_sequence
+	        where (name = 'sysmanage_user')
+		</selectKey>
+	</insert>
+	
+	<update id="update" parameterClass="sysmanage_user">
+		update sysmanage_user
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="uuid">
+				uuid = #uuid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="user_code">
+				user_code = #user_code:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="user_name">
+				user_name = #user_name:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="password">
+				password = #password:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="lpassword">
+				lpassword = #lpassword:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="realname">
+				realname = #realname:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="sex">
+				sex = #sex:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="country">
+				country = #country:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="province">
+				province = #province:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="city">
+				city = #city:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="birthday">
+				birthday = #birthday:Date#
+			</isNotNull>
+			<isNotNull prepend="," property="last_logintime">
+				last_logintime = #last_logintime:Date#
+			</isNotNull>
+			<isNotNull prepend="," property="last_logouttime">
+				last_logouttime = #last_logouttime:Date#
+			</isNotNull>
+			<isNotNull prepend="," property="isrememberpassword">
+				isrememberpassword = #isrememberpassword:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="isautologin">
+				isautologin = #isautologin:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="opt_sysmanage_user_id">
+				opt_sysmanage_user_id = #opt_sysmanage_user_id:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="availsign">
+				availsign = #availsign:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="startusing">
+				startusing = #startusing:DECIMAL#
+			</isNotNull>	
+		</dynamic>
+		where 
+		id = #id:DECIMAL#
+	</update>
+	
+	<delete id="delete" parameterClass="sysmanage_user">
+		delete from sysmanage_user
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="id">
+				id = #id:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="and" property="uuid">
+				uuid = #uuid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="and" property="user_code">
+				user_code = #user_code:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="and" property="user_name">
+				user_name = #user_name:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="and" property="password">
+				password = #password:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="and" property="lpassword">
+				lpassword = #lpassword:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="and" property="realname">
+				realname = #realname:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="and" property="sex">
+				sex = #sex:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="and" property="country">
+				country = #country:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="and" property="province">
+				province = #province:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="and" property="city">
+				city = #city:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="and" property="birthday">
+				birthday = #birthday:Date#
+			</isNotNull>
+			<isNotNull prepend="and" property="last_logintime">
+				last_logintime = #last_logintime:Date#
+			</isNotNull>
+			<isNotNull prepend="and" property="last_logouttime">
+				last_logouttime = #last_logouttime:Date#
+			</isNotNull>
+			<isNotNull prepend="and" property="isrememberpassword">
+				isrememberpassword = #isrememberpassword:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="and" property="isautologin">
+				isautologin = #isautologin:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="and" property="opt_sysmanage_user_id">
+				opt_sysmanage_user_id = #opt_sysmanage_user_id:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="and" property="availsign">
+				availsign = #availsign:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="and" property="startusing">
+				startusing = #startusing:DECIMAL#
+			</isNotNull>	
+		</dynamic>
+	</delete>
+	
+	<delete id="deleteById" parameterClass="sysmanage_user">
+		delete from sysmanage_user
+		where
+		id=#id:DECIMAL#	
+	</delete>
+	
+	
+</sqlMap>

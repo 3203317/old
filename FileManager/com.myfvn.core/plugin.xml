@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="PreferencesInitializer" name="%extension-point.name.2" schema="schema/PreferencesInitializer.exsd"/>
+   <extension-point id="PersistenceService" name="%extension-point.name.0" schema="schema/PersistenceService.exsd"/>
+   <extension
+         point="com.myfvn.core.PersistenceService">
+      <persistenceservice
+            class="com.myfvn.core.internal.persist.service.PersistenceServiceImpl">
+      </persistenceservice>
+   </extension>
+
+</plugin>

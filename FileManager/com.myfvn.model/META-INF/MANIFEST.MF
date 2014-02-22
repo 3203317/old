@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: FVN Model
+Bundle-SymbolicName: com.myfvn.model
+Bundle-Version: 1.2.1.v20110817
+Bundle-Vendor: myfvn.com
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: net.foreworld.lib.ibatis;bundle-version="1.0.0",
+ net.foreworld.lib.ognl;bundle-version="1.0.0",
+ net.foreworld.libs;bundle-version="1.0.0"
+Export-Package: net.foreworld.java.config,
+ net.foreworld.java.daos,
+ net.foreworld.java.domain,
+ net.foreworld.java.exceptions,
+ net.foreworld.java.mail.mail_mailaccountt,
+ net.foreworld.java.mail.mail_mailfilee,
+ net.foreworld.java.mail.mail_maill,
+ net.foreworld.java.mail.v_file_navigator,
+ net.foreworld.java.models,
+ net.foreworld.java.services,
+ net.foreworld.java.sysmanage.sysmanage_code,
+ net.foreworld.java.sysmanage.sysmanage_codetype,
+ net.foreworld.java.sysmanage.sysmanage_user,
+ net.foreworld.java.sysmanage.sysmanage_user_preference,
+ net.foreworld.java.sysmanage.sysmanage_website
