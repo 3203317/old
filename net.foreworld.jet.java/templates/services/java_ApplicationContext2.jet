@@ -1,0 +1,54 @@
+package net.foreworld.java.services;
+
+import java.util.List;
+
+import net.foreworld.java.actions.ActionService;
+import net.foreworld.java.beans.IBean;
+import ognl.Ognl;
+import ognl.OgnlException;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class ApplicationContext {
+
+	private static ApplicationContext _INSTANCE = new ApplicationContext();
+
+	public static ApplicationContext getDefault() {
+		if (_INSTANCE == null) {
+			_INSTANCE = new ApplicationContext();
+		}
+		return _INSTANCE;
+	}
+
+	private ApplicationContext() {
+
+	}
+
+	public void init() {
+		_roleActionPrivilege = findRoleActionPrivilege();
+	}
+
+	private List findRoleActionPrivilege() {
+		Object __v_sysmanage_role_action_privilege = ActionService.getDefault().getBean("v_sysmanage_role_action_privilege");
+
+		try {
+			Ognl.setValue("fields", __v_sysmanage_role_action_privilege, "*");
+		} catch (OgnlException $ex) {
+			$ex.printStackTrace();
+		}
+
+		IBean __v_sysmanage_role_action_privilegeBean = (IBean) ActionService.getDefault().getBean("v_sysmanage_role_action_privilegeBean");
+
+		return __v_sysmanage_role_action_privilegeBean.select(__v_sysmanage_role_action_privilege);
+	}
+
+	private List _roleActionPrivilege;
+
+	public List getRoleActionPrivilege() {
+		return _roleActionPrivilege;
+	}
+}

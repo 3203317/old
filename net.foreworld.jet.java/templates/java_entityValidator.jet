@@ -1,0 +1,115 @@
+package <c:get select="$p/@package"/>.<c:get select="$p/@name"/>;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.regex.Pattern;
+
+import net.foreworld.java.beans.BeanService;
+import net.foreworld.java.daos.IDao;
+import net.foreworld.java.models.BaseModel;
+import net.foreworld.java.validators.BaseValidator;
+
+/**
+ * <p>
+ * Title: <c:get select="camelCase($p/@name)"/>Validator
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright(c) 2011 郑州新开普电子股份有限公司
+ * </p>
+ * 
+ * @author 黄鑫 (huangxin)
+ * @version
+ * @data 创建日期：2011-11-11 修改日期： 修改人： 复审人：
+ * @generated
+ */
+public class <c:get select="camelCase($p/@name)"/>Validator extends BaseValidator {
+
+	private static final String BUNDEL_NAME = "<c:get select="$p/@package"/>.<c:get select="$p/@name"/>.message";
+
+<c:iterate select="$p/property" var="per">		
+	<c:choose select="$per/@java-regex">
+		<c:when test="''">
+		</c:when>
+		<c:otherwise>
+	private static final String REGEX_ERROR_<c:get select="upper-case($per/@name)"/> = "<c:get select="camelCase($p/@name)"/>Validator_REGEX_ERROR_<c:get select="upper-case($per/@name)"/>";
+		</c:otherwise>
+	</c:choose>			
+</c:iterate>
+
+<c:iterate select="$p/property" var="per">		
+	<c:choose select="$per/@unique">
+		<c:when test="'true'">
+	private static final String EXIST_SAME_<c:get select="upper-case($per/@name)"/> = "<c:get select="camelCase($p/@name)"/>Validator_EXIST_SAME_<c:get select="upper-case($per/@name)"/>";
+		</c:when>
+	</c:choose>			
+</c:iterate>
+
+	private ResourceBundle _rb = ResourceBundle.getBundle(BUNDEL_NAME, Locale.getDefault());
+
+	private <c:get select="camelCase($p/@name)"/> _<c:get select="$p/@name"/> = null;
+
+	public ResourceBundle getBundle() {
+		return _rb;
+	}
+
+	public Map<String, String> insertMethod(BaseModel $model) throws Exception {
+		<c:get select="camelCase($p/@name)"/> __<c:get select="$p/@name"/> = (<c:get select="camelCase($p/@name)"/>) $model;
+
+<c:iterate select="$p/property" var="per">		
+	<c:choose select="$per/@java-regex">
+		<c:when test="''">
+		</c:when>
+		<c:otherwise>
+		if (!__<c:get select="$p/@name"/>.get<c:get select="camelCase($per/@name)"/>().toString().matches("<c:get select="$per/@java-regex"/>")) {
+			Map<String, String> __errors_3 = new HashMap<String, String>();
+			__errors_3.put("<c:get select="$per/@name"/>", getBundle().getString(REGEX_ERROR_<c:get select="upper-case($per/@name)"/>));
+			return __errors_3;
+		}
+		</c:otherwise>
+	</c:choose>			
+</c:iterate>
+
+<c:iterate select="$p/property" var="per">		
+	<c:choose select="$per/@unique">
+		<c:when test="'true'">
+		_<c:get select="$p/@name"/> = new <c:get select="camelCase($p/@name)"/>();
+		_<c:get select="$p/@name"/>.set<c:get select="camelCase($per/@name)"/>(__<c:get select="$p/@name"/>.get<c:get select="camelCase($per/@name)"/>());
+		IDao __<c:get select="$p/@name"/>DAO = (IDao) BeanService.getDefault().getBean("<c:get select="$p/@name"/>DAO");
+		int __count = __<c:get select="$p/@name"/>DAO.selectCount(_<c:get select="$p/@name"/>, null);
+		if (__count > 0) {
+			Map<String, String> __errors_3 = new HashMap<String, String>();
+			__errors_3.put("<c:get select="$per/@name"/>", getBundle().getString(EXIST_SAME_<c:get select="upper-case($per/@name)"/>));
+			return __errors_3;
+		}
+		</c:when>
+	</c:choose>			
+</c:iterate>
+
+		return super.insertMethod(__<c:get select="$p/@name"/>);
+	}
+
+	public Map<String, String> updateMethod(BaseModel $model) throws Exception {
+		<c:get select="camelCase($p/@name)"/> __<c:get select="$p/@name"/> = (<c:get select="camelCase($p/@name)"/>) $model;
+
+<c:iterate select="$p/property" var="per">		
+	<c:choose select="$per/@java-regex">
+		<c:when test="''">
+		</c:when>
+		<c:otherwise>
+		if (!__<c:get select="$p/@name"/>.get<c:get select="camelCase($per/@name)"/>().toString().matches("<c:get select="$per/@java-regex"/>")) {
+			Map<String, String> __errors_3 = new HashMap<String, String>();
+			__errors_3.put("<c:get select="$per/@name"/>", getBundle().getString(REGEX_ERROR_<c:get select="upper-case($per/@name)"/>));
+			return __errors_3;
+		}
+		</c:otherwise>
+	</c:choose>			
+</c:iterate>
+
+		return super.updateMethod(__<c:get select="$p/@name"/>);
+	}
+}

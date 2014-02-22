@@ -1,0 +1,384 @@
+<html>
+	<head>
+
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="this is my page">
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+			
+		<script type="text/javascript" src="../../../../../commons/components/jquery.min.js"></script>
+
+		<script type="text/javascript" src="../../../../../commons/js/util.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/page.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/StringBuffer.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/dropdownlist.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/inputtext.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/inputdate.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/button.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/dhtmlX_Grid.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/hashmap.js"></script>
+		
+		<script type="text/javascript" src="../../../../../commons/components/My97DatePicker/WdatePicker.js"></script>
+		
+		<link rel="STYLESHEET" type="text/css" href="../../../../../commons/css/viewList.css">
+
+
+		<link rel="STYLESHEET" type="text/css"
+			href="../../../../../commons/components/dhtmlx/dhtmlxGrid/codebase/dhtmlxgrid.css">
+		<link rel="stylesheet" type="text/css"
+			href="../../../../../commons/components/dhtmlx/dhtmlxGrid/codebase/skins/dhtmlxgrid_dhx_skyblue.css">
+		<script
+			src="../../../../../commons/components/dhtmlx/dhtmlxGrid/codebase/dhtmlxcommon.js"></script>
+		<script
+			src="../../../../../commons/components/dhtmlx/dhtmlxGrid/codebase/dhtmlxgrid.js"></script>
+		<script
+			src="../../../../../commons/components/dhtmlx/dhtmlxGrid/codebase/dhtmlxgridcell.js"></script>
+
+
+		<script type="text/javascript" src="<c:get select="$p/@name"/>.js"></script>
+		
+		<SCRIPT LANGUAGE="JavaScript">
+		<!--	
+			var _currentpage_change = function($o){
+				if(!$o.value.isNum()){
+					$o.value = 1;
+				}
+				if($o.value < 1){
+					$o.value = 1;
+				}
+				//$("#model\\.recordstart").val(($o.value-1)*$("#model\\.pagesize").val());
+			};
+			
+			var _jumpPage = function($o){
+				var __currentpage = $("#model\\.currentpage").val()-0;
+				var __pagecount = $("#_pagecount").html()-0;
+				if(__currentpage < 1 || __currentpage > __pagecount){
+					$("#model\\.currentpage").val(1);
+					search();
+					return;
+				}
+				switch($o){
+					case "f":
+						$("#model\\.currentpage").val(1);
+						break;
+					case "p":
+						if($("#model\\.currentpage").val() > 1){
+							$("#model\\.currentpage").val($("#model\\.currentpage").val()-0-1);
+						}
+						break;
+					case "n":
+						if(__currentpage < __pagecount){
+							$("#model\\.currentpage").val($("#model\\.currentpage").val()-0+1);
+						}
+						break;
+					case "l":
+						$("#model\\.currentpage").val($("#_pagecount").html());
+						break;
+					default:
+						$("#model\\.currentpage").val(1);
+						break;
+				}
+				search();
+			};
+			
+			var _dhtmlX_Grid_<c:get select="$p/@name"/>_doRowDblClicked = function($rId, $cInd){
+				self.parent.window.addRelation($rId);
+			};
+			
+			var _callbefore_data_startusing = function(){
+				if(confirm("您确定要执行启用操作吗?")){
+					return true;
+				}
+				return false;
+			};
+			
+			var _callback_data_startusing = function(){
+				search();
+			};
+			
+			var _data_startusing = function(){
+				var __idstr = _dhtmlX_Grid_<c:get select="$p/@name"/>.getCheckedRows(1);
+				
+				if(__idstr == "") return;
+				
+				var __params = {'model.batchData':__idstr};
+			
+				_form.submit({url:$("#path").val() +"/startUsing.do",data:__params,cbe:_callbefore_data_startusing,cba:_callback_data_startusing});
+			};
+			
+			var _callbefore_data_stopusing = function(){
+				if(confirm("您确定要执行禁用操作吗?")){
+					return true;
+				}
+				return false;
+			};
+			
+			var _callback_data_stopusing = function(){
+				search();
+			};
+			
+			var _data_stopusing = function(){
+				var __idstr = _dhtmlX_Grid_<c:get select="$p/@name"/>.getCheckedRows(1);
+				
+				if(__idstr == "") return;
+				
+				var __params = {'model.batchData':__idstr};
+			
+				_form.submit({url:$("#path").val() +"/stopUsing.do",data:__params,cbe:_callbefore_data_stopusing,cba:_callback_data_stopusing});
+			};		
+		//-->
+		</SCRIPT>
+		
+	</head>
+
+	<body>
+		<TABLE id="mtable" border="0" cellpadding="0" cellspacing="0" height="100%"
+			width="98%" align="center">
+			<TR>
+				<TD colspan="4">
+					<TABLE border="0" width="100%"
+						class="tablelist06 margin_8 bordergrey">
+						<TR height="23">
+							<TD colspan="3" class="odd" style="font-size:14px">
+								<strong>查询条件</strong>
+							</TD>
+							<TD class="odd" align="right">
+								<input type="button" value="&nbsp;查&nbsp;&nbsp;询&nbsp;"
+									class="btn01" id="_btn_search" />					
+							</TD>
+						</TR>
+						<TR>
+							<TD colspan="4">
+								<input type="hidden" name="fields" id="model.fields" _type="_inputtext" _insearch="true" value="|id|<c:iterate select="$p/property" var="propertyper"><c:choose select="$propertyper/@insearch_result3"><c:when test="'true'"><c:choose select="$propertyper/@relation_table"><c:when test="''"><c:get select="$propertyper/@name"/>|</c:when><c:otherwise><c:get select="$propertyper/@name"/>_text|</c:otherwise></c:choose></c:when></c:choose></c:iterate>addtime|opt_sysmanage_user_name|startusing_text|"/>
+								<input type="hidden" name="pagesize" id="model.pagesize" _type="_inputtext" _insearch="true" value="20"/>
+								<input type="hidden" name="path" id="path" value="<c:get select="$p/@path"/>/<c:get select="$p/@name"/>"/>
+								<input type="hidden" name="append" id="model.append" _type="_inputtext" _insearch="true" value=""/>
+							</TD>
+						</TR>
+			<c:iterate select="$p/property" var="propertyper">
+				<c:choose select="$propertyper/@insearch3">
+					<c:when test="'true'">
+						<TR height="23">
+							<TD style="font-size:12">
+								<c:get select="$propertyper/@label"/>
+							</TD>
+							<TD style="font-size:12">
+							<c:choose select="$propertyper/@html_type">
+								<c:when test="'_dropdownlist'">
+									<select name="<c:get select="$propertyper/@name"/>" id="model.<c:get select="$propertyper/@name"/>"
+										_type="<c:get select="$propertyper/@html_type"/>" _insearch="true"
+										_init_data_params="<c:get select="$propertyper/@html_init_data_params"/>"
+										_init_data="<c:get select="$propertyper/@html_init_data"/>"/>
+								</c:when>
+								<c:when test="'_inputdate'">
+									<input type="text" _insearch="true" name="<c:get select="$propertyper/@name"/>_startdate" id="model.<c:get select="$propertyper/@name"/>_startdate" readonly="" _type="<c:get select="$propertyper/@html_type"/>" class="Wdate" onClick="WdatePicker({highLineWeekDay:true,firstDayOfWeek:1,isShowOthers:false,readOnly:true})"/>
+									至
+									<input type="text" _insearch="true" name="<c:get select="$propertyper/@name"/>_enddate" id="model.<c:get select="$propertyper/@name"/>_enddate" readonly="" _type="<c:get select="$propertyper/@html_type"/>" class="Wdate" onClick="WdatePicker({highLineWeekDay:true,firstDayOfWeek:1,isShowOthers:false,readOnly:true})"/>
+								</c:when>
+								<c:otherwise>
+									<input type="text" name="<c:get select="$propertyper/@name"/>" id="model.<c:get select="$propertyper/@name"/>" _type="_inputtext" _insearch="true"/>
+									<input type="hidden" name="<c:get select="$propertyper/@name"/>_operate" id="model.<c:get select="$propertyper/@name"/>_operate" _type="_inputtext" _insearch="true" value="like"/>
+								</c:otherwise>
+							</c:choose>
+							</TD>
+							<TD style="font-size:12">
+								&nbsp;
+							</TD>
+							<TD style="font-size:12">
+								&nbsp;
+							</TD>
+						</TR>
+					</c:when>
+				</c:choose>
+			</c:iterate>
+						<%--TR height="23">
+							<TD style="font-size:12">
+								有效标识
+							</TD>
+							<TD style="font-size:12">
+								<select name="availsign" id="model.availsign"
+									_type="_dropdownlist" _insearch="true"
+									_init_data_params="({'model.fields':'|id|code_name|','model.tab_sysmanage_codetype_id':'11','model.orderbywhat':'code_order','model.orderby':'asc'})"
+									_init_data="net/foreworld/java/sysmanage/sysmanage_code/select3.do"/>
+							</TD>
+							<TD>
+								&nbsp;
+							</TD>
+							<TD>
+								&nbsp;
+							</TD>
+						</TR>
+						<TR height="23">
+							<TD style="font-size:12">
+								状态
+							</TD>
+							<TD style="font-size:12">
+								<select name="startusing" id="model.startusing"
+									_type="_dropdownlist" _insearch="true"
+									_init_data_params="({'model.fields':'|id|code_name|','model.tab_sysmanage_codetype_id':'12','model.orderbywhat':'code_order','model.orderby':'asc'})"
+									_init_data="net/foreworld/java/sysmanage/sysmanage_code/select3.do"/>
+							</TD>
+							<TD style="font-size:12">
+								添加时间
+							</TD>
+							<TD style="font-size:12">
+								<input type="text" _insearch="true" name="addtime_startdate" id="model.addtime_startdate" readonly="" _type="_inputdate" class="Wdate" onClick="WdatePicker({highLineWeekDay:true,firstDayOfWeek:1,isShowOthers:false,readOnly:true})"/>
+								至
+								<input type="text" _insearch="true" name="addtime_enddate" id="model.addtime_enddate" readonly="" _type="_inputdate" class="Wdate" onClick="WdatePicker({highLineWeekDay:true,firstDayOfWeek:1,isShowOthers:false,readOnly:true})"/>
+							</TD>
+						</TR--%>
+					</TABLE>
+				</TD>
+			</TR>
+			<TR height="5">
+				<TD>
+				</TD>
+				<TD>
+				</TD>
+				<TD>
+				</TD>
+				<TD>
+				</TD>
+			</TR>
+			<TR>
+				<TD colspan="4" width="100%" height="100%">
+					<TABLE border="0" width="100%" class="margin_8 bordergrey" height="100%">
+						<TR height="30">
+							<TD style="background: #f7f7f7; padding-left: 15px;font-size:14px" colspan="2">
+								<strong>查询结果</strong>
+							</TD>
+						</TR>
+						<tr>
+							<td width="100%" colspan="2" height="100%">
+								<div id="_<c:get select="$p/@name"/>" _type="_dhtmlX_Grid" title="双击选中记录"
+									_url="<c:get select="$p/@path"/>/<c:get select="$p/@name"/>/select.do"
+									_dataType="json"
+									_imagePath="commons/components/dhtmlx/dhtmlxGrid/codebase/imgs/"
+									_header="ID,<c:iterate select="$p/property" var="propertyper"><c:choose select="$propertyper/@insearch_result3"><c:when test="'true'"><c:get select="$propertyper/@label"/>,</c:when></c:choose></c:iterate>添加时间,操作员,状态"
+									_initWidths="50,<c:iterate select="$p/property" var="propertyper"><c:choose select="$propertyper/@insearch_result3"><c:when test="'true'">150,</c:when></c:choose></c:iterate>150,150,150"
+									_colAlign="center,<c:iterate select="$p/property" var="propertyper"><c:choose select="$propertyper/@insearch_result3"><c:when test="'true'">left,</c:when></c:choose></c:iterate>left,left,left"
+									_colType="ro,<c:iterate select="$p/property" var="propertyper"><c:choose select="$propertyper/@insearch_result3"><c:when test="'true'">ro,</c:when></c:choose></c:iterate>ro,ro,ro"
+									_colSorting="int,<c:iterate select="$p/property" var="propertyper"><c:choose select="$propertyper/@insearch_result3"><c:when test="'true'">str,</c:when></c:choose></c:iterate>str,str,str" _skin="dhx_skyblue"
+									style="width:100%;height:100%;background-color:white;"
+									_events="({'onRowDblClicked':'_dhtmlX_Grid_<c:get select="$p/@name"/>_doRowDblClicked'})"></div>
+							</td>
+						</tr>
+						<TR>
+							<td>
+								<div class="tablelistnext margin_8" style="font-size: 12">
+									<dl class="left">
+										<dt>
+											共<span id="_recordcount"></span>条记录&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;共<span id="_pagecount"></span>页
+										</dt>
+									</dl>
+									<ul>
+										<li>
+											<a href="javascript:void(0)" onclick="_jumpPage('f')" class="F_black">首页 </a>
+										</li>
+										<li>
+											<a href="javascript:void(0)" onclick="_jumpPage('p')" class="F_black">上一页</a>
+										</li>
+										<li>
+											<a href="javascript:void(0)" onclick="_jumpPage('n')" class="F_black">下一页</a>
+										</li>
+										<li>
+											<a href="javascript:void(0)" onclick="_jumpPage('l')" class="F_black">尾页</a>
+										</li>
+										<li class="none F_black">
+											转到
+											<input type="text" name="currentpage" _insearch="true"
+												id="model.currentpage" _type="_inputtext" value="1"
+												style="width: 30px"/>
+											页
+										</li>
+										<li>
+											<a href="javascript:void(0)" class="F_black" onclick="_jumpPage()">转</a>
+										</li>
+									</ul>
+								</div>
+							</td>
+						</TR>
+					</TABLE>
+				</TD>
+			</TR>
+		</TABLE>
+	</body>
+
+	<script type="text/javascript" src="../../../../../commons/js/pt.js"></script>
+
+	<SCRIPT LANGUAGE="JavaScript">
+	<!--
+		var _optMap = new HashMap();
+
+		var _unique_flag = self.parent.window.unique_flag;
+		var _orgdim_id = self.parent.window._orgdim_id;
+		var _orgtype_id = self.parent.window.orgtype_id;
+
+		var _callback0 = function($data){
+			if($data.count == 0) return;
+			putHashMap($data);
+
+			if(_optMap.get(1) == undefined){
+				document.getElementById('_btn_search').style.display = 'none';
+			}
+		};
+
+		function putHashMap($data){
+			for(var __i_3=0,__j_3=$data.count;__i_3<__j_3;__i_3++){
+				var __id_4 = $data.rows[__i_3].id;
+				var __text_4 = $data.rows[__i_3].data[1];
+				_optMap.put(__id_4, __text_4);
+			}
+		}
+		
+		var _callback = function($data){
+			_dhtmlX_Grid_<c:get select="$p/@name"/>.clearAll();
+			_dhtmlX_Grid_<c:get select="$p/@name"/>.parse($data,$("#_<c:get select="$p/@name"/>").attr("_dataType"));
+			
+			//alert(Math.floor((41+20-1)/20));
+			$("#_recordcount").html($data.count);
+			$("#_pagecount").html(Math.floor((($("#_recordcount").html()-0)+($("#model\\.pagesize").val()-0)-1)/($("#model\\.pagesize").val()-0)));
+		};
+
+		var _callback_search_relation_ids = function($data){
+			if($data.opt == "f") return;
+
+			var __ids = "0";
+
+			for(var __i=0,__j=$data.rows.length;__i<__j;__i++){
+				__ids = __ids +","+$data.rows[__i].data[0];
+			}
+
+			$("#model\\.append").val(" and id not in ("+ __ids +")");
+
+			_form.submit({url:$("#_<c:get select="$p/@name"/>").attr("_url"),data:eval(page.getInSearch()),cbe:function(){return true},cba:_callback});
+		};
+
+		function search(){
+			var __data = null;
+			if(_unique_flag == 1){
+				__data = {"model.fields":"relation_id","model.append":" and tab_sysmanage_orgdim_id="+_orgdim_id+" and tab_sysmanage_orgtype_id="+_orgtype_id};
+				_form.submit({url:"net/foreworld/java/sysmanage/sysmanage_orgstructure/select3.do",data:__data,cbe:function(){return true},cba:_callback_search_relation_ids});
+			}
+			else{
+				$("#model\\.append").val("");
+				_form.submit({url:$("#_<c:get select="$p/@name"/>").attr("_url"),data:eval(page.getInSearch()),cbe:function(){return true},cba:_callback});
+			}
+		}
+		
+		$(document).ready(function(){
+			var __data = {"model.module_url":"<c:get select="$p/@path"/>/<c:get select="$p/@name"/>/index.html","model.module_url_operate":"like","model.fields":"id|operate_name"};
+			_form.submit({url:"net/foreworld/java/sysmanage/v_sysmanage_user_module_operate/select3.do",data:__data,cbe:function(){return true},cba:_callback0});
+			
+			$("#_btn_search").click(function(){
+				//var __data = {"model.orderby":"asc","model.orderbywhat":"parentid,moduleorder"};
+				$("#model\\.currentpage").val(1);
+				search();
+			});
+			
+			$("#_btn_search").click();
+				
+		});
+	
+	//-->
+	</SCRIPT>
+</html>

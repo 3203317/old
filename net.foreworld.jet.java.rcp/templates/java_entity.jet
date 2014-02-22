@@ -1,0 +1,136 @@
+package <c:get select="$p/@package"/>.<c:get select="$p/@name"/>;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import net.foreworld.java.models.BaseModel;
+
+/**
+ * 
+ * @author 	huangxin
+ * @email  	huangxin@foreworld.net
+ * @qq		3203317
+ * @generated
+ */
+public class <c:get select="camelCase($p/@name)"/> extends BaseModel {
+	
+	private String _fields = "id,<c:iterate select="$p/property" var="propertyper" delimiter=","><c:get select="$propertyper/@name"/></c:iterate>,addtime,opt_sysmanage_user_id,availsign,startusing";
+	
+	public String getFields(){
+		return this._fields;
+	}
+	
+	public void setFields(String $fields){
+		this._fields = $fields;
+	}
+
+	private String _detailTable;
+	
+	public String getDetailTable(){
+		return this._detailTable;
+	}
+	
+	public void setDetailTable(String $detailTable){
+		this._detailTable = $detailTable;
+	}
+
+	private String _detailTablesName = "<c:get select="$p/@detailTablesName"/>";
+	
+	public String getDetailTablesName(){
+		return this._detailTablesName;
+	}
+	
+	public void setDetailTablesName(String $detailTablesName){
+		this._detailTablesName = $detailTablesName;
+	}
+
+	private String _refTable;
+	
+	public String getRefTable(){
+		return this._refTable;
+	}
+	
+	public void setRefTable(String $refTable){
+		this._refTable = $refTable;
+	}
+
+	private String _batchData;
+	
+	public String getBatchData(){
+		return this._batchData;
+	}
+	
+	public void setBatchData(String $batchData){
+		this._batchData = $batchData;
+	}
+
+<c:iterate select="$p/property" var="per">
+	/**
+	 * @generated
+	 **/
+	private <c:get select="$per/@java-type"/> _<c:get select="$per/@name"/>;
+	
+	/**
+	 * @generated
+	 **/
+	public <c:get select="$per/@java-type"/> get<c:get select="camelCase($per/@name)"/>(){
+		return this._<c:get select="$per/@name"/>;
+	}	
+	
+	/**
+	 * @generated
+	 **/
+	public void set<c:get select="camelCase($per/@name)"/>(<c:get select="$per/@java-type"/> $<c:get select="$per/@name"/>){
+		this._<c:get select="$per/@name"/> = $<c:get select="$per/@name"/>;
+	}
+	
+	/**
+	 * @generated
+	 **/
+	private String _<c:get select="$per/@name"/>_operate;
+	
+	/**
+	 * @generated
+	 **/
+	public String get<c:get select="camelCase($per/@name)"/>_operate(){
+		return this._<c:get select="$per/@name"/>_operate;
+	}	
+	
+	/**
+	 * @generated
+	 **/
+	public void set<c:get select="camelCase($per/@name)"/>_operate(String $<c:get select="$per/@name"/>_operate){
+		this._<c:get select="$per/@name"/>_operate = $<c:get select="$per/@name"/>_operate;
+	}
+	
+	<c:choose select="$per/@type">
+		<c:when test="'Date'">
+
+	private String _<c:get select="$per/@name"/>_startdate;
+	
+	public String get<c:get select="camelCase($per/@name)"/>_startdate(){
+		return this._<c:get select="$per/@name"/>_startdate;
+	}
+	
+	public void set<c:get select="camelCase($per/@name)"/>_startdate(String $<c:get select="$per/@name"/>_startdate){
+		this._<c:get select="$per/@name"/>_startdate = $<c:get select="$per/@name"/>_startdate;
+	}
+
+	private String _<c:get select="$per/@name"/>_enddate;
+	
+	public String get<c:get select="camelCase($per/@name)"/>_enddate(){
+		return this._<c:get select="$per/@name"/>_enddate;
+	}
+	
+	public void set<c:get select="camelCase($per/@name)"/>_enddate(String $<c:get select="$per/@name"/>_enddate){
+		this._<c:get select="$per/@name"/>_enddate = $<c:get select="$per/@name"/>_enddate;
+	}	
+		
+		</c:when>
+	</c:choose>
+	
+</c:iterate>
+	
+	
+}

@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="<c:get select="$p/@name"/>">
+
+	<%--typeAlias alias="mapModel" type="net.foreworld.java.models.MapModel" /--%>
+	<typeAlias alias="mapResultModel" type="net.foreworld.java.models.MapResultModel" />
+	
+	<!--cacheModel id="<c:get select="$p/@name"/>-cache" type="LRU">
+		<flushInterval seconds="24"/>
+		<flushOnExecute statement="<c:get select="$p/@name"/>.insert"/>
+		<flushOnExecute statement="<c:get select="$p/@name"/>.update"/>
+		<flushOnExecute statement="<c:get select="$p/@name"/>.delete"/>
+		<property name="size" value="1000"/>
+	</cacheModel-->
+	
+	<typeAlias alias="<c:get select="$p/@name"/>" type="<c:get select="$p/@package"/>.<c:get select="$p/@name"/>.<c:get select="camelCase($p/@name)"/>"/>  
+
+	<%--resultMap id="<c:get select="$p/@name"/>" class="<c:get select="$p/@package"/>.<c:get select="$p/@name"/>.<c:get select="camelCase($p/@name)"/>">
+		<result column="id" property="id" jdbcType="Decimal" />
+<c:iterate select="$p/property" var="per">
+		<result column="<c:get select="$per/@name"/>" property="<c:get select="$per/@name"/>" jdbcType="<c:get select="$per/@sqlmap-mysql-jdbcType"/>" />
+</c:iterate>
+		<result column="addtime" property="addtime" jdbcType="Date" />
+		<result column="opt_sysmanage_user_id" property="opt_sysmanage_user_id" jdbcType="Decimal" />
+		<result column="availsign" property="availsign" jdbcType="Decimal" />
+		<result column="startusing" property="startusing" jdbcType="Decimal" />
+		<result column="pagesize" property="pagesize" jdbcType="Decimal" />
+		<result column="pagestart" property="pagestart" jdbcType="Decimal" />
+		<result column="pageend" property="pageend" jdbcType="Decimal" />
+		<result column="totalrecords" property="totalrecords" jdbcType="Decimal" />
+		<result column="currentpage" property="currentpage" jdbcType="Decimal" />
+		<result column="recordstart" property="recordstart" jdbcType="Decimal" />
+		<result column="orderby" property="orderby" jdbcType="VARCHAR" />
+		<result column="orderbywhat" property="orderbywhat" jdbcType="VARCHAR" />
+	</resultMap--%>
+	
+	<select id="select" resultClass="mapResultModel" parameterClass="<c:get select="$p/@name"/>" remapResults="true"<%-- cacheModel="<c:get select="$p/@name"/>-cache"--%>>
+		select * from (
+	
+		select 
+		
+		<isNotNull property="orderbywhat">
+			<isNotNull property="orderby">
+				row_number() over(order by $orderbywhat$ $orderby$) as rowNumber,
+			</isNotNull>
+		</isNotNull>
+		
+		$fields$
+		
+	<%--isNotNull property="customkeys">
+		$customkeys$
+	</isNotNull>
+		
+	<isNull property="customkeys">
+		
+		#selected:DECIMAL# as selected,		
+		id,
+<c:iterate select="$p/property" var="per" delimiter=",">
+		<c:get select="$per/@name"/>
+</c:iterate>,
+		addtime,
+		opt_sysmanage_user_id,
+		availsign,
+		startusing
+		
+	</isNull--%>
+		
+		<%--isNotNull property="pagesize">
+			,#pagesize:DECIMAL# as pagesize
+		</isNotNull>
+		<isNotNull property="pagestart">
+			,#pagestart:DECIMAL# as pagestart
+		</isNotNull>
+		<isNotNull property="pageend">
+			,#pageend:DECIMAL# as pageend
+		</isNotNull>
+		<isNotNull property="totalrecords">
+			,#totalrecords:DECIMAL# as totalrecords
+		</isNotNull>
+		<isNotNull property="currentpage">
+			,#currentpage:DECIMAL# as currentpage
+		</isNotNull>
+		<isNotNull property="recordstart">
+			,#recordstart:DECIMAL# as recordstart
+		</isNotNull--%>
+		
+		from 
+
+		(
+		select t1.*,t2.user_name as opt_sysmanage_user_name,
+		
+		(select t0.code_name from sysmanage_code t0 where t0.id=t1.startusing) as startusing_text
+		
+		 from <c:get select="$p/@name"/> t1, sysmanage_user t2 where t1.opt_sysmanage_user_id=t2.id
+		) tt
+
+		<dynamic prepend="where">
+			<isNull property="id_operate">
+				<isNotNull prepend="and" property="id">
+					id = #id:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="id_operate">
+				<isNotNull prepend="and" property="id">
+					id $id_operate$ #id:DECIMAL#
+				</isNotNull>
+			</isNotNull>
+			
+<c:iterate select="$p/property" var="per">
+			<isNull property="<c:get select="$per/@name"/>_operate">
+				<isNotNull prepend="and" property="<c:get select="$per/@name"/>">
+					<c:get select="$per/@name"/> = #<c:get select="$per/@name"/>:<c:get select="$per/@sqlmap-mysql-jdbcType"/>#
+				</isNotNull>
+			</isNull>
+			<c:choose select="$per/@type">
+				<c:when test="'Integer'">
+			<isNotNull property="<c:get select="$per/@name"/>_operate">
+				<isNotNull prepend="and" property="<c:get select="$per/@name"/>">
+					<c:get select="$per/@name"/> $<c:get select="$per/@name"/>_operate$ #<c:get select="$per/@name"/>:<c:get select="$per/@sqlmap-mysql-jdbcType"/>#
+				</isNotNull>
+			</isNotNull>
+				</c:when>
+				<c:otherwise>
+			<isNotNull property="<c:get select="$per/@name"/>_operate">
+				<isNotNull prepend="and" property="<c:get select="$per/@name"/>">
+					<c:get select="$per/@name"/> $<c:get select="$per/@name"/>_operate$ '%'+#<c:get select="$per/@name"/>:<c:get select="$per/@sqlmap-mysql-jdbcType"/>#+'%'
+				</isNotNull>
+			</isNotNull>
+				</c:otherwise>
+			</c:choose>
+			<c:choose select="$per/@type">
+				<c:when test="'Date'">
+			<isNotNull property="<c:get select="$per/@name"/>_startdate">
+				<isNotNull prepend="and" property="<c:get select="$per/@name"/>_enddate">
+					<c:get select="$per/@name"/> between #<c:get select="$per/@name"/>_startdate:Date# and #<c:get select="$per/@name"/>_enddate:Date#
+				</isNotNull>
+			</isNotNull>		
+				</c:when>
+			</c:choose>
+			
+</c:iterate>			
+
+			
+			<isNull property="addtime_operate">
+				<isNotNull prepend="and" property="addtime">
+					addtime = #addtime:Date#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="addtime_operate">
+				<isNotNull prepend="and" property="addtime">
+					addtime $addtime_operate$ #addtime:Date#
+				</isNotNull>
+			</isNotNull>
+			<isNotNull property="addtime_startdate">
+				<isNotNull prepend="and" property="addtime_enddate">
+					addtime between #addtime_startdate:Date# and #addtime_enddate:Date#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="opt_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="opt_sysmanage_user_id">
+					opt_sysmanage_user_id = #opt_sysmanage_user_id:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="opt_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="opt_sysmanage_user_id">
+					opt_sysmanage_user_id $opt_sysmanage_user_id_operate$ #opt_sysmanage_user_id:DECIMAL#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNotNull prepend="and" property="availsign">
+				availsign = #availsign:DECIMAL#
+			</isNotNull>
+			
+			<isNotNull prepend="and" property="startusing">
+				startusing = #startusing:DECIMAL#
+			</isNotNull>
+			
+			<isNotNull prepend="and" property="append">
+				1=1 $append$
+			</isNotNull>
+			<isNotNull prepend="and" property="append2">
+				2=2 $append2$
+			</isNotNull>
+		</dynamic>
+		) fw
+		<dynamic prepend="where">		
+			<isNotNull property="currentpage">
+				<isNotNull property="pagesize">
+					rowNumber between (#currentpage:DECIMAL#-1)*#pagesize:DECIMAL#+1 and #currentpage:DECIMAL#*#pagesize:DECIMAL#
+				</isNotNull>
+			</isNotNull>
+		</dynamic>
+	</select>
+	
+	<select id="select2" resultClass="mapResultModel" parameterClass="<c:get select="$p/@name"/>" remapResults="true"<%-- cacheModel="<c:get select="$p/@name"/>-cache"--%>>
+		select * from (
+		
+		select 
+		
+		<isNotNull property="orderbywhat">
+			<isNotNull property="orderby">
+				row_number() over(order by $orderbywhat$ $orderby$) as rowNumber,
+			</isNotNull>
+		</isNotNull>
+		
+		$fields$
+		
+	<%--isNotNull property="customkeys">
+		$customkeys$
+	</isNotNull>
+		
+	<isNull property="customkeys">
+		
+		#selected:DECIMAL# as selected,		
+		id,
+<c:iterate select="$p/property" var="per" delimiter=",">
+		<c:get select="$per/@name"/>
+</c:iterate>,
+		addtime,
+		opt_sysmanage_user_id,
+		availsign,
+		startusing
+		
+	</isNull--%>
+		
+		<%--isNotNull property="pagesize">
+			,#pagesize:DECIMAL# as pagesize
+		</isNotNull>
+		<isNotNull property="pagestart">
+			,#pagestart:DECIMAL# as pagestart
+		</isNotNull>
+		<isNotNull property="pageend">
+			,#pageend:DECIMAL# as pageend
+		</isNotNull>
+		<isNotNull property="totalrecords">
+			,#totalrecords:DECIMAL# as totalrecords
+		</isNotNull>
+		<isNotNull property="currentpage">
+			,#currentpage:DECIMAL# as currentpage
+		</isNotNull>
+		<isNotNull property="recordstart">
+			,#recordstart:DECIMAL# as recordstart
+		</isNotNull--%>
+		
+		from <c:get select="$p/@name"/>
+		<dynamic prepend="where">
+			<isNull property="id_operate">
+				<isNotNull prepend="and" property="id">
+					id = #id:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="id_operate">
+				<isNotNull prepend="and" property="id">
+					id $id_operate$ #id:DECIMAL#
+				</isNotNull>
+			</isNotNull>
+			
+<c:iterate select="$p/property" var="per">
+			<isNull property="<c:get select="$per/@name"/>_operate">
+				<isNotNull prepend="and" property="<c:get select="$per/@name"/>">
+					<c:get select="$per/@name"/> = #<c:get select="$per/@name"/>:<c:get select="$per/@sqlmap-mysql-jdbcType"/>#
+				</isNotNull>
+			</isNull>
+			<c:choose select="$per/@type">
+				<c:when test="'Integer'">
+			<isNotNull property="<c:get select="$per/@name"/>_operate">
+				<isNotNull prepend="and" property="<c:get select="$per/@name"/>">
+					<c:get select="$per/@name"/> $<c:get select="$per/@name"/>_operate$ #<c:get select="$per/@name"/>:<c:get select="$per/@sqlmap-mysql-jdbcType"/>#
+				</isNotNull>
+			</isNotNull>
+				</c:when>
+				<c:otherwise>
+			<isNotNull property="<c:get select="$per/@name"/>_operate">
+				<isNotNull prepend="and" property="<c:get select="$per/@name"/>">
+					<c:get select="$per/@name"/> $<c:get select="$per/@name"/>_operate$ '%'+#<c:get select="$per/@name"/>:<c:get select="$per/@sqlmap-mysql-jdbcType"/>#+'%'
+				</isNotNull>
+			</isNotNull>
+				</c:otherwise>
+			</c:choose>
+			<c:choose select="$per/@type">
+				<c:when test="'Date'">
+			<isNotNull property="<c:get select="$per/@name"/>_startdate">
+				<isNotNull prepend="and" property="<c:get select="$per/@name"/>_enddate">
+					<c:get select="$per/@name"/> between #<c:get select="$per/@name"/>_startdate:Date# and #<c:get select="$per/@name"/>_enddate:Date#
+				</isNotNull>
+			</isNotNull>		
+				</c:when>
+			</c:choose>
+			
+</c:iterate>			
+
+			
+			<isNull property="addtime_operate">
+				<isNotNull prepend="and" property="addtime">
+					addtime = #addtime:Date#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="addtime_operate">
+				<isNotNull prepend="and" property="addtime">
+					addtime $addtime_operate$ #addtime:Date#
+				</isNotNull>
+			</isNotNull>
+			<isNotNull property="addtime_startdate">
+				<isNotNull prepend="and" property="addtime_enddate">
+					addtime between #addtime_startdate:Date# and #addtime_enddate:Date#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="opt_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="opt_sysmanage_user_id">
+					opt_sysmanage_user_id = #opt_sysmanage_user_id:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="opt_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="opt_sysmanage_user_id">
+					opt_sysmanage_user_id $opt_sysmanage_user_id_operate$ #opt_sysmanage_user_id:DECIMAL#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNotNull prepend="and" property="availsign">
+				availsign = #availsign:DECIMAL#
+			</isNotNull>
+			
+			<isNotNull prepend="and" property="startusing">
+				startusing = #startusing:DECIMAL#
+			</isNotNull>
+			
+			<isNotNull prepend="and" property="append">
+				1=1 $append$
+			</isNotNull>
+			<isNotNull prepend="and" property="append2">
+				2=2 $append2$
+			</isNotNull>
+		</dynamic>
+		) fw
+		<dynamic prepend="where">		
+			<isNotNull property="currentpage">
+				<isNotNull property="pagesize">
+					rowNumber between (#currentpage:DECIMAL#-1)*#pagesize:DECIMAL#+1 and #currentpage:DECIMAL#*#pagesize:DECIMAL#
+				</isNotNull>
+			</isNotNull>
+		</dynamic>
+	</select>
+	
+	<select id="selectCount" resultClass="java.lang.Integer" parameterClass="<c:get select="$p/@name"/>"<%-- cacheModel="<c:get select="$p/@name"/>-cache"--%>>
+		select 
+		count(1)		
+		from <c:get select="$p/@name"/>
+		<dynamic prepend="where">
+			<isNull property="id_operate">
+				<isNotNull prepend="and" property="id">
+					id = #id:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="id_operate">
+				<isNotNull prepend="and" property="id">
+					id $id_operate$ #id:DECIMAL#
+				</isNotNull>
+			</isNotNull>
+			
+<c:iterate select="$p/property" var="per">
+			<isNull property="<c:get select="$per/@name"/>_operate">
+				<isNotNull prepend="and" property="<c:get select="$per/@name"/>">
+					<c:get select="$per/@name"/> = #<c:get select="$per/@name"/>:<c:get select="$per/@sqlmap-mysql-jdbcType"/>#
+				</isNotNull>
+			</isNull>
+			<c:choose select="$per/@type">
+				<c:when test="'Integer'">
+			<isNotNull property="<c:get select="$per/@name"/>_operate">
+				<isNotNull prepend="and" property="<c:get select="$per/@name"/>">
+					<c:get select="$per/@name"/> $<c:get select="$per/@name"/>_operate$ #<c:get select="$per/@name"/>:<c:get select="$per/@sqlmap-mysql-jdbcType"/>#
+				</isNotNull>
+			</isNotNull>
+				</c:when>
+				<c:otherwise>
+			<isNotNull property="<c:get select="$per/@name"/>_operate">
+				<isNotNull prepend="and" property="<c:get select="$per/@name"/>">
+					<c:get select="$per/@name"/> $<c:get select="$per/@name"/>_operate$ '%'+#<c:get select="$per/@name"/>:<c:get select="$per/@sqlmap-mysql-jdbcType"/>#+'%'
+				</isNotNull>
+			</isNotNull>
+				</c:otherwise>
+			</c:choose>
+			<c:choose select="$per/@type">
+				<c:when test="'Date'">
+			<isNotNull property="<c:get select="$per/@name"/>_startdate">
+				<isNotNull prepend="and" property="<c:get select="$per/@name"/>_enddate">
+					<c:get select="$per/@name"/> between #<c:get select="$per/@name"/>_startdate:Date# and #<c:get select="$per/@name"/>_enddate:Date#
+				</isNotNull>
+			</isNotNull>		
+				</c:when>
+			</c:choose>
+			
+</c:iterate>			
+
+			
+			<isNull property="addtime_operate">
+				<isNotNull prepend="and" property="addtime">
+					addtime = #addtime:Date#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="addtime_operate">
+				<isNotNull prepend="and" property="addtime">
+					addtime $addtime_operate$ #addtime:Date#
+				</isNotNull>
+			</isNotNull>
+			<isNotNull property="addtime_startdate">
+				<isNotNull prepend="and" property="addtime_enddate">
+					addtime between #addtime_startdate:Date# and #addtime_enddate:Date#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="opt_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="opt_sysmanage_user_id">
+					opt_sysmanage_user_id = #opt_sysmanage_user_id:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="opt_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="opt_sysmanage_user_id">
+					opt_sysmanage_user_id $opt_sysmanage_user_id_operate$ #opt_sysmanage_user_id:DECIMAL#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNotNull prepend="and" property="availsign">
+				availsign = #availsign:DECIMAL#
+			</isNotNull>
+			
+			<isNotNull prepend="and" property="startusing">
+				startusing = #startusing:DECIMAL#
+			</isNotNull>
+			
+			<isNotNull prepend="and" property="append">
+				1=1 $append$
+			</isNotNull>
+			<isNotNull prepend="and" property="append2">
+				2=2 $append2$
+			</isNotNull>
+		</dynamic>
+	</select>
+	
+	<insert id="insert" parameterClass="<c:get select="$p/@name"/>">
+		insert into <c:get select="$p/@name"/>
+		(
+<c:iterate select="$p/property" var="per">
+			<c:get select="$per/@name"/>,
+</c:iterate>
+			opt_sysmanage_user_id,
+			availsign,
+			startusing	
+		)
+		values
+		(
+<c:iterate select="$p/property" var="per">
+			#<c:get select="$per/@name"/>:<c:get select="$per/@sqlmap-mysql-jdbcType"/>#,
+</c:iterate>		
+			#opt_sysmanage_user_id:DECIMAL#,
+			#availsign:DECIMAL#,
+			#startusing:DECIMAL#
+		);
+		<selectKey resultClass="int" keyProperty="id">
+			SELECT @@IDENTITY AS id
+			<%--mysql
+			select last_insert_id() as id from <c:get select="$p/@name"/> limit 1 --%>
+		</selectKey>
+	</insert>
+	
+	<update id="update" parameterClass="<c:get select="$p/@name"/>">
+		update <c:get select="$p/@name"/>
+		<dynamic prepend="set">
+<c:iterate select="$p/property" var="per">		
+	<c:choose select="$per/@unique">
+		<c:when test="'true'">
+		</c:when>
+		<c:otherwise>
+			<isNotNull prepend="," property="<c:get select="$per/@name"/>">
+				<c:get select="$per/@name"/> = #<c:get select="$per/@name"/>:<c:get select="$per/@sqlmap-mysql-jdbcType"/>#
+			</isNotNull>
+		</c:otherwise>
+	</c:choose>			
+</c:iterate>			
+			<isNotNull prepend="," property="opt_sysmanage_user_id">
+				opt_sysmanage_user_id = #opt_sysmanage_user_id:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="availsign">
+				availsign = #availsign:DECIMAL#
+			</isNotNull>
+			<isNotNull prepend="," property="startusing">
+				startusing = #startusing:DECIMAL#
+			</isNotNull>	
+		</dynamic>
+		<dynamic prepend="where">
+			<isNull property="id_operate">
+				<isNotNull prepend="and" property="id">
+					id = #id:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="id_operate">
+				<isNotNull prepend="and" property="id">
+					id $id_operate$ #id:DECIMAL#
+				</isNotNull>
+			</isNotNull>
+			<isNotNull prepend="and" property="append">
+				1=1 $append$
+			</isNotNull>
+			<isNotNull prepend="and" property="append2">
+				2=2 $append2$
+			</isNotNull>
+		</dynamic>
+	</update>
+	
+	<delete id="delete" parameterClass="<c:get select="$p/@name"/>">
+		delete from <c:get select="$p/@name"/>
+		<dynamic prepend="where">
+			<isNull property="id_operate">
+				<isNotNull prepend="and" property="id">
+					id = #id:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="id_operate">
+				<isNotNull prepend="and" property="id">
+					id $id_operate$ #id:DECIMAL#
+				</isNotNull>
+			</isNotNull>
+			
+<c:iterate select="$p/property" var="per">
+			<isNull property="<c:get select="$per/@name"/>_operate">
+				<isNotNull prepend="and" property="<c:get select="$per/@name"/>">
+					<c:get select="$per/@name"/> = #<c:get select="$per/@name"/>:<c:get select="$per/@sqlmap-mysql-jdbcType"/>#
+				</isNotNull>
+			</isNull>
+			<c:choose select="$per/@type">
+				<c:when test="'Integer'">
+			<isNotNull property="<c:get select="$per/@name"/>_operate">
+				<isNotNull prepend="and" property="<c:get select="$per/@name"/>">
+					<c:get select="$per/@name"/> $<c:get select="$per/@name"/>_operate$ #<c:get select="$per/@name"/>:<c:get select="$per/@sqlmap-mysql-jdbcType"/>#
+				</isNotNull>
+			</isNotNull>
+				</c:when>
+				<c:otherwise>
+			<isNotNull property="<c:get select="$per/@name"/>_operate">
+				<isNotNull prepend="and" property="<c:get select="$per/@name"/>">
+					<c:get select="$per/@name"/> $<c:get select="$per/@name"/>_operate$ '%'+#<c:get select="$per/@name"/>:<c:get select="$per/@sqlmap-mysql-jdbcType"/>#+'%'
+				</isNotNull>
+			</isNotNull>
+				</c:otherwise>
+			</c:choose>
+			<c:choose select="$per/@type">
+				<c:when test="'Date'">
+			<isNotNull property="<c:get select="$per/@name"/>_startdate">
+				<isNotNull prepend="and" property="<c:get select="$per/@name"/>_enddate">
+					<c:get select="$per/@name"/> between #<c:get select="$per/@name"/>_startdate:Date# and #<c:get select="$per/@name"/>_enddate:Date#
+				</isNotNull>
+			</isNotNull>		
+				</c:when>
+			</c:choose>
+			
+</c:iterate>			
+
+			
+			<isNull property="addtime_operate">
+				<isNotNull prepend="and" property="addtime">
+					addtime = #addtime:Date#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="addtime_operate">
+				<isNotNull prepend="and" property="addtime">
+					addtime $addtime_operate$ #addtime:Date#
+				</isNotNull>
+			</isNotNull>
+			<isNotNull property="addtime_startdate">
+				<isNotNull prepend="and" property="addtime_enddate">
+					addtime between #addtime_startdate:Date# and #addtime_enddate:Date#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNull property="opt_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="opt_sysmanage_user_id">
+					opt_sysmanage_user_id = #opt_sysmanage_user_id:DECIMAL#
+				</isNotNull>
+			</isNull>
+			<isNotNull property="opt_sysmanage_user_id_operate">
+				<isNotNull prepend="and" property="opt_sysmanage_user_id">
+					opt_sysmanage_user_id $opt_sysmanage_user_id_operate$ #opt_sysmanage_user_id:DECIMAL#
+				</isNotNull>
+			</isNotNull>
+			
+			<isNotNull prepend="and" property="availsign">
+				availsign = #availsign:DECIMAL#
+			</isNotNull>
+			
+			<isNotNull prepend="and" property="startusing">
+				startusing = #startusing:DECIMAL#
+			</isNotNull>
+			
+			<isNotNull prepend="and" property="append">
+				1=1 $append$
+			</isNotNull>
+			<isNotNull prepend="and" property="append2">
+				2=2 $append2$
+			</isNotNull>
+		</dynamic>
+	</delete>
+	
+	
+</sqlMap>

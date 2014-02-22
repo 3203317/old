@@ -1,0 +1,125 @@
+<!--#include file="../../../../../const.asp"-->
+<script language="javascript" runat="server" src="../../../../../json2.min.asp"></script>
+<!--#include file="../../../../../json.inc"-->
+<!--#include file="../../../../../framework.asp"-->
+<!--#include file="../../../../../function.asp"-->
+<!--#include file="../../../../../interceptor.asp"-->
+<!--#include file="<c:get select="($p/@name)"/>_Delete.asp"-->
+< %
+'####################################
+'#	<c:get select="($p/@name)"/>	
+'#	黄鑫 3203317@qq.com				#
+'####################################
+
+'定义变量
+Dim id
+<c:iterate select="$p/property" var="per">
+	<c:choose select="$per/@type">
+		<c:when test="'Date'">
+			Dim <c:get select="$per/@name"/>
+			Dim <c:get select="$per/@name"/>_startdate
+			Dim <c:get select="$per/@name"/>_enddate
+		</c:when>
+		<c:otherwise>
+			Dim <c:get select="$per/@name"/>
+		</c:otherwise>
+	</c:choose>
+</c:iterate>
+Dim addtime
+Dim addtime_startdate
+Dim addtime_enddate
+Dim opt_sysmanage_user_id
+Dim availsign
+Dim startusing
+
+
+'获取表单参数
+id = Trim(Checkxss(Request("model.id")))
+<c:iterate select="$p/property" var="per">
+	<c:choose select="$per/@type">
+		<c:when test="'Date'">
+			<c:get select="$per/@name"/>_startdate = Trim(Checkxss(Request("model.<c:get select="$per/@name"/>_startdate")))
+			<c:get select="$per/@name"/>_enddate = Trim(Checkxss(Request("model.<c:get select="$per/@name"/>_enddate")))
+		</c:when>
+		<c:otherwise>
+			<c:get select="$per/@name"/> = Trim(Checkxss(Request("model.<c:get select="$per/@name"/>")))
+		</c:otherwise>
+	</c:choose>
+</c:iterate>
+addtime_startdate = Trim(Checkxss(Request("model.addtime_startdate")))
+addtime_enddate = Trim(Checkxss(Request("model.addtime_enddate")))
+opt_sysmanage_user_id = Trim(Checkxss(Request("model.opt_sysmanage_user_id")))
+availsign = Trim(Checkxss(Request("model.availsign")))
+startusing = Trim(Checkxss(Request("model.startusing")))
+
+
+'数组长度
+Dim i
+i = 0
+'定义参数数组
+ReDim Preserve params(i)
+
+'参数修正
+If IsInteger(id) Then
+	i = i + 1
+	ReDim Preserve params(i)
+	params(i) = Array("and", "id", "=", id)
+End If
+<c:iterate select="$p/property" var="per">
+	<c:choose select="$per/@type">
+		<c:when test="'String'">
+			If <c:get select="$per/@name"/> <> "" Then 
+				i = i + 1
+				ReDim Preserve params(i)
+				params(i) = Array("and", "<c:get select="$per/@name"/>", "like", "'%" & <c:get select="$per/@name"/> & "%'")
+			End If 
+		</c:when>
+		<c:when test="'Date'">
+			If <c:get select="$per/@name"/>_startdate <> "" And <c:get select="$per/@name"/>_enddate <> "" Then 
+				i = i + 1
+				ReDim Preserve params(i)
+				params(i) = Array("and", "<c:get select="$per/@name"/>", "between", "'" & <c:get select="$per/@name"/>_startdate & "' and '" & <c:get select="$per/@name"/>_enddate & "'")
+			End If 
+		</c:when>
+		<c:when test="'Integer'">
+			If IsInteger(<c:get select="$per/@name"/>) Then 
+				i = i + 1
+				ReDim Preserve params(i)
+				params(i) = Array("and", "<c:get select="$per/@name"/>", "=", <c:get select="$per/@name"/>)
+			End If 
+		</c:when>
+	</c:choose>
+</c:iterate>
+If addtime_startdate <> "" And addtime_enddate <> "" Then 
+	i = i + 1
+	ReDim Preserve params(i)
+	params(i) = Array("and", "addtime", "between", "'" & addtime_startdate & "' and '" & addtime_enddate & "'")
+End If
+If IsInteger(opt_sysmanage_user_id) Then
+	i = i + 1
+	ReDim Preserve params(i)
+	params(i) = Array("and", "opt_sysmanage_user_id", "=", opt_sysmanage_user_id)
+End If
+If IsInteger(availsign) Then
+	i = i + 1
+	ReDim Preserve params(i)
+	params(i) = Array("and", "availsign", "=", availsign)
+End If
+If IsInteger(startusing) Then
+	i = i + 1
+	ReDim Preserve params(i)
+	params(i) = Array("and", "startusing", "=", startusing)
+End If
+
+
+'返回Json
+Dim result
+result = <c:get select="($p/@name)"/>_Delete(params)
+
+CloseDB()
+Response.Write result
+Response.End
+%>
+
+
+

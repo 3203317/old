@@ -1,0 +1,5 @@
+database.url=jdbc:sqlserver://localhost:1433;DatabaseName=sysmanage
+database.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
+database.user=sa
+database.password=123456
+

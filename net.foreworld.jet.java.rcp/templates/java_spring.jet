@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+  http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd">
+
+	<bean id="<c:get select="$p/@name"/>"
+		class="<c:get select="$p/@package"/>.<c:get select="$p/@name"/>.<c:get select="camelCase($p/@name)"/>"
+		scope="prototype">
+	</bean>
+	
+	<bean id="<c:get select="$p/@name"/>DAO"
+		class="<c:get select="$p/@package"/>.<c:get select="$p/@name"/>.<c:get select="camelCase($p/@name)"/>DAOImpl"
+		scope="singleton">
+		<property name="sqlMapClientTemplate">
+			<ref bean="sqlMapClientTemplate" />
+		</property>
+	</bean>
+	
+	<%--bean id="<c:get select="$p/@name"/>Service"
+		class="<c:get select="$p/@package"/>.<c:get select="$p/@name"/>.<c:get select="camelCase($p/@name)"/>ServiceImpl"
+		scope="singleton">
+		<property name="<c:get select="$p/@name"/>DAO" ref="<c:get select="$p/@name"/>DAO" />
+	</bean--%>
+
+</beans>

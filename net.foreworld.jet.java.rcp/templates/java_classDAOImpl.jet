@@ -1,0 +1,108 @@
+package <c:get select="$p/@package"/>.<c:get select="$p/@name"/>;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import net.foreworld.java.daos.DaoFactory;
+import net.foreworld.java.daos.IDao;
+import net.foreworld.java.domain.ConnSession;
+
+
+/**
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class <c:get select="camelCase($p/@name)"/>DAOImpl implements IDao {
+
+	private static final <c:get select="camelCase($p/@name)"/>DAOImpl _instance = new <c:get select="camelCase($p/@name)"/>DAOImpl();
+
+	private <c:get select="camelCase($p/@name)"/>DAOImpl() {
+	}
+
+	public static <c:get select="camelCase($p/@name)"/>DAOImpl getInstance() {
+		return _instance;
+	}
+
+	public int deleteById(Object $object, ConnSession $session)
+			throws SQLException {
+		<c:get select="camelCase($p/@name)"/> __<c:get select="$p/@name"/> = (<c:get select="camelCase($p/@name)"/>) $object;
+		return DaoFactory.getInstance().getSqlMap().delete(
+				"<c:get select="$p/@name"/>.deleteById", __<c:get select="$p/@name"/>);
+	}
+
+	public int delete(Object $object, ConnSession $session) throws SQLException {
+		<c:get select="camelCase($p/@name)"/> __<c:get select="$p/@name"/> = (<c:get select="camelCase($p/@name)"/>) $object;
+
+		return DaoFactory.getInstance().getSqlMap().delete(
+				"<c:get select="$p/@name"/>.delete", __<c:get select="$p/@name"/>);
+	}
+
+	public boolean deletes(List $list, ConnSession $session)
+			throws SQLException {
+		for (int __i = 0, __j = ($list == null ? 0 : $list.size()); __i < __j; __i++) {
+			this.deleteById($list.get(__i), $session);
+		}
+		return true;
+	}
+
+	public int insert(Object $object, ConnSession $session) throws SQLException {
+		<c:get select="camelCase($p/@name)"/> __<c:get select="$p/@name"/> = (<c:get select="camelCase($p/@name)"/>) $object;
+		return Integer.parseInt(DaoFactory.getInstance().getSqlMap().insert("<c:get select="$p/@name"/>.insert", __<c:get select="$p/@name"/>).toString());
+	}
+
+	public boolean inserts(List $list, ConnSession $session)
+			throws SQLException {
+		for (int __i = 0, __j = ($list == null ? 0 : $list.size()); __i < __j; __i++) {
+			this.insert($list.get(__i), $session);
+		}
+		return true;
+	}
+
+	public List select(Object $object, ConnSession $session)
+			throws SQLException {
+		<c:get select="camelCase($p/@name)"/> __<c:get select="$p/@name"/> = (<c:get select="camelCase($p/@name)"/>) $object;
+		return DaoFactory.getInstance().getSqlMap().queryForList(
+				"<c:get select="$p/@name"/>.select", __<c:get select="$p/@name"/>);
+	}
+
+	public List select2(Object $object, ConnSession $session)
+			throws SQLException {
+		<c:get select="camelCase($p/@name)"/> __<c:get select="$p/@name"/> = (<c:get select="camelCase($p/@name)"/>) $object;
+		return DaoFactory.getInstance().getSqlMap().queryForList(
+				"<c:get select="$p/@name"/>.select2", __<c:get select="$p/@name"/>);
+	}
+
+	public Object selectById(Object $object, ConnSession $session)
+			throws SQLException {
+		<c:get select="camelCase($p/@name)"/> __<c:get select="$p/@name"/> = (<c:get select="camelCase($p/@name)"/>) $object;
+		return DaoFactory.getInstance().getSqlMap().queryForObject(
+				"<c:get select="$p/@name"/>.selectById", __<c:get select="$p/@name"/>, $session);
+	}
+
+	public int selectCount(Object $object, ConnSession $session)
+			throws SQLException {
+		<c:get select="camelCase($p/@name)"/> __<c:get select="$p/@name"/> = (<c:get select="camelCase($p/@name)"/>) $object;
+		return Integer.parseInt(DaoFactory.getInstance().getSqlMap()
+				.queryForObject("<c:get select="$p/@name"/>.selectCount", __<c:get select="$p/@name"/>,
+						$session).toString());
+	}
+
+	public int update(Object $object, ConnSession $session) throws SQLException {
+		<c:get select="camelCase($p/@name)"/> __<c:get select="$p/@name"/> = (<c:get select="camelCase($p/@name)"/>) $object;
+		return DaoFactory.getInstance().getSqlMap().update(
+				"<c:get select="$p/@name"/>.update", __<c:get select="$p/@name"/>);
+	}
+
+	public boolean updates(List $list, ConnSession $session)
+			throws SQLException {
+		for (int __i = 0, __j = ($list == null ? 0 : $list.size()); __i < __j; __i++) {
+			this.update($list.get(__i), $session);
+		}
+		return true;
+	}
+
+
+
+
+}

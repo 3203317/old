@@ -1,0 +1,27 @@
+package net.foreworld.java.results;
+
+import net.foreworld.java.services.ApplicationService;
+
+import org.apache.log4j.Logger;
+import org.apache.struts2.StrutsStatics;
+
+import com.opensymphony.xwork2.ActionInvocation;
+import com.opensymphony.xwork2.Result;
+
+/**
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public final class JSONResult implements Result, StrutsStatics {
+
+	private static final long serialVersionUID = -8637347728375410999L;
+
+	static final Logger _log = Logger.getLogger(JSONResult.class);
+
+	public void execute(ActionInvocation $invocation) throws Exception {
+		long __startTime = System.currentTimeMillis();
+		ApplicationService.getDefault().getSuccess().execute($invocation);
+		_log.info("JSONResult execute time : " + (System.currentTimeMillis() - __startTime) + " ms.");
+	}
+}

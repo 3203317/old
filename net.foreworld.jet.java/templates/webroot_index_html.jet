@@ -1,0 +1,162 @@
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+		<!-- dhtmlxGrid -->
+		<link rel="STYLESHEET" type="text/css" href="../../../../../commons/components/dhtmlx3.0/dhtmlxGrid/codebase/dhtmlxgrid.css"> 
+		<link rel="STYLESHEET" type="text/css" href="../../../../../commons/components/dhtmlx3.0/dhtmlxGrid/codebase/ext/dhtmlxgrid_pgn_bricks.css"> 
+		<link rel="stylesheet" type="text/css" href="../../../../../commons/components/dhtmlx3.0/dhtmlxGrid/codebase/skins/dhtmlxgrid_dhx_skyblue.css">
+		<!-- dhtmlxToolbar -->
+		<link rel="stylesheet" type="text/css" href="../../../../../commons/components/dhtmlx3.0/dhtmlxToolbar/codebase/skins/dhtmlxtoolbar_dhx_skyblue.css">
+		<!-- dhtmlxLayout -->
+		<link rel="stylesheet" type="text/css" href="../../../../../commons/components/dhtmlx/dhtmlxLayout/codebase/dhtmlxlayout.css">
+		<link rel="stylesheet" type="text/css" href="../../../../../commons/components/dhtmlx/dhtmlxLayout/codebase/skins/dhtmlxlayout_dhx_skyblue.css">
+		<link rel="stylesheet" type="text/css" href="../../../../../commons/components/dhtmlx/dhtmlxLayout/codebase/skins/status_toolbar_layout.css">
+		<!-- dhtmlxWindows -->
+		<link rel="stylesheet" type="text/css" href="../../../../../commons/components/dhtmlx/dhtmlxWindows/codebase/dhtmlxwindows.css">
+		<link rel="stylesheet" type="text/css" href="../../../../../commons/components/dhtmlx/dhtmlxWindows/codebase/skins/dhtmlxwindows_dhx_skyblue.css">
+
+
+		<link rel="STYLESHEET" type="text/css" href="../../../../../commons/css/newcapec.css">
+
+
+		<style type="text/css">
+			html,body{
+				height:100%;padding:0px;margin:0px;overflow:hidden;
+			}
+		</style>
+			
+		<script type="text/javascript" src="../../../../../commons/components/jquery.min.js"></script>
+		<!-- commons -->
+		<script type="text/javascript" src="../../../../../commons/js/util.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/StringBuffer.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/dropdownlist.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/inputtext.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/inputdate.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/button.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/dhtmlX_Grid.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/hashmap.js"></script>
+		<script type="text/javascript" src="../../../../../commons/components/My97DatePicker/WdatePicker.js"></script>
+		<!-- dhtmlxGrid -->
+		<script src="../../../../../commons/components/dhtmlx3.0/dhtmlxGrid/codebase/dhtmlxcommon_new.js"></script> 
+		<script src="../../../../../commons/components/dhtmlx3.0/dhtmlxGrid/codebase/dhtmlxgrid_new.js"></script> 
+		<script src="../../../../../commons/components/dhtmlx3.0/dhtmlxGrid/codebase/dhtmlxgridcell_new.js"></script>
+		<script src="../../../../../commons/components/dhtmlx3.0/dhtmlxGrid/codebase/ext/dhtmlxgrid_pgn.js"></script> 
+		<script src="../../../../../commons/components/dhtmlx3.0/dhtmlxGrid/codebase/ext/dhtmlxgrid_splt.js"></script>
+		<script src="../../../../../commons/components/dhtmlx3.0/dhtmlxGrid/codebase/ext/dhtmlxgrid_json.js"></script>
+		<script src="../../../../../commons/components/dhtmlx3.0/dhtmlxGrid/codebase/ext/dhtmlxgrid_filter.js"></script>
+		<script src="../../../../../commons/components/dhtmlx3.0/dhtmlxGrid/codebase/ext/dhtmlxgrid_srnd.js"></script>
+		<script src="../../../../../commons/components/dhtmlx3.0/dhtmlxGrid/codebase/ext/dhtmlxgrid_start.js"></script>
+		<!-- dhtmlxToolbar -->
+		<script src="../../../../../commons/components/dhtmlx3.0/dhtmlxToolbar/codebase/dhtmlxtoolbar.js"></script> 
+		<!-- dhtmlxLayout -->
+		<script src="../../../../../commons/components/dhtmlx/dhtmlxLayout/codebase/dhtmlxlayout.js"></script> 
+		<script src="../../../../../commons/components/dhtmlx/dhtmlxLayout/codebase/dhtmlxcontainer.js"></script> 
+		<!-- dhtmlxWindows -->
+		<script src="../../../../../commons/components/dhtmlx/dhtmlxWindows/codebase/dhtmlxwindows.js"></script>
+
+		
+	</head>
+
+	<body id="winVP">
+		<div id="sform" style="width: 100%; height: 100%; overflow: auto; display: none; font-size: 12px;margin-left:30">
+			<TABLE border="0" width="100%">
+				<TR>
+					<TD colspan="4">
+						<input type="hidden" name="fields" id="model.fields" _type="_inputtext" _insearch="true" value="|id|ch,0|<c:iterate select="$p/property" var="propertyper" delimiter="|"><c:get select="$propertyper/@name"/></c:iterate>|addtime|opt_sysmanage_user_name|startusing_text|"/>
+						<input type="hidden" name="pagesize" id="model.pagesize" _type="_inputtext" _insearch="true" value="20"/>
+						<input type="hidden" name="path" id="path" value="<c:get select="$p/@path"/>/<c:get select="$p/@name"/>"/>
+					</TD>
+				</TR>
+				<c:iterate select="$p/property" var="propertyper">
+				<TR height="23">
+					<TD width="12%" style="font-size:12">
+						<c:get select="$propertyper/@label"/>
+					</TD>
+					<TD style="font-size:12">
+					<c:choose select="$propertyper/@html_type">
+						<c:when test="'_dropdownlist'">
+							<select name="<c:get select="$propertyper/@name"/>" id="model.<c:get select="$propertyper/@name"/>"
+								_type="<c:get select="$propertyper/@html_type"/>" _insearch="true"
+								_init_data_params="<c:get select="$propertyper/@html_init_data_params"/>"
+								_init_data="<c:get select="$propertyper/@html_init_data"/>"/>
+						</c:when>
+						<c:when test="'_inputdate'">
+							<input type="text" _insearch="true" name="<c:get select="$propertyper/@name"/>_startdate" id="model.<c:get select="$propertyper/@name"/>_startdate" readonly="" _type="<c:get select="$propertyper/@html_type"/>" class="Wdate" onClick="WdatePicker({highLineWeekDay:true,firstDayOfWeek:1,isShowOthers:false,readOnly:true})"/>
+							至
+							<input type="text" _insearch="true" name="<c:get select="$propertyper/@name"/>_enddate" id="model.<c:get select="$propertyper/@name"/>_enddate" readonly="" _type="<c:get select="$propertyper/@html_type"/>" class="Wdate" onClick="WdatePicker({highLineWeekDay:true,firstDayOfWeek:1,isShowOthers:false,readOnly:true})"/>
+						</c:when>
+						<c:otherwise>
+							<input type="text" name="<c:get select="$propertyper/@name"/>" id="model.<c:get select="$propertyper/@name"/>" _type="_inputtext" _insearch="true" class="inp_all"/>
+							<input type="hidden" name="<c:get select="$propertyper/@name"/>_operate" id="model.<c:get select="$propertyper/@name"/>_operate" _type="_inputtext" _insearch="true" value="like"/>
+						</c:otherwise>
+					</c:choose>
+					</TD>
+					<TD>
+						&nbsp;
+					</TD>
+					<TD>
+						&nbsp;
+					</TD>
+				</TR>
+				</c:iterate>
+				<TR height="23">
+					<TD width="12%" style="font-size:12">
+						添加时间
+					</TD>
+					<TD style="font-size:12">
+						<input type="text" _insearch="true" name="addtime_startdate" id="model.addtime_startdate" readonly="" _type="_inputdate" class="Wdate"
+							onFocus="var denddate=$dp.$('model.addtime_enddate');WdatePicker({onpicked:function(){denddate.focus();},dateFmt:'yyyy-M-d H:mm:ss',highLineWeekDay:true,firstDayOfWeek:1,isShowOthers:false,readOnly:true,maxDate:'#F{$dp.$D(\'model\\.addtime_enddate\',{d:-1});}'})"/>
+						至
+						<input type="text" _insearch="true" name="addtime_enddate" id="model.addtime_enddate" readonly="" _type="_inputdate" class="Wdate" 
+							onFocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss',highLineWeekDay:true,firstDayOfWeek:1,isShowOthers:false,readOnly:true,minDate:'#F{$dp.$D(\'model\\.addtime_startdate\',{d:1});}'})"/>
+					</TD>
+					<TD>
+						&nbsp;
+					</TD>
+					<TD>
+						&nbsp;
+					</TD>
+				</TR>
+				<%--TR height="23">
+					<TD width="12%" style="font-size:12">
+						有效标识
+					</TD>
+					<TD style="font-size:12">
+						<select name="availsign" id="model.availsign"
+							_type="_dropdownlist" _insearch="true"
+							_init_data_params="({'model.fields':'|id|code_name|','model.tab_sysmanage_codetype_id':'11','model.orderbywhat':'code_order','model.orderby':'asc'})"
+							_init_data="com/newcapec/java/sysmanage/sysmanage_code/select3.do"/>
+					</TD>
+					<TD>
+						&nbsp;
+					</TD>
+					<TD>
+						&nbsp;
+					</TD>
+				</TR--%>
+				<TR height="23">
+					<TD width="12%" style="font-size:12">
+						状态
+					</TD>
+					<TD style="font-size:12">
+						<select name="startusing" id="model.startusing"
+							_type="_dropdownlist" _insearch="true"
+							_init_data_params="({'model.fields':'|id|code_name|','model.tab_sysmanage_codetype_id':'12','model.orderbywhat':'code_order','model.orderby':'asc'})"
+							_init_data="com/newcapec/java/sysmanage/sysmanage_code/select3.do"/>
+					</TD>
+					<TD>
+						&nbsp;
+					</TD>
+					<TD>
+						&nbsp;
+					</TD>
+				</TR>
+			</TABLE>
+		</div>
+	</body>
+
+	<script type="text/javascript" src="../../../../../commons/js/pt.js"></script>
+	<script type="text/javascript" src="<c:get select="$p/@name"/>.js"></script>
+	<script type="text/javascript" src="<c:get select="$p/@name"/>_ext.js"></script>
+</html>

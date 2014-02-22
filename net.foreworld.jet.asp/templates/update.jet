@@ -1,0 +1,182 @@
+<!--#include file="../../../../../const.asp"-->
+<script language="javascript" runat="server" src="../../../../../json2.min.asp"></script>
+<!--#include file="../../../../../json.inc"-->
+<!--#include file="../../../../../framework.asp"-->
+<!--#include file="../../../../../function.asp"-->
+<!--#include file="../../../../../interceptor.asp"-->
+<!--#include file="<c:get select="($p/@name)"/>_Update.asp"-->
+< %
+'####################################
+'#	<c:get select="($p/@name)"/>	
+'#	黄鑫 3203317@qq.com				#
+'####################################
+
+'定义变量
+<c:iterate select="$p/property" var="per">
+	Dim <c:get select="$per/@name"/>
+</c:iterate>
+Dim availsign
+Dim startusing
+
+'定义变量
+Dim o_id
+<c:iterate select="$p/property" var="per">
+	<c:choose select="$per/@type">
+		<c:when test="'Date'">
+			Dim o_<c:get select="$per/@name"/>
+			Dim o_<c:get select="$per/@name"/>_startdate
+			Dim o_<c:get select="$per/@name"/>_enddate
+		</c:when>
+		<c:otherwise>
+			Dim o_<c:get select="$per/@name"/>
+		</c:otherwise>
+	</c:choose>
+</c:iterate>
+Dim o_addtime
+Dim o_addtime_startdate
+Dim o_addtime_enddate
+Dim o_opt_sysmanage_user_id
+Dim o_availsign
+Dim o_startusing
+
+
+'获取表单参数
+<c:iterate select="$p/property" var="per">
+	<c:get select="$per/@name"/> = Trim(Checkxss(Request("model.<c:get select="$per/@name"/>")))
+</c:iterate>
+availsign = Trim(Checkxss(Request("model.availsign")))
+startusing = Trim(Checkxss(Request("model.startusing")))
+
+'获取表单参数
+o_id = Trim(Checkxss(Request("model.o_id")))
+<c:iterate select="$p/property" var="per">
+	<c:choose select="$per/@type">
+		<c:when test="'Date'">
+			o_<c:get select="$per/@name"/>_startdate = Trim(Checkxss(Request("model.o_<c:get select="$per/@name"/>_startdate")))
+			o_<c:get select="$per/@name"/>_enddate = Trim(Checkxss(Request("model.o_<c:get select="$per/@name"/>_enddate")))
+		</c:when>
+		<c:otherwise>
+			o_<c:get select="$per/@name"/> = Trim(Checkxss(Request("model.o_<c:get select="$per/@name"/>")))
+		</c:otherwise>
+	</c:choose>
+</c:iterate>
+o_addtime_startdate = Trim(Checkxss(Request("model.o_addtime_startdate")))
+o_addtime_enddate = Trim(Checkxss(Request("model.o_addtime_enddate")))
+o_opt_sysmanage_user_id = Trim(Checkxss(Request("model.o_opt_sysmanage_user_id")))
+o_availsign = Trim(Checkxss(Request("model.o_availsign")))
+o_startusing = Trim(Checkxss(Request("model.o_startusing")))
+
+
+'数组长度
+Dim i
+i = 0
+'定义参数数组
+ReDim Preserve params(i)
+
+'参数修正
+<c:iterate select="$p/property" var="per">
+	<c:choose select="$per/@type">
+		<c:when test="'String'">
+			If <c:get select="$per/@name"/> <> "" Then 
+				i = i + 1
+				ReDim Preserve params(i)
+				params(i) = Array("<c:get select="$per/@name"/>", "'" & <c:get select="$per/@name"/> & "'")
+			End If 
+		</c:when>
+		<c:when test="'Date'">
+			If IsDate(<c:get select="$per/@name"/>) Then 
+				i = i + 1
+				ReDim Preserve params(i)
+				params(i) = Array("<c:get select="$per/@name"/>", "'" & <c:get select="$per/@name"/> & "'")
+			End If 
+		</c:when>
+		<c:when test="'Integer'">
+			If IsInteger(<c:get select="$per/@name"/>) Then 
+				i = i + 1
+				ReDim Preserve params(i)
+				params(i) = Array("<c:get select="$per/@name"/>", <c:get select="$per/@name"/>)
+			End If 
+		</c:when>
+	</c:choose>
+</c:iterate>
+If IsInteger(availsign) Then
+	i = i + 1
+	ReDim Preserve params(i)
+	params(i) = Array("availsign", availsign)
+End If
+If IsInteger(startusing) Then
+	i = i + 1
+	ReDim Preserve params(i)
+	params(i) = Array("startusing", startusing)
+End If
+
+'数组长度
+Dim o_i
+o_i = 0
+'定义参数数组
+ReDim Preserve o_params(o_i)
+
+'参数修正
+If IsInteger(o_id) Then
+	o_i = o_i + 1
+	ReDim Preserve o_params(o_i)
+	o_params(o_i) = Array("and", "id", "=", o_id)
+End If
+<c:iterate select="$p/property" var="per">
+	<c:choose select="$per/@type">
+		<c:when test="'String'">
+			If o_<c:get select="$per/@name"/> <> "" Then 
+				o_i = o_i + 1
+				ReDim Preserve o_params(o_i)
+				o_params(o_i) = Array("and", "<c:get select="$per/@name"/>", "like", "'%" & o_<c:get select="$per/@name"/> & "%'")
+			End If 
+		</c:when>
+		<c:when test="'Date'">
+			If IsDate(o_<c:get select="$per/@name"/>_startdate) And IsDate(o_<c:get select="$per/@name"/>_enddate) Then 
+				o_i = o_i + 1
+				ReDim Preserve o_params(o_i)
+				o_params(o_i) = Array("and", "<c:get select="$per/@name"/>", "between", "'" & o_<c:get select="$per/@name"/>_startdate & "' and '" & o_<c:get select="$per/@name"/>_enddate & "'")
+			End If 
+		</c:when>
+		<c:when test="'Integer'">
+			If IsInteger(o_<c:get select="$per/@name"/>) Then 
+				o_i = o_i + 1
+				ReDim Preserve o_params(o_i)
+				o_params(o_i) = Array("and", "<c:get select="$per/@name"/>", "=", o_<c:get select="$per/@name"/>)
+			End If 
+		</c:when>
+	</c:choose>
+</c:iterate>
+If IsDate(o_addtime_startdate) And IsDate(o_addtime_enddate) Then 
+	o_i = o_i + 1
+	ReDim Preserve o_params(o_i)
+	o_params(o_i) = Array("and", "addtime", "between", "'" & o_addtime_startdate & "' and '" & o_addtime_enddate & "'")
+End If
+If IsInteger(o_opt_sysmanage_user_id) Then
+	o_i = o_i + 1
+	ReDim Preserve o_params(o_i)
+	o_params(o_i) = Array("and", "opt_sysmanage_user_id", "=", o_opt_sysmanage_user_id)
+End If
+If IsInteger(o_availsign) Then
+	o_i = o_i + 1
+	ReDim Preserve o_params(o_i)
+	o_params(o_i) = Array("and", "availsign", "=", o_availsign)
+End If
+If IsInteger(o_startusing) Then
+	o_i = o_i + 1
+	ReDim Preserve o_params(o_i)
+	o_params(o_i) = Array("and", "startusing", "=", o_startusing)
+End If
+
+
+'返回Json
+Dim result
+result = <c:get select="($p/@name)"/>_Update(params, o_params)
+
+CloseDB()
+Response.Write result
+Response.End
+%>
+
+
+

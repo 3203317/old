@@ -1,0 +1,28 @@
+< %
+'####################################
+'#	<c:get select="($p/@name)"/>
+'#	黄鑫 3203317@qq.com				#
+'####################################
+Function <c:get select="$p/@name"/>_SelectCount(PARAMS)
+	If Not IsArray(PARAMS) Then
+		<c:get select="$p/@name"/>_SelectCount = "{'foreworld.net':'1.0v','opt':'f','msg':'参数错误','code':6}"
+		Exit Function
+	End If
+	
+	Dim sql
+	sql = "select count(1) from <c:get select="($p/@name)"/> where 1 = 1"
+	
+	Dim i, count
+	count = UBound(PARAMS)
+	
+	For i = 1 To count
+		sql = sql & " " & PARAMS(i)(0) & " " & PARAMS(i)(1) & " " & PARAMS(i)(2) & " " & PARAMS(i)(3)
+	Next
+
+	If IsNull(FW) Then 
+		Set FW = new FrameWork
+	End If 
+	
+	<c:get select="$p/@name"/>_SelectCount = FW.[SELECT](sql)	
+End Function
+%>

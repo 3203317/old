@@ -1,0 +1,50 @@
+<c:iterate select="$p/class" var="classper">
+
+CREATE TABLE `<c:get select="$classper/@name"/>` (
+
+			`id` bigint(20) NOT NULL auto_increment,
+
+<c:iterate select="$classper/property" var="propertyper" delimiter=",">
+	<%--c:choose select="$propertyper/@keys"> 
+		<c:when test="'Primary'">
+			`<c:get select="$propertyper/@name"/>` bigint(<c:get select="$propertyper/@length"/>) NOT NULL auto_increment
+		</c:when>
+		<c:otherwise>
+			`<c:get select="$propertyper/@name"/>` <c:choose select="$propertyper/@type"><c:when test="'Date'">timestamp NULL default CURRENT_TIMESTAMP</c:when>
+				<c:otherwise>varchar(<c:get select="$propertyper/@length"/>) default NULL
+				</c:otherwise>
+			</c:choose>
+		</c:otherwise>
+	</c:choose--%>	
+	<c:choose select="$propertyper/@type">
+	 	<c:when test="'Date'">
+			`<c:get select="$propertyper/@name"/>` <c:get select="$propertyper/@db-mysql-type"/> NULL default NULL
+		</c:when>
+		<c:otherwise>	
+			`<c:get select="$propertyper/@name"/>` <c:get select="$propertyper/@db-mysql-type"/>(<c:get select="$propertyper/@length"/>) default NULL
+		</c:otherwise>	
+	</c:choose>			
+</c:iterate>
+			,
+			`addtime` timestamp NULL default CURRENT_TIMESTAMP,
+			`opt_sysmanage_user_id` int(11) default 0,
+			`availsign` int(11) default 1,
+			`startusing` int(11) default 1
+			
+
+,PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+insert into <c:get select="$classper/@name"/> 
+(
+<c:iterate select="$classper/property" var="propertyper" delimiter=",">
+	<c:get select="$propertyper/@name"/>
+</c:iterate>
+)
+values
+(
+<c:iterate select="$classper/property" var="propertyper" delimiter=",">
+	'<c:get select="$propertyper/@testdata"/>'
+</c:iterate>
+);
+</c:iterate>

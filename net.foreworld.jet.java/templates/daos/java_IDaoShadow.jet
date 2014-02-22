@@ -1,0 +1,31 @@
+package net.foreworld.java.daos;
+
+import java.util.List;
+
+import net.foreworld.java.domain.ConnSession;
+import net.foreworld.java.exceptions.DaoException;
+import net.foreworld.java.models.MapResultModel;
+
+import org.springframework.orm.ibatis.SqlMapClientTemplate;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public interface IDaoShadow {
+
+	public abstract List<MapResultModel> select(SqlMapClientTemplate $sqlMapClient, String $className, Object $object, ConnSession $session) throws DaoException;
+
+	public abstract List<MapResultModel> select2(SqlMapClientTemplate $sqlMapClient, String $className, Object $object, ConnSession $session) throws DaoException;
+
+	public abstract int selectCount(SqlMapClientTemplate $sqlMapClient, String $className, Object $object, ConnSession $session) throws DaoException;
+
+	public abstract int insert(SqlMapClientTemplate $sqlMapClient, String $className, Object $object, ConnSession $session) throws DaoException;
+
+	public abstract int update(SqlMapClientTemplate $sqlMapClient, String $className, Object $object, ConnSession $session) throws DaoException;
+
+	public abstract int delete(SqlMapClientTemplate $sqlMapClient, String $className, Object $object, ConnSession $session) throws DaoException;
+
+}

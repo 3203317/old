@@ -1,0 +1,341 @@
+<html>
+	<head>
+
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="this is my page">
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+			
+		<script type="text/javascript" src="../../../../../commons/components/jquery.min.js"></script>
+
+		<script type="text/javascript" src="../../../../../commons/js/util.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/page.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/dropdownlist.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/inputtext.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/inputdate.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/button.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/dhtmlX_Grid.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/hashmap.js"></script>
+		
+		<script type="text/javascript" src="../../../../../commons/components/My97DatePicker/WdatePicker.js"></script>
+		
+		<link rel="STYLESHEET" type="text/css" href="../../../../../commons/css/viewAdd.css">
+
+
+		<link rel="STYLESHEET" type="text/css"
+			href="../../../../../commons/components/dhtmlx/dhtmlxGrid/codebase/dhtmlxgrid.css">
+		<link rel="stylesheet" type="text/css"
+			href="../../../../../commons/components/dhtmlx/dhtmlxGrid/codebase/skins/dhtmlxgrid_dhx_skyblue.css">
+		<script
+			src="../../../../../commons/components/dhtmlx/dhtmlxGrid/codebase/dhtmlxcommon.js"></script>
+		<script
+			src="../../../../../commons/components/dhtmlx/dhtmlxGrid/codebase/dhtmlxgrid.js"></script>
+		<script
+			src="../../../../../commons/components/dhtmlx/dhtmlxGrid/codebase/dhtmlxgridcell.js"></script>
+			
+		
+		<script type="text/javascript" src="../../../../../commons/js/dhtmlxgrid_excell_My97DatePicker.js"></script>
+
+		<script type="text/javascript" src="<c:get select="$p/@name"/>.js"></script>
+		
+		<SCRIPT LANGUAGE="JavaScript">
+		<!--
+		
+			var __fields = _<c:get select="$p/@name"/>_fields;
+			
+		<c:iterate select="$p/subclass" var="subc">
+			
+			function _addRow_<c:get select="$subc/@name"/>(){
+				_dhtmlX_Grid_<c:get select="$subc/@name"/>.addRow((new Date()).valueOf(),[<c:iterate select="$subc/subproperty" var="propertyper" delimiter=","><c:get select="$propertyper/@initial"/></c:iterate>],_dhtmlX_Grid_<c:get select="$subc/@name"/>.getRowIndex(_dhtmlX_Grid_<c:get select="$subc/@name"/>.getSelectedId()));
+			}
+			
+			function _delRow_<c:get select="$subc/@name"/>(){
+				_dhtmlX_Grid_<c:get select="$subc/@name"/>.deleteSelectedItem();
+			}		
+				
+		</c:iterate>
+		
+		//-->
+		</SCRIPT>
+	</head>
+
+	<body>
+		<TABLE id="mtable" border="0" cellpadding="0" cellspacing="0" width="98%" align="center">
+			<tr>
+				<td align="center" colspan="4">
+					<table width="100%" border="0" cellpadding="0" cellspacing="0"
+						align="center">
+						<tr height="10">
+							<td></td>
+						</tr>
+						<tr height="30">
+							<td style="font-size: 14px;color: #006600;">
+								<b>◇&nbsp;<c:get select="$p/@label"/><span
+									style="font-size: 12px;color: #000; font-weight: normal;">&nbsp;-&nbsp;<c:get select="$p/@label1"/>修改</span>
+								</b>
+								<%--
+								<c:iterate select="$p/subclass" var="subclass">
+									<c:setVariable var="subclass-name" select="$subclass/@name" />
+									<c:iterate select="//class" var="subc">
+										<c:choose select="$subc/@name">
+											<c:when test="$subclass-name">
+												<c:get select="$subc/@name"/>,
+												<c:get select="$subc/@desc"/>
+												<c:iterate select="$subc/property" var="pp">
+													<c:get select="$pp/@desc"/>,
+												</c:iterate>
+											</c:when>
+										</c:choose>
+									</c:iterate>
+								</c:iterate>
+								--%>
+							</td>
+						</tr>
+						<tr height="2">
+							<td style="border-bottom: 1px solid #eee; font-size: 1px;">
+								&nbsp;
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<TR>
+				<TD>
+					<TABLE border="0" width="100%" class="tablelist06 margin_8 bordergrey">
+						<TR height="23">
+							<TD colspan="4" class="odd" height="30">
+								<strong><c:get select="$p/@label1"/>信息修改</strong>
+							</TD>
+						</TR>
+						<TR>
+							<TD colspan="4">
+								<input type="hidden" name="id" id="model.id" _type="_inputtext"/>
+								<input type="hidden" name="path" id="path" value="<c:get select="$p/@path"/>/<c:get select="$p/@name"/>"/>
+							</TD>
+						</TR>
+						<c:iterate select="$p/property" var="propertyper">
+						<TR height="23">
+							<TD width="12%" style="font-size:12">
+								<c:get select="$propertyper/@label"/><c:choose select="$propertyper/@required"><c:when test="'true'"><font style="color:red" title="必填项">*</font></c:when></c:choose>
+							</TD>
+							<TD>
+							<c:choose select="$propertyper/@html_type">
+								<c:when test="'_dropdownlist'">
+									<select name="<c:get select="$propertyper/@name"/>" id="model.<c:get select="$propertyper/@name"/>"
+										_type="<c:get select="$propertyper/@html_type"/>"
+										_init_data_params="<c:get select="$propertyper/@html_init_data_params"/>"
+										_init_data="<c:get select="$propertyper/@html_init_data"/>"/>
+										<font style="color:red;font-size:12" id="err.<c:get select="$propertyper/@name"/>"></font>
+								</c:when>
+								<c:when test="'_inputdate'">
+									<input type="text" name="<c:get select="$propertyper/@name"/>" id="model.<c:get select="$propertyper/@name"/>" readonly="" _type="<c:get select="$propertyper/@html_type"/>" class="Wdate" onClick="WdatePicker({highLineWeekDay:true,firstDayOfWeek:1,isShowClear:false,isShowOthers:false,readOnly:true})"/>
+									<font style="color:red;font-size:12" id="err.<c:get select="$propertyper/@name"/>"></font>
+								</c:when>
+								<c:otherwise>
+							<c:choose select="$propertyper/@input-help">
+								<c:when test="''">
+									<c:choose select="$propertyper/@unique">
+										<c:when test="'true'">
+									<input type="text" name="<c:get select="$propertyper/@name"/>" id="model.<c:get select="$propertyper/@name"/>" _type="_inputtext" readonly="" disabled="true"/>
+										</c:when>
+										<c:otherwise>
+									<input type="text" name="<c:get select="$propertyper/@name"/>" id="model.<c:get select="$propertyper/@name"/>" _type="_inputtext"/>
+										</c:otherwise>
+									</c:choose>
+									<font style="color:red;font-size:12" id="err.<c:get select="$propertyper/@name"/>"></font>
+								</c:when>
+								<c:otherwise>
+									<c:choose select="$propertyper/@unique">
+										<c:when test="'true'">
+									<input type="text" name="<c:get select="$propertyper/@name"/>" id="model.<c:get select="$propertyper/@name"/>" _type="_inputtext" title="<c:get select="$propertyper/@input-help"/>" readonly="" disabled="true"/>	
+										</c:when>
+										<c:otherwise>	
+									<input type="text" name="<c:get select="$propertyper/@name"/>" id="model.<c:get select="$propertyper/@name"/>" _type="_inputtext" title="<c:get select="$propertyper/@input-help"/>"/>									
+										</c:otherwise>
+									</c:choose>
+									<font style="color:red;font-size:12" id="err.<c:get select="$propertyper/@name"/>"></font>
+								</c:otherwise>
+							</c:choose>
+								</c:otherwise>
+							</c:choose>
+							</TD>
+							<TD>
+								&nbsp;
+							</TD>
+							<TD>
+								&nbsp;
+							</TD>
+						</TR>
+						</c:iterate>
+					</TABLE>
+				</TD>
+			</TR>
+			
+			<c:iterate select="$p/subclass" var="subc">
+							
+			<TR>
+				<TD>
+					<TABLE border="0" width="100%" class="margin_8 bordergrey">
+						<TR height="30">
+							<TD style="background: #f7f7f7; padding-left: 15px;font-size:14px" height="30">
+								<strong><c:get select="$subc/@label"/></strong>
+							</TD>
+							<TD align="right">
+								<input type="button" value="添加一行" _type="_button" id="_btn_addRow_<c:get select="$subc/@name"/>" _events="({'click':'_addRow_<c:get select="$subc/@name"/>'})"/>
+								<input type="button" value="删除一行" _type="_button" id="_btn_delRow_<c:get select="$subc/@name"/>" _events="({'click':'_delRow_<c:get select="$subc/@name"/>'})"/>
+							</TD>
+						</TR>
+						<TR>
+							<TD colspan="2" width="100%">
+								<div id="_<c:get select="$subc/@name"/>" _type="_dhtmlX_Grid"
+									_url="<c:get select="$subc/@path"/>/<c:get select="$subc/@name"/>/select.do"
+									_dataType="json"
+									_imagePath="commons/components/dhtmlx/dhtmlxGrid/codebase/imgs/"
+									_header="<c:iterate select="$subc/subproperty" var="propertyper" delimiter=","><c:get select="$propertyper/@label"/></c:iterate>"
+									_initWidths="<c:iterate select="$subc/subproperty" var="propertyper" delimiter=",">150</c:iterate>"
+									_colAlign="<c:iterate select="$subc/subproperty" var="propertyper" delimiter=",">left</c:iterate>"
+									_colType="<c:iterate select="$subc/subproperty" var="propertyper" delimiter=","><c:get select="$propertyper/@html_colType"/></c:iterate>"
+									_colSorting="<c:iterate select="$subc/subproperty" var="propertyper" delimiter=","><c:get select="$propertyper/@html_colSorting"/></c:iterate>" _skin="dhx_skyblue"
+									style="width:100%;height:300px;background-color:white;"></div>
+							</TD>
+						</TR>
+						
+					</TABLE>
+				</TD>
+			</TR>
+			
+			</c:iterate>
+			
+			</TR>
+				<TD height="50" align="center">
+					<input type="button" value="&nbsp;提&nbsp;&nbsp;交&nbsp;" _type="_submit" id="_submit" class="btn01"
+						_url="<c:get select="$p/@path"/>/<c:get select="$p/@name"/>/update.do"/>&nbsp;&nbsp;
+					<input type="button" value="&nbsp;返&nbsp;&nbsp;回&nbsp;" class="btn01" onclick="history.back();"/>
+				</TD>
+			</TR>
+			</TR>
+				<TD>
+					<span id="_tag"></span>
+				</TD>
+			</TR>
+		</TABLE>	
+	</body>
+
+	<script type="text/javascript" src="../../../../../commons/js/pt.js"></script>
+
+	<SCRIPT LANGUAGE="JavaScript">
+	<!--
+		var _optMap = new HashMap();
+
+		var _callback0 = function($data){
+			if($data.count == 0) return;
+			putHashMap($data);
+
+			if(_optMap.get(2) == undefined){
+				document.getElementById('_submit').style.display = 'none';
+			}
+		};
+
+		function putHashMap($data){
+			for(var __i_3=0,__j_3=$data.count;__i_3<__j_3;__i_3++){
+				var __id_4 = $data.rows[__i_3].id;
+				var __text_4 = $data.rows[__i_3].data[1];
+				_optMap.put(__id_4, __text_4);
+			}
+		}
+		
+		var _submit_submit_paramObj = null;
+		
+		var callbefore = function(){
+		<c:iterate select="$p/property" var="propertyper">
+		<c:choose select="$propertyper/@required">
+			<c:when test="'true'">
+			if($("#model\\.<c:get select="$propertyper/@name"/>").val().isEmpty()){
+				$("#err\\.<c:get select="$propertyper/@name"/>").html("*<c:get select="$propertyper/@label"/>为必填项");
+				$("#model\\.<c:get select="$propertyper/@name"/>").focus();
+				return false;
+			} else {
+				$("#err\\.<c:get select="$propertyper/@name"/>").html("");
+			}
+			</c:when>
+		</c:choose>
+		<c:choose select="$propertyper/@js-regex">
+			<c:when test="''">
+			</c:when>
+			<c:otherwise>
+			if(!<c:get select="$propertyper/@js-regex"/>.test($("#model\\.<c:get select="$propertyper/@name"/>").val())){
+				$("#err\\.<c:get select="$propertyper/@name"/>").html("*<c:get select="$propertyper/@js-regex-desc"/>");
+				$("#model\\.<c:get select="$propertyper/@name"/>").focus();
+				return false;
+			} else {
+				$("#err\\.<c:get select="$propertyper/@name"/>").html("");
+			}
+			</c:otherwise>
+		</c:choose>
+		</c:iterate>
+		
+			//$("#_submit").attr("disabled","true");
+			return true;
+		}
+		
+		var callback = function($data){
+			if($data.opt=='s'){
+				alert("修改成功!");
+				return;
+			}
+			if($data.code=="6"){
+				for(var __key_3 in $data.fem){
+					$("#err\\."+ __key_3).html("*"+ $data.fem[__key_3]);
+					$("#model\\."+ __key_3).focus();
+				}
+				return;
+			}
+		}
+		
+		$(document).ready(function(){
+			var __data = {"model.module_url":"<c:get select="$p/@path"/>/<c:get select="$p/@name"/>/viewEdit.html","model.module_url_operate":"like","model.fields":"id|operate_name"};
+			_form.submit({url:"net/foreworld/java/sysmanage/v_sysmanage_user_module_operate/select3.do",data:__data,cbe:function(){return true},cba:_callback0});
+			
+			$("#_submit").click(function(){
+				//$(this).attr("disabled","true");
+				
+				var __tmp_detailTable = "";
+				
+			<c:iterate select="$p/subclass" var="subc">
+				
+				var __<c:get select="$subc/@name"/>_columnNames = [<c:iterate select="$subc/subproperty" var="propertyper" delimiter=",">'<c:get select="$propertyper/@name"/>'</c:iterate>];
+				
+				for(var __i=0,__j=_dhtmlX_Grid_<c:get select="$subc/@name"/>.getRowsNum(); __i<__j; __i++){
+					
+					__tmp_detailTable += "{'opt':1,'tab':'<c:get select="$subc/@name"/>'";
+					
+					for(var ___i=0,___j=_dhtmlX_Grid_<c:get select="$subc/@name"/>.getColumnCount(); ___i<___j; ___i++){
+						__tmp_detailTable += ",'"+ __<c:get select="$subc/@name"/>_columnNames[___i] +"':'"+ _dhtmlX_Grid_<c:get select="$subc/@name"/>.cells2(__i,___i).getValue() +"'";
+					}
+					
+					__tmp_detailTable += "},";
+				}
+				
+			</c:iterate>	
+			
+				if(__tmp_detailTable != ""){
+					__tmp_detailTable = "["+ __tmp_detailTable.substring(0,__tmp_detailTable.length-1) +"]";
+				}
+				
+				
+				var __data = {
+					"model.id":$("#model\\.id").val(),
+				<c:iterate select="$p/property" var="propertyper" delimiter=",">
+					"model.<c:get select="$propertyper/@name"/>":$("#model\\.<c:get select="$propertyper/@name"/>").val()
+				</c:iterate>
+					<%--,"model.detailTable":__tmp_detailTable--%>
+				};
+				
+				
+				_submit_submit_paramObj = {url:$(this).attr("_url"),data:__data,cbe:callbefore,cbem:$(this).attr("_cbem"),cba:callback,cbam:$(this).attr("_cbam")};
+				_form.submit(_submit_submit_paramObj);
+			});
+		});
+	
+	//-->
+	</SCRIPT>
+</html>

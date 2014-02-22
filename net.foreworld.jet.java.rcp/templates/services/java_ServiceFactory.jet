@@ -1,0 +1,41 @@
+package net.foreworld.java.services;
+
+<c:iterate select="//class" var="p">
+import <c:get select="$p/@package"/>.<c:get select="$p/@name"/>.<c:get select="camelCase($p/@name)"/>ServiceImpl;
+</c:iterate>	
+
+/**
+ * 
+ * @author 	huangxin
+ * @email  	huangxin@foreworld.net
+ * @qq		3203317
+ * @generated
+ */
+public class ServiceFactory {
+
+	private static final ServiceFactory _instance = new ServiceFactory();
+	
+	public ServiceFactory() {}
+	
+	public static ServiceFactory getInstance(){
+		return _instance;
+	}
+	
+	public IService getService(String $serviceName){
+		
+		IService __iservice = null;
+
+<c:iterate select="//class" var="p" delimiter="		else">		
+		if(<c:get select="upper-case($p/@name)"/>SERVICE.equals($serviceName)){
+			__iservice = <c:get select="camelCase($p/@name)"/>ServiceImpl.getInstance();
+		}
+</c:iterate>			
+		
+		return __iservice;
+	}
+	
+<c:iterate select="//class" var="p">	
+	public static final String <c:get select="upper-case($p/@name)"/>SERVICE = "<c:get select="$p/@name"/>Service";
+</c:iterate>	
+							   
+}

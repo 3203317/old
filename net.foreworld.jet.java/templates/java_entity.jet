@@ -1,0 +1,100 @@
+package <c:get select="$p/@package"/>.<c:get select="$p/@name"/>;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import net.foreworld.java.models.BaseModel;
+
+/**
+ * <p>
+ * Title: <c:get select="camelCase($p/@name)"/>
+ * </p>
+ * <p>
+ * Description: 
+ * </p>
+ * <p>
+ * Copyright: Copyright(c) 2011 郑州新开普电子股份有限公司
+ * </p>
+ *
+ * @author 黄鑫 (huangxin)
+ * @version
+ * @data 创建日期：2011-11-11 修改日期： 修改人： 复审人：
+ * @generated
+ */
+public class <c:get select="camelCase($p/@name)"/> extends BaseModel {
+
+	public <c:get select="camelCase($p/@name)"/>(){
+		setDetailTablesName("<c:get select="$p/@detailTablesName"/>");
+		setOldfields("id,<c:iterate select="$p/property" var="propertyper" delimiter=","><c:get select="$propertyper/@name"/></c:iterate>,addtime,opt_sysmanage_user_id,availsign,startusing");
+	}
+
+<c:iterate select="$p/property" var="per">
+	/**
+	 * @generated
+	 **/
+	private <c:get select="$per/@java-type"/> _<c:get select="$per/@name"/>;
+	
+	/**
+	 * @generated
+	 **/
+	public <c:get select="$per/@java-type"/> get<c:get select="camelCase($per/@name)"/>(){
+		return _<c:get select="$per/@name"/>;
+	}	
+	
+	/**
+	 * @generated
+	 **/
+	public void set<c:get select="camelCase($per/@name)"/>(<c:get select="$per/@java-type"/> $<c:get select="$per/@name"/>){
+		_<c:get select="$per/@name"/> = $<c:get select="$per/@name"/>;
+	}
+	
+	/**
+	 * @generated
+	 **/
+	private String _<c:get select="$per/@name"/>_operate;
+	
+	/**
+	 * @generated
+	 **/
+	public String get<c:get select="camelCase($per/@name)"/>_operate(){
+		return _<c:get select="$per/@name"/>_operate;
+	}	
+	
+	/**
+	 * @generated
+	 **/
+	public void set<c:get select="camelCase($per/@name)"/>_operate(String $<c:get select="$per/@name"/>_operate){
+		_<c:get select="$per/@name"/>_operate = $<c:get select="$per/@name"/>_operate;
+	}
+	
+	<c:choose select="$per/@type">
+		<c:when test="'Date'">
+
+	private String _<c:get select="$per/@name"/>_startdate;
+	
+	public String get<c:get select="camelCase($per/@name)"/>_startdate(){
+		return _<c:get select="$per/@name"/>_startdate;
+	}
+	
+	public void set<c:get select="camelCase($per/@name)"/>_startdate(String $<c:get select="$per/@name"/>_startdate){
+		_<c:get select="$per/@name"/>_startdate = $<c:get select="$per/@name"/>_startdate;
+	}
+
+	private String _<c:get select="$per/@name"/>_enddate;
+	
+	public String get<c:get select="camelCase($per/@name)"/>_enddate(){
+		return _<c:get select="$per/@name"/>_enddate;
+	}
+	
+	public void set<c:get select="camelCase($per/@name)"/>_enddate(String $<c:get select="$per/@name"/>_enddate){
+		_<c:get select="$per/@name"/>_enddate = $<c:get select="$per/@name"/>_enddate;
+	}	
+		
+		</c:when>
+	</c:choose>
+	
+</c:iterate>
+	
+	
+}

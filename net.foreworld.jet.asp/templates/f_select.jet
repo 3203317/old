@@ -1,0 +1,34 @@
+< %
+'####################################
+'#	<c:get select="($p/@name)"/>
+'#	黄鑫 3203317@qq.com				#
+'####################################
+Function <c:get select="$p/@name"/>_Select(FIELDS, PARAMS, ORDERBY, CURRENTPAGE)
+	If Not IsArray(PARAMS) Or Not IsArray(ORDERBY) Then
+		<c:get select="$p/@name"/>_Select = "{'foreworld.net':'1.0v','opt':'f','msg':'参数错误','code':6}"
+		Exit Function
+	End If
+	
+	If FIELDS = "" Then
+		FIELDS = "id, <c:iterate select="$p/property" var="propertyper" delimiter=", "><c:get select="$propertyper/@name"/></c:iterate>, addtime, opt_sysmanage_user_id, availsign, startusing" 
+	End If
+	
+	Dim sql
+	sql = "select " & FIELDS & " from <c:get select="($p/@name)"/> where 1 = 1"
+	
+	Dim i, count
+	count = UBound(PARAMS)
+	
+	For i = 1 To count
+		sql = sql & " " & PARAMS(i)(0) & " " & PARAMS(i)(1) & " " & PARAMS(i)(2) & " " & PARAMS(i)(3)
+	Next
+	
+	sql = sql & " order by " & ORDERBY(0) & " " & ORDERBY(1)
+
+	If IsNull(FW) Then 
+		Set FW = new FrameWork
+	End If 
+	
+	<c:get select="$p/@name"/>_Select = FW.[SELECT2](sql, CURRENTPAGE)	
+End Function
+%>

@@ -1,0 +1,70 @@
+package net.foreworld.java.models;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public abstract class MapModel extends BaseModel implements Map {
+
+	protected Map _mapModel = new HashMap();
+
+	public MapModel() {
+		//
+	}
+
+	public void clear() {
+		_mapModel.clear();
+	}
+
+	public boolean containsKey(Object arg0) {
+		return _mapModel.containsKey(arg0);
+	}
+
+	public boolean containsValue(Object arg0) {
+		return _mapModel.containsKey(arg0);
+	}
+
+	public Set entrySet() {
+		return _mapModel.entrySet();
+	}
+
+	public Object get(Object arg0) {
+		return _mapModel.get(arg0.toString().toLowerCase());
+	}
+
+	public boolean isEmpty() {
+		return _mapModel.isEmpty();
+	}
+
+	public Set keySet() {
+		return _mapModel.keySet();
+	}
+
+	public Object put(Object arg0, Object arg1) {
+		return _mapModel.put(arg0.toString().toLowerCase(), arg1);
+	}
+
+	public void putAll(Map arg0) {
+		_mapModel.putAll(arg0);
+	}
+
+	public Object remove(Object arg0) {
+		return _mapModel.remove(arg0);
+	}
+
+	public int size() {
+		return _mapModel.size();
+	}
+
+	public Collection values() {
+		return _mapModel.values();
+	}
+
+}

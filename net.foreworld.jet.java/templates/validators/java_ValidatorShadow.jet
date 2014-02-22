@@ -1,0 +1,208 @@
+package net.foreworld.java.validators;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import net.foreworld.java.models.BaseModel;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import ognl.Ognl;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class ValidatorShadow extends BaseValidator {
+
+	public Map<String, String> deleteMethod(BaseModel $model) throws Exception {
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	public Map<String, String> insertMethod(BaseModel $model) throws Exception {
+		String __detailTablesName = $model.getDetailTablesName();
+		if ("".equals(__detailTablesName)) {
+			return null;
+		}
+
+		if ($model.getDetailTable() == null || "".equals($model.getDetailTable().trim())) {
+			return null;
+		}
+
+		JSONArray __jsonArray = JSONArray.fromObject($model.getDetailTable());
+		if (__jsonArray == null) {
+			return null;
+		}
+
+		__detailTablesName = "," + __detailTablesName + ",";
+
+		$model.setChildren(new ArrayList<BaseModel>());
+
+		for (int __i_3 = 0, __j_3 = (__jsonArray == null ? 0 : __jsonArray.size()); __i_3 < __j_3; __i_3++) {
+			JSONObject __jsonObject_4 = (JSONObject) __jsonArray.get(__i_3);
+
+			if (__detailTablesName.indexOf("," + __jsonObject_4.get("tab").toString() + ",") == -1) {
+				Map<String, String> __errors_5 = new HashMap<String, String>();
+				__errors_5.put("params", getBundle().getString(M_PARAMS_ERR));
+				return __errors_5;
+			}
+
+			Object __object_4 = getBean(__jsonObject_4.get("tab").toString()).getClass().newInstance();
+
+			for (Iterator __iterator_5 = __jsonObject_4.keys(); __iterator_5.hasNext();) {
+				String __key_6 = __iterator_5.next().toString();
+				Ognl.setValue(__key_6, __object_4, __jsonObject_4.get(__key_6));
+			}
+			$model.getChildren().add((BaseModel) __object_4);
+		}
+		return null;
+	}
+
+	public Map<String, String> insertsMethod(BaseModel $model) throws Exception {
+		if ($model.getBatchData() == null || "".equals($model.getBatchData().trim())) {
+			Map<String, String> __errors_3 = new HashMap<String, String>();
+			__errors_3.put("params", getBundle().getString(M_PARAMS_ERR));
+			return __errors_3;
+		}
+		return null;
+	}
+
+	public Map<String, String> select2Method(BaseModel $model) throws Exception {
+		return null;
+	}
+
+	public Map<String, String> select3Method(BaseModel $model) throws Exception {
+		return null;
+	}
+
+	public Map<String, String> selectByIdMethod(BaseModel $model) throws Exception {
+		if ($model.getId() == null || $model.getId() < 1) {
+			Map<String, String> __errors_3 = new HashMap<String, String>();
+			__errors_3.put("id", getBundle().getString(M_NO_ID));
+			return __errors_3;
+		}
+		return null;
+	}
+
+	public Map<String, String> selectById2Method(BaseModel $model) throws Exception {
+		if ($model.getId() == null || $model.getId() < 1) {
+			Map<String, String> __errors_3 = new HashMap<String, String>();
+			__errors_3.put("id", getBundle().getString(M_NO_ID));
+			return __errors_3;
+		}
+		return null;
+	}
+
+	public Map<String, String> selectCountMethod(BaseModel $model) throws Exception {
+		return null;
+	}
+
+	public Map<String, String> selectMethod(BaseModel $model) throws Exception {
+		return null;
+	}
+
+	public Map<String, String> startUsingMethod(BaseModel $model) throws Exception {
+		return null;
+	}
+
+	public Map<String, String> stopUsingMethod(BaseModel $model) throws Exception {
+		return null;
+	}
+
+	public Map<String, String> availSignMethod(BaseModel $model) throws Exception {
+		return null;
+	}
+
+	public Map<String, String> unavailSignMethod(BaseModel $model) throws Exception {
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	public Map<String, String> updateMethod(BaseModel $model) throws Exception {
+		if ($model.getId() == null || $model.getId() < 1) {
+			Map<String, String> __errors_3 = new HashMap<String, String>();
+			__errors_3.put("id", getBundle().getString(M_NO_ID));
+			return __errors_3;
+		}
+
+		String __detailTablesName = $model.getDetailTablesName();
+		if ("".equals(__detailTablesName)) {
+			return null;
+		}
+
+		if ($model.getDetailTable() == null || "".equals($model.getDetailTable().trim())) {
+			return null;
+		}
+
+		JSONArray __jsonArray = JSONArray.fromObject($model.getDetailTable());
+		if (__jsonArray == null) {
+			return null;
+		}
+
+		__detailTablesName = "," + __detailTablesName + ",";
+
+		$model.setChildren(new ArrayList<BaseModel>());
+
+		for (int __i_3 = 0, __j_3 = (__jsonArray == null ? 0 : __jsonArray.size()); __i_3 < __j_3; __i_3++) {
+			JSONObject __jsonObject_4 = (JSONObject) __jsonArray.get(__i_3);
+
+			if (__detailTablesName.indexOf("," + __jsonObject_4.get("tab").toString() + ",") == -1) {
+				Map<String, String> __errors_5 = new HashMap<String, String>();
+				__errors_5.put("params", getBundle().getString(M_PARAMS_ERR));
+				return __errors_5;
+			}
+
+			Object __object_4 = getBean(__jsonObject_4.get("tab").toString()).getClass().newInstance();
+
+			for (Iterator __iterator_5 = __jsonObject_4.keys(); __iterator_5.hasNext();) {
+				String __key_6 = __iterator_5.next().toString();
+				Ognl.setValue(__key_6, __object_4, __jsonObject_4.get(__key_6));
+			}
+
+			/* opt,className,id为null，则抛异常 */
+			if (Ognl.getValue("opt", __object_4) == null || Ognl.getValue("tab", __object_4) == null || Ognl.getValue("id", __object_4) == null || Integer.parseInt(Ognl.getValue("id", __object_4).toString()) < 1) {
+				Map<String, String> __errors_5 = new HashMap<String, String>();
+				__errors_5.put("params", getBundle().getString(M_PARAMS_ERR));
+				return __errors_5;
+			}
+
+			BaseModel __model_4 = (BaseModel) __object_4;
+			__model_4.setAppend(null);
+			__model_4.setId_operate(null);
+			$model.getChildren().add(__model_4);
+		}
+		$model.setAppend(null);
+		return null;
+	}
+
+	public Map<String, String> updatesMethod(BaseModel $model) throws Exception {
+		if ($model.getBatchData() == null || "".equals($model.getBatchData().trim())) {
+			Map<String, String> __errors_3 = new HashMap<String, String>();
+			__errors_3.put("params", getBundle().getString(M_PARAMS_ERR));
+			return __errors_3;
+		}
+
+		JSONArray __jsonArray = JSONArray.fromObject($model.getBatchData());
+
+		for (int __i_3 = 0, __j_3 = (__jsonArray == null ? 0 : __jsonArray.size()); __i_3 < __j_3; __i_3++) {
+			JSONObject __jsonObject_4 = (JSONObject) __jsonArray.get(__i_3);
+
+			if (__jsonObject_4.get("id") == null || Integer.parseInt(__jsonObject_4.get("id").toString()) < 1) {
+				Map<String, String> __errors_5 = new HashMap<String, String>();
+				__errors_5.put("params", getBundle().getString(M_PARAMS_ERR));
+				return __errors_5;
+			}
+			if (__jsonObject_4.get("append") != null || !"".equals(__jsonObject_4.get("append").toString().trim())) {
+				Map<String, String> __errors_5 = new HashMap<String, String>();
+				__errors_5.put("params", getBundle().getString(M_PARAMS_ERR));
+				return __errors_5;
+			}
+		}
+		return null;
+	}
+
+}

@@ -1,0 +1,63 @@
+package net.foreworld.java.listeners;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class SessionManager implements HttpSessionListener {
+
+	private static Map _sessionStore = new HashMap();
+	private static Map _userStore = new HashMap();
+	
+	public static int getSessionStore(){
+		return _sessionStore.size();
+	}
+	
+	public static HttpSession getHttpSession(String $sessionId){
+		return (HttpSession)_sessionStore.get($sessionId);
+	}
+
+	public void sessionCreated(HttpSessionEvent arg0) {
+		HttpSession __session = arg0.getSession();
+		_sessionStore.put(__session.getId(), __session);
+	}
+
+	public void sessionDestroyed(HttpSessionEvent arg0) {
+		_sessionStore.remove(arg0.getSession().getId());
+	}
+	
+	public static void putHttpSession(String $userId, HttpSession $session){
+		_userStore.put($userId, $session);
+	}
+	
+	public static HttpSession getHttpSessionByUserId(String $userId){
+		return (HttpSession)_userStore.get($userId);
+	}
+	
+	public static void removeHttpSessionByUserId(String $userId){
+		try{
+			HttpSession __session = getHttpSessionByUserId($userId);
+			if(__session != null){
+				__session.invalidate();
+			}
+		}
+		catch(Exception $ex){
+			$ex.printStackTrace();
+		}
+		_userStore.remove($userId);
+	}
+	
+	public static Collection getHttpSession(){
+		return _sessionStore.values();
+	}
+}

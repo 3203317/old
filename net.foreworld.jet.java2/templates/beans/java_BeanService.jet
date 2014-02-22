@@ -1,0 +1,38 @@
+package net.foreworld.java.beans;
+
+import org.apache.struts2.ServletActionContext;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public final class BeanService {
+
+	private static BeanService _INSTANCE = new BeanService();
+
+	private BeanService() {
+
+	}
+
+	public static BeanService getDefault() {
+		return _INSTANCE;
+	}
+
+	private static ApplicationContext _APPCTX = null;
+
+	public Object getBean(String $id) {
+		if (_APPCTX == null) {
+			try {
+				_APPCTX = WebApplicationContextUtils.getWebApplicationContext(ServletActionContext.getServletContext());
+			} catch (Exception $ex) {
+				_APPCTX = new ClassPathXmlApplicationContext("classpath:net/foreworld/java/config/applicationContext.xml");
+			}
+		}
+		return _APPCTX.getBean($id);
+	}
+}

@@ -1,0 +1,933 @@
+<root>
+	<project name="sysmanage" path="net/foreworld/java/sysmanage">
+		<class name="sysmanage_user" package="net.foreworld.java.sysmanage" path="net/foreworld/java/sysmanage" detailTablesName="sysmanage_user_role,sysmanage_user_station"
+			label="用户管理" desc="用户管理" label1="用户">
+			<subclass name="sysmanage_user_role" label="用户角色信息" path="net/foreworld/java/sysmanage">
+				<subproperty name="tab_sysmanage_role_id" type="Integer" length="11" initial="" testdata="1" label="角色" desc="角色"
+					java-type="Integer"
+					sqlmap-mysql-jdbcType="DECIMAL"
+					db-mysql-type="int"
+					html_colType="ed"
+					html_colSorting="int"></subproperty>
+				<subproperty name="addtime" type="Date" length="255" initial="(new Date()).toDate()" testdata="" label="添加时间" desc="添加时间"
+					java-type="Date"
+					sqlmap-mysql-jdbcType="Date"
+					db-mysql-type="timestamp"
+					html_colType="My97DatePicker"
+					html_colSorting="date"></subproperty>
+			</subclass>
+			<subclass name="sysmanage_user_station" label="用户岗位信息" path="net/foreworld/java/sysmanage">
+				<subproperty name="tab_sysmanage_orgunit_id" type="Integer" length="11" initial="" testdata="1" label="组织单元" desc="组织单元"
+					java-type="Integer"
+					sqlmap-mysql-jdbcType="DECIMAL"
+					db-mysql-type="int"
+					html_colType="ed"
+					html_colSorting="int"></subproperty>
+			</subclass>
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="user_code" type="String" length="100" initial="null" testdata="01" label="用户编码" desc="用户编码"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="user_name" type="String" length="255" initial="null" testdata="admin" label="用户名" desc="用户名"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="password" type="String" length="255" initial="null" testdata="123456" label="密码" desc="密码"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="realname" type="String" length="255" initial="null" testdata="admin" label="真实姓名" desc="真实姓名"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="sex" type="Integer" length="1" initial="null" testdata="1" label="性别" desc="性别"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|codename|','model.tab_sysmanage_codetype_id':'1','model.orderbywhat':'codeorder','model.orderby':'asc'})"
+				html_init_data="net/foreworld/java/sysmanage/sysmanage_code/select.do"></property>
+			<property name="country" type="Integer" length="4" initial="null" testdata="1" label="国家" desc="国家"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|codename|','model.tab_sysmanage_codetype_id':'3','model.orderbywhat':'codeorder','model.orderby':'asc'})"
+				html_init_data="net/foreworld/java/sysmanage/sysmanage_code/select.do"></property>
+			<property name="province" type="Integer" length="4" initial="null" testdata="1" label="省" desc="省"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|codename|','model.tab_sysmanage_codetype_id':'4','model.orderbywhat':'codeorder','model.orderby':'asc'})"
+				html_init_data="net/foreworld/java/sysmanage/sysmanage_code/select.do"></property>
+			<property name="city" type="Integer" length="4" initial="null" testdata="1" label="市" desc="市"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|codename|','model.tab_sysmanage_codetype_id':'5','model.orderbywhat':'codeorder','model.orderby':'asc'})"
+				html_init_data="net/foreworld/java/sysmanage/sysmanage_code/select.do"></property>
+			<property name="birthday" type="Date" length="255" initial="null" testdata="" label="生日" desc="生日"
+				java-type="Date"
+				sqlmap-mysql-jdbcType="Date"
+				db-mysql-type="timestamp"
+				html_type="_inputdate"></property>
+			<property name="last_logintime" type="Date" length="255" initial="null" testdata="" label="最后登陆时间" desc="最后登陆时间"
+				java-type="Date"
+				sqlmap-mysql-jdbcType="Date"
+				db-mysql-type="timestamp"></property>
+		</class>
+	
+		<class name="sysmanage_role" package="net.foreworld.java.sysmanage" path="net/foreworld/java/sysmanage" detailTablesName="sysmanage_user_role,sysmanage_role_module_operate"
+			label="角色管理" desc="角色管理" label1="角色">
+			<subclass name="sysmanage_user_role" label="角色用户信息" path="net/foreworld/java/sysmanage">
+				<subproperty name="tab_sysmanage_user_id" type="Integer" length="11" initial="" testdata="1" label="用户" desc="用户"
+					java-type="Integer"
+					sqlmap-mysql-jdbcType="DECIMAL"
+					db-mysql-type="int"
+					html_colType="ed"
+					html_colSorting="int"></subproperty>
+			</subclass>
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="rolename" type="String" length="100" initial="null" testdata="rolename" label="角色名" desc="角色名"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="roledesc" type="String" length="255" initial="null" testdata="roledesc" label="角色描述" desc="角色描述"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+		</class>
+	
+		<class name="sysmanage_user_role" package="net.foreworld.java.sysmanage" path="net/foreworld/java/sysmanage" detailTablesName=""
+			label="用户角色管理" desc="用户角色管理" label1="用户角色">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="tab_sysmanage_user_id" type="Integer" length="11" initial="null" testdata="1" label="用户" desc="用户"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="tab_sysmanage_role_id" type="Integer" length="11" initial="null" testdata="1" label="角色" desc="角色"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+		</class>
+	
+		<class name="sysmanage_module" package="net.foreworld.java.sysmanage" path="net/foreworld/java/sysmanage" detailTablesName="sysmanage_role_module_operate"
+			label="模块管理" desc="模块管理" label1="模块">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="parentid" type="Integer" length="100" initial="0" testdata="0" label="父" desc="父"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="modulename" type="String" length="100" initial="null" testdata="modulename" label="模块名" desc="模块名"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="moduleurl" type="String" length="255" initial="null" testdata="sysmanage_user.html" label="模块地址" desc="模块地址"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="moduleorder" type="Integer" length="1" initial="null" testdata="1" label="模块排序" desc="模块排序"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="moduletype" type="Integer" length="1" initial="null" testdata="1" label="模块类型" desc="模块类型"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|codename|','model.tab_sysmanage_codetype_id':'2','model.orderbywhat':'codeorder','model.orderby':'asc'})"
+				html_init_data="net/foreworld/java/sysmanage/sysmanage_code/select.do"></property>
+			<property name="icon" type="String" length="100" initial="null" testdata="icon1.gif" label="图标" desc="图标"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+		</class>
+	
+		<class name="sysmanage_operate" package="net.foreworld.java.sysmanage" path="net/foreworld/java/sysmanage" detailTablesName="sysmanage_role_module_operate"
+			label="操作管理" desc="操作管理" label1="操作">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="operatename" type="String" length="255" initial="null" testdata="operatename" label="操作名称" desc="操作名称"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+		</class>
+	
+		<class name="sysmanage_role_module_operate" package="net.foreworld.java.sysmanage" path="net/foreworld/java/sysmanage" detailTablesName=""
+			label="角色模块操作管理" desc="角色模块操作" label1="角色模块操作">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="tab_sysmanage_role_id" type="Integer" length="11" initial="null" testdata="1" label="角色" desc="角色"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="tab_sysmanage_module_id" type="Integer" length="11" initial="null" testdata="1" label="模块" desc="模块"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="tab_sysmanage_operate_id" type="Integer" length="11" initial="null" testdata="1" label="操作" desc="操作"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+		</class>
+		
+		<class name="sysmanage_orglat" package="net.foreworld.java.sysmanage" path="net/foreworld/java/sysmanage" detailTablesName="sysmanage_orgrule"
+			label="组织纬度管理" desc="组织纬度" label1="组织纬度">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="orglatname" type="String" length="255" initial="null" testdata="operatename" label="组织纬度名称" desc="组织纬度名称"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="orglatdesc" type="String" length="255" initial="null" testdata="orglatdesc" label="组织纬度描述" desc="组织纬度描述"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+		</class>
+		
+		<class name="sysmanage_orgtype" package="net.foreworld.java.sysmanage" path="net/foreworld/java/sysmanage" detailTablesName="sysmanage_orgrule"
+			label="组织类型管理" desc="组织类型管理" label1="组织类型">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="orgtypename" type="String" length="255" initial="null" testdata="operatename" label="组织类型名称" desc="组织类型名称"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="orgtypedesc" type="String" length="255" initial="null" testdata="orglatdesc" label="组织类型描述" desc="组织类型描述"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+		</class>
+		
+		
+		<class name="sysmanage_orgunit" package="net.foreworld.java.sysmanage" path="net/foreworld/java/sysmanage" detailTablesName="sysmanage_user_station"
+			label="组织单元管理" desc="组织单元管理" label1="组织类型">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="orgunitname" type="String" length="255" initial="null" testdata="operatename" label="组织单元名称" desc="组织单元名称"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="orgunitdesc" type="String" length="255" initial="null" testdata="orglatdesc" label="组织单元描述" desc="组织单元描述"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="orgunitorder" type="Integer" length="11" initial="null" testdata="1" label="组织单元排序" desc="组织单元排序"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="tab_sysmanage_orgunit_parent_id" type="Integer" length="11" initial="null" testdata="1" label="父组织单元" desc="父组织单元"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="tab_sysmanage_orgrule_id" type="Integer" length="11" initial="null" testdata="1" label="组织规则" desc="组织规则"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+		</class>
+	
+		<class name="sysmanage_user_station" package="net.foreworld.java.sysmanage" path="net/foreworld/java/sysmanage" detailTablesName=""
+			label="用户岗位管理" desc="用户岗位管理" label1="用户岗位">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="tab_sysmanage_user_id" type="Integer" length="11" initial="null" testdata="1" label="用户" desc="用户"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="tab_sysmanage_orgunit_id" type="Integer" length="11" initial="null" testdata="1" label="组织单元" desc="组织单元"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+		</class>
+		
+		<class name="sysmanage_orgrule" package="net.foreworld.java.sysmanage" path="net/foreworld/java/sysmanage" detailTablesName="sysmanage_orgunit"
+			label="组织规则管理" desc="组织规则管理" label1="组织规则">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="orgrulename" type="String" length="255" initial="null" testdata="operatename" label="组织规则名称" desc="组织规则名称"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="orgruledesc" type="String" length="255" initial="null" testdata="orglatdesc" label="组织规则描述" desc="组织规则描述"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="tab_sysmanage_orglat_id" type="Integer" length="11" initial="null" testdata="1" label="组织纬度" desc="组织纬度"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="tab_sysmanage_orgtype_id" type="Integer" length="11" initial="null" testdata="1" label="组织类型" desc="组织类型"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="tab_sysmanage_orgtype_parent_id" type="Integer" length="11" initial="null" testdata="1" label="父组织类型" desc="父组织类型"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+		</class>
+		
+		<class name="sysmanage_website" package="net.foreworld.java.sysmanage" path="net/foreworld/java/sysmanage" detailTablesName=""
+			label="网站管理" desc="网站" label1="网站">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="website" type="String" length="255" initial="null" testdata="http://www.foreworld.net" label="网址" desc="网址"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+		</class>
+		
+		<class name="sysmanage_codetype" package="net.foreworld.java.sysmanage" path="net/foreworld/java/sysmanage" detailTablesName="sysmanage_code"
+			label="代码类型管理" desc="代码类型表" label1="代码类型">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="codetypename" type="String" length="255" initial="null" testdata="sex" label="代码类型名称" desc="代码类型名称"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="codetypedesc" type="String" length="255" initial="null" testdata="sex" label="代码类型描述" desc="代码类型描述"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+		</class>
+		
+		<class name="sysmanage_code" package="net.foreworld.java.sysmanage" path="net/foreworld/java/sysmanage" detailTablesName=""
+			label="代码管理" desc="代码表" label1="代码">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="codename" type="String" length="255" initial="null" testdata="man" label="代码名称" desc="代码名称"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="codedesc" type="String" length="255" initial="null" testdata="female" label="代码描述" desc="代码描述"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="codeorder" type="Integer" length="11" initial="null" testdata="1" label="代码排序" desc="代码排序"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="tab_sysmanage_codetype_id" type="Integer" length="11" initial="null" testdata="1" label="代码类型" desc="代码类型"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|codetypename|'})"
+				html_init_data="net/foreworld/java/sysmanage/sysmanage_codetype/select.do"></property>
+			<property name="parentid" type="Integer" length="100" initial="0" testdata="0" label="父" desc="父"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|codename|'})"
+				html_init_data="net/foreworld/java/sysmanage/sysmanage_code/select.do"></property>
+		</class>
+		
+		
+	</project>
+	
+	
+	
+	
+	
+	<!-- 分割线 -->
+	
+	
+	
+	
+	
+	<project name="customer" path="net/foreworld/java/customer">
+		<class name="customer_user" package="net.foreworld.java.customer" path="net/foreworld/java/customer" detailTablesName=""
+			label="客户管理" desc="客户管理" label1="客户">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="customer_name" type="String" length="100" initial="null" testdata="01" label="经销商名称" desc="经销商名称"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="customer_type" type="Integer" length="1" initial="null" testdata="0" label="客户类型" desc="客户类型"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|codename|','model.tab_sysmanage_codetype_id':'6','model.orderbywhat':'codeorder','model.orderby':'asc'})"
+				html_init_data="net/foreworld/java/sysmanage/sysmanage_code/select.do"></property>
+			<property name="sex" type="Integer" length="1" initial="null" testdata="0" label="性别" desc="性别"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|codename|','model.tab_sysmanage_codetype_id':'1','model.orderbywhat':'codeorder','model.orderby':'asc'})"
+				html_init_data="net/foreworld/java/sysmanage/sysmanage_code/select.do"></property>
+			<property name="artificial_person" type="String" length="100" initial="null" testdata="01" label="法人" desc="法人"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="business_licence" type="String" length="100" initial="null" testdata="01" label="营业执照" desc="营业执照"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="mobile" type="String" length="100" initial="null" testdata="01" label="手机" desc="手机"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="province" type="Integer" length="1" initial="null" testdata="0" label="省" desc="省"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|codename|','model.tab_sysmanage_codetype_id':'4','model.orderbywhat':'codeorder','model.orderby':'asc'})"
+				html_init_data="net/foreworld/java/sysmanage/sysmanage_code/select.do"></property>
+			<property name="city" type="Integer" length="1" initial="null" testdata="0" label="市" desc="市"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|codename|','model.tab_sysmanage_codetype_id':'5','model.orderbywhat':'codeorder','model.orderby':'asc'})"
+				html_init_data="net/foreworld/java/sysmanage/sysmanage_code/select.do"></property>
+			<property name="addr" type="String" length="100" initial="null" testdata="01" label="联系地址" desc="联系地址"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="tel" type="String" length="100" initial="null" testdata="01" label="电话" desc="电话"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="linkman" type="String" length="100" initial="null" testdata="01" label="联系人" desc="联系人"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="zip_code" type="String" length="100" initial="null" testdata="01" label="邮编" desc="邮编"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="fax" type="String" length="100" initial="null" testdata="01" label="传真" desc="传真"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="bank" type="String" length="100" initial="null" testdata="01" label="银行" desc="银行"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="bank_account" type="String" length="100" initial="null" testdata="01" label="银行帐户" desc="银行帐户"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="affiliated_person" type="String" length="100" initial="null" testdata="01" label="关联人" desc="关联人"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="affiliated_person_sex" type="Integer" length="1" initial="null" testdata="0" label="关联人性别" desc="关联人性别"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|codename|','model.tab_sysmanage_codetype_id':'1','model.orderbywhat':'codeorder','model.orderby':'asc'})"
+				html_init_data="net/foreworld/java/sysmanage/sysmanage_code/select.do"></property>
+			<property name="affiliated_person_id_card" type="String" length="100" initial="null" testdata="01" label="关联人身份证号" desc="关联人身份证号"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+		</class>
+	</project>
+	
+	
+	
+	
+	
+	<!-- 分割线 -->
+	
+	
+	
+	
+	
+	<project name="bpms" path="net/xytech/java/bpms">
+	
+		<class name="bpms_simcard" package="net.xytech.java.bpms" path="net/xytech/java/bpms" detailTablesName=""
+			label="SIM卡管理" desc="SIM卡管理" label1="SIM卡">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="simcard_no" type="String" length="100" initial="null" testdata="01" label="SIM卡号" desc="SIM卡号"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="tel_no" type="String" length="100" initial="null" testdata="01" label="手机号" desc="手机号"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="terminal_code" type="String" length="100" initial="null" testdata="01" label="终端编号" desc="终端编号"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="car_type" type="String" length="100" initial="null" testdata="01" label="机型" desc="机型"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="car_code" type="String" length="100" initial="null" testdata="01" label="机号" desc="机号"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="simcard_state" type="Integer" length="1" initial="null" testdata="0" label="卡状态" desc="卡状态"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|codename|','model.tab_sysmanage_codetype_id':'8','model.orderbywhat':'codeorder','model.orderby':'asc'})"
+				html_init_data="net/foreworld/java/sysmanage/sysmanage_code/select.do"></property>
+			<property name="storage_state" type="Integer" length="1" initial="null" testdata="0" label="在库状态" desc="在库状态"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|codename|','model.tab_sysmanage_codetype_id':'9','model.orderbywhat':'codeorder','model.orderby':'asc'})"
+				html_init_data="net/foreworld/java/sysmanage/sysmanage_code/select.do"></property>
+			<property name="opencard_date" type="Date" length="255" initial="null" testdata="" label="开卡日期" desc="开卡日期"
+				java-type="String"
+				sqlmap-mysql-jdbcType="Date"
+				db-mysql-type="timestamp"
+				html_type="_inputdate"></property>
+			<property name="buy_date" type="Date" length="255" initial="null" testdata="" label="购买日期" desc="购买日期"
+				java-type="String"
+				sqlmap-mysql-jdbcType="Date"
+				db-mysql-type="timestamp"
+				html_type="_inputdate"></property>
+			<property name="pay_date" type="Date" length="255" initial="null" testdata="" label="付款日期" desc="付款日期"
+				java-type="String"
+				sqlmap-mysql-jdbcType="Date"
+				db-mysql-type="timestamp"
+				html_type="_inputdate"></property>
+			<property name="paydate_last" type="Date" length="255" initial="null" testdata="" label="最后续费日期" desc="最后续费日期"
+				java-type="String"
+				sqlmap-mysql-jdbcType="Date"
+				db-mysql-type="timestamp"
+				html_type="_inputdate"></property>
+			<property name="last_money" type="Integer" length="11" initial="null" testdata="0" label="最后续费金额" desc="最后续费金额"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="pay_state" type="Integer" length="1" initial="null" testdata="0" label="续费" desc="续费"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|codename|','model.tab_sysmanage_codetype_id':'10','model.orderbywhat':'codeorder','model.orderby':'asc'})"
+				html_init_data="net/foreworld/java/sysmanage/sysmanage_code/select.do"></property>
+			<property name="mature_date" type="Date" length="255" initial="null" testdata="" label="到期日期" desc="到期日期"
+				java-type="String"
+				sqlmap-mysql-jdbcType="Date"
+				db-mysql-type="timestamp"
+				html_type="_inputdate"></property>
+			<property name="total_money" type="Integer" length="11" initial="null" testdata="0" label="总付款金额" desc="总付款金额"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="tab_bpms_simcard_apply_id" type="Integer" length="11" initial="null" testdata="0" label="申请单" desc="申请单"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|apply_title|','model.startusing':'1','model.orderbywhat':'id','model.orderby':'desc'})"
+				html_init_data="net/xytech/java/bpms/bpms_simcard_apply/select.do"></property>
+			<property name="tab_customer_user_id" type="Integer" length="11" initial="null" testdata="0" label="经销商" desc="经销商"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|customer_name|','model.startusing':'1','model.orderbywhat':'id','model.orderby':'asc'})"
+				html_init_data="net/foreworld/java/customer/customer_user/select.do"></property>
+			<property name="tab_bpms_order_form_id" type="Integer" length="11" initial="null" testdata="0" label="订单" desc="订单"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|order_name|','model.startusing':'1','model.orderbywhat':'id','model.orderby':'desc'})"
+				html_init_data="net/xytech/java/bpms/bpms_order_form/select.do"></property>
+			<property name="customer_name" type="String" length="100" initial="null" testdata="01" label="客户" desc="客户"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+		</class>
+		
+		<class name="bpms_simcard_apply" package="net.xytech.java.bpms" path="net/xytech/java/bpms" detailTablesName="bpms_gsmcard"
+			label="SIM卡申请管理" desc="SIM卡申请" label1="SIM卡申请">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="apply_title" type="String" length="100" initial="null" testdata="0" label="申请标题" desc="申请标题"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="apply_count" type="Integer" length="100" initial="null" testdata="50" label="申请总数" desc="申请总数"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="comment" type="String" length="100" initial="null" testdata="0" label="备注" desc="备注"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="tab_sysmanage_user_id" type="Integer" length="11" initial="null" testdata="0" label="批准人" desc="批准人"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="confirm_time" type="Date" length="1" initial="null" testdata="" label="批准时间" desc="批准时间"
+				java-type="Date"
+				sqlmap-mysql-jdbcType="Date"
+				db-mysql-type="timestamp"
+				html_type="_inputdate"></property>
+			<property name="confirm_state" type="Integer" length="1" initial="null" testdata="0" label="批准状态" desc="批准状态"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|codename|','model.tab_sysmanage_codetype_id':'7','model.orderbywhat':'codeorder','model.orderby':'asc'})"
+				html_init_data="net/foreworld/java/sysmanage/sysmanage_code/select.do"></property>
+			<property name="confirm_comment" type="String" length="100" initial="null" testdata="0" label="批准备注" desc="批准备注"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+		</class>
+		
+		<class name="bpms_order_form" package="net.xytech.java.bpms" path="net/xytech/java/bpms" detailTablesName="bpms_simcard"
+			label="订单管理" desc="订单管理" label1="订单">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="order_name" type="String" length="100" initial="null" testdata="0" label="订单名称" desc="订单名称"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="order_date" type="Date" length="255" initial="null" testdata="" label="订单时间" desc="订单时间"
+				java-type="Date"
+				sqlmap-mysql-jdbcType="Date"
+				db-mysql-type="timestamp"
+				html_type="_inputdate"></property>
+			<property name="comment" type="String" length="100" initial="null" testdata="0" label="备注" desc="备注"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="tab_customer_user_id" type="Integer" length="255" initial="null" testdata="0" label="经销商" desc="经销商"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|customer_name|','model.startusing':'1','model.orderbywhat':'id','model.orderby':'asc'})"
+				html_init_data="net/foreworld/java/customer/customer_user/select.do"></property>
+		</class>
+		
+	
+	</project>
+	
+	
+	
+	
+	
+	<!-- 分割线 -->
+	
+	
+	
+	
+	
+	<project name="gps" path="net/xytech/java/gps">
+		<class name="gps_cartree" package="net.xytech.java.gps" path="net/xytech/java/gps" detailTablesName=""
+			label="车辆监控管理" desc="车辆监控管理" label1="车辆监控">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="parentid" type="Integer" length="100" initial="0" testdata="0" label="父" desc="父"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="nodename" type="String" length="100" initial="null" testdata="nodename" label="节点名" desc="节点名"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="nodetype" type="Integer" length="1" initial="null" testdata="1" label="节点类型" desc="节点类型"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="linkman" type="String" length="255" initial="null" testdata="linkman" label="联系人" desc="联系人"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="tel" type="String" length="255" initial="null" testdata="13837186852" label="联系电话" desc="联系电话"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="carno" type="String" length="255" initial="null" testdata="14000068172" label="车辆编号" desc="车辆编号"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="ipaddress" type="String" length="255" initial="null" testdata="14000068172" label="IP地址" desc="IP地址"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="telno" type="String" length="255" initial="null" testdata="14000068172" label="手机卡号" desc="手机卡号"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="clys" type="String" length="255" initial="null" testdata="14000068172" label="车辆颜色" desc="车辆颜色"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="protocol" type="String" length="255" initial="null" testdata="14000068172" label="通讯类型" desc="通讯类型"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="terminaltype" type="String" length="255" initial="null" testdata="14000068172" label="终端类型" desc="终端类型"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="cartype" type="String" length="255" initial="null" testdata="14000068172" label="车辆类型" desc="车辆类型"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="pzys" type="String" length="255" initial="null" testdata="14000068172" label="牌照颜色" desc="牌照颜色"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="gmrq" type="String" length="255" initial="null" testdata="14000068172" label="购买日期" desc="购买日期"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="czxb" type="String" length="255" initial="null" testdata="14000068172" label="车主性别" desc="车主性别"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="azrq" type="String" length="255" initial="null" testdata="14000068172" label="安装日期" desc="安装日期"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="fwqsrq" type="String" length="255" initial="null" testdata="14000068172" label="服务起始日期" desc="服务起始日期"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="fwzzrq" type="String" length="255" initial="null" testdata="14000068172" label="服务终止日期" desc="服务终止日期"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="fwf" type="String" length="255" initial="null" testdata="14000068172" label="服务费" desc="服务费"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="state" type="Integer" length="100" initial="0" testdata="0" label="状态" desc="状态"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+		</class>
+		
+		
+		<class name="gps_alarminfo" package="net.xytech.java.gps" path="net/xytech/java/gps" detailTablesName=""
+			label="报警信息管理" desc="报警信息管理" label1="报警信息">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="cph" type="String" length="100" initial="null" testdata="A10000" label="车牌号" desc="车牌号"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="txhm" type="String" length="100" initial="null" testdata="14000104501" label="通讯号码" desc="通讯号码"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="ipaddr" type="String" length="100" initial="null" testdata="127.0.0.1" label="IP地址" desc="IP地址"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="alarmtime" type="String" length="100" initial="null" testdata="alarmtime" label="报警日期" desc="报警日期"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="alarmcount" type="String" length="100" initial="null" testdata="alarmcount" label="报警次数" desc="报警次数"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="alarmtype" type="String" length="100" initial="null" testdata="alarmtype" label="报警类型" desc="报警类型"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="tel" type="String" length="100" initial="null" testdata="tel" label="联系电话" desc="联系电话"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="jd" type="String" length="100" initial="null" testdata="jd" label="经度" desc="经度"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="wd" type="String" length="100" initial="null" testdata="wd" label="纬度" desc="纬度"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="speed" type="String" length="100" initial="null" testdata="speed" label="速度" desc="速度"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="fx" type="String" length="100" initial="null" testdata="fx" label="方向" desc="方向"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="addr" type="String" length="100" initial="null" testdata="addr" label="位置" desc="位置"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="tab_gps_car_id" type="String" length="100" initial="null" testdata="tab_gps_car_id" label="车辆ID" desc="车辆ID"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="searchdate" type="String" length="100" initial="null" testdata="searchdate" label="查询日期" desc="查询日期"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="state" type="Integer" length="100" initial="0" testdata="0" label="状态" desc="状态"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+		</class>
+		
+		
+		<class name="gps_realtime" package="net.xytech.java.gps" path="net/xytech/java/gps" detailTablesName=""
+			label="实时监控管理" desc="实时监控管理" label1="实时监控">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="sid" type="String" length="100" initial="null" testdata="A10000" label="ID字串" desc="ID字串"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="ipaddr" type="String" length="100" initial="null" testdata="A10000" label="IP地址" desc="IP地址"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="updatetime" type="String" length="100" initial="null" testdata="A10000" label="更新时间" desc="更新时间"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="jd" type="String" length="100" initial="null" testdata="A10000" label="经度" desc="经度"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="wd" type="String" length="100" initial="null" testdata="A10000" label="纬度" desc="纬度"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="speed" type="String" length="100" initial="null" testdata="A10000" label="速度" desc="速度"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="fx" type="String" length="100" initial="null" testdata="A10000" label="方向" desc="方向"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="alarmcount" type="String" length="100" initial="null" testdata="A10000" label="报警次数" desc="报警次数"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="gpsdata" type="String" length="255" initial="null" testdata="A10000" label="GPS数据" desc="GPS数据"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="state" type="Integer" length="100" initial="0" testdata="0" label="状态" desc="状态"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+		</class>
+		
+		
+		<class name="gps_cartrackinfo" package="net.xytech.java.gps" path="net/xytech/java/gps" detailTablesName=""
+			label="轨迹回放管理" desc="轨迹回放管理" label1="轨迹回放">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="cph" type="String" length="100" initial="null" testdata="A10000" label="车牌号" desc="车牌号"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="cartype" type="String" length="255" initial="null" testdata="14000068172" label="车辆类型" desc="车辆类型"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="jd" type="String" length="100" initial="null" testdata="A10000" label="经度" desc="经度"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="wd" type="String" length="100" initial="null" testdata="A10000" label="纬度" desc="纬度"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="speed" type="String" length="100" initial="null" testdata="A10000" label="速度" desc="速度"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="fx" type="String" length="100" initial="null" testdata="A10000" label="方向" desc="方向"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="addr" type="String" length="100" initial="null" testdata="addr" label="位置" desc="位置"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="state" type="String" length="100" initial="null" testdata="addr" label="状态" desc="状态"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="tcsc" type="String" length="100" initial="null" testdata="addr" label="停车时长" desc="状态"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="dwzt" type="String" length="100" initial="null" testdata="addr" label="定位状态" desc="状态"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="lcs" type="String" length="100" initial="null" testdata="addr" label="里程数(公里)" desc="里程数(公里)"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="xdlc" type="String" length="100" initial="null" testdata="addr" label="相对里程(公里)" desc="相对里程(公里)"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="starttime" type="String" length="100" initial="null" testdata="addr" label="开始时间" desc="相对里程(公里)"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="endtime" type="String" length="100" initial="null" testdata="addr" label="结束时间" desc="结束时间"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="tab_sysmanage_orgunit_id" type="String" length="100" initial="null" testdata="addr" label="组织单元ID" desc="组织单元ID"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+		</class>
+		
+		
+	</project>
+	
+	
+	
+	
+	
+	
+	
+</root>

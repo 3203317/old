@@ -1,0 +1,379 @@
+<root>
+	<project name="sysmanage" path="net/foreworld/java/sysmanage">
+		<class name="sysmanage_user" package="net.foreworld.java.sysmanage" path="net/foreworld/java/sysmanage" detailTablesName="sysmanage_user_role,sysmanage_user_station"
+			label="用户管理" desc="用户管理" label1="用户">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="uuid" type="String" length="100" initial="null" testdata="01" label="UUID" desc="UUID"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="user_code" type="String" length="100" initial="null" testdata="01" label="用户编码" desc="用户编码"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="user_name" type="String" length="255" initial="null" testdata="admin" label="用户名" desc="用户名"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="password" type="String" length="255" initial="null" testdata="123456" label="密码" desc="密码"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="lpassword" type="String" length="255" initial="null" testdata="123456" label="本地密码" desc="本地密码"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="realname" type="String" length="255" initial="null" testdata="admin" label="真实姓名" desc="真实姓名"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="sex" type="Integer" length="1" initial="null" testdata="1" label="性别" desc="性别"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|codename|','model.tab_sysmanage_codetype_id':'1','model.orderbywhat':'codeorder','model.orderby':'asc'})"
+				html_init_data="net/foreworld/java/sysmanage/sysmanage_code/select.do"></property>
+			<property name="country" type="Integer" length="4" initial="null" testdata="1" label="国家" desc="国家"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|codename|','model.tab_sysmanage_codetype_id':'3','model.orderbywhat':'codeorder','model.orderby':'asc'})"
+				html_init_data="net/foreworld/java/sysmanage/sysmanage_code/select.do"></property>
+			<property name="province" type="Integer" length="4" initial="null" testdata="1" label="省" desc="省"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|codename|','model.tab_sysmanage_codetype_id':'4','model.orderbywhat':'codeorder','model.orderby':'asc'})"
+				html_init_data="net/foreworld/java/sysmanage/sysmanage_code/select.do"></property>
+			<property name="city" type="Integer" length="4" initial="null" testdata="1" label="市" desc="市"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|codename|','model.tab_sysmanage_codetype_id':'5','model.orderbywhat':'codeorder','model.orderby':'asc'})"
+				html_init_data="net/foreworld/java/sysmanage/sysmanage_code/select.do"></property>
+			<property name="birthday" type="Date" length="255" initial="null" testdata="" label="生日" desc="生日"
+				java-type="String"
+				sqlmap-mysql-jdbcType="Date"
+				db-mysql-type="timestamp"
+				html_type="_inputdate"></property>
+			<property name="last_logintime" type="Date" length="255" initial="null" testdata="" label="最后登陆时间" desc="最后登陆时间"
+				java-type="String"
+				sqlmap-mysql-jdbcType="Date"
+				db-mysql-type="timestamp"></property>
+			<property name="last_logouttime" type="Date" length="255" initial="null" testdata="" label="最后退出时间" desc="最后退出时间"
+				java-type="String"
+				sqlmap-mysql-jdbcType="Date"
+				db-mysql-type="timestamp"></property>
+			<property name="isrememberpassword" type="Integer" length="1" initial="0" testdata="0" label="记住密码" desc="记住密码"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="isautologin" type="Integer" length="1" initial="0" testdata="0" label="自动登录" desc="自动登录"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+		</class>
+		
+		<class name="sysmanage_website" package="net.foreworld.java.sysmanage" path="net/foreworld/java/sysmanage" detailTablesName=""
+			label="网站管理" desc="网站" label1="网站">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="uuid" type="String" length="100" initial="null" testdata="01" label="UUID" desc="UUID"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="website" type="String" length="255" initial="null" testdata="http://www.foreworld.net" label="网址" desc="网址"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+		</class>
+		
+		<class name="sysmanage_codetype" package="net.foreworld.java.sysmanage" path="net/foreworld/java/sysmanage" detailTablesName="sysmanage_code"
+			label="代码类型管理" desc="代码类型表" label1="代码类型">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="uuid" type="String" length="100" initial="null" testdata="01" label="UUID" desc="UUID"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="codetype_name" type="String" length="255" initial="null" testdata="sex" label="代码类型名称" desc="代码类型名称"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="codetype_desc" type="String" length="255" initial="null" testdata="sex" label="代码类型描述" desc="代码类型描述"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+		</class>
+		
+		<class name="sysmanage_code" package="net.foreworld.java.sysmanage" path="net/foreworld/java/sysmanage" detailTablesName=""
+			label="代码管理" desc="代码表" label1="代码">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="uuid" type="String" length="100" initial="null" testdata="01" label="UUID" desc="UUID"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="code_name" type="String" length="255" initial="null" testdata="man" label="代码名称" desc="代码名称"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="code_desc" type="String" length="255" initial="null" testdata="female" label="代码描述" desc="代码描述"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="code_order" type="Integer" length="11" initial="null" testdata="1" label="代码排序" desc="代码排序"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="tab_sysmanage_codetype_id" type="Integer" length="11" initial="null" testdata="1" label="代码类型" desc="代码类型"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|codetypename|'})"
+				html_init_data="net/foreworld/java/sysmanage/sysmanage_codetype/select.do"></property>
+			<property name="parent_id" type="Integer" length="100" initial="0" testdata="0" label="父" desc="父"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|codename|'})"
+				html_init_data="net/foreworld/java/sysmanage/sysmanage_code/select.do"></property>
+		</class>
+		
+		<class name="sysmanage_user_preference" package="net.foreworld.java.sysmanage" path="net/foreworld/java/sysmanage" detailTablesName=""
+			label="用户喜好管理" desc="用户喜好表" label1="用户喜好">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="tab_sysmanage_user_id" type="Integer" length="11" initial="null" testdata="1" label="用户" desc="用户"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="tab_sysmanage_user_uuid" type="String" length="100" initial="null" testdata="01" label="用户UUID" desc="用户UUID"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="keyy" type="String" length="255" initial="null" testdata="man" label="键" desc="键"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="valuee" type="String" length="255" initial="null" testdata="female" label="值" desc="值"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+		</class>
+		
+		
+	</project>
+	
+	
+	
+	
+	
+	<!-- 分割线 -->
+	
+	
+	
+	
+	<project name="mail" path="net/foreworld/java/mail">
+	
+		<class name="mail_mailaccountt" package="net.foreworld.java.mail" path="net/foreworld/java/mail" detailTablesName=""
+			label="邮箱帐号管理" desc="邮箱帐号管理" label1="邮箱帐号">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="mail_user" type="String" length="100" initial="null" testdata="01" label="用户名" desc="用户名"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="mail_pass" type="String" length="100" initial="null" testdata="01" label="密码" desc="密码"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="mail_smtp_host" type="String" length="100" initial="null" testdata="01" label="SMTP" desc="SMTP"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="mail_smtp_auth" type="Integer" length="100" initial="0" testdata="0" label="SMTP验证" desc="SMTP验证"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="uuid" type="String" length="100" initial="null" testdata="01" label="UUID" desc="UUID"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="version" type="String" length="100" initial="null" testdata="01" label="版本号" desc="版本号"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="tab_sysmanage_user_id" type="Integer" length="11" initial="null" testdata="1" label="用户帐号" desc="用户帐号"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="tab_sysmanage_user_uuid" type="String" length="100" initial="null" testdata="01" label="用户UUID" desc="用户UUID"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+		</class>
+	
+		<class name="mail_maill" package="net.foreworld.java.mail" path="net/foreworld/java/mail" detailTablesName=""
+			label="邮件管理" desc="邮件管理" label1="邮件">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="from1" type="String" length="100" initial="null" testdata="01" label="发件人" desc="发件人"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="to1" type="String" length="100" initial="null" testdata="01" label="收件人" desc="收件人"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="cc" type="String" length="100" initial="null" testdata="01" label="抄送" desc="抄送"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="bcc" type="String" length="100" initial="null" testdata="01" label="密送" desc="密送"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="subject" type="String" length="100" initial="null" testdata="01" label="主题" desc="主题"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="summary" type="String" length="100" initial="null" testdata="01" label="概述" desc="概述"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="content" type="String" length="100" initial="null" testdata="01" label="正文" desc="正文"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="tab_mail_mailaccountt_id" type="Integer" length="11" initial="null" testdata="1" label="邮箱帐号" desc="邮箱帐号"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="tab_mail_mailaccountt_uuid" type="String" length="100" initial="null" testdata="01" label="邮箱帐号UUID" desc="邮箱帐号UUID"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="uuid" type="String" length="100" initial="null" testdata="01" label="UUID" desc="UUID"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="version" type="String" length="100" initial="null" testdata="01" label="版本号" desc="版本号"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="tab_mail_maill_id" type="Integer" length="11" initial="null" testdata="1" label="邮件" desc="邮件"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="tab_mail_maill_uuid" type="String" length="100" initial="null" testdata="01" label="邮件UUID" desc="邮件UUID"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+		</class>
+		
+	
+		<class name="mail_mailfilee" package="net.foreworld.java.mail" path="net/foreworld/java/mail" detailTablesName=""
+			label="邮件附件管理" desc="邮件附件管理" label1="邮件附件">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="file_name" type="String" length="100" initial="null" testdata="01" label="文件名" desc="文件名"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="summary" type="String" length="100" initial="null" testdata="01" label="概述" desc="概述"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="comment" type="String" length="100" initial="null" testdata="01" label="描述" desc="描述"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="tab_mail_maill_id" type="Integer" length="11" initial="null" testdata="1" label="邮件" desc="邮件"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="tab_mail_maill_uuid" type="String" length="100" initial="null" testdata="01" label="邮件UUID" desc="邮件UUID"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="uuid" type="String" length="100" initial="null" testdata="01" label="UUID" desc="UUID"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="version" type="String" length="100" initial="null" testdata="01" label="版本号" desc="版本号"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+		</class>
+		
+		
+		
+	</project>
+	
+	
+	
+	
+	
+	<!-- 分割线 -->
+	
+	
+	
+	
+	<project name="myfvn" path="net/foreworld/java/myfvn">
+		
+	
+		<class name="v_file_navigator" package="net.foreworld.java.mail" path="net/foreworld/java/mail" detailTablesName=""
+			label="文件导航管理" desc="文件导航管理" label1="文件导航">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="parent_id" type="Integer" length="100" initial="null" testdata="01" label="父ID" desc="父ID"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="parent_uuid" type="String" length="100" initial="null" testdata="01" label="父UUID" desc="父UUID"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="node_name" type="String" length="11" initial="null" testdata="1" label="节点名称" desc="节点名称"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="node_type" type="String" length="100" initial="null" testdata="01" label="节点类型" desc="节点类型"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="uuid" type="String" length="100" initial="null" testdata="01" label="UUID" desc="UUID"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="node_desc" type="String" length="100" initial="null" testdata="01" label="节点描述" desc="节点描述"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+		</class>
+		
+		
+		
+	</project>
+	
+	
+	
+	
+</root>

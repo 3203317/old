@@ -1,0 +1,146 @@
+package net.foreworld.java.actions;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import net.foreworld.java.beans.IBean;
+import net.foreworld.java.services.ApplicationService;
+import net.foreworld.java.validators.IValidator;
+
+import com.opensymphony.xwork2.ActionSupport;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public abstract class BaseAction extends ActionSupport implements IAction {
+
+	public static final String ACTION_SELECTBYID = "selectById";
+	public static final String ACTION_SELECTBYID2 = "selectById2";
+	public static final String ACTION_SELECT = "select";
+	public static final String ACTION_SELECT2 = "select2";
+	public static final String ACTION_SELECT3 = "select3";
+	public static final String ACTION_SELECTCOUNT = "selectCount";
+	public static final String ACTION_INSERT = "insert";
+	public static final String ACTION_UPDATE = "update";
+	public static final String ACTION_DELETE = "delete";
+	public static final String ACTION_INSERTS = "inserts";
+	public static final String ACTION_UPDATES = "updates";
+	public static final String ACTION_STARTUSING = "startUsing";
+	public static final String ACTION_STOPUSING = "stopUsing";
+	public static final String ACTION_AVAILSIGN = "availSign";
+	public static final String ACTION_UNAVAILSIGN = "unavailSign";
+
+	private IBean _bean;
+
+	public IBean getBean() {
+		return _bean;
+	}
+
+	public void setBean(IBean $bean) {
+		_bean = $bean;
+	}
+
+	private IValidator _validator;
+
+	public IValidator getValidator() {
+		return _validator;
+	}
+
+	public void setValidator(IValidator $validator) {
+		_validator = $validator;
+	}
+
+	private String _className;
+
+	public String getClassName() {
+		return _className;
+	}
+
+	public BaseAction() {
+		_className = getClass().getSimpleName();
+		_className = _className.substring(0, 1).toLowerCase() + _className.substring(1, _className.length() - 6);
+	}
+
+	public Object getModel() {
+		return null;
+	}
+
+	private Map<String, Object> _store = new HashMap<String, Object>();
+
+	public Object putValueToStore(String $key, Object $value) {
+		if (_store == null)
+			_store = new HashMap<String, Object>();
+		return _store.put($key, $value);
+	}
+
+	public Object getValueFromStore(Object $key) {
+		return _store.get($key);
+	}
+
+	public Object removeKeyFromStore(Object $key) {
+		return _store.remove($key);
+	}
+
+	public String select() {
+		return ApplicationService.getDefault().getAction().select(getBean(), getValidator(), getClassName(), getModel(), _store);
+	}
+
+	public String select2() {
+		return ApplicationService.getDefault().getAction().select2(getBean(), getValidator(), getClassName(), getModel(), _store);
+	}
+
+	public String select3() {
+		return ApplicationService.getDefault().getAction().select3(getBean(), getValidator(), getClassName(), getModel(), _store);
+	}
+
+	public String selectCount() {
+		return ApplicationService.getDefault().getAction().selectCount(getBean(), getValidator(), getClassName(), getModel(), _store);
+	}
+
+	public String selectById() {
+		return ApplicationService.getDefault().getAction().selectById(getBean(), getValidator(), getClassName(), getModel(), _store);
+	}
+
+	public String selectById2() {
+		return ApplicationService.getDefault().getAction().selectById2(getBean(), getValidator(), getClassName(), getModel(), _store);
+	}
+
+	public String insert() {
+		return ApplicationService.getDefault().getAction().insert(getBean(), getValidator(), getClassName(), getModel(), _store);
+	}
+
+	public String update() {
+		return ApplicationService.getDefault().getAction().update(getBean(), getValidator(), getClassName(), getModel(), _store);
+	}
+
+	public String delete() {
+		return ApplicationService.getDefault().getAction().delete(getBean(), getValidator(), getClassName(), getModel(), _store);
+	}
+
+	public String inserts() {
+		return ApplicationService.getDefault().getAction().inserts(getBean(), getValidator(), getClassName(), getModel(), _store);
+	}
+
+	public String updates() {
+		return ApplicationService.getDefault().getAction().updates(getBean(), getValidator(), getClassName(), getModel(), _store);
+	}
+
+	public String startUsing() {
+		return ApplicationService.getDefault().getAction().startUsing(getBean(), getValidator(), getClassName(), getModel(), _store);
+	}
+
+	public String stopUsing() {
+		return ApplicationService.getDefault().getAction().stopUsing(getBean(), getValidator(), getClassName(), getModel(), _store);
+	}
+
+	public String availSign() {
+		return ApplicationService.getDefault().getAction().availSign(getBean(), getValidator(), getClassName(), getModel(), _store);
+	}
+
+	public String unavailSign() {
+		return ApplicationService.getDefault().getAction().unavailSign(getBean(), getValidator(), getClassName(), getModel(), _store);
+	}
+}

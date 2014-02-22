@@ -1,0 +1,25 @@
+package net.foreworld.java.services;
+
+import java.util.Map;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import net.foreworld.java.actions.BaseAction;
+import net.foreworld.java.domain.ConnSession;
+
+/**
+ * 
+ * @author 	huangxin
+ * @email  	huangxin@foreworld.net
+ * @qq		3203317
+ * @generated
+ */
+public abstract class BaseService{
+	
+	protected static final Log _log = LogFactory.getLog(BaseService.class);
+	
+	public static Object getBean(String $id){
+		return BaseAction.getBean($id);
+	}
+}

@@ -1,0 +1,97 @@
+package net.foreworld.java.results;
+
+import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.servlet.http.HttpServletResponse;
+
+import net.foreworld.java.actions.BaseAction;
+import net.sf.json.JSONObject;
+
+import org.apache.struts2.ServletActionContext;
+
+import com.opensymphony.xwork2.ActionInvocation;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class Fail implements IResult {
+
+	private static final String _contentType = "text/html;charset=UTF-8";
+
+	private String getActionName(BaseAction $action) {
+		String __className = $action.getClass().getName();
+		String[] __classNames = __className.split("\\.");
+		String __actionName = (__classNames[__classNames.length - 1]).replaceAll("Action", "").toLowerCase();
+		return __actionName;
+	}
+
+	private String _pojoName;
+
+	public String getPOJOName() {
+		return _pojoName;
+	}
+
+	public void setPOJOName(String $pojoName) {
+		_pojoName = $pojoName;
+	}
+
+	private JSONObject _jsonObject;
+
+	public void execute(ActionInvocation $invocation) throws Exception {
+		HttpServletResponse __response = ServletActionContext.getResponse();
+
+		BaseAction __action = (BaseAction) $invocation.getAction();
+		setPOJOName(getActionName(__action));
+
+		__response.setContentType(_contentType);
+
+		_jsonObject = new JSONObject();
+		_jsonObject.put("foreworld.net", "2.0v");
+		_jsonObject.put("opt", "f");
+
+		if (!__response.isCommitted()) {
+			PrintWriter __printWrite_3 = __response.getWriter();
+
+			String __resultCode_3 = $invocation.getResultCode();
+			String __code_3 = "";
+
+			if (FailResult.LOGIN_FAIL.equals(__resultCode_3)) {
+				__code_3 = "1";
+			} else if (FailResult.SESSION_TIMEOUT.equals(__resultCode_3)) {
+				__code_3 = "2";
+			} else if (FailResult.OPERATE_FORBID.equals(__resultCode_3)) {
+				__code_3 = "3";
+			} else if (FailResult.NOT_HAVE_ROLES.equals(__resultCode_3)) {
+				__code_3 = "5";
+			} else if (FailResult.FORM_ERROR.equals(__resultCode_3)) {
+				__code_3 = "6";
+				setFormError(__action);
+			} else if (FailResult.OTHER_ERROR.equals(__resultCode_3)) {
+				__code_3 = "7";
+				_jsonObject.put("oem", __action.getValueFromStore(getPOJOName() + "_other_error"));
+			}
+
+			_jsonObject.put("code", __code_3);
+			__printWrite_3.write(_jsonObject.toString());
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void setFormError(BaseAction $action) {
+		Map<String, String> __errors = (Map<String, String>) $action.getValueFromStore(getPOJOName() + "_form_error");
+		JSONObject __jsonObject = new JSONObject();
+
+		Iterator<Entry<String, String>> __entrySetIterator = __errors.entrySet().iterator();
+		while (__entrySetIterator.hasNext()) {
+			Entry<String, String> __entry_3 = __entrySetIterator.next();
+			__jsonObject.put(__entry_3.getKey(), __entry_3.getValue());
+		}
+		_jsonObject.put("fem", __jsonObject);
+	}
+}

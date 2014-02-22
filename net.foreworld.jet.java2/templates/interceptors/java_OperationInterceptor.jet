@@ -1,0 +1,20 @@
+package net.foreworld.java.interceptors;
+
+import net.foreworld.java.services.ApplicationService;
+
+import com.opensymphony.xwork2.ActionInvocation;
+import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
+
+/**
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public final class OperationInterceptor extends AbstractInterceptor {
+
+	private static final long serialVersionUID = 1329336232680550902L;
+
+	public String intercept(ActionInvocation $invocation) throws Exception {
+		return ApplicationService.getDefault().getOperation().intercept($invocation);
+	}
+}

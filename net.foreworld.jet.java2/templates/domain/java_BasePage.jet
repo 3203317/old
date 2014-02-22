@@ -1,0 +1,133 @@
+package net.foreworld.java.domain;
+
+import java.io.Serializable;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ *
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public abstract class BasePage implements Serializable {
+
+	private String _fields;
+
+	public String getFields() {
+		return _fields;
+	}
+
+	public void setFields(String $fields) {
+		_fields = $fields;
+	}
+
+	private String _oldfields;
+
+	public String getOldfields() {
+		return _oldfields;
+	}
+
+	public void setOldfields(String $oldfields) {
+		_oldfields = $oldfields;
+	}
+
+	private Integer _pagesize = 1000;// 20
+
+	public Integer getPagesize() {
+		return _pagesize;
+	}
+
+	public void setPagesize(Integer $pagesize) {
+		_pagesize = $pagesize > 1000 ? 1000 : $pagesize;
+	}
+
+	private Integer _pagestart;// 1
+
+	public Integer getPagestart() {
+		return _pagestart;
+	}
+
+	public void setPagestart(Integer $pagestart) {
+		_pagestart = $pagestart;
+	}
+
+	private Integer _pageend;// 1
+
+	public Integer getPageend() {
+		return _pageend;
+	}
+
+	public void setPageend(Integer $pageend) {
+		_pageend = $pageend;
+	}
+
+	private Integer _totalrecords;// 0
+
+	public Integer getTotalrecords() {
+		return _totalrecords;
+	}
+
+	public void setTotalrecords(Integer $totalrecords) {
+		_totalrecords = $totalrecords;
+	}
+
+	private Integer _currentpage = 1;// 1
+
+	public Integer getCurrentpage() {
+		return _currentpage;
+	}
+
+	public void setCurrentpage(Integer $currentpage) {
+		_currentpage = $currentpage;
+	}
+
+	private Integer _recordstart;// 0
+
+	public Integer getRecordstart() {
+		return _recordstart;
+	}
+
+	public void setRecordstart(Integer $startsecord) {
+		_recordstart = $startsecord;
+	}
+
+	private String _orderby = "desc";
+
+	public String getOrderby() {
+		return _orderby;
+	}
+
+	public void setOrderby(String $orderby) {
+		_orderby = $orderby;
+	}
+
+	private String _orderbywhat = "id";
+
+	public String getOrderbywhat() {
+		return _orderbywhat;
+	}
+
+	public void setOrderbywhat(String $orderbywhat) {
+		_orderbywhat = $orderbywhat;
+	}
+
+	private String _responsetype = "dhtmlx";
+
+	public String getResponsetype() {
+		return _responsetype;
+	}
+
+	public void setResponsetype(String $responsetype) {
+		_responsetype = $responsetype;
+	}
+
+	private String _response = "json";
+
+	public String getResponse() {
+		return _response;
+	}
+
+	public void setResponse(String $response) {
+		_response = $response;
+	}
+
+}

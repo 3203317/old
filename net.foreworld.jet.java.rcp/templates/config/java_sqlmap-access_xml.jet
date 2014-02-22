@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE sqlMapConfig    
+PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"    
+"http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<settings cacheModelsEnabled="true" enhancementEnabled="true"
+		lazyLoadingEnabled="false" useStatementNamespaces="true"
+		statementCachingEnabled="true" classInfoCacheEnabled="true"
+		maxSessions="1024" maxTransactions="512" maxRequests="5120" />
+
+
+	<transactionManager type="JDBC">
+		<dataSource type="SIMPLE">
+			<property name="JDBC.Driver"
+				value="<c:choose select="0"><c:when test="'$'"></c:when><c:otherwise>$</c:otherwise></c:choose>{driver}" />
+			<property name="JDBC.ConnectionURL"
+				value="<c:choose select="0"><c:when test="'$'"></c:when><c:otherwise>$</c:otherwise></c:choose>{url}" />
+			<property name="JDBC.Username" value="<c:choose select="0"><c:when test="'$'"></c:when><c:otherwise>$</c:otherwise></c:choose>{username}" />
+			<property name="JDBC.Password" value="<c:choose select="0"><c:when test="'$'"></c:when><c:otherwise>$</c:otherwise></c:choose>{password}" />
+			<property name="Pool.PingQuery" value="select 1 from sysmanage_website" />
+			
+		</dataSource>
+	</transactionManager>	
+
+<c:iterate select="//class" var="p">
+	<sqlMap
+		resource="<c:get select="$p/@path"/>/<c:get select="$p/@name"/>/sqlmap-access-<c:get select="$p/@name"/>.xml" />
+</c:iterate>
+
+</sqlMapConfig>

@@ -1,0 +1,29 @@
+package net.foreworld.java.daos;
+
+import java.util.List;
+
+import net.foreworld.java.domain.ConnSession;
+import net.foreworld.java.exceptions.DaoException;
+import net.foreworld.java.models.MapResultModel;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public abstract interface IDao {
+
+	public abstract List<MapResultModel> select(Object $object, ConnSession $session) throws DaoException;
+
+	public abstract List<MapResultModel> select2(Object $object, ConnSession $session) throws DaoException;
+
+	public abstract int selectCount(Object $object, ConnSession $session) throws DaoException;
+
+	public abstract int insert(Object $object, ConnSession $session) throws DaoException;
+
+	public abstract int update(Object $object, ConnSession $session) throws DaoException;
+
+	public abstract int delete(Object $object, ConnSession $session) throws DaoException;
+
+}

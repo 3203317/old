@@ -1,0 +1,32 @@
+package net.foreworld.java.exceptions;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class ValidatorException extends FWException {
+
+	private static final long serialVersionUID = 7719785289720292958L;
+
+	public ValidatorException() {
+		super("Validator Exception");
+	}
+
+	public ValidatorException(String $s) {
+		super($s);
+	}
+
+	public ValidatorException(String $s, Throwable $e) {
+		super($s, $e);
+	}
+
+	public ValidatorException(Exception $e) {
+		super($e);
+	}
+
+	public ValidatorException(Throwable $throwable) {
+		super($throwable);
+	}
+}

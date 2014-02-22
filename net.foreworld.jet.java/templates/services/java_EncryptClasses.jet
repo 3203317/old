@@ -1,0 +1,227 @@
+package net.foreworld.java.services;
+
+import java.io.IOException;
+import java.security.SecureRandom;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class EncryptClasses {
+	static public void main(String args[]) throws Exception {
+		String keyFilename = "D:\\workspace-myeclipse\\net.foreworld.java.sysmanage\\WebRoot\\WEB-INF\\classes\\net\\foreworld\\java\\services\\Secret.class";
+		String algorithm = "DES";
+
+		// 生成密匙
+		SecureRandom sr = new SecureRandom();
+		byte rawKey[] = Util.readFile(keyFilename);
+		DESKeySpec dks = new DESKeySpec(rawKey);
+		SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(algorithm);
+		SecretKey key = keyFactory.generateSecret(dks);
+
+		// 创建用于实际加密操作的Cipher对象
+		Cipher ecipher = Cipher.getInstance(algorithm);
+		ecipher.init(Cipher.ENCRYPT_MODE, key, sr);
+		// }
+
+		dao(ecipher);
+		service(ecipher);
+		action(ecipher);
+		validator(ecipher);
+		fail(ecipher);
+		success(ecipher);
+		login(ecipher);
+		operation(ecipher);
+		data(ecipher);
+		formParams(ecipher);
+	}
+
+	private static void dao(Cipher ecipher) throws IOException, IllegalBlockSizeException, BadPaddingException {
+
+		// 加密命令行中指定的每一个类
+		// for (int i = 1; i < args.length; ++i) {
+		String filename = "D:\\workspace-myeclipse\\net.foreworld.java.sysmanage\\WebRoot\\WEB-INF\\classes\\net\\foreworld\\java\\daos\\DaoShadow.class";
+
+		// 读入类文件
+		byte classData[] = Util.readFile(filename);
+
+		// 加密
+		byte encryptedClassData[] = ecipher.doFinal(classData);
+
+		// 保存加密后的内容
+		Util.writeFile(filename, encryptedClassData);
+
+		System.out.println("Encrypted " + filename);
+	}
+
+	private static void service(Cipher ecipher) throws IOException, IllegalBlockSizeException, BadPaddingException {
+
+		// 加密命令行中指定的每一个类
+		// for (int i = 1; i < args.length; ++i) {
+		String filename = "D:\\workspace-myeclipse\\net.foreworld.java.sysmanage\\WebRoot\\WEB-INF\\classes\\net\\foreworld\\java\\services\\ServiceShadow.class";
+
+		// 读入类文件
+		byte classData[] = Util.readFile(filename);
+
+		// 加密
+		byte encryptedClassData[] = ecipher.doFinal(classData);
+
+		// 保存加密后的内容
+		Util.writeFile(filename, encryptedClassData);
+
+		System.out.println("Encrypted " + filename);
+	}
+
+	private static void action(Cipher ecipher) throws IOException, IllegalBlockSizeException, BadPaddingException {
+
+		// 加密命令行中指定的每一个类
+		// for (int i = 1; i < args.length; ++i) {
+		String filename = "D:\\workspace-myeclipse\\net.foreworld.java.sysmanage\\WebRoot\\WEB-INF\\classes\\net\\foreworld\\java\\actions\\ActionShadow.class";
+
+		// 读入类文件
+		byte classData[] = Util.readFile(filename);
+
+		// 加密
+		byte encryptedClassData[] = ecipher.doFinal(classData);
+
+		// 保存加密后的内容
+		Util.writeFile(filename, encryptedClassData);
+
+		System.out.println("Encrypted " + filename);
+	}
+
+	private static void validator(Cipher ecipher) throws IOException, IllegalBlockSizeException, BadPaddingException {
+
+		// 加密命令行中指定的每一个类
+		// for (int i = 1; i < args.length; ++i) {
+		String filename = "D:\\workspace-myeclipse\\net.foreworld.java.sysmanage\\WebRoot\\WEB-INF\\classes\\net\\foreworld\\java\\validators\\ValidatorShadow.class";
+
+		// 读入类文件
+		byte classData[] = Util.readFile(filename);
+
+		// 加密
+		byte encryptedClassData[] = ecipher.doFinal(classData);
+
+		// 保存加密后的内容
+		Util.writeFile(filename, encryptedClassData);
+
+		System.out.println("Encrypted " + filename);
+	}
+
+	private static void fail(Cipher ecipher) throws IOException, IllegalBlockSizeException, BadPaddingException {
+
+		// 加密命令行中指定的每一个类
+		// for (int i = 1; i < args.length; ++i) {
+		String filename = "D:\\workspace-myeclipse\\net.foreworld.java.sysmanage\\WebRoot\\WEB-INF\\classes\\net\\foreworld\\java\\results\\Fail.class";
+
+		// 读入类文件
+		byte classData[] = Util.readFile(filename);
+
+		// 加密
+		byte encryptedClassData[] = ecipher.doFinal(classData);
+
+		// 保存加密后的内容
+		Util.writeFile(filename, encryptedClassData);
+
+		System.out.println("Encrypted " + filename);
+	}
+
+	private static void success(Cipher ecipher) throws IOException, IllegalBlockSizeException, BadPaddingException {
+
+		// 加密命令行中指定的每一个类
+		// for (int i = 1; i < args.length; ++i) {
+		String filename = "D:\\workspace-myeclipse\\net.foreworld.java.sysmanage\\WebRoot\\WEB-INF\\classes\\net\\foreworld\\java\\results\\Success.class";
+
+		// 读入类文件
+		byte classData[] = Util.readFile(filename);
+
+		// 加密
+		byte encryptedClassData[] = ecipher.doFinal(classData);
+
+		// 保存加密后的内容
+		Util.writeFile(filename, encryptedClassData);
+
+		System.out.println("Encrypted " + filename);
+	}
+
+	private static void login(Cipher ecipher) throws IOException, IllegalBlockSizeException, BadPaddingException {
+
+		// 加密命令行中指定的每一个类
+		// for (int i = 1; i < args.length; ++i) {
+		String filename = "D:\\workspace-myeclipse\\net.foreworld.java.sysmanage\\WebRoot\\WEB-INF\\classes\\net\\foreworld\\java\\interceptors\\Login.class";
+
+		// 读入类文件
+		byte classData[] = Util.readFile(filename);
+
+		// 加密
+		byte encryptedClassData[] = ecipher.doFinal(classData);
+
+		// 保存加密后的内容
+		Util.writeFile(filename, encryptedClassData);
+
+		System.out.println("Encrypted " + filename);
+	}
+
+	private static void operation(Cipher ecipher) throws IOException, IllegalBlockSizeException, BadPaddingException {
+
+		// 加密命令行中指定的每一个类
+		// for (int i = 1; i < args.length; ++i) {
+		String filename = "D:\\workspace-myeclipse\\net.foreworld.java.sysmanage\\WebRoot\\WEB-INF\\classes\\net\\foreworld\\java\\interceptors\\Operation.class";
+
+		// 读入类文件
+		byte classData[] = Util.readFile(filename);
+
+		// 加密
+		byte encryptedClassData[] = ecipher.doFinal(classData);
+
+		// 保存加密后的内容
+		Util.writeFile(filename, encryptedClassData);
+
+		System.out.println("Encrypted " + filename);
+	}
+
+	private static void data(Cipher ecipher) throws IOException, IllegalBlockSizeException, BadPaddingException {
+
+		// 加密命令行中指定的每一个类
+		// for (int i = 1; i < args.length; ++i) {
+		String filename = "D:\\workspace-myeclipse\\net.foreworld.java.sysmanage\\WebRoot\\WEB-INF\\classes\\net\\foreworld\\java\\interceptors\\Data.class";
+
+		// 读入类文件
+		byte classData[] = Util.readFile(filename);
+
+		// 加密
+		byte encryptedClassData[] = ecipher.doFinal(classData);
+
+		// 保存加密后的内容
+		Util.writeFile(filename, encryptedClassData);
+
+		System.out.println("Encrypted " + filename);
+	}
+
+	private static void formParams(Cipher ecipher) throws IOException, IllegalBlockSizeException, BadPaddingException {
+
+		// 加密命令行中指定的每一个类
+		// for (int i = 1; i < args.length; ++i) {
+		String filename = "D:\\workspace-myeclipse\\net.foreworld.java.sysmanage\\WebRoot\\WEB-INF\\classes\\net\\foreworld\\java\\interceptors\\FormParams.class";
+
+		// 读入类文件
+		byte classData[] = Util.readFile(filename);
+
+		// 加密
+		byte encryptedClassData[] = ecipher.doFinal(classData);
+
+		// 保存加密后的内容
+		Util.writeFile(filename, encryptedClassData);
+
+		System.out.println("Encrypted " + filename);
+	}
+}

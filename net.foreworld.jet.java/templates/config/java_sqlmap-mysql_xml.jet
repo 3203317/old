@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE sqlMapConfig    
+PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"    
+"http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<settings cacheModelsEnabled="true" enhancementEnabled="true"
+		lazyLoadingEnabled="false" useStatementNamespaces="true"
+		statementCachingEnabled="true" classInfoCacheEnabled="true"
+		maxSessions="1024" maxTransactions="512" maxRequests="5120" />
+
+<c:iterate select="//class" var="p">
+	<sqlMap
+		resource="<c:get select="$p/@path"/>/<c:get select="$p/@name"/>/sqlmap-mysql-<c:get select="$p/@name"/>.xml" />
+</c:iterate>
+
+</sqlMapConfig>

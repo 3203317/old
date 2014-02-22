@@ -1,0 +1,65 @@
+< %
+Class <c:get select="camelCase($p/@name)"/>
+
+	Private Sub Class_Initialize()
+	End Sub 
+
+	Private Sub Class_Terminate()
+	End Sub
+	
+	Function [SELECT](OBJECT)
+	
+		[SELECT] = ""
+	
+	End Function
+	
+	' "foreworld.net":"1.0v","opt":"s","id":4 
+	Function INSERT(<c:iterate select="$p/property" var="propertyper" delimiter=", "><c:get select="$propertyper/@name"/></c:iterate>, addtime, opt_sysmanage_user_id, availsign, startusing)
+	
+		Dim _sql
+		
+		_sql = "insert into <c:get select="($p/@name)"/> "
+		_sql = _sql &"("
+
+		_sql = _sql &"<c:iterate select="$p/property" var="propertyper" delimiter=", "><c:get select="$propertyper/@name"/></c:iterate>" 
+		_sql = _sql &", addtime, opt_sysmanage_user_id, availsign, startusing"
+		
+		_sql = _sql &") values ("
+
+		_sql = _sql &"<c:iterate select="$p/property" var="propertyper" delimiter=", ">'"& <c:get select="$propertyper/@name"/> &"'</c:iterate>" 
+		_sql = _sql &", '"& addtime &"', '"& opt_sysmanage_user_id &"', '"& availsign &"', '"& startusing &"'"
+		
+		_sql = _sql &")"
+		
+		Set _fw = new FrameWork
+		INSERT = _fw.[SELECT3](_sql)
+	
+	End Function
+	
+	
+	Function UPDATE(id, <c:iterate select="$p/property" var="propertyper" delimiter=", "><c:get select="$propertyper/@name"/></c:iterate>, addtime, opt_sysmanage_user_id, availsign, startusing)
+	
+		Dim _sql
+		
+		_sql = "update <c:get select="($p/@name)"/> set "
+		
+		_sql = _sql & "where id="& id
+		
+		Set _fw = new FrameWork
+		UPDATE = _fw.[UPDATE3](_sql)
+	
+	End Function
+	
+	
+	Function DELETE(OBJECT)
+	
+		DELETE = ""
+	
+	End Function
+
+End Class 
+%>
+
+
+
+

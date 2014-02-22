@@ -1,0 +1,30 @@
+package net.foreworld.java.results;
+
+import net.foreworld.java.services.ApplicationService;
+
+import org.apache.struts2.StrutsStatics;
+
+import com.opensymphony.xwork2.ActionInvocation;
+import com.opensymphony.xwork2.Result;
+
+/**
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public final class FailResult implements Result, StrutsStatics {
+
+	private static final long serialVersionUID = 7753827698452073199L;
+
+	public final static String SESSION_TIMEOUT = "session-timeout";
+	public final static String LOGIN_FAIL = "login-fail";
+	public final static String OPERATE_FORBID = "operate-forbid";
+	public final static String NOT_HAVE_ROLES = "not-have-roles";
+	public final static String FORM_ERROR = "form-error";
+	public final static String OTHER_ERROR = "other-error";
+
+	public void execute(ActionInvocation $invocation) throws Exception {
+		ApplicationService.getDefault().getFail().execute($invocation);
+	}
+
+}

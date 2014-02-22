@@ -1,0 +1,57 @@
+<%@taglib prefix="ws" id="org.eclipse.jet.workspaceTags" %>
+<%-- Main entry point for net.foreworld.jet.asp --%>
+
+<%-- 
+  Let c:iterate tags set the XPath context object.
+  For 100% compatibility with JET 0.9.x or earlier, remove this statement
+ --%>
+<c:setVariable var="org.eclipse.jet.taglib.control.iterateSetsContext" select="true()"/>
+
+<%-- 
+TODO: traverse input model, performing calculations and storing 
+the results as model annotations via c:set tag 
+--%>
+
+
+<%--
+TODO: traverse annotated model, performing text generation actions 
+such as ws:file, ws:folder and ws:project 
+--%>
+   
+
+<%-- For debug purposes, dump the annotated input model in 
+   the root of the project containing the original input model.
+   
+   Note that model formatting may not be identical, and that in
+   the case of non-XML input models, the dump may look quite different.
+--%>
+
+<%--c:if test="isVariableDefined('org.eclipse.jet.resource.project.name')">
+    <ws:file template="templates/dump.jet" path="{$org.eclipse.jet.resource.project.name}/dump.xml"/>
+</c:if--%>
+
+<%--ws:file template="templates/db.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/test/db.asp"/--%>
+
+<c:iterate select="//class" var="p">
+	<ws:file template="templates/selectById.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/test/{$p/@path}/{$p/@name}/selectById.asp"/>
+	<ws:file template="templates/select.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/test/{$p/@path}/{$p/@name}/select.asp"/>
+	<ws:file template="templates/select2.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/test/{$p/@path}/{$p/@name}/select2.asp"/>
+	<ws:file template="templates/select3.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/test/{$p/@path}/{$p/@name}/select3.asp"/>
+	<ws:file template="templates/selectCount.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/test/{$p/@path}/{$p/@name}/selectCount.asp"/>
+	<ws:file template="templates/insert.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/test/{$p/@path}/{$p/@name}/insert.asp"/>
+	<ws:file template="templates/update.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/test/{$p/@path}/{$p/@name}/update.asp"/>
+	<ws:file template="templates/delete.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/test/{$p/@path}/{$p/@name}/delete.asp"/>
+	<ws:file template="templates/deleteById.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/test/{$p/@path}/{$p/@name}/deleteById.asp"/>
+	<%--ws:file template="templates/entity.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/test/{$p/@path}/{$p/@name}/{camelCase($p/@name)}.asp"/--%>
+	
+	
+	<ws:file template="templates/f_select.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/test/{$p/@path}/{$p/@name}/{$p/@name}_Select.asp"/>
+	<ws:file template="templates/f_select2.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/test/{$p/@path}/{$p/@name}/{$p/@name}_Select2.asp"/>
+	<ws:file template="templates/f_select3.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/test/{$p/@path}/{$p/@name}/{$p/@name}_Select3.asp"/>
+	<ws:file template="templates/f_selectCount.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/test/{$p/@path}/{$p/@name}/{$p/@name}_SelectCount.asp"/>
+	<ws:file template="templates/f_insert.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/test/{$p/@path}/{$p/@name}/{$p/@name}_Insert.asp"/>
+	<ws:file template="templates/f_update.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/test/{$p/@path}/{$p/@name}/{$p/@name}_Update.asp"/>
+	<ws:file template="templates/f_delete.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/test/{$p/@path}/{$p/@name}/{$p/@name}_Delete.asp"/>
+</c:iterate>
+
+

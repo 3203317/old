@@ -1,0 +1,335 @@
+
+pt.destructor = function(){
+	pt = null;
+};
+
+pt.modOptMap = new HashMap();
+
+pt.optValidator.url = "<c:get select="$p/@path"/>/<c:get select="$p/@name"/>/index.html";
+pt.optValidator.cba = function($data){
+	if($data.opt == "s"){
+		for(var __i_3=0;__i_3<$data.rows.length;__i_3++){
+			var __id_4 = $data.rows[__i_3].id;
+			pt.modOptMap.put(__id_4, __id_4);
+		}
+		/* pt.xtoolbar */
+		pt.xtoolbar.onXLEEvent = function(){
+			if(pt.modOptMap.get(1) == undefined){
+				pt.xtoolbar.hideItem("find");
+			}
+			if(pt.modOptMap.get(2) == undefined){
+				pt.xtoolbar.hideItem("add");
+			}
+			if(pt.modOptMap.get(3) == undefined){
+				pt.xtoolbar.hideItem("edit");
+			}
+			if(pt.modOptMap.get(4) == undefined){
+				pt.xtoolbar.hideItem("del");
+			}
+			if(pt.modOptMap.get(5) == undefined){
+				pt.xtoolbar.hideItem("start");
+			}
+			if(pt.modOptMap.get(6) == undefined){
+				pt.xtoolbar.hideItem("stop");
+			}
+		};
+		pt.xtoolbar.attachEvent("onXLE",pt.xtoolbar.onXLEEvent);
+		
+		pt.xtoolbar.loadXML("dhxtoolbar_button.hxml?r=" + new Date());
+	}
+	$data = null;
+};
+
+
+pt.ready = function(){
+	pt.xlayout = new dhtmlXLayoutObject(document.body,"2E");
+
+	/* xtoolbar */
+	pt.xtoolbar = pt.xlayout.attachToolbar();
+	pt.xtoolbar.setIconsPath("../../../../../commons/components/dhtmlx3.0/dhtmlxToolbar/samples/common/imgs/");
+	pt.xtoolbar.onClickEvent = function($id){
+		switch($id){
+			case "find":
+				pt.xtoolbar.find();
+				break;
+			case "add":
+				pt.xtoolbar.add();
+				break;
+			case "edit":
+				pt.xtoolbar.edit();
+				break;
+			case "del":
+				pt.xtoolbar.del();
+				break;
+			case "start":
+				pt.xtoolbar.start();
+				break;
+			case "stop":
+				pt.xtoolbar.stop();
+				break;
+		}
+	};
+	pt.xtoolbar.attachEvent("onClick",pt.xtoolbar.onClickEvent);
+
+	pt.xtoolbar.find = function(){
+		pt.xgrid.clearChangedState();
+		if(!pt.xgrid.getRowsNum()){
+			pt.xgrid.load();
+		}else{
+			pt.xgrid.changePage(1);
+		}
+	};
+	pt.xtoolbar.add = function(){
+		pt.xwindow.xadd.center();
+		pt.xwindow.xadd.setModal(true);
+		pt.xwindow.xadd.show();
+		if (pt.xwindow.window("xadd")._frame == undefined){
+			pt.xwindow.xadd.attachURL("viewAdd.html");
+		}
+		else{
+			pt.xwindow.xadd._frame.contentWindow.pt.refresh();
+		}
+	};
+	pt.xtoolbar.edit = function(){
+		var __selId = pt.xgrid.getCheckedRows(1);
+		if(__selId == "" || __selId.indexOf(',') != -1) {
+			alert("请选择要修改的记录！");
+			return;
+		}
+		pt.xwindow.xedit.center();
+		pt.xwindow.xedit.setModal(true);
+		pt.xwindow.xedit.show();
+		if (pt.xwindow.window("xedit")._frame == undefined){
+			pt.xwindow.xedit.attachURL("viewEdit2.html?model.id="+ __selId);
+		}
+		else{
+			pt.xwindow.xedit._frame.contentWindow.pt.refresh(__selId);
+		}
+	};
+	pt.xtoolbar.del = function(){
+		pt.xgrid.del();
+	};
+	pt.xtoolbar.start = function(){
+		pt.xgrid.start();
+	};
+	pt.xtoolbar.stop = function(){
+		pt.xgrid.stop();
+	};
+
+
+
+	pt.xlayout.items[0].setText("查询条件");
+	pt.xlayout.items[0].setHeight(90);
+
+	/* xform */
+	pt.xform = pt.xlayout.items[0].attachObject("sform");
+
+
+	pt.xlayout.items[1].hideHeader();
+
+	pt.xstatusBar = pt.xlayout.items[1].attachStatusBar();
+    pt.xstatusBar.setText("<div id='recinfoArea'></div>");
+
+	/* xgrid */
+	pt.xgrid = pt.xlayout.items[1].attachGrid();
+	pt.xgrid.currentPage = 1;
+	pt.xgrid.pageSize = 20;
+    pt.xgrid.setImagePath("../../../../../commons/components/dhtmlx3.0/dhtmlxGrid/codebase/imgs/");
+	pt.xgrid.setHeader("ID,#master_checkbox,<c:iterate select="$p/property" var="propertyper" delimiter=","><c:get select="$propertyper/@label"/></c:iterate>,添加时间,操作员,状态",null,['text-align:center;','text-align:center;']);
+	pt.xgrid.setInitWidths("50,40,<c:iterate select="$p/property" var="propertyper" delimiter=",">150</c:iterate>,150,150,150");
+	pt.xgrid.setColAlign("center,center,<c:iterate select="$p/property" var="propertyper" delimiter=",">left</c:iterate>,left,left,left");
+	pt.xgrid.setColTypes("ro,ch,<c:iterate select="$p/property" var="propertyper" delimiter=",">ro</c:iterate>,ro,ro,ro");
+	pt.xgrid.setColSorting("int,intr,<c:iterate select="$p/property" var="propertyper" delimiter=",">str</c:iterate>,str,str,str");
+	pt.xgrid.setSkin(pt.base.dhtmlx.skin);
+	pt.xgrid.splitAt(2);
+    pt.xgrid.init();
+
+	pt.xgrid.sortField = function(){};
+
+	pt.xgrid.params = {
+		url:"<c:get select="$p/@path"/>/<c:get select="$p/@name"/>/select.do",
+		data:{},
+		cbe:function(){
+			return true;
+		},
+		cba:function($data){
+			if($data.opt == "s"){
+				pt.xgrid.parse($data,pt.form.dataType);
+			}
+			$data = null;
+		}
+	};
+
+	pt.xgrid.load = function(){	
+		pt.xgrid.checkAll(false);
+		pt.xgrid.clearAll(true);
+		pt.xgrid.params["data"] = pt.getInSearch();
+		pt.xgrid.params.data["model.currentpage"] = pt.xgrid.currentPage;
+		pt.form.submit(pt.xgrid.params);
+	};
+
+	pt.xgrid.onBeforePageChangedEvent = function($current,$next) {
+		if(!this.getRowsNum()) return false;
+		//if(pt.xgrid.currentPage != $next) 
+		pt.xgrid.currentPage = $next;
+		pt.xgrid.load();
+		return true;
+	};
+	pt.xgrid.attachEvent("onBeforePageChanged",pt.xgrid.onBeforePageChangedEvent);
+
+	/* grid del */
+	pt.xgrid.params_del = {
+		url:"<c:get select="$p/@path"/>/<c:get select="$p/@name"/>/delete.do",
+		data:{},
+		cbe:function(){
+			var __ids = pt.xgrid.getCheckedRows(1);
+			if(__ids == ""){
+				alert("请选择要删除的记录！");
+				return false;
+			}
+			if(confirm("您确定要执行删除操作吗？")){
+				pt.xgrid.params_del["data"] = {'model.batchData':__ids};
+				return true;
+			}
+			return false;
+		},
+		cba:function($data){
+			if($data.opt == "s"){
+				alert("删除成功！");
+				pt.xgrid.changePage(pt.xgrid.currentPage);
+			}
+			else{
+				alert("删除失败！");
+			}
+			$data = null;
+		}
+	};
+	pt.xgrid.del = function(){
+		pt.form.submit(pt.xgrid.params_del);
+	};
+	/* grid start */
+	pt.xgrid.params_start = {
+		url:"<c:get select="$p/@path"/>/<c:get select="$p/@name"/>/startUsing.do",
+		data:{},
+		cbe:function(){
+			var __ids = pt.xgrid.getCheckedRows(1);
+			if(__ids == ""){
+				alert("请选择要启用的记录！");
+				return false;
+			}
+			if(confirm("您确定要执行启用操作吗？")){
+				pt.xgrid.params_start["data"] = {'model.batchData':__ids};
+				return true;
+			}
+			return false;
+		},
+		cba:function($data){
+			if($data.opt == "s"){
+				alert("启用成功！");
+				pt.xgrid.changePage(pt.xgrid.currentPage);
+			}
+			else{
+				alert("启用失败！");
+			}
+			$data = null;
+		}
+	};
+	pt.xgrid.start = function(){
+		pt.form.submit(pt.xgrid.params_start);
+	};
+	/* grid stop */
+	pt.xgrid.params_stop = {
+		url:"<c:get select="$p/@path"/>/<c:get select="$p/@name"/>/stopUsing.do",
+		data:{},
+		cbe:function(){
+			var __ids = pt.xgrid.getCheckedRows(1);
+			if(__ids == ""){
+				alert("请选择要禁用的记录！");
+				return false;
+			}
+			if(confirm("您确定要执行禁用操作吗？")){
+				pt.xgrid.params_stop["data"] = {'model.batchData':__ids};
+				return true;
+			}
+			return false;
+		},
+		cba:function($data){
+			if($data.opt == "s"){
+				alert("禁用成功！");
+				pt.xgrid.changePage(pt.xgrid.currentPage);
+			}
+			else{
+				alert("禁用失败！");
+			}
+			$data = null;
+		}
+	};
+	pt.xgrid.stop = function(){
+		pt.form.submit(pt.xgrid.params_stop);
+	};
+
+	pt.xgrid.enablePaging(true,pt.xgrid.pageSize,10,"recinfoArea");
+	pt.xgrid.setPagingSkin("toolbar",pt.base.dhtmlx.skin);
+
+	pt.xgrid.params.data["model.currentpage"] = pt.xgrid.currentPage;	
+
+	pt.optValidator.run(pt.optValidator.url,pt.optValidator.cba);
+	pt.xgrid.load();
+
+	pt.xgrid.onRowDblClickedEvent = function($rId,$cInd){
+		pt.xwindow.xdetail.center();
+		pt.xwindow.xdetail.setModal(true);
+		pt.xwindow.xdetail.show();		
+		if (pt.xwindow.window("xdetail")._frame == undefined){
+			pt.xwindow.xdetail.attachURL("detail.html?model.id="+ $rId);
+		}
+		else{
+			pt.xwindow.xdetail._frame.contentWindow.pt.refresh($rId);
+		}
+	};
+	pt.xgrid.attachEvent("onRowDblClicked",pt.xgrid.onRowDblClickedEvent);
+
+	
+
+	pt.xwindow = new dhtmlXWindows();
+	pt.xwindow.enableAutoViewport(false);
+	pt.xwindow.attachViewportTo("winVP");
+	pt.xwindow.setImagePath("../../../../../commons/components/dhtmlx3.0/dhtmlxWindows/codebase/imgs/");
+
+	/* win add*/
+	pt.xwindow.xadd = pt.xwindow.createWindow("xadd", 20, 30, 520, 400);
+	pt.xwindow.xadd.setText("添加");
+	//pt.xwindow.xadd.button("close").disable();
+	pt.xwindow.xadd.keepInViewport(true);
+	//pt.xwindow.xadd.setModal(true);
+	pt.xwindow.xadd.hide();
+
+	/* win edit*/
+	pt.xwindow.xedit = pt.xwindow.createWindow("xedit", 20, 30, 520, 400);
+	pt.xwindow.xedit.setText("编辑");
+	//pt.xwindow.xedit.button("close").disable();
+	pt.xwindow.xedit.keepInViewport(true);
+	//pt.xwindow.xedit.setModal(true);
+	pt.xwindow.xedit.hide();
+
+	/* win detail*/
+	pt.xwindow.xdetail = pt.xwindow.createWindow("xdetail", 20, 30, 520, 400);
+	pt.xwindow.xdetail.setText("明细");
+	//pt.xwindow.xdetail.button("close").disable();
+	pt.xwindow.xdetail.keepInViewport(true);
+	//pt.xwindow.xdetail.setModal(true);
+	pt.xwindow.xdetail.hide();
+
+	pt.xwindow.onCloseEvent = function($win){
+		$win.setModal(false);
+		$win.hide();
+		return false;
+    };
+	pt.xwindow.attachEvent("onClose",pt.xwindow.onCloseEvent);
+
+
+
+};
+
+
+$(document).ready(pt.ready);

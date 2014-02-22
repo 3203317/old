@@ -1,0 +1,36 @@
+< %
+'*************************************
+'	<c:get select="($p/@name)"/>
+'	huangxin@foreworld.net
+'*************************************
+Function <c:get select="$p/@name"/>_Insert(PARAMS)
+	If Not IsArray(PARAMS) Then
+		<c:get select="$p/@name"/>_Insert = "{'foreworld.net':'1.0v','opt':'f','msg':'参数错误','code':6}"
+		Exit Function
+	End If
+	
+	Dim count, i, sql1, sql2
+	count = UBound(PARAMS, 1)
+	
+	For i = 1 To count
+		sql1 = sql1 & PARAMS(i)(0) & ", "
+		sql2 = sql2 & PARAMS(i)(1) & ", "
+	Next
+	
+	sql1 = sql1 & "addtime"
+	sql2 = sql2 & "'" & Now() & "'"
+	
+	Dim sql
+	sql = "insert into <c:get select="($p/@name)"/> (" & sql1 & ") values (" & sql2 & ")"
+	
+	Set sql1 = Nothing
+	Set sql2 = Nothing
+
+	If IsNull(FW) Then 
+		Set FW = new FrameWork
+	End If 
+	
+	<c:get select="$p/@name"/>_Insert = FW.[Insert](sql)
+	Set sql = Nothing
+End Function
+%>

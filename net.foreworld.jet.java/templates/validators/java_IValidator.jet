@@ -1,0 +1,45 @@
+package net.foreworld.java.validators;
+
+import java.util.Map;
+
+import net.foreworld.java.models.BaseModel;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public abstract interface IValidator {
+
+	public abstract Map<String, String> selectByIdMethod(BaseModel $model) throws Exception;
+
+	public abstract Map<String, String> selectById2Method(BaseModel $model) throws Exception;
+
+	public abstract Map<String, String> selectMethod(BaseModel $model) throws Exception;
+
+	public abstract Map<String, String> select2Method(BaseModel $model) throws Exception;
+
+	public abstract Map<String, String> select3Method(BaseModel $model) throws Exception;
+
+	public abstract Map<String, String> selectCountMethod(BaseModel $model) throws Exception;
+
+	public abstract Map<String, String> insertMethod(BaseModel $model) throws Exception;
+
+	public abstract Map<String, String> updateMethod(BaseModel $model) throws Exception;
+
+	public abstract Map<String, String> deleteMethod(BaseModel $model) throws Exception;
+
+	public abstract Map<String, String> insertsMethod(BaseModel $model) throws Exception;
+
+	public abstract Map<String, String> updatesMethod(BaseModel $model) throws Exception;
+
+	public abstract Map<String, String> startUsingMethod(BaseModel $model) throws Exception;
+
+	public abstract Map<String, String> stopUsingMethod(BaseModel $model) throws Exception;
+
+	public abstract Map<String, String> availSignMethod(BaseModel $model) throws Exception;
+
+	public abstract Map<String, String> unavailSignMethod(BaseModel $model) throws Exception;
+
+}

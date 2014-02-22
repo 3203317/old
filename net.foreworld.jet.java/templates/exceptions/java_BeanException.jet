@@ -1,0 +1,33 @@
+package net.foreworld.java.exceptions;
+
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class BeanException extends FWException {
+
+	private static final long serialVersionUID = -768813243809705544L;
+	
+	public BeanException(){
+		super("Bean Exception");
+	}
+	
+	public BeanException(String $s){
+    	super($s);
+	}
+
+	public BeanException(String $s, Throwable $e){
+    	super($s, $e);
+	}
+
+	public BeanException(Exception $e){
+    	super($e);
+	}
+
+	public BeanException(Throwable $throwable){
+		super($throwable);
+	}
+}

@@ -1,0 +1,237 @@
+package net.foreworld.java.services;
+
+import java.util.Arrays;
+import java.util.List;
+
+import net.foreworld.java.beans.BeanService;
+import net.foreworld.java.daos.IDao;
+import net.foreworld.java.domain.ConnSession;
+import net.foreworld.java.exceptions.ServiceException;
+import net.foreworld.java.models.BaseModel;
+import net.foreworld.java.models.MapResultModel;
+import ognl.Ognl;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class ServiceShadow implements IServiceShadow {
+
+	private int insert2(IDao $dao, String $className, BaseModel $model, ConnSession $session) throws Exception {
+		$model.setOpt_sysmanage_user_id(Integer.parseInt(ApplicationService.getDefault().getSession(ApplicationService.S_USER_ID).toString()));
+		$model.setAvailsign(21);
+		$model.setStartusing(23);
+		int __id = $dao.insert($model, $session);
+		List<BaseModel> __list = $model.getChildren();
+
+		for (int __i_3 = 0, __j_3 = (__list == null ? 0 : __list.size()); __i_3 < __j_3; __i_3++) {
+			BaseModel __model_4 = __list.get(__i_3);
+			Ognl.setValue("tab_" + $className + "_id", __model_4, __id);
+			__model_4.setOpt_sysmanage_user_id(Integer.parseInt(ApplicationService.getDefault().getSession(ApplicationService.S_USER_ID).toString()));
+			__model_4.setAvailsign(21);
+			__model_4.setStartusing(23);
+			IDao __dao_4 = (IDao) BeanService.getDefault().getBean(__model_4.getTab() + "DAO");
+			__dao_4.insert(__model_4, $session);
+		}
+		return __id;
+	}
+
+	private int update2(IDao $dao, String $className, BaseModel $model, ConnSession $session) throws Exception {
+		$model.setOpt_sysmanage_user_id(null);
+		$model.setAvailsign(null);
+		$model.setStartusing(null);
+		$dao.update($model, $session);
+
+		List<BaseModel> __list = $model.getChildren();
+		int __size = __list == null ? 0 : __list.size();
+
+		for (int __i_3 = 0; __i_3 < __size; __i_3++) {
+			BaseModel __model_4 = __list.get(__i_3);
+
+			IDao __dao_4 = (IDao) BeanService.getDefault().getBean(__model_4.getTab() + "DAO");
+			int __opt_4 = __model_4.getOpt();
+
+			switch (__opt_4) {
+			case 1:
+				Ognl.setValue("tab_" + $className + "_id", __model_4, $model.getId());
+				__model_4.setOpt_sysmanage_user_id(Integer.parseInt(ApplicationService.getDefault().getSession(ApplicationService.S_USER_ID).toString()));
+				__model_4.setAvailsign(21);
+				__model_4.setStartusing(23);
+				__dao_4.insert(__model_4, $session);
+				break;
+			case 2:
+				Ognl.setValue("tab_" + $className + "_id", __model_4, null);
+				__model_4.setOpt_sysmanage_user_id(null);
+				__model_4.setAvailsign(null);
+				__model_4.setStartusing(null);
+				__model_4.setAppend2($model.getAppend2());
+				__dao_4.update(__model_4, $session);
+				break;
+			case 3:
+				__model_4.setAppend2($model.getAppend2());
+				__dao_4.delete(__model_4, $session);
+				break;
+			}
+		}
+		return ++__size;
+	}
+
+	public MapResultModel selectById(IDao $dao, BaseModel $model, ConnSession $session) throws ServiceException {
+		try {
+			$model.setAvailsign(21);
+			List<MapResultModel> __models = (List<MapResultModel>) $dao.select($model, $session);
+			return __models != null && __models.size() == 1 ? __models.get(0) : null;
+		} catch (Exception $ex) {
+			throw new ServiceException($ex.getMessage(), $ex);
+		}
+	}
+
+	public MapResultModel selectById2(IDao $dao, BaseModel $model, ConnSession $session) throws ServiceException {
+		try {
+			$model.setAvailsign(21);
+			List<MapResultModel> __models = (List<MapResultModel>) $dao.select2($model, $session);
+			return __models != null && __models.size() == 1 ? __models.get(0) : null;
+		} catch (Exception $ex) {
+			throw new ServiceException($ex.getMessage(), $ex);
+		}
+	}
+
+	public List<MapResultModel> select(IDao $dao, BaseModel $model, ConnSession $session) throws ServiceException {
+		try {
+			$model.setAvailsign(21);
+			String __batchData = $model.getBatchData() == null || "".equals($model.getBatchData().trim()) ? "" : " and id in (" + $model.getBatchData() + ")";
+			$model.setAppend($model.getAppend() == null ? __batchData : $model.getAppend() + __batchData);
+			return $dao.select($model, $session);
+		} catch (Exception $ex) {
+			throw new ServiceException($ex.getMessage(), $ex);
+		}
+	}
+
+	public List<MapResultModel> select2(IDao $dao, BaseModel $model, ConnSession $session) throws ServiceException {
+		try {
+			$model.setAvailsign(21);
+			String __batchData = $model.getBatchData() == null || "".equals($model.getBatchData().trim()) ? "" : " and id in (" + $model.getBatchData() + ")";
+			$model.setAppend($model.getAppend() == null ? __batchData : $model.getAppend() + __batchData);
+			return $dao.select2($model, $session);
+		} catch (Exception $ex) {
+			throw new ServiceException($ex.getMessage(), $ex);
+		}
+	}
+
+	public int selectCount(IDao $dao, BaseModel $model, ConnSession $session) throws ServiceException {
+		try {
+			$model.setAvailsign(21);
+			String __batchData = $model.getBatchData() == null || "".equals($model.getBatchData().trim()) ? "" : " and id in (" + $model.getBatchData() + ")";
+			$model.setAppend($model.getAppend() == null ? __batchData : $model.getAppend() + __batchData);
+			return $dao.selectCount($model, $session);
+		} catch (Exception $ex) {
+			throw new ServiceException($ex.getMessage(), $ex);
+		}
+	}
+
+	public int insert(IDao $dao, String $className, BaseModel $model, ConnSession $session) throws ServiceException {
+		try {
+			return insert2($dao, $className, $model, $session);
+		} catch (Exception $ex) {
+			throw new ServiceException($ex.getMessage(), $ex);
+		}
+	}
+
+	public int update(IDao $dao, String $className, BaseModel $model, ConnSession $session) throws ServiceException {
+		try {
+			return update2($dao, $className, $model, $session);
+		} catch (Exception $ex) {
+			throw new ServiceException($ex.getMessage(), $ex);
+		}
+	}
+
+	public int delete(IDao $dao, BaseModel $model, ConnSession $session) throws ServiceException {
+		try {
+			String __batchData = $model.getBatchData() == null || "".equals($model.getBatchData().trim()) ? "" : " and id in (" + $model.getBatchData() + ")";
+			$model.setAppend($model.getAppend() == null ? __batchData : $model.getAppend() + __batchData);
+			return $dao.delete($model, $session);
+		} catch (Exception $ex) {
+			throw new ServiceException($ex.getMessage(), $ex);
+		}
+	}
+
+	public int inserts(IDao $dao, List<BaseModel> $list, ConnSession $session) throws ServiceException {
+		try {
+			int __size = $list == null ? 0 : $list.size();
+			for (int __i_3 = 0; __i_3 < __size; __i_3++) {
+				BaseModel __model_4 = $list.get(__i_3);
+				__model_4.setOpt_sysmanage_user_id(Integer.parseInt(ApplicationService.getDefault().getSession(ApplicationService.S_USER_ID).toString()));
+				__model_4.setAvailsign(21);
+				__model_4.setStartusing(23);
+				$dao.insert(__model_4, $session);
+			}
+			return __size;
+		} catch (Exception $ex) {
+			throw new ServiceException($ex.getMessage(), $ex);
+		}
+	}
+
+	public int updates(IDao $dao, List<BaseModel> $list, ConnSession $session) throws ServiceException {
+		try {
+			int __size = $list == null ? 0 : $list.size();
+			for (int __i_3 = 0; __i_3 < __size; __i_3++) {
+				BaseModel __model_4 = $list.get(__i_3);
+				__model_4.setOpt_sysmanage_user_id(null);
+				__model_4.setAvailsign(null);
+				__model_4.setStartusing(null);
+				__model_4.setId_operate(null);
+				$dao.update(__model_4, $session);
+			}
+			return __size;
+		} catch (Exception $ex) {
+			throw new ServiceException($ex.getMessage(), $ex);
+		}
+	}
+
+	public int startUsing(IDao $dao, BaseModel $model, ConnSession $session) throws ServiceException {
+		try {
+			$model.setStartusing(23);
+			String __batchData = $model.getBatchData() == null || "".equals($model.getBatchData().trim()) ? "" : " and id in (" + $model.getBatchData() + ")";
+			$model.setAppend($model.getAppend() == null ? __batchData : $model.getAppend() + __batchData);
+			return $dao.update($model, $session);
+		} catch (Exception $ex) {
+			throw new ServiceException($ex.getMessage(), $ex);
+		}
+	}
+
+	public int stopUsing(IDao $dao, BaseModel $model, ConnSession $session) throws ServiceException {
+		try {
+			$model.setStartusing(24);
+			String __batchData = $model.getBatchData() == null || "".equals($model.getBatchData().trim()) ? "" : " and id in (" + $model.getBatchData() + ")";
+			$model.setAppend($model.getAppend() == null ? __batchData : $model.getAppend() + __batchData);
+			return $dao.update($model, $session);
+		} catch (Exception $ex) {
+			throw new ServiceException($ex.getMessage(), $ex);
+		}
+	}
+
+	public int availSign(IDao $dao, BaseModel $model, ConnSession $session) throws ServiceException {
+		try {
+			$model.setAvailsign(21);
+			String __batchData = $model.getBatchData() == null || "".equals($model.getBatchData().trim()) ? "" : " and id in (" + $model.getBatchData() + ")";
+			$model.setAppend($model.getAppend() == null ? __batchData : $model.getAppend() + __batchData);
+			return $dao.update($model, $session);
+		} catch (Exception $ex) {
+			throw new ServiceException($ex.getMessage(), $ex);
+		}
+	}
+
+	public int unavailSign(IDao $dao, BaseModel $model, ConnSession $session) throws ServiceException {
+		try {
+			$model.setAvailsign(22);
+			String __batchData = $model.getBatchData() == null || "".equals($model.getBatchData().trim()) ? "" : " and id in (" + $model.getBatchData() + ")";
+			$model.setAppend($model.getAppend() == null ? __batchData : $model.getAppend() + __batchData);
+			return $dao.update($model, $session);
+		} catch (Exception $ex) {
+			throw new ServiceException($ex.getMessage(), $ex);
+		}
+	}
+
+}

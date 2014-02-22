@@ -1,0 +1,33 @@
+package net.foreworld.java.exceptions;
+
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class EjbException extends FWException {
+
+	private static final long serialVersionUID = -6075345656490839985L;
+	
+	public EjbException(){
+		super("Ejb Exception");
+	}
+	
+	public EjbException(String $s){
+    	super($s);
+	}
+
+	public EjbException(String $s, Throwable $e){
+    	super($s, $e);
+	}
+
+	public EjbException(Exception $e){
+    	super($e);
+	}
+
+	public EjbException(Throwable $throwable){
+		super($throwable);
+	}
+}

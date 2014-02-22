@@ -1,0 +1,45 @@
+package net.foreworld.java.actions;
+
+import java.util.Map;
+
+import net.foreworld.java.beans.IBean;
+import net.foreworld.java.validators.IValidator;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public interface IActionShadow {
+
+	public abstract String selectById(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store);
+
+	public abstract String selectById2(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store);
+
+	public abstract String select(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store);
+
+	public abstract String select2(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store);
+
+	public abstract String select3(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store);
+
+	public abstract String selectCount(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store);
+
+	public abstract String insert(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store);
+
+	public abstract String update(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store);
+
+	public abstract String delete(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store);
+
+	public abstract String inserts(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store);
+
+	public abstract String updates(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store);
+
+	public abstract String startUsing(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store);
+
+	public abstract String stopUsing(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store);
+
+	public abstract String availSign(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store);
+
+	public abstract String unavailSign(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store);
+}

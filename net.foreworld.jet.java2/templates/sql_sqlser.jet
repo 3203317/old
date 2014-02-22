@@ -1,0 +1,40 @@
+<c:iterate select="$p/class" var="classper">
+
+CREATE TABLE <c:get select="$classper/@name"/> (
+
+			id int null,
+
+<c:iterate select="$classper/property" var="propertyper" delimiter=",">
+	<%--c:choose select="$propertyper/@keys"> 
+		<c:when test="'Primary'">
+			<c:get select="$propertyper/@name"/> bigint(<c:get select="$propertyper/@length"/>) NOT NULL auto_increment
+		</c:when>
+		<c:otherwise>
+			<c:get select="$propertyper/@name"/> <c:choose select="$propertyper/@type"><c:when test="'Date'">timestamp NULL default CURRENT_TIMESTAMP</c:when>
+				<c:otherwise>varchar(<c:get select="$propertyper/@length"/>) default NULL
+				</c:otherwise>
+			</c:choose>
+		</c:otherwise>
+	</c:choose--%>	
+	<c:choose select="$propertyper/@type">
+	 	<c:when test="'Date'">
+			<c:get select="$propertyper/@name"/> datetime null
+		</c:when>
+	 	<c:when test="'Integer'">
+			<c:get select="$propertyper/@name"/> int null
+		</c:when>
+		<c:otherwise>	
+			<c:get select="$propertyper/@name"/> n<c:get select="$propertyper/@db-mysql-type"/>(100) null
+		</c:otherwise>	
+	</c:choose>			
+</c:iterate>
+			,
+			addtime datetime null default getdate(),
+			opt_sysmanage_user_id int default 1,
+			availsign int default 21,
+			startusing int default 23
+) 
+go
+
+
+</c:iterate>

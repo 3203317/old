@@ -1,0 +1,20 @@
+package net.foreworld.java.models;
+
+import java.util.Map;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class MapResultModel extends MapModel implements Map {
+
+	public Object get(Object $key) {
+		return _mapModel.get($key);
+	}
+
+	public Object put(Object $key, Object $value) {
+		return super.put($key, $value);
+	}
+}

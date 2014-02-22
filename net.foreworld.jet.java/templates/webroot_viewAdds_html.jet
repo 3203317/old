@@ -1,0 +1,341 @@
+<html>
+	<head>
+
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="this is my page">
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+			
+		<script type="text/javascript" src="../../../../../commons/components/jquery.min.js"></script>
+
+		<script type="text/javascript" src="../../../../../commons/js/util.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/page.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/dropdownlist.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/inputtext.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/inputdate.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/button.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/dhtmlX_Grid.js"></script>
+		
+		<script type="text/javascript" src="../../../../../commons/components/My97DatePicker/WdatePicker.js"></script>
+		
+		<link rel="STYLESHEET" type="text/css" href="../../../../../commons/css/viewAdd.css">
+
+
+		<link rel="STYLESHEET" type="text/css"
+			href="../../../../../commons/components/dhtmlx/dhtmlxGrid/codebase/dhtmlxgrid.css">
+		<link rel="stylesheet" type="text/css"
+			href="../../../../../commons/components/dhtmlx/dhtmlxGrid/codebase/skins/dhtmlxgrid_dhx_skyblue.css">
+		<script
+			src="../../../../../commons/components/dhtmlx/dhtmlxGrid/codebase/dhtmlxcommon.js"></script>
+		<script
+			src="../../../../../commons/components/dhtmlx/dhtmlxGrid/codebase/dhtmlxgrid.js"></script>
+		<script
+			src="../../../../../commons/components/dhtmlx/dhtmlxGrid/codebase/ext/dhtmlxgrid_nxml.js"></script>
+		<script
+			src="../../../../../commons/components/dhtmlx/dhtmlxGrid/codebase/dhtmlxgridcell.js"></script>
+			
+		
+		<script type="text/javascript" src="../../../../../commons/js/dhtmlxgrid_excell_My97DatePicker.js"></script>
+
+		<script type="text/javascript" src="<c:get select="$p/@name"/>.js"></script>
+		
+		<SCRIPT LANGUAGE="JavaScript">
+		<!--
+			
+			
+			function _addRow_<c:get select="$p/@name"/>(){
+				_dhtmlX_Grid_<c:get select="$p/@name"/>.addRow((new Date()).valueOf(),[],_dhtmlX_Grid_<c:get select="$p/@name"/>.getRowIndex(_dhtmlX_Grid_<c:get select="$p/@name"/>.getSelectedId()));
+			}
+			
+			function _delRow_<c:get select="$p/@name"/>(){
+				_dhtmlX_Grid_<c:get select="$p/@name"/>.deleteSelectedItem();
+			}		
+				
+		
+		//-->
+		</SCRIPT>
+	</head>
+
+	<body>
+		<TABLE id="mtable" border="0" cellpadding="0" cellspacing="0" width="98%" align="center">
+			<tr>
+				<td align="center" colspan="4">
+					<table width="100%" border="0" cellpadding="0" cellspacing="0"
+						align="center">
+						<tr height="10">
+							<td></td>
+						</tr>
+						<tr height="30">
+							<td style="font-size: 14px;color: #006600;">
+								<b>◇&nbsp;<c:get select="$p/@label"/><span
+									style="font-size: 12px;color: #000; font-weight: normal;">&nbsp;-&nbsp;<c:get select="$p/@label1"/>导入</span>
+								</b>
+							</td>
+						</tr>
+						<tr height="2">
+							<td style="border-bottom: 1px solid #eee; font-size: 1px;">
+								&nbsp;
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			
+			
+			<TR>
+				<TD>
+					<TABLE border="0" width="100%" class="tablelist06 margin_8 bordergrey">
+						<TR height="23">
+							<TD colspan="3" class="odd" height="30">
+								<strong><c:get select="$p/@label1"/>信息导入</strong>
+							</TD>
+							<TD class="odd" align="right">
+								<input type="button" value="&nbsp;导&nbsp;&nbsp;入&nbsp;"
+									class="btn01" id="_btn_import"
+									_type="_button"
+									_events="({'click':'_import_csv_grid'})"/>
+							</TD>
+						</TR>
+						<TR height="23">
+							<TD width="12%" style="font-size:12">
+								CSV 格式数据
+							</TD>
+							<TD>
+								<TEXTAREA NAME="_csv_data" id="_csv_data" ROWS="8" COLS="70"></TEXTAREA>
+							</TD>
+							<TD>
+								&nbsp;
+							</TD>
+							<TD>
+								&nbsp;
+							</TD>
+						</TR>
+					</TABLE>
+				</TD>
+			</TR>
+			
+			
+			
+			<TR>
+				<TD>
+					<TABLE border="0" width="100%" class="tablelist06 margin_8 bordergrey">
+						<TR height="23">
+							<TD colspan="4" class="odd" height="30">
+								<strong><c:get select="$p/@label1"/>信息修正</strong>
+							</TD>
+							<TD class="odd" align="right">
+								<input type="button" value="&nbsp;修&nbsp;&nbsp;正&nbsp;"
+									class="btn01" id="_btn_modify" 
+									_type="_button"
+									_events="({'click':'_modify_csv_grid'})"/>
+							</TD>
+						</TR>
+						<c:iterate select="$p/property" var="propertyper">
+						<TR height="23">
+							<TD width="12%" style="font-size:12">
+								<c:get select="$propertyper/@label"/>
+							</TD>
+							<TD>
+							<c:choose select="$propertyper/@html_type">
+								<c:when test="'_dropdownlist'">
+									<select name="<c:get select="$propertyper/@name"/>" id="model.<c:get select="$propertyper/@name"/>"
+										_type="<c:get select="$propertyper/@html_type"/>"
+										_init_data_params="<c:get select="$propertyper/@html_init_data_params"/>"
+										_init_data="<c:get select="$propertyper/@html_init_data"/>"/>
+								</c:when>
+								<c:when test="'_inputdate'">
+									<input type="text" name="<c:get select="$propertyper/@name"/>" id="model.<c:get select="$propertyper/@name"/>" readonly="" _type="<c:get select="$propertyper/@html_type"/>" class="Wdate" onClick="WdatePicker({highLineWeekDay:true,firstDayOfWeek:1,isShowClear:false,isShowOthers:false,readOnly:true})"/>
+								</c:when>
+								<c:otherwise>
+									<input type="text" name="<c:get select="$propertyper/@name"/>" id="model.<c:get select="$propertyper/@name"/>" _type="_inputtext"/>
+								</c:otherwise>
+							</c:choose>
+							</TD>
+							<TD>
+								&nbsp;
+							</TD>
+							<TD>
+								&nbsp;
+							</TD>
+						</TR>
+						</c:iterate>
+					</TABLE>
+				</TD>
+			</TR>
+			
+			
+			
+							
+			<TR>
+				<TD>
+					<TABLE border="0" width="100%" class="margin_8 bordergrey">
+						<TR height="30">
+							<TD style="background: #f7f7f7; padding-left: 15px;font-size:14px" height="30">
+								<strong>导入信息预览</strong>
+							</TD>
+							<TD align="right">
+								<input type="button" value="添加一行" _type="_button" id="_btn_addRow_<c:get select="$p/@name"/>" _events="({'click':'_addRow_<c:get select="$p/@name"/>'})"/>
+								<input type="button" value="删除一行" _type="_button" id="_btn_delRow_<c:get select="$p/@name"/>" _events="({'click':'_delRow_<c:get select="$p/@name"/>'})"/>
+							</TD>
+						</TR>
+						<TR>
+							<TD colspan="2" width="100%">
+								<div id="_<c:get select="$p/@name"/>" _type="_dhtmlX_Grid"
+									_url="<c:get select="$p/@path"/>/<c:get select="$p/@name"/>/select.do"
+									_dataType="json"
+									_imagePath="commons/components/dhtmlx/dhtmlxGrid/codebase/imgs/"
+									_header="<c:iterate select="$p/property" var="propertyper" delimiter=","><c:get select="$propertyper/@label"/></c:iterate>"
+									_initWidths="<c:iterate select="$p/property" var="propertyper" delimiter=",">150</c:iterate>"
+									_colAlign="<c:iterate select="$p/property" var="propertyper" delimiter=",">left</c:iterate>"
+									_colType="<c:iterate select="$p/property" var="propertyper" delimiter=",">ed</c:iterate>"
+									_colSorting="<c:iterate select="$p/property" var="propertyper" delimiter=",">str</c:iterate>" _skin="dhx_skyblue"
+									style="width:100%;height:500px;background-color:white;"></div>
+							</TD>
+						</TR>
+						
+					</TABLE>
+				</TD>
+			</TR>
+			
+
+			
+			</TR>
+				<TD height="50" align="center">
+					<input type="button" value="&nbsp;提&nbsp;&nbsp;交&nbsp;" _type="_button" id="_submit" class="btn01"
+						_events="({'click':'_save_data'})"
+						_url="<c:get select="$p/@path"/>/<c:get select="$p/@name"/>/inserts.do"/>&nbsp;&nbsp;
+					<input type="button" value="&nbsp;返&nbsp;&nbsp;回&nbsp;" class="btn01" onclick="history.back();"/>
+				</TD>
+			</TR>
+			</TR>
+				<TD>
+					<span id="_tag"></span>
+				</TD>
+			</TR>
+		</TABLE>	
+	</body>
+
+	<SCRIPT LANGUAGE="JavaScript">
+	<!--
+		var _submit_submit_paramObj = null;
+		
+		var _callbefore = function(){
+			/*
+		<c:iterate select="$p/property" var="propertyper">
+			if($("#model\\.<c:get select="$propertyper/@name"/>").val().isEmpty()){
+				$("#_tag").html("<font color='red'>提示:<c:get select="$propertyper/@desc"/>不能为空!</font>");
+				document.getElementById("_submit").disabled = false;
+				return false;
+			}
+		</c:iterate>
+			*/
+			return true;
+		};
+		
+		var _callback = function($data){
+			_dhtmlX_Grid_<c:get select="$p/@name"/>.clearAll();
+			alert("保存成功!");
+		};
+		
+		var _save_data = function(){
+			$(this).attr("disabled","true");
+			
+			var __tmp_inserts_str = "";
+			
+			for(var __i=0,__j=_dhtmlX_Grid_<c:get select="$p/@name"/>.getRowsNum(); __i<__j; __i++){
+			
+				__tmp_inserts_str += "{'availsign':1,'startusing':1";
+			
+				for(var ___i=1,___j=_<c:get select="$p/@name"/>_fields.length-4; ___i<___j; ___i++){
+					__tmp_inserts_str += ",'"+ _<c:get select="$p/@name"/>_fields[___i] +"':'"+ _dhtmlX_Grid_<c:get select="$p/@name"/>.cells2(__i,(___i-1)).getValue() +"'";
+				}
+				
+				__tmp_inserts_str += "},";
+			}
+			
+			if(__tmp_inserts_str == "") return;
+
+			__tmp_inserts_str = "["+ __tmp_inserts_str.substring(0,__tmp_inserts_str.length-1) +"]";			
+			
+			var __data = {
+				"model.batchData":__tmp_inserts_str
+			};
+			
+			_form.submit({url:$(this).attr("_url"),data:__data,cbe:_callbefore,cba:_callback});	
+		};
+		
+		var _import_csv_grid = function(){
+			if($("#_csv_data").val().isEmpty()){
+				alert("请输入正确的格式内容!");
+				return;
+			}
+			_dhtmlX_Grid_<c:get select="$p/@name"/>.clearAll();
+			_dhtmlX_Grid_<c:get select="$p/@name"/>.loadCSVString($("#_csv_data").val());
+			alert("导入成功!");
+		};
+		
+		
+		
+		var _get_field_index = function($field_name){
+			for(var __p in _<c:get select="$p/@name"/>_fields){
+				if($field_name == _<c:get select="$p/@name"/>_fields[__p]){
+					return __p-1;
+				}
+			}
+		};
+		
+		
+		var _modify_csv_grid = function(){
+			var __tmp = "";
+			
+			$("*").each(function(){
+				var __type = $(this).attr("_type");
+				
+				if(__type != undefined){
+					switch(__type){
+						case "_inputtext":
+							if(!this.value.isEmpty()){
+								__tmp += "'"+ _get_field_index(this.name) +"':'"+ this.value +"',";
+							}
+							break;
+						case "_inputdate":
+							if(!this.value.isEmpty()){
+								__tmp += "'"+ _get_field_index(this.name) +"':'"+ this.value +"',";
+							}
+							break;
+						case "_dropdownlist":
+							if(!this.value.isEmpty()){
+								__tmp += "'"+ _get_field_index(this.name) +"':'"+ this.value +"',";
+							}
+							break;
+					}
+				}
+			});
+			
+			if(__tmp.isEmpty()) return;
+			
+			__tmp = "({"+ __tmp.substring(0,__tmp.length-1) +"})";
+			
+			__obj = eval(__tmp);
+			
+			for(var __i=0,__j=_dhtmlX_Grid_<c:get select="$p/@name"/>.getRowsNum(); __i<__j; __i++){
+				for(var __p in __obj){
+					_dhtmlX_Grid_<c:get select="$p/@name"/>.cells2(__i,__p).setValue(__obj[__p]);
+				}
+			}
+			
+			alert("修正成功!");
+		};
+	//-->
+	</SCRIPT>
+
+	<script type="text/javascript" src="../../../../../commons/js/pt.js"></script>
+
+	<SCRIPT LANGUAGE="JavaScript">
+	<!--
+	
+		$(document).ready(function(){
+			
+		});
+	//-->
+	</SCRIPT>
+</html>

@@ -1,0 +1,89 @@
+<%@taglib prefix="ws" id="org.eclipse.jet.workspaceTags" %>
+<%-- Main entry point for net.foreworld.jet.java.rcp --%>
+
+<%-- 
+  Let c:iterate tags set the XPath context object.
+  For 100% compatibility with JET 0.9.x or earlier, remove this statement
+ --%>
+<c:setVariable var="org.eclipse.jet.taglib.control.iterateSetsContext" select="true()"/>
+
+<%-- 
+TODO: traverse input model, performing calculations and storing 
+the results as model annotations via c:set tag 
+--%>
+
+
+<%--
+TODO: traverse annotated model, performing text generation actions 
+such as ws:file, ws:folder and ws:project 
+--%>
+   
+
+<%-- For debug purposes, dump the annotated input model in 
+   the root of the project containing the original input model.
+   
+   Note that model formatting may not be identical, and that in
+   the case of non-XML input models, the dump may look quite different.
+--%>
+
+<%--c:if test="isVariableDefined('org.eclipse.jet.resource.project.name')">
+    <ws:file template="templates/dump.jet" path="{$org.eclipse.jet.resource.project.name}/dump.xml"/>
+</c:if--%>
+
+<ws:file template="templates/exceptions/java_DaoException.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/exceptions/DaoException.java"/>
+<ws:file template="templates/exceptions/java_ServiceException.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/exceptions/ServiceException.java"/>
+<ws:file template="templates/exceptions/java_ValidationException.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/exceptions/ValidationException.java"/>
+
+
+
+<ws:file template="templates/java_log4j.jet" path="{$org.eclipse.jet.resource.project.name}/src/log4j.properties"/>
+<%--ws:file template="templates/java_applicationContext.jet" path="{$org.eclipse.jet.resource.project.name}/src/applicationContext.xml"/>
+
+<ws:file template="templates/config/java_applicationContext_xml.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/config/applicationContext.xml"/--%>
+<ws:file template="templates/config/java_sqlmap-access_xml.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/config/sqlmap-access.xml"/>
+
+
+<%--ws:file template="templates/actions/java_BaseAction.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/actions/BaseAction.java"/--%>
+
+<ws:file template="templates/daos/java_IDao.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/daos/IDao.java"/>
+<ws:file template="templates/daos/java_DaoFactory.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/daos/DaoFactory.java"/>
+
+
+<ws:file template="templates/domain/java_BasePage.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/domain/BasePage.java"/>
+<ws:file template="templates/domain/java_ConnSession.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/domain/ConnSession.java"/>
+<ws:file template="templates/domain/java_PaginatedList.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/domain/PaginatedList.java"/>
+<ws:file template="templates/domain/java_Pagination.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/domain/Pagination.java"/>
+
+<%--ws:file template="templates/domain/ibatis/java_BaseSqlMapClientDao.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/domain/ibatis/BaseSqlMapClientDao.java"/--%>
+
+
+<ws:file template="templates/models/java_BaseModel.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/models/BaseModel.java"/>
+<ws:file template="templates/models/java_MapModel.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/models/MapModel.java"/>
+<ws:file template="templates/models/java_MapResultModel.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/models/MapResultModel.java"/>
+
+
+<ws:file template="templates/services/java_IService.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/services/IService.java"/>
+<ws:file template="templates/services/java_ServiceFactory.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/services/ServiceFactory.java"/>
+<%--ws:file template="templates/services/java_BaseService.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/services/BaseService.java"/--%>
+
+
+<c:iterate select="//class" var="p">
+
+	<ws:file template="templates/java_entity.jet" path="{$org.eclipse.jet.resource.project.name}/src/{$p/@path}/{$p/@name}/{camelCase($p/@name)}.java"/>
+	<ws:file template="templates/java_classDAOImpl.jet" path="{$org.eclipse.jet.resource.project.name}/src/{$p/@path}/{$p/@name}/{camelCase($p/@name)}DAOImpl.java"/>
+	<ws:file template="templates/java_classServiceImpl.jet" path="{$org.eclipse.jet.resource.project.name}/src/{$p/@path}/{$p/@name}/{camelCase($p/@name)}ServiceImpl.java"/>
+	<%--ws:file template="templates/java_spring.jet" path="{$org.eclipse.jet.resource.project.name}/src/{$p/@path}/{$p/@name}/spring-{$p/@name}.xml"/--%>
+	<ws:file template="templates/java_sqlmap_access.jet" path="{$org.eclipse.jet.resource.project.name}/src/{$p/@path}/{$p/@name}/sqlmap-access-{$p/@name}.xml"/>
+
+	
+	
+</c:iterate>
+
+
+
+
+
+
+
+
+

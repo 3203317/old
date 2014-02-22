@@ -1,0 +1,17 @@
+package net.foreworld.java.domain;
+
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public abstract interface PaginatedList extends List, Pagination, Cloneable, Serializable{
+
+	public abstract Pagination getPagination();
+	
+	public abstract List getDataList();
+}

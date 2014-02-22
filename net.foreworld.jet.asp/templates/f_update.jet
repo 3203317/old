@@ -1,0 +1,47 @@
+< %
+'*************************************
+'	<c:get select="($p/@name)"/>
+'	huangxin@foreworld.net
+'*************************************
+Function <c:get select="$p/@name"/>_Update(PARAMS, OPARAMS)
+	If Not IsArray(PARAMS) Or Not IsArray(OPARAMS) Then
+		<c:get select="$p/@name"/>_Update = "{'foreworld.net':'1.0v','opt':'f','msg':'参数错误','code':6}"
+		Exit Function
+	End If
+	
+	Dim count1
+	count1 = UBound(PARAMS)
+	
+	If count1 < 1 Then 
+		<c:get select="$p/@name"/>_Update = "{'foreworld.net':'1.0v','opt':'f','msg':'参数错误','code':6}"
+		Exit Function
+	End If
+
+	Dim i, sql1
+	
+	For i = 1 To count1
+		sql1 = sql1 & PARAMS(i)(0) & " = " & PARAMS(i)(1) & ", "
+	Next
+	sql1 = Left(sql1, Len(sql1) - 2)
+	
+	Dim i2, count2, sql2
+	count2 = UBound(OPARAMS)
+	
+	For i2 = 1 To count2
+		sql2 = sql2 & " " & OPARAMS(i2)(0) & " " & OPARAMS(i2)(1) & " " & OPARAMS(i2)(2) & " " & OPARAMS(i2)(3)
+	Next
+	
+	Dim sql
+	sql = "update <c:get select="($p/@name)"/> set " & sql1 & " where 1=1" & sql2
+	
+	Set sql1 = Nothing
+	Set sql2 = Nothing
+
+	If IsNull(FW) Then 
+		Set FW = new FrameWork
+	End If 
+	
+	<c:get select="$p/@name"/>_Update = FW.[Update](sql)
+	Set sql = Nothing
+End Function
+%>

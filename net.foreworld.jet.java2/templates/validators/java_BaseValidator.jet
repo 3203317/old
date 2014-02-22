@@ -1,0 +1,93 @@
+package net.foreworld.java.validators;
+
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
+
+import net.foreworld.java.beans.BeanService;
+import net.foreworld.java.models.BaseModel;
+import net.foreworld.java.services.ApplicationService;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public abstract class BaseValidator implements IValidator {
+
+	protected static final String BUNDEL_NAME = "net.foreworld.java.validators.message";
+	protected static final String M_NO_ID = "BaseValidator_NO_ID";
+	protected static final String M_PARAMS_ERR = "BaseValidator_PARAMS_ERR";
+
+	protected Object getBean(String $id) {
+		return BeanService.getDefault().getBean($id);
+	}
+
+	private ResourceBundle _bundle = ResourceBundle.getBundle(BUNDEL_NAME, Locale.getDefault());
+
+	protected ResourceBundle getBundle() {
+		return _bundle;
+	}
+
+	public Map<String, String> deleteMethod(BaseModel $model) throws Exception {
+		return ApplicationService.getDefault().getValidator().deleteMethod($model);
+	}
+
+	public Map<String, String> insertMethod(BaseModel $model) throws Exception {
+		return ApplicationService.getDefault().getValidator().insertMethod($model);
+	}
+
+	public Map<String, String> insertsMethod(BaseModel $model) throws Exception {
+		return ApplicationService.getDefault().getValidator().insertsMethod($model);
+	}
+
+	public Map<String, String> select2Method(BaseModel $model) throws Exception {
+		return ApplicationService.getDefault().getValidator().select2Method($model);
+	}
+
+	public Map<String, String> select3Method(BaseModel $model) throws Exception {
+		return ApplicationService.getDefault().getValidator().select3Method($model);
+	}
+
+	public Map<String, String> selectByIdMethod(BaseModel $model) throws Exception {
+		return ApplicationService.getDefault().getValidator().selectByIdMethod($model);
+	}
+
+	public Map<String, String> selectById2Method(BaseModel $model) throws Exception {
+		return ApplicationService.getDefault().getValidator().selectById2Method($model);
+	}
+
+	public Map<String, String> selectCountMethod(BaseModel $model) throws Exception {
+		return ApplicationService.getDefault().getValidator().selectCountMethod($model);
+	}
+
+	public Map<String, String> selectMethod(BaseModel $model) throws Exception {
+		return ApplicationService.getDefault().getValidator().selectMethod($model);
+	}
+
+	public Map<String, String> startUsingMethod(BaseModel $model) throws Exception {
+		return ApplicationService.getDefault().getValidator().startUsingMethod($model);
+	}
+
+	public Map<String, String> stopUsingMethod(BaseModel $model) throws Exception {
+		return ApplicationService.getDefault().getValidator().stopUsingMethod($model);
+	}
+
+	public Map<String, String> availSignMethod(BaseModel $model) throws Exception {
+		return ApplicationService.getDefault().getValidator().availSignMethod($model);
+	}
+
+	public Map<String, String> unavailSignMethod(BaseModel $model) throws Exception {
+		return ApplicationService.getDefault().getValidator().unavailSignMethod($model);
+	}
+
+	public Map<String, String> updateMethod(BaseModel $model) throws Exception {
+		return ApplicationService.getDefault().getValidator().updateMethod($model);
+	}
+
+	public Map<String, String> updatesMethod(BaseModel $model) throws Exception {
+		return ApplicationService.getDefault().getValidator().updatesMethod($model);
+	}
+
+}

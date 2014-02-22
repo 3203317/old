@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	
+<c:iterate select="$p/class" var="classper">	
+	<include file="<c:get select="$classper/@path"/>/<c:get select="$classper/@name"/>/struts-<c:get select="$classper/@name"/>.xml"/>
+</c:iterate>	
+	
+</struts>

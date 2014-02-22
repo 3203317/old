@@ -1,0 +1,43 @@
+package net.foreworld.java.actions;
+
+import com.opensymphony.xwork2.ModelDriven;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+@SuppressWarnings("unchecked")
+public abstract interface IAction extends ModelDriven {
+
+	public abstract String selectById();
+
+	public abstract String selectById2();
+
+	public abstract String select();
+
+	public abstract String select2();
+
+	public abstract String select3();
+
+	public abstract String selectCount();
+
+	public abstract String insert();
+
+	public abstract String update();
+
+	public abstract String delete();
+
+	public abstract String inserts();
+
+	public abstract String updates();
+
+	public abstract String startUsing();
+
+	public abstract String stopUsing();
+
+	public abstract String availSign();
+
+	public abstract String unavailSign();
+}

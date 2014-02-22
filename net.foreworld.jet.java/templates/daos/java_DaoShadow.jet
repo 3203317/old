@@ -1,0 +1,45 @@
+package net.foreworld.java.daos;
+
+import java.util.List;
+
+import net.foreworld.java.domain.ConnSession;
+import net.foreworld.java.exceptions.DaoException;
+import net.foreworld.java.models.MapResultModel;
+
+import org.springframework.orm.ibatis.SqlMapClientTemplate;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class DaoShadow implements IDaoShadow {
+
+	public int delete(SqlMapClientTemplate $sqlMapClient, String $className, Object $object, ConnSession $session) throws DaoException {
+		return $sqlMapClient.delete($className + ".delete", $object);
+	}
+
+	public int insert(SqlMapClientTemplate $sqlMapClient, String $className, Object $object, ConnSession $session) throws DaoException {
+		return Integer.parseInt($sqlMapClient.insert($className + ".insert", $object).toString());
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<MapResultModel> select(SqlMapClientTemplate $sqlMapClient, String $className, Object $object, ConnSession $session) throws DaoException {
+		return $sqlMapClient.queryForList($className + ".select", $object);
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<MapResultModel> select2(SqlMapClientTemplate $sqlMapClient, String $className, Object $object, ConnSession $session) throws DaoException {
+		return $sqlMapClient.queryForList($className + ".select2", $object);
+	}
+
+	public int selectCount(SqlMapClientTemplate $sqlMapClient, String $className, Object $object, ConnSession $session) throws DaoException {
+		return Integer.parseInt($sqlMapClient.queryForObject($className + ".selectCount", $object).toString());
+	}
+
+	public int update(SqlMapClientTemplate $sqlMapClient, String $className, Object $object, ConnSession $session) throws DaoException {
+		return $sqlMapClient.update($className + ".update", $object);
+	}
+
+}

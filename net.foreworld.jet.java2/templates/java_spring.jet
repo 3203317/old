@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+  http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd">
+
+	<bean id="<c:get select="$p/@name"/>Action"
+		class="<c:get select="$p/@package"/>.<c:get select="$p/@name"/>.<c:get select="camelCase($p/@name)"/>Action"
+		scope="prototype">
+		<property name="bean" ref="<c:get select="$p/@name"/>Bean" />
+		<property name="validator" ref="<c:get select="$p/@name"/>Validator" />
+		<%--property name="objectName" value="<c:get select="$p/@name"/>" /--%>
+	</bean>
+
+	<bean id="<c:get select="$p/@name"/>Bean"
+		class="<c:get select="$p/@package"/>.<c:get select="$p/@name"/>.<c:get select="camelCase($p/@name)"/>Bean"
+		scope="singleton">
+		<property name="service" ref="<c:get select="$p/@name"/>Service" />
+	</bean>
+	
+	<bean id="<c:get select="$p/@name"/>"
+		class="<c:get select="$p/@package"/>.<c:get select="$p/@name"/>.<c:get select="camelCase($p/@name)"/>"
+		scope="prototype">
+	</bean>
+	
+	<bean id="<c:get select="$p/@name"/>DAO" parent="baseDao"
+		class="<c:get select="$p/@package"/>.<c:get select="$p/@name"/>.<c:get select="camelCase($p/@name)"/>DAOImpl"
+		scope="singleton">
+		<%--property name="objectName" value="<c:get select="$p/@name"/>" /--%>
+	</bean>
+	
+	<bean id="<c:get select="$p/@name"/>Service"
+		class="<c:get select="$p/@package"/>.<c:get select="$p/@name"/>.<c:get select="camelCase($p/@name)"/>ServiceImpl"
+		scope="singleton">
+		<property name="dao" ref="<c:get select="$p/@name"/>DAO" />
+		<%--property name="objectName" value="<c:get select="$p/@name"/>" /--%>
+	</bean>
+	
+	<bean id="<c:get select="$p/@name"/>Validator"
+		class="<c:get select="$p/@package"/>.<c:get select="$p/@name"/>.<c:get select="camelCase($p/@name)"/>Validator"
+		scope="singleton">
+	</bean>
+
+</beans>

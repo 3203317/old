@@ -1,0 +1,4 @@
+jdbc.driver=com.mysql.jdbc.Driver    
+jdbcjdbc.url=jdbc:mysql://localhost/jetdb 
+jdbc.username=root   
+jdbc.password=123456

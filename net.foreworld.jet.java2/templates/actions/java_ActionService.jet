@@ -1,0 +1,77 @@
+package net.foreworld.java.actions;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.struts2.ServletActionContext;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class ActionService {
+
+	private static ActionService INSTANCE = new ActionService();
+
+	private ActionService() {
+
+	}
+
+	public static ActionService getDefault() {
+		return INSTANCE;
+	}
+
+	public static ApplicationContext appContext = null;
+
+	@SuppressWarnings("unchecked")
+	private static Map _store = new HashMap();
+
+	public Object getBean(String $id) {
+		if (appContext == null) {
+			try {
+				appContext = WebApplicationContextUtils.getWebApplicationContext(ServletActionContext.getServletContext());
+			} catch (Exception $ex) {
+				appContext = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+			}
+		}
+		return appContext.getBean($id);
+	}
+
+	public Object getStore() {
+		return _store;
+	}
+
+	@SuppressWarnings("unchecked")
+	public Object putValueToStore(Object $key, Object $value) {
+		return _store.put($key, $value);
+	}
+
+	public Object getValueFromStore(Object $key) {
+		return _store.get($key);
+	}
+
+	public Object removeKeyFromStore(Object $key) {
+		return _store.remove($key);
+	}
+
+	public HttpServletResponse getResponse() {
+		return ServletActionContext.getResponse();
+	}
+
+	public HttpServletRequest getRequest() {
+		return ServletActionContext.getRequest();
+	}
+
+	public HttpSession getHttpSession() {
+		return ServletActionContext.getRequest().getSession(true);
+	}
+}

@@ -1,0 +1,33 @@
+package net.foreworld.java.exceptions;
+
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class SqlException extends FWException {
+
+	private static final long serialVersionUID = -1369510203396089029L;
+
+	public SqlException(){
+		super("Sql Exception");
+	}
+	
+	public SqlException(String $s){
+    	super($s);
+	}
+
+	public SqlException(String $s, Throwable $e){
+    	super($s, $e);
+	}
+
+	public SqlException(Exception $e){
+    	super($e);
+	}
+
+	public SqlException(Throwable $throwable){
+		super($throwable);
+	}
+}

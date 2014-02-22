@@ -1,0 +1,1 @@
+pt.<c:get select="$p/@name"/>_fields = ["id","<c:iterate select="$p/property" var="propertyper" delimiter="\",\""><c:get select="$propertyper/@name"/></c:iterate>","addtime","opt_sysmanage_user_id","startusing"];

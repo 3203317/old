@@ -1,0 +1,206 @@
+package net.foreworld.java.models;
+
+import java.util.Date;
+import java.util.List;
+
+import net.foreworld.java.domain.BasePage;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public abstract class BaseModel extends BasePage {
+
+	private Integer _opt = 1;
+
+	public Integer getOpt() {
+		return _opt;
+	}
+
+	public void setOpt(Integer $opt) {
+		_opt = $opt;
+	}
+
+	private String _tab;
+
+	public String getTab() {
+		return _tab;
+	}
+
+	public void setTab(String $tab) {
+		_tab = $tab;
+	}
+
+	private List<BaseModel> _children;
+
+	public List<BaseModel> getChildren() {
+		return _children;
+	}
+
+	public void setChildren(List<BaseModel> $children) {
+		_children = $children;
+	}
+
+	private Integer _id;
+
+	public Integer getId() {
+		return _id;
+	}
+
+	public void setId(Integer $id) {
+		_id = $id;
+	}
+
+	private String _id_operate;
+
+	public String getId_operate() {
+		return _id_operate;
+	}
+
+	public void setId_operate(String $id_operate) {
+		_id_operate = $id_operate;
+	}
+
+	private Date _addtime;
+
+	public Date getAddtime() {
+		return _addtime;
+	}
+
+	public void setAddtime(Date $addtime) {
+		_addtime = $addtime;
+	}
+
+	private Integer _opt_sysmanage_user_id;// 0
+
+	public Integer getOpt_sysmanage_user_id() {
+		return _opt_sysmanage_user_id;
+	}
+
+	public void setOpt_sysmanage_user_id(Integer $opt_sysmanage_user_id) {
+		_opt_sysmanage_user_id = $opt_sysmanage_user_id;
+	}
+
+	private Integer _availsign;// 1
+
+	public Integer getAvailsign() {
+		return _availsign;
+	}
+
+	public void setAvailsign(Integer $availsign) {
+		_availsign = $availsign;
+	}
+
+	private Integer _startusing;// 1
+
+	public Integer getStartusing() {
+		return _startusing;
+	}
+
+	public void setStartusing(Integer $startusing) {
+		_startusing = $startusing;
+	}
+
+	private String _opt_sysmanage_user_id_operate;
+
+	public String getOpt_sysmanage_user_id_operate() {
+		return _opt_sysmanage_user_id_operate;
+	}
+
+	public void setOpt_sysmanage_user_id_operate(String $opt_sysmanage_user_id_operate) {
+		_opt_sysmanage_user_id_operate = $opt_sysmanage_user_id_operate;
+	}
+
+	private String _addtime_operate;
+
+	public String getAddtime_operate() {
+		return _addtime_operate;
+	}
+
+	public void setAddtime_operate(String $addtime_operate) {
+		_addtime_operate = $addtime_operate;
+	}
+
+	private Date _addtime_startdate;
+
+	public Date getAddtime_startdate() {
+		return _addtime_startdate;
+	}
+
+	public void setAddtime_startdate(Date $addtime_startdate) {
+		_addtime_startdate = $addtime_startdate;
+	}
+
+	private Date _addtime_enddate;
+
+	public Date getAddtime_enddate() {
+		return _addtime_enddate;
+	}
+
+	public void setAddtime_enddate(Date $addtime_enddate) {
+		_addtime_enddate = $addtime_enddate;
+	}
+
+	private String _append;
+
+	public String getAppend() {
+		return _append;
+	}
+
+	public void setAppend(String $append) {
+		_append = $append;
+	}
+
+	private String _append2;
+
+	public String getAppend2() {
+		return _append2;
+	}
+
+	public void setAppend2(String $append2) {
+		_append2 = $append2;
+	}
+
+	private String _detailTable = "";
+
+	public String getDetailTable() {
+		return _detailTable;
+	}
+
+	public void setDetailTable(String $detailTable) {
+		_detailTable = $detailTable;
+	}
+
+	private String _detailTablesName;
+
+	public String getDetailTablesName() {
+		return _detailTablesName;
+	}
+
+	public void setDetailTablesName(String $detailTablesName) {
+		_detailTablesName = $detailTablesName;
+	}
+
+	private String _refTable;
+
+	public String getRefTable() {
+		return _refTable;
+	}
+
+	public void setRefTable(String $refTable) {
+		_refTable = $refTable;
+	}
+
+	private String _batchData = "";
+
+	public String getBatchData() {
+		return _batchData;
+	}
+
+	public void setBatchData(String $batchData) {
+		_batchData = $batchData;
+	}
+
+}

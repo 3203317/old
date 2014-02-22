@@ -1,0 +1,96 @@
+package net.foreworld.java.services;
+
+import java.util.List;
+
+import net.foreworld.java.daos.IDao;
+import net.foreworld.java.domain.ConnSession;
+import net.foreworld.java.exceptions.ServiceException;
+import net.foreworld.java.models.BaseModel;
+import net.foreworld.java.models.MapResultModel;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public abstract class BaseService implements IService {
+
+	private IDao _dao;
+
+	public void setDao(IDao $dao) {
+		_dao = $dao;
+	}
+
+	public IDao getDao() {
+		return _dao;
+	}
+
+	private String _className;
+
+	public String getClassName() {
+		return _className;
+	}
+
+	public BaseService() {
+		_className = getClass().getSimpleName();
+		_className = _className.substring(0, 1).toLowerCase() + _className.substring(1, _className.length() - 11);
+	}
+
+	public MapResultModel selectById(BaseModel $model, ConnSession $session) throws ServiceException {
+		return ApplicationService.getDefault().getService().selectById(getDao(), $model, $session);
+	}
+
+	public MapResultModel selectById2(BaseModel $model, ConnSession $session) throws ServiceException {
+		return ApplicationService.getDefault().getService().selectById2(getDao(), $model, $session);
+	}
+
+	public List<MapResultModel> select(BaseModel $model, ConnSession $session) throws ServiceException {
+		return ApplicationService.getDefault().getService().select(getDao(), $model, $session);
+	}
+
+	public List<MapResultModel> select2(BaseModel $model, ConnSession $session) throws ServiceException {
+		return ApplicationService.getDefault().getService().select2(getDao(), $model, $session);
+	}
+
+	public int selectCount(BaseModel $model, ConnSession $session) throws ServiceException {
+		return ApplicationService.getDefault().getService().selectCount(getDao(), $model, $session);
+	}
+
+	public int insert(BaseModel $model, ConnSession $session) throws ServiceException {
+		return ApplicationService.getDefault().getService().insert(getDao(), getClassName(), $model, $session);
+	}
+
+	public int update(BaseModel $model, ConnSession $session) throws ServiceException {
+		return ApplicationService.getDefault().getService().update(getDao(), getClassName(), $model, $session);
+	}
+
+	public int delete(BaseModel $model, ConnSession $session) throws ServiceException {
+		return ApplicationService.getDefault().getService().delete(getDao(), $model, $session);
+	}
+
+	public int inserts(List<BaseModel> $list, ConnSession $session) throws ServiceException {
+		return ApplicationService.getDefault().getService().inserts(getDao(), $list, $session);
+	}
+
+	public int updates(List<BaseModel> $list, ConnSession $session) throws ServiceException {
+		return ApplicationService.getDefault().getService().updates(getDao(), $list, $session);
+	}
+
+	public int startUsing(BaseModel $model, ConnSession $session) throws ServiceException {
+		return ApplicationService.getDefault().getService().startUsing(getDao(), $model, $session);
+	}
+
+	public int stopUsing(BaseModel $model, ConnSession $session) throws ServiceException {
+		return ApplicationService.getDefault().getService().stopUsing(getDao(), $model, $session);
+	}
+
+	public int availSign(BaseModel $model, ConnSession $session) throws ServiceException {
+		return ApplicationService.getDefault().getService().availSign(getDao(), $model, $session);
+	}
+
+	public int unavailSign(BaseModel $model, ConnSession $session) throws ServiceException {
+		return ApplicationService.getDefault().getService().unavailSign(getDao(), $model, $session);
+	}
+
+}

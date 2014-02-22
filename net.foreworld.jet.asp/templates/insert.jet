@@ -1,0 +1,99 @@
+<!--#include file="../../../../../const.asp"-->
+<script language="javascript" runat="server" src="../../../../../json2.min.asp"></script>
+<!--#include file="../../../../../json.inc"-->
+<!--#include file="../../../../../framework.asp"-->
+<!--#include file="../../../../../function.asp"-->
+<!--#include file="../../../../../interceptor.asp"-->
+<!--#include file="<c:get select="($p/@name)"/>_Insert.asp"-->
+< %
+'####################################
+'#	<c:get select="($p/@name)"/>	
+'#	黄鑫 3203317@qq.com				#
+'####################################
+
+'定义变量
+<c:iterate select="$p/property" var="per">
+	<c:choose select="$per/@type">
+		<c:when test="'Date'">
+			Dim <c:get select="$per/@name"/>
+		</c:when>
+		<c:otherwise>
+			Dim <c:get select="$per/@name"/>
+		</c:otherwise>
+	</c:choose>
+</c:iterate>
+Dim opt_sysmanage_user_id
+Dim availsign
+Dim startusing
+
+
+'获取表单参数
+<c:iterate select="$p/property" var="per">
+	<c:choose select="$per/@type">
+		<c:when test="'Date'">
+			<c:get select="$per/@name"/> = Trim(Checkxss(Request("model.<c:get select="$per/@name"/>")))
+		</c:when>
+		<c:otherwise>
+			<c:get select="$per/@name"/> = Trim(Checkxss(Request("model.<c:get select="$per/@name"/>")))
+		</c:otherwise>
+	</c:choose>
+</c:iterate>
+opt_sysmanage_user_id = Session("user_id")
+availsign = 21
+startusing = 23
+
+
+'数组长度
+Dim i
+i = 0
+'定义参数数组
+ReDim Preserve params(i)
+
+'参数修正
+<c:iterate select="$p/property" var="per">
+	<c:choose select="$per/@type">
+		<c:when test="'String'">
+			If <c:get select="$per/@name"/> <> "" Then 
+				i = i + 1
+				ReDim Preserve params(i)
+				params(i) = Array("<c:get select="$per/@name"/>", "'" & <c:get select="$per/@name"/> & "'")
+			End If 
+		</c:when>
+		<c:when test="'Date'">
+			If IsDate(<c:get select="$per/@name"/>) Then 
+				i = i + 1
+				ReDim Preserve params(i)
+				params(i) = Array("<c:get select="$per/@name"/>", "'" & <c:get select="$per/@name"/> & "'")
+			End If 
+		</c:when>
+		<c:when test="'Integer'">
+			If IsInteger(<c:get select="$per/@name"/>) Then 
+				i = i + 1
+				ReDim Preserve params(i)
+				params(i) = Array("<c:get select="$per/@name"/>", <c:get select="$per/@name"/>)
+			End If 
+		</c:when>
+	</c:choose>
+</c:iterate>
+i = i + 1
+ReDim Preserve params(i)
+params(i) = Array("opt_sysmanage_user_id", opt_sysmanage_user_id)
+i = i + 1
+ReDim Preserve params(i)
+params(i) = Array("availsign", availsign)
+i = i + 1
+ReDim Preserve params(i)
+params(i) = Array("startusing", startusing)
+
+
+'返回Json
+Dim result
+result = <c:get select="($p/@name)"/>_Insert(params)
+
+CloseDB()
+Response.Write result
+Response.End
+%>
+
+
+

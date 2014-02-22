@@ -1,0 +1,261 @@
+package net.foreworld.java.results;
+
+import java.io.PrintWriter;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
+import net.foreworld.java.actions.BaseAction;
+import net.foreworld.java.models.MapResultModel;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import org.apache.struts2.ServletActionContext;
+
+import com.opensymphony.xwork2.ActionInvocation;
+
+/**
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class Success implements IResult {
+
+	private static final String _contentType = "text/html;charset=UTF-8";
+
+	private String getActionName(BaseAction $action) {
+		String __className = $action.getClass().getName();
+		String[] __classNames = __className.split("\\.");
+		String __actionName = (__classNames[__classNames.length - 1]).replaceAll("Action", "").toLowerCase();
+		return __actionName;
+	}
+
+	private String _pojoName;
+
+	public String getPOJOName() {
+		return _pojoName;
+	}
+
+	public void setPOJOName(String $pojoName) {
+		_pojoName = $pojoName;
+	}
+
+	private JSONObject _jsonObject;
+
+	public void execute(ActionInvocation $invocation) throws Exception {
+
+		BaseAction __action = (BaseAction) $invocation.getAction();
+		setPOJOName(getActionName(__action));
+
+		String __methodName = $invocation.getProxy().getMethod();
+
+		HttpServletResponse __response = ServletActionContext.getResponse();
+		__response.setContentType(_contentType);
+
+		_jsonObject = new JSONObject();
+		_jsonObject.put("foreworld.net", "1.0v");
+		_jsonObject.put("opt", "s");
+
+		if (!__response.isCommitted()) {
+			PrintWriter __printWriter_3 = __response.getWriter();
+
+			if (BaseAction.ACTION_SELECT.equals(__methodName)) {
+				selectOperation(__action);
+			} else if (BaseAction.ACTION_SELECT2.equals(__methodName)) {
+				select2Operation(__action);
+			} else if (BaseAction.ACTION_SELECT3.equals(__methodName)) {
+				select3Operation(__action);
+			} else if (BaseAction.ACTION_SELECTBYID.equals(__methodName)) {
+				selectByIdOperation(__action);
+			} else if (BaseAction.ACTION_SELECTBYID2.equals(__methodName)) {
+				selectById2Operation(__action);
+			} else if (BaseAction.ACTION_SELECTCOUNT.equals(__methodName)) {
+				selectCountOperation(__action);
+			} else if (BaseAction.ACTION_INSERT.equals(__methodName)) {
+				insertOperation(__action);
+			} else if (BaseAction.ACTION_UPDATE.equals(__methodName)) {
+				updateOperation(__action);
+			} else if (BaseAction.ACTION_DELETE.equals(__methodName)) {
+				deleteOperation(__action);
+			} else if (BaseAction.ACTION_INSERTS.equals(__methodName)) {
+				insertsOperation(__action);
+			} else if (BaseAction.ACTION_UPDATES.equals(__methodName)) {
+				updatesOperation(__action);
+			} else if (BaseAction.ACTION_STARTUSING.equals(__methodName)) {
+				startUsingOperation(__action);
+			} else if (BaseAction.ACTION_STOPUSING.equals(__methodName)) {
+				stopUsingOperation(__action);
+			} else if (BaseAction.ACTION_AVAILSIGN.equals(__methodName)) {
+				availSignOperation(__action);
+			} else if (BaseAction.ACTION_UNAVAILSIGN.equals(__methodName)) {
+				unavailSignOperation(__action);
+			} else {
+				otherOperation(__action);
+			}
+
+			__printWriter_3.write(_jsonObject.toString());
+			__printWriter_3.flush();
+			__printWriter_3.close();
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void selectOperation(BaseAction $action) {
+		JSONArray __jsonArray = new JSONArray();
+
+		List<MapResultModel> __models = (List) $action.getValueFromStore(getPOJOName());
+		List<String> __fieldlist = (List) $action.getValueFromStore(getPOJOName() + "_fieldlist");
+		int __fieldlist_size = __fieldlist == null ? 0 : __fieldlist.size();
+
+		for (int __i_3 = 0, __j_3 = (__models == null ? 0 : __models.size()); __i_3 < __j_3; __i_3++) {
+			MapResultModel __model_4 = __models.get(__i_3);
+			JSONObject __jsonObject_4 = new JSONObject();
+			JSONArray __jsonArray_4 = new JSONArray();
+
+			for (int __i_5 = 0; __i_5 < __fieldlist_size; __i_5++) {
+				String __key_6 = __fieldlist.get(__i_5);
+				__jsonArray_4.add(__model_4.get(__key_6) == null ? "" : __model_4.get(__key_6).toString());
+			}
+
+			__jsonObject_4.put("data", __jsonArray_4);
+			__jsonObject_4.put("id", __model_4.get("id"));
+			__jsonArray.add(__jsonObject_4);
+		}
+
+		_jsonObject.put("rows", __jsonArray);
+		_jsonObject.put("count", Integer.parseInt($action.getValueFromStore(getPOJOName() + "_count").toString()));
+		_jsonObject.put("total_count", _jsonObject.get("count"));
+		_jsonObject.put("pos", Integer.parseInt($action.getValueFromStore(getPOJOName() + "_pos").toString()));
+	}
+
+	@SuppressWarnings("unchecked")
+	private void select2Operation(BaseAction $action) {
+		JSONArray __jsonArray = new JSONArray();
+
+		List<MapResultModel> __models = (List) $action.getValueFromStore(getPOJOName());
+		List<String> __fieldlist = (List) $action.getValueFromStore(getPOJOName() + "_fieldlist");
+		int __fieldlist_size = __fieldlist == null ? 0 : __fieldlist.size();
+
+		for (int __i_3 = 0, __j_3 = (__models == null ? 0 : __models.size()); __i_3 < __j_3; __i_3++) {
+			MapResultModel __model_4 = __models.get(__i_3);
+			JSONObject __jsonObject_4 = new JSONObject();
+			JSONArray __jsonArray_4 = new JSONArray();
+
+			for (int __i_5 = 0; __i_5 < __fieldlist_size; __i_5++) {
+				String __key_6 = __fieldlist.get(__i_5);
+				__jsonArray_4.add(__model_4.get(__key_6) == null ? "" : __model_4.get(__key_6).toString());
+			}
+
+			__jsonObject_4.put("data", __jsonArray_4);
+			__jsonObject_4.put("id", __model_4.get("id"));
+			__jsonArray.add(__jsonObject_4);
+		}
+
+		_jsonObject.put("rows", __jsonArray);
+		_jsonObject.put("count", Integer.parseInt($action.getValueFromStore(getPOJOName() + "_count").toString()));
+	}
+
+	@SuppressWarnings("unchecked")
+	private void select3Operation(BaseAction $action) {
+		JSONArray __jsonArray = new JSONArray();
+
+		List<MapResultModel> __models = (List) $action.getValueFromStore(getPOJOName());
+		List<String> __fieldlist = (List) $action.getValueFromStore(getPOJOName() + "_fieldlist");
+		int __fieldlist_size = __fieldlist == null ? 0 : __fieldlist.size();
+
+		for (int __i_3 = 0, __j_3 = (__models == null ? 0 : __models.size()); __i_3 < __j_3; __i_3++) {
+			MapResultModel __model_4 = __models.get(__i_3);
+			JSONObject __jsonObject_4 = new JSONObject();
+			JSONArray __jsonArray_4 = new JSONArray();
+
+			for (int __i_5 = 0; __i_5 < __fieldlist_size; __i_5++) {
+				String __key_6 = __fieldlist.get(__i_5);
+				__jsonArray_4.add(__model_4.get(__key_6) == null ? "" : __model_4.get(__key_6).toString());
+			}
+
+			__jsonObject_4.put("data", __jsonArray_4);
+			__jsonObject_4.put("id", __model_4.get("id"));
+			__jsonArray.add(__jsonObject_4);
+		}
+
+		_jsonObject.put("rows", __jsonArray);
+		_jsonObject.put("count", Integer.parseInt($action.getValueFromStore(getPOJOName() + "_count").toString()));
+	}
+
+	@SuppressWarnings("unchecked")
+	private void selectByIdOperation(BaseAction $action) {
+		JSONArray __jsonArray = new JSONArray();
+		MapResultModel __model = (MapResultModel) $action.getValueFromStore(getPOJOName());
+
+		if (__model instanceof MapResultModel) {
+			List<String> __fieldlist_3 = (List) $action.getValueFromStore(getPOJOName() + "_fieldlist");
+
+			for (int __i_4 = 0, __j_4 = (__fieldlist_3 == null ? 0 : __fieldlist_3.size()); __i_4 < __j_4; __i_4++) {
+				String __key_5 = __fieldlist_3.get(__i_4);
+				__jsonArray.add(__model.get(__key_5) == null ? "" : __model.get(__key_5).toString());
+			}
+		}
+		_jsonObject.put("data", __jsonArray);
+	}
+
+	@SuppressWarnings("unchecked")
+	private void selectById2Operation(BaseAction $action) {
+		JSONArray __jsonArray = new JSONArray();
+		MapResultModel __model = (MapResultModel) $action.getValueFromStore(getPOJOName());
+
+		if (__model instanceof MapResultModel) {
+			List<String> __fieldlist_3 = (List) $action.getValueFromStore(getPOJOName() + "_fieldlist");
+
+			for (int __i_4 = 0, __j_4 = (__fieldlist_3 == null ? 0 : __fieldlist_3.size()); __i_4 < __j_4; __i_4++) {
+				String __key_5 = __fieldlist_3.get(__i_4);
+				__jsonArray.add(__model.get(__key_5) == null ? "" : __model.get(__key_5).toString());
+			}
+		}
+		_jsonObject.put("data", __jsonArray);
+	}
+
+	private void selectCountOperation(BaseAction $action) {
+		_jsonObject.put("count", Integer.parseInt($action.getValueFromStore(getPOJOName() + "_count").toString()));
+	}
+
+	private void insertOperation(BaseAction $action) {
+		_jsonObject.put("id", Integer.parseInt($action.getValueFromStore(getPOJOName() + "_id").toString()));
+	}
+
+	private void updateOperation(BaseAction $action) {
+		_jsonObject.put("count", Integer.parseInt($action.getValueFromStore(getPOJOName() + "_count").toString()));
+	}
+
+	private void deleteOperation(BaseAction $action) {
+		_jsonObject.put("count", Integer.parseInt($action.getValueFromStore(getPOJOName() + "_count").toString()));
+	}
+
+	private void insertsOperation(BaseAction $action) {
+		_jsonObject.put("count", Integer.parseInt($action.getValueFromStore(getPOJOName() + "_count").toString()));
+	}
+
+	private void updatesOperation(BaseAction $action) {
+		_jsonObject.put("count", Integer.parseInt($action.getValueFromStore(getPOJOName() + "_count").toString()));
+	}
+
+	private void startUsingOperation(BaseAction $action) {
+		_jsonObject.put("count", Integer.parseInt($action.getValueFromStore(getPOJOName() + "_count").toString()));
+	}
+
+	private void stopUsingOperation(BaseAction $action) {
+		_jsonObject.put("count", Integer.parseInt($action.getValueFromStore(getPOJOName() + "_count").toString()));
+	}
+
+	private void availSignOperation(BaseAction $action) {
+		_jsonObject.put("count", Integer.parseInt($action.getValueFromStore(getPOJOName() + "_count").toString()));
+	}
+
+	private void unavailSignOperation(BaseAction $action) {
+		_jsonObject.put("count", Integer.parseInt($action.getValueFromStore(getPOJOName() + "_count").toString()));
+	}
+
+	private void otherOperation(BaseAction $action) {
+		_jsonObject.put("code", Integer.parseInt($action.getValueFromStore(getPOJOName()).toString()));
+	}
+
+}

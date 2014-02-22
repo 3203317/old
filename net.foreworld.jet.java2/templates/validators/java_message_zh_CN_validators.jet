@@ -1,0 +1,5 @@
+#
+#<%--主键ID不能为空--%>
+BaseValidator_NO_ID=\u4e3b\u952eID\u4e0d\u80fd\u4e3a\u7a7a
+#<%--参数异常--%>
+BaseValidator_PARAMS_ERR=\u53c2\u6570\u5f02\u5e38

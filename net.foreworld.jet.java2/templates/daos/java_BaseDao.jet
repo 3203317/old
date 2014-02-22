@@ -1,0 +1,86 @@
+package net.foreworld.java.daos;
+
+import java.util.List;
+
+import net.foreworld.java.domain.ConnSession;
+import net.foreworld.java.exceptions.DaoException;
+import net.foreworld.java.models.MapResultModel;
+import net.foreworld.java.services.ApplicationService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.ibatis.SqlMapClientTemplate;
+
+/**
+ * 
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public abstract class BaseDao implements IDao {
+
+	@Autowired
+	private SqlMapClientTemplate _sqlMapClientTemplate;
+
+	private String _className;
+
+	public String getClassName() {
+		return _className;
+	}
+
+	public BaseDao() {
+		_className = getClass().getSimpleName();
+		_className = _className.substring(0, 1).toLowerCase() + _className.substring(1, _className.length() - 7);
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<MapResultModel> select(Object $object, ConnSession $session) throws DaoException {
+		try {
+			return ApplicationService.getDefault().getDao().select(_sqlMapClientTemplate, getClassName(), $object, $session);
+		} catch (Exception $ex) {
+			throw new DaoException($ex.getMessage(), $ex);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<MapResultModel> select2(Object $object, ConnSession $session) throws DaoException {
+		try {
+			return ApplicationService.getDefault().getDao().select2(_sqlMapClientTemplate, getClassName(), $object, $session);
+		} catch (Exception $ex) {
+			throw new DaoException($ex.getMessage(), $ex);
+		}
+	}
+
+	public int selectCount(Object $object, ConnSession $session) throws DaoException {
+		try {
+			return ApplicationService.getDefault().getDao().selectCount(_sqlMapClientTemplate, getClassName(), $object, $session);
+		} catch (Exception $ex) {
+			throw new DaoException($ex.getMessage(), $ex);
+		}
+	}
+
+	public int insert(Object $object, ConnSession $session) throws DaoException {
+		try {
+			return ApplicationService.getDefault().getDao().insert(_sqlMapClientTemplate, getClassName(), $object, $session);
+		} catch (Exception $ex) {
+			throw new DaoException($ex.getMessage(), $ex);
+		}
+	}
+
+	public int update(Object $object, ConnSession $session) throws DaoException {
+		try {
+			return ApplicationService.getDefault().getDao().update(_sqlMapClientTemplate, getClassName(), $object, $session);
+		} catch (Exception $ex) {
+			throw new DaoException($ex.getMessage(), $ex);
+		}
+	}
+
+	public int delete(Object $object, ConnSession $session) throws DaoException {
+		try {
+			return ApplicationService.getDefault().getDao().delete(_sqlMapClientTemplate, getClassName(), $object, $session);
+		} catch (Exception $ex) {
+			throw new DaoException($ex.getMessage(), $ex);
+		}
+	}
+
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolbar>
+	<item id="find" type="button" img="../../../../../../images/img16x16/find_16.png" imgdis="find_dis.gif" text="查询" />
+	<item id="sep1" type="separator" />
+	<item id="add" type="button" img="../../../../../../images/img16x16/add_16.gif" imgdis="open_dis.gif" text="添加" />
+	<item id="edit" type="button" img="../../../../../../images/img16x16/edit_16.gif" imgdis="edit_dis.gif" text="编辑" />
+	<item id="del" type="button" img="../../../../../../images/img16x16/del_16.gif" imgdis="save_dis.gif" text="删除" />
+	<item id="sep2" type="separator" />
+	<item id="start" type="button" img="../../../../../../images/img16x16/start_16.png" imgdis="paste_dis.gif" text="启用" />
+	<item id="stop" type="button" img="../../../../../../images/img16x16/stop_16.png" imgdis="paste_dis.gif" text="禁用" />
+</toolbar>

@@ -1,0 +1,33 @@
+package net.foreworld.java.exceptions;
+
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class DaoException extends FWException {
+
+	private static final long serialVersionUID = -8521517635305835337L;
+	
+	public DaoException(){
+		super("Dao Exception");
+	}
+	
+	public DaoException(String $s){
+    	super($s);
+	}
+
+	public DaoException(String $s, Throwable $e){
+    	super($s, $e);
+	}
+
+	public DaoException(Exception $e){
+    	super($e);
+	}
+
+	public DaoException(Throwable $throwable){
+		super($throwable);
+	}
+}

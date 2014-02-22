@@ -1,0 +1,75 @@
+package net.foreworld.java.actions;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import net.foreworld.java.models.MapModel;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+/**
+ * 
+ * @author 	huangxin
+ * @email  	huangxin@foreworld.net
+ * @qq		3203317
+ * @generated
+ */
+public class BaseAction {
+	
+	private static final long serialVersionUID = 3722747216711646566L;
+	
+	public static ApplicationContext _appContext = null;
+	
+	private Object _model = new MapModel();
+	
+	private Map _store = new HashMap();
+	
+	public static Object getBean(String $id){
+		if(_appContext == null){
+			_appContext = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+		}
+		return _appContext.getBean($id);
+	}
+	
+	public Object getModel() {
+		return this._model;
+	}
+	
+	public void setModel(Object $model){
+		this._model = $model;
+	}
+	
+	public Object getStore(){
+		return this._store;
+	}
+	
+	public Object putValueToStore(Object $key, Object $value){
+		if(this._store == null){
+			this._store = new HashMap();
+		}
+		return this._store.put($key, $value);
+	}
+	
+	public Object getValueFromStore(Object $key){
+		if(this._store == null){
+			this._store = new HashMap();
+		}
+		return this._store.get($key);
+	}
+	
+	public Object removeKeyFromStore(Object $key){
+		if(this._store == null){
+			this._store = new HashMap();
+		}
+		return this._store.remove($key);
+	}
+	
+	public List getKeyList(){
+		return null;
+	}
+	
+	
+}
+

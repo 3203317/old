@@ -1,0 +1,41 @@
+package <c:get select="$p/@package"/>.<c:get select="$p/@name"/>;
+
+import java.util.List;
+import java.util.Date;
+import java.io.Serializable;
+
+import net.foreworld.java.models.FObjectImpl;
+
+/**
+ * 
+ * @author 	huangxin
+ * @email  	huangxin@foreworld.net
+ * @qq		3203317
+ * @generated
+ */
+public class <c:get select="camelCase($p/@name)"/>Impl extends FObjectImpl implements <c:get select="camelCase($p/@name)"/>, Serializable {
+
+<c:iterate select="$p/property" var="per">
+	/**
+	 * @generated
+	 **/
+	private <c:get select="$per/@type"/> _<c:get select="$per/@name"/>;
+	
+	/**
+	 * @generated
+	 **/
+	public <c:get select="$per/@type"/> get<c:get select="camelCase($per/@name)"/>(){
+		return this._<c:get select="$per/@name"/>;
+	}	
+	
+	/**
+	 * @generated
+	 **/
+	public void set<c:get select="camelCase($per/@name)"/>(<c:get select="$per/@type"/> $<c:get select="$per/@name"/>){
+		this._<c:get select="$per/@name"/> = $<c:get select="$per/@name"/>;
+	}
+	
+</c:iterate>
+	
+	
+}

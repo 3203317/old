@@ -1,0 +1,203 @@
+<root>
+	<project name="sysmanage" path="net/foreworld/asp/sysmanage">
+		<class name="sysmanage_user" package="net.foreworld.java.sysmanage" path="net/foreworld/asp/sysmanage" detailTablesName=""
+			label="用户管理" desc="用户管理" label1="用户">
+			<!-- subclass name="sysmanage_user_role" label="用户角色信息" path="net/foreworld/asp/sysmanage">
+				<subproperty name="tab_sysmanage_role_id" type="Integer" length="11" initial="" testdata="1" label="角色" desc="角色"
+					java-type="Integer"
+					sqlmap-mysql-jdbcType="DECIMAL"
+					db-mysql-type="int"
+					html_colType="ed"
+					html_colSorting="int"></subproperty>
+				<subproperty name="addtime" type="Date" length="255" initial="(new Date()).toDate()" testdata="" label="添加时间" desc="添加时间"
+					java-type="Date"
+					sqlmap-mysql-jdbcType="Date"
+					db-mysql-type="timestamp"
+					html_colType="My97DatePicker"
+					html_colSorting="date"></subproperty>
+			</subclass>
+			<subclass name="sysmanage_user_station" label="用户岗位信息" path="net/foreworld/asp/sysmanage">
+				<subproperty name="tab_sysmanage_orgunit_id" type="Integer" length="11" initial="" testdata="1" label="组织单元" desc="组织单元"
+					java-type="Integer"
+					sqlmap-mysql-jdbcType="DECIMAL"
+					db-mysql-type="int"
+					html_colType="ed"
+					html_colSorting="int"></subproperty>
+			</subclass-->
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="user_code" type="String" length="100" initial="null" testdata="01" label="用户编码" desc="用户编码"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="user_name" type="String" length="255" initial="null" testdata="admin" label="用户名" desc="用户名"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="password" type="String" length="255" initial="null" testdata="123456" label="密码" desc="密码"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="realname" type="String" length="255" initial="null" testdata="admin" label="真实姓名" desc="真实姓名"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="sex" type="Integer" length="1" initial="null" testdata="1" label="性别" desc="性别"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|code_name|','model.tab_sysmanage_codetype_id':'1','model.orderbywhat':'code_order','model.orderby':'asc'})"
+				html_init_data="net/foreworld/asp/sysmanage/sysmanage_code/select3.do"></property>
+			<property name="country" type="Integer" length="4" initial="null" testdata="1" label="国家" desc="国家"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|code_name|','model.tab_sysmanage_codetype_id':'3','model.orderbywhat':'code_order','model.orderby':'asc'})"
+				html_init_data="net/foreworld/asp/sysmanage/sysmanage_code/select3.do"></property>
+			<property name="province" type="Integer" length="4" initial="null" testdata="1" label="省" desc="省"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|code_name|','model.tab_sysmanage_codetype_id':'4','model.orderbywhat':'code_order','model.orderby':'asc'})"
+				html_init_data="net/foreworld/asp/sysmanage/sysmanage_code/select3.do"></property>
+			<property name="city" type="Integer" length="4" initial="null" testdata="1" label="市" desc="市"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|code_name|','model.tab_sysmanage_codetype_id':'5','model.orderbywhat':'code_order','model.orderby':'asc'})"
+				html_init_data="net/foreworld/asp/sysmanage/sysmanage_code/select3.do"></property>
+			<property name="birthday" type="Date" length="255" initial="null" testdata="" label="生日" desc="生日"
+				java-type="Date"
+				sqlmap-mysql-jdbcType="Date"
+				db-mysql-type="timestamp"
+				html_type="_inputdate"></property>
+			<property name="last_logintime" type="Date" length="255" initial="null" testdata="" label="最后登陆时间" desc="最后登陆时间"
+				java-type="Date"
+				sqlmap-mysql-jdbcType="Date"
+				db-mysql-type="timestamp"
+				html_type="_inputdate"></property>
+		</class>
+	
+		<class name="sysmanage_role" package="net.foreworld.java.sysmanage" path="net/foreworld/asp/sysmanage" detailTablesName="sysmanage_user_role,sysmanage_role_module_operate"
+			label="角色管理" desc="角色管理" label1="角色">
+			<!-- subclass name="sysmanage_user_role" label="角色用户信息" path="net/foreworld/asp/sysmanage">
+				<subproperty name="tab_sysmanage_user_id" type="Integer" length="11" initial="" testdata="1" label="用户" desc="用户"
+					java-type="Integer"
+					sqlmap-mysql-jdbcType="DECIMAL"
+					db-mysql-type="int"
+					html_colType="ed"
+					html_colSorting="int"></subproperty>
+			</subclass-->
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="role_name" type="String" length="100" initial="null" testdata="rolename" label="角色名" desc="角色名"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="role_desc" type="String" length="255" initial="null" testdata="roledesc" label="角色描述" desc="角色描述"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="allow_startdate" type="Date" length="255" initial="null" testdata="" label="开通日期起" desc="开通日期起"
+				java-type="Date"
+				sqlmap-mysql-jdbcType="Date"
+				db-mysql-type="timestamp"
+				html_type="_inputdate"></property>
+			<property name="allow_enddate" type="Date" length="255" initial="null" testdata="" label="开通日期止" desc="开通日期止"
+				java-type="Date"
+				sqlmap-mysql-jdbcType="Date"
+				db-mysql-type="timestamp"
+				html_type="_inputdate"></property>
+		</class>
+	
+		<class name="sysmanage_module" package="net.foreworld.java.sysmanage" path="net/foreworld/asp/sysmanage" detailTablesName="sysmanage_module_operate"
+			label="模块管理" desc="模块管理" label1="模块">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="parent_id" type="Integer" length="100" initial="0" testdata="0" label="父" desc="父"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="module_name" type="String" length="100" initial="null" testdata="modulename" label="模块名" desc="模块名"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="module_url" type="String" length="255" initial="null" testdata="sysmanage_user.html" label="模块地址" desc="模块地址"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="module_order" type="Integer" length="1" initial="null" testdata="1" label="模块排序" desc="模块排序"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="module_type" type="Integer" length="1" initial="null" testdata="1" label="模块类型" desc="模块类型"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"
+				html_type="_dropdownlist"
+				html_init_data_params="({'model.fields':'|id|code_name|','model.tab_sysmanage_codetype_id':'2','model.orderbywhat':'code_order','model.orderby':'asc'})"
+				html_init_data="net/foreworld/asp/sysmanage/sysmanage_code/select3.do"></property>
+			<property name="icon" type="String" length="100" initial="null" testdata="icon1.gif" label="图标" desc="图标"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+		</class>
+	
+		<class name="sysmanage_operate" package="net.foreworld.java.sysmanage" path="net/foreworld/asp/sysmanage" detailTablesName="sysmanage_role_module_operate"
+			label="操作管理" desc="操作管理" label1="操作">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="operate_name" type="String" length="255" initial="null" testdata="operate_name" label="操作名称" desc="操作名称"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="operate_desc" type="String" length="255" initial="null" testdata="operate_desc" label="操作描述" desc="操作描述"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+		</class>
+	
+		<class name="sysmanage_test" package="net.foreworld.java.sysmanage" path="net/foreworld/asp/sysmanage" detailTablesName="sysmanage_role_module_operate"
+			label="test" desc="test" label1="test">
+			<import value="java.util.List"></import>
+			<import value="java.io.Serializable"></import>
+			<implement value="Serializable"></implement>
+			<property name="test1" type="Integer" length="100" initial="0" testdata="0" label="test1" desc="test1"
+				java-type="Integer"
+				sqlmap-mysql-jdbcType="DECIMAL"
+				db-mysql-type="int"></property>
+			<property name="test2" type="String" length="255" initial="null" testdata="operate_desc" label="test2" desc="test2"
+				java-type="String"
+				sqlmap-mysql-jdbcType="VARCHAR"
+				db-mysql-type="varchar"></property>
+			<property name="test3" type="Date" length="255" initial="null" testdata="" label="test3" desc="test3"
+				java-type="Date"
+				sqlmap-mysql-jdbcType="Date"
+				db-mysql-type="timestamp"
+				html_type="_inputdate"></property>
+		</class>
+		
+		
+	</project>
+	
+	
+	
+	
+	
+	<!-- 分割线 -->
+	
+	
+	
+	
+	
+	
+	
+</root>

@@ -1,0 +1,116 @@
+package net.foreworld.java.interceptors;
+
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import net.foreworld.java.beans.BeanService;
+import net.foreworld.java.daos.IDao;
+import net.foreworld.java.models.MapResultModel;
+import net.foreworld.java.services.ApplicationService;
+import net.sf.json.JSONObject;
+import ognl.Ognl;
+
+import com.opensymphony.xwork2.ActionInvocation;
+
+/**
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class Data implements IInterceptor {
+
+	public String intercept(ActionInvocation $invocation) throws Exception {
+		String __url = getActionUrl($invocation);
+
+		String __append2Sql = getAppend2SqlFromSession(__url);
+
+		if (__append2Sql != null) {
+			$invocation.getStack().setValue("append2", __append2Sql);
+			return $invocation.invoke();
+		}
+
+		MapResultModel __userOptRule = getUserOptRuleFromDB(__url);
+
+		if (__userOptRule instanceof MapResultModel) {
+			String __append2Sql_3 = getAppend2Sql(__userOptRule.get("append_sql").toString());
+			getUserOptRule().put(__url, __append2Sql_3);
+			$invocation.getStack().setValue("append2", __append2Sql_3);
+		} else {
+			getUserOptRule().put(__url, "");
+			$invocation.getStack().setValue("append2", "");
+		}
+		return $invocation.invoke();
+	}
+
+	/**
+	 * 获取用户请求
+	 * 
+	 * @param $invocation
+	 * @return
+	 */
+	private String getActionUrl(ActionInvocation $invocation) {
+		String __actionName = $invocation.getProxy().getActionName().trim();
+		String __namespace = $invocation.getProxy().getNamespace().trim();
+		return __namespace.substring(1, __namespace.length()) + "/" + __actionName + ".do";
+	}
+
+	/**
+	 * 获取并转换附加的sql语句
+	 * 
+	 * @param $s_sql
+	 * @return
+	 */
+	private String getAppend2Sql(String $s_sql) {
+		StringBuffer __sb = new StringBuffer();
+
+		Pattern __pattern = Pattern.compile("(\\{)(.+?)('\\})");
+		Matcher __matcher = __pattern.matcher($s_sql);
+
+		while (__matcher.find()) {
+			String __group_3 = __matcher.group();
+			JSONObject __json_3 = JSONObject.fromObject(__group_3);
+			String __session_key_3 = __json_3.getString("session");
+			String __session_value_3 = ApplicationService.getDefault().getSession(__session_key_3).toString();
+			__matcher.appendReplacement(__sb, __session_value_3);
+			__json_3.clear();
+		}
+		__matcher.appendTail(__sb);
+		return __sb.toString();
+	}
+
+	/**
+	 * 返回用户操作规则
+	 * 
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private Map<String, String> getUserOptRule() {
+		return (Map<String, String>) ApplicationService.getDefault().getSession(ApplicationService.S_OPT_RULE);
+	}
+
+	/**
+	 * 从Session中获取与地址对应的附加语句2
+	 * 
+	 * @param $s_sql
+	 * @return
+	 */
+	private String getAppend2SqlFromSession(String $url) {
+		return getUserOptRule().get($url);
+	}
+
+	/**
+	 * 从数据库中获取用户操作规则
+	 * 
+	 * @return
+	 */
+	private MapResultModel getUserOptRuleFromDB(String $url) throws Exception {
+		Object __sysmanage_action_user_rule = BeanService.getDefault().getBean("sysmanage_action_user_rule");
+		Ognl.setValue("userruleroles_id", __sysmanage_action_user_rule, ApplicationService.getDefault().getSession(ApplicationService.S_USER_RULEROLES));
+		Ognl.setValue("action_url", __sysmanage_action_user_rule, $url);
+		IDao __sysmanage_action_user_ruleDao = (IDao) BeanService.getDefault().getBean("sysmanage_action_user_ruleDAO");
+		List<MapResultModel> __list = __sysmanage_action_user_ruleDao.select2(__sysmanage_action_user_rule, null);
+		return __list != null && __list.size() == 1 ? __list.get(0) : null;
+	}
+}

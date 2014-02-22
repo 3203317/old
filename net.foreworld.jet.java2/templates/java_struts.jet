@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<package name="<c:get select="$p/@name"/>" extends="struts-base"
+		namespace="/<c:get select="$p/@path"/>/<c:get select="$p/@name"/>">
+
+		<action name="select" class="<c:get select="$p/@name"/>Action"
+			method="select">
+			<%--interceptor-ref name="fwBaseStatck"/--%>			
+		</action>
+
+		<action name="select2" class="<c:get select="$p/@name"/>Action"
+			method="select2">
+			<%--interceptor-ref name="fwBaseStatck"/--%>			
+		</action>
+
+		<action name="select3" class="<c:get select="$p/@name"/>Action"
+			method="select3">
+			<%--interceptor-ref name="fwBaseStatck"/--%>			
+		</action>
+
+		<action name="selectCount" class="<c:get select="$p/@name"/>Action"
+			method="selectCount">
+			<%--interceptor-ref name="fwBaseStatck"/--%>			
+		</action>
+
+		<action name="selectById" class="<c:get select="$p/@name"/>Action"
+			method="selectById">
+			<%--interceptor-ref name="fwBaseStatck"/--%>			
+		</action>
+
+		<action name="selectById2" class="<c:get select="$p/@name"/>Action"
+			method="selectById2">
+		</action>
+
+		<action name="insert" class="<c:get select="$p/@name"/>Action"
+			method="insert">
+			<%--interceptor-ref name="fwBaseStatck"/--%>			
+		</action>
+
+		<action name="update" class="<c:get select="$p/@name"/>Action"
+			method="update">
+			<%--interceptor-ref name="fwBaseStatck"/--%>			
+		</action>
+
+		<action name="delete" class="<c:get select="$p/@name"/>Action"
+			method="delete">
+			<%--interceptor-ref name="fwBaseStatck"/--%>			
+		</action>
+
+		<action name="inserts" class="<c:get select="$p/@name"/>Action"
+			method="inserts">
+			<%--interceptor-ref name="fwBaseStatck"/--%>			
+		</action>
+
+		<action name="updates" class="<c:get select="$p/@name"/>Action"
+			method="updates">
+			<%--interceptor-ref name="fwBaseStatck"/--%>			
+		</action>
+
+		<action name="startUsing" class="<c:get select="$p/@name"/>Action"
+			method="startUsing">
+		</action>
+
+		<action name="stopUsing" class="<c:get select="$p/@name"/>Action"
+			method="stopUsing">
+		</action>
+
+		<action name="availSign" class="<c:get select="$p/@name"/>Action"
+			method="availSign">
+		</action>
+
+		<action name="unavailSign" class="<c:get select="$p/@name"/>Action"
+			method="unavailSign">
+		</action>
+		
+<c:iterate select="$p/method" var="method">
+		<action name="<c:get select="$method/@name"/>" class="<c:get select="$p/@name"/>Action"
+			method="<c:get select="$method/@name"/>">
+		</action>
+
+</c:iterate>
+	</package>
+
+</struts>

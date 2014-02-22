@@ -1,0 +1,99 @@
+package net.foreworld.java.interceptors;
+
+import java.util.List;
+import java.util.Map;
+
+import net.foreworld.java.beans.BeanService;
+import net.foreworld.java.daos.IDao;
+import net.foreworld.java.models.MapResultModel;
+import net.foreworld.java.results.FailResult;
+import net.foreworld.java.services.ApplicationService;
+import ognl.Ognl;
+
+import com.opensymphony.xwork2.ActionInvocation;
+
+/**
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class Operation implements IInterceptor {
+
+	public String intercept(ActionInvocation $invocation) throws Exception {
+		String __url = getActionUrl($invocation);
+
+		Boolean __b_userOptPrivilege = getUserOptPrivilegeFromSession(__url);
+
+		if (__b_userOptPrivilege != null) {
+			if (__b_userOptPrivilege) {
+				return $invocation.invoke();
+			} else {
+				return FailResult.OPERATE_FORBID;
+			}
+		}
+
+		MapResultModel __userOptPrivilege = getUserOptPrivilegeFormDB(__url);
+
+		if (__userOptPrivilege instanceof MapResultModel) {
+			if ("0".equals(__userOptPrivilege.get("action_privilege").toString())) {
+				getOptPrivilege().put(__url, true);
+				return $invocation.invoke();
+			}
+		}
+
+		getOptPrivilege().put(__url, false);
+		return FailResult.OPERATE_FORBID;
+	}
+
+	/**
+	 * 获取访问的*.do地址
+	 * 
+	 * @param $invocation
+	 * @return
+	 */
+	private String getActionUrl(ActionInvocation $invocation) {
+		String __actionName = $invocation.getProxy().getActionName().trim();
+		String __namespace = $invocation.getProxy().getNamespace().trim();
+		return __namespace.substring(1, __namespace.length()) + "/" + __actionName + ".do";
+	}
+
+	/**
+	 * 返回用户操作权限Map
+	 * 
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private Map<String, Boolean> getOptPrivilege() {
+		return (Map<String, Boolean>) ApplicationService.getDefault().getSession(ApplicationService.S_OPT_PRIVILEGE);
+	}
+
+	/**
+	 * 从Session中获取用户的操作权限，返回Boolean
+	 * 
+	 * @param $url
+	 *            Url地址
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private Boolean getUserOptPrivilegeFromSession(String $url) {
+		return getOptPrivilege().get($url);
+	}
+
+	/**
+	 * 从数据库中获取用户的操作权限
+	 * 
+	 * @param $url
+	 *            Url地址
+	 * @return
+	 * @throws Exception
+	 */
+	private MapResultModel getUserOptPrivilegeFormDB(String $url) throws Exception {
+		Object __sysmanage_action_user_privilege = BeanService.getDefault().getBean("sysmanage_action_user_privilege");
+		Ognl.setValue("userroles_id", __sysmanage_action_user_privilege, ApplicationService.getDefault().getSession(ApplicationService.S_USER_ROLES));
+		Ognl.setValue("action_url", __sysmanage_action_user_privilege, $url);
+		IDao __sysmanage_action_user_privilegeDao = (IDao) BeanService.getDefault().getBean("sysmanage_action_user_privilegeDAO");
+		List<MapResultModel> __list = __sysmanage_action_user_privilegeDao.select2(__sysmanage_action_user_privilege, null);
+		return __list != null && __list.size() == 1 ? __list.get(0) : null;
+	}
+
+}

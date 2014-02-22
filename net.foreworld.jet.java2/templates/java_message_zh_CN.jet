@@ -1,0 +1,45 @@
+#
+<c:iterate select="$p/property" var="per">		
+	<c:choose select="$per/@unique">
+		<c:when test="'true'">
+#<c:get select="$per/@name"/> already exists
+<c:get select="camelCase($p/@name)"/>Validator_EXIST_SAME_<c:get select="upper-case($per/@name)"/>=<c:get select="$per/@unique-desc"/>
+		</c:when>
+	</c:choose>			
+</c:iterate>
+<c:iterate select="$p/property" var="per">		
+	<c:choose select="$per/@java-regex">
+		<c:when test="''">
+		</c:when>
+		<c:otherwise>
+#<c:get select="$per/@name"/> regex error
+<c:get select="camelCase($p/@name)"/>Validator_REGEX_ERROR_<c:get select="upper-case($per/@name)"/>=<c:get select="$per/@java-regex-desc"/>
+		</c:otherwise>
+	</c:choose>			
+</c:iterate>
+
+#DEFAULT-VALUE
+<c:iterate select="$p/property" var="per">
+	<c:choose select="$per/@default-value">
+		<c:when test="''">
+		</c:when>
+		<c:when test="'null'">
+		</c:when>
+		<c:otherwise>
+<c:get select="camelCase($p/@name)"/>Action_DEFAULT_<c:get select="upper-case($per/@name)"/>=<c:get select="$per/@default-value"/>
+		</c:otherwise>
+	</c:choose>
+</c:iterate>
+
+<%--#UPDATE-VALUE
+<c:iterate select="$p/property" var="per">
+	<c:choose select="$per/@update-value">
+		<c:when test="''">
+		</c:when>
+		<c:when test="'null'">
+		</c:when>
+		<c:otherwise>
+<c:get select="camelCase($p/@name)"/>Action_UPDATE_<c:get select="upper-case($per/@name)"/>=<c:get select="$per/@update-value"/>
+		</c:otherwise>
+	</c:choose>
+</c:iterate--%>

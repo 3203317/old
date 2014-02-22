@@ -1,0 +1,33 @@
+package net.foreworld.java.exceptions;
+
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class ServiceException extends FWException {
+
+	private static final long serialVersionUID = -5603607433159242918L;
+
+	public ServiceException(){
+		super("Service Exception");
+	}
+	
+	public ServiceException(String $s){
+    	super($s);
+	}
+
+	public ServiceException(String $s, Throwable $e){
+    	super($s, $e);
+	}
+
+	public ServiceException(Exception $e){
+    	super($e);
+	}
+
+	public ServiceException(Throwable $throwable){
+		super($throwable);
+	}
+}

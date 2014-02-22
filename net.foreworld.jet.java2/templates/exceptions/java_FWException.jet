@@ -1,0 +1,45 @@
+package net.foreworld.java.exceptions;
+
+import java.io.Serializable;
+import org.apache.commons.lang.exception.NestableRuntimeException;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class FWException extends NestableRuntimeException implements Serializable{
+
+	private static final long serialVersionUID = 2110130899012398955L;
+	
+	public FWException(){
+		super("FW Exception");
+	}
+	
+	public FWException(String $s){
+    	super($s);
+	}
+
+	public FWException(String $s, Throwable $e){
+    	super($s, $e);
+	}
+
+	public FWException(Exception $e){
+    	super($e);
+	}
+
+	public FWException(Throwable $throwable){
+		super($throwable);
+	}
+	
+	protected String _code = null;
+
+	public String getCode(){
+		return _code;
+	}
+
+	public void setCode(String $code){
+		_code = $code;
+	}
+}

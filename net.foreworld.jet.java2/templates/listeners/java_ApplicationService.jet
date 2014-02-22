@@ -1,0 +1,27 @@
+package net.foreworld.java.listeners;
+
+import java.util.logging.Logger;
+
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class ApplicationService implements ServletContextListener {
+	final Logger _logger = Logger.getLogger(ApplicationService.class.getName());
+
+	public void contextDestroyed(ServletContextEvent $event) {
+		_logger.info("Application Service stop...");
+
+	}
+
+	public void contextInitialized(ServletContextEvent $event) {
+		_logger.info("Application Service start...");
+
+	}
+
+}

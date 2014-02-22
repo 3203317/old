@@ -1,0 +1,33 @@
+package net.foreworld.java.exceptions;
+
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class ActionException extends FWException {
+
+	private static final long serialVersionUID = 558424291708692059L;
+	
+	public ActionException(){
+		super("Action Exception");
+	}
+	
+	public ActionException(String $s){
+    	super($s);
+	}
+
+	public ActionException(String $s, Throwable $e){
+    	super($s, $e);
+	}
+
+	public ActionException(Exception $e){
+    	super($e);
+	}
+
+	public ActionException(Throwable $throwable){
+		super($throwable);
+	}
+}

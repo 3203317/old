@@ -1,0 +1,102 @@
+package net.foreworld.java.services;
+
+import java.util.List;
+
+import net.foreworld.java.daos.IDao;
+import net.foreworld.java.domain.ConnSession;
+import net.foreworld.java.exceptions.ServiceException;
+import net.foreworld.java.models.BaseModel;
+import net.foreworld.java.models.MapResultModel;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public interface IServiceShadow {
+
+	/**
+	 * id：必须有值，如果值<=0那么抛异常<br/> fields：必须有值，如果值=""，那么抛异常
+	 * 
+	 * @param $dao
+	 * @param $model
+	 * @param $session
+	 * @return
+	 * @throws ServiceException
+	 */
+	MapResultModel selectById(IDao $dao, BaseModel $model, ConnSession $session) throws ServiceException;
+
+	MapResultModel selectById2(IDao $dao, BaseModel $model, ConnSession $session) throws ServiceException;
+
+	List<MapResultModel> select(IDao $dao, BaseModel $model, ConnSession $session) throws ServiceException;
+
+	List<MapResultModel> select2(IDao $dao, BaseModel $model, ConnSession $session) throws ServiceException;
+
+	int selectCount(IDao $dao, BaseModel $model, ConnSession $session) throws ServiceException;
+
+	/**
+	 * 默认主从表全部都为插入
+	 * 
+	 * @param $dao
+	 * @param $className
+	 * @param $model
+	 * @param $session
+	 * @return
+	 * @throws ServiceException
+	 */
+	int insert(IDao $dao, String $className, BaseModel $model, ConnSession $session) throws ServiceException;
+
+	/**
+	 * 主表的id不能为空<br/> 更新和删除时，从表的id不能为空
+	 * 
+	 * @param $dao
+	 * @param $className
+	 * @param $model
+	 * @param $session
+	 * @return
+	 * @throws ServiceException
+	 */
+	int update(IDao $dao, String $className, BaseModel $model, ConnSession $session) throws ServiceException;
+
+	/**
+	 * batchData：主键id字符串连接，不能为""，格式为"1,2,3"，如果==""，则抛异常
+	 * 
+	 * @param $dao
+	 * @param $model
+	 * @param $session
+	 * @return
+	 * @throws ServiceException
+	 */
+	int delete(IDao $dao, BaseModel $model, ConnSession $session) throws ServiceException;
+
+	int inserts(IDao $dao, List<BaseModel> $list, ConnSession $session) throws ServiceException;
+
+	/**
+	 * 全部主表id不能为空
+	 * 
+	 * @param $dao
+	 * @param $list
+	 * @param $session
+	 * @return
+	 * @throws ServiceException
+	 */
+	int updates(IDao $dao, List<BaseModel> $list, ConnSession $session) throws ServiceException;
+
+	/**
+	 * batchData：主键id字符串连接，不能为""，格式为"1,2,3"，如果==""，则抛异常
+	 * 
+	 * @param $dao
+	 * @param $model
+	 * @param $session
+	 * @return
+	 * @throws ServiceException
+	 */
+	int startUsing(IDao $dao, BaseModel $model, ConnSession $session) throws ServiceException;
+
+	int stopUsing(IDao $dao, BaseModel $model, ConnSession $session) throws ServiceException;
+
+	int availSign(IDao $dao, BaseModel $model, ConnSession $session) throws ServiceException;
+
+	int unavailSign(IDao $dao, BaseModel $model, ConnSession $session) throws ServiceException;
+}

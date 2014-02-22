@@ -1,0 +1,97 @@
+package net.foreworld.java.interceptors;
+
+import com.opensymphony.xwork2.ActionInvocation;
+import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
+
+/**
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class FieldInterceptor extends AbstractInterceptor {
+
+	private static final long serialVersionUID = 3077968464498844320L;
+
+	public String intercept(ActionInvocation $invocation) throws Exception {
+		<%--// System.out.println("----------FieldInterceptor1");
+		//
+		// //
+		// //
+		// //
+		//		
+		// Enumeration __enum =
+		// ApplicationService.getDefault().getRequest().getParameterNames();
+		//		
+		// Object __object = null;
+		//		
+		// while(__enum.hasMoreElements()){
+		// String ___paramName = (String)__enum.nextElement();
+		//			
+		// String[] ___paramsValue =
+		// ApplicationService.getDefault().getRequest().getParameterValues(___paramName);
+		//			
+		// if(___paramName.indexOf("model.") > -1){
+		// try{
+		// System.out.println(___paramName +" "+ ___paramsValue[0]);
+		//					
+		// }
+		// catch(Exception $ex){
+		// //
+		// }
+		// }
+		// }
+		//		
+		// __object =
+		// ApplicationService.getDefault().getRequest().getParameterMap().get("model.user_name");
+		//
+		// System.out.println(__object);
+		// System.out.println(ApplicationService.getDefault().getRequest().getParameter("model.user_name"));
+		//		
+		//
+		// Map __requestParams =
+		// ApplicationService.getDefault().getRequest().getParameterMap();
+		//		
+		// Method __method = __requestParams.getClass().getMethod("setLocked",
+		// new Class[]{boolean.class});
+		//		
+		// __method.invoke(__requestParams, new Object[]{new Boolean(false)});
+		//		
+		//		
+		// System.out.println(__requestParams.size());
+		//		
+		// __requestParams.remove("model.user_name");
+		//		
+		//		
+		//		
+		// System.out.println("-----------------------");
+		//		
+		// System.out.println(__requestParams.size());
+		//		
+		// System.out.println(ApplicationService.getDefault().getRequest().getParameterMap().size());
+		//		
+		//		
+		// __enum =
+		// ApplicationService.getDefault().getRequest().getParameterNames();
+		//		
+		// while(__enum.hasMoreElements()){
+		// String ___paramName = (String)__enum.nextElement();
+		//			
+		// String[] ___paramsValue =
+		// ApplicationService.getDefault().getRequest().getParameterValues(___paramName);
+		//			
+		// if(___paramName.indexOf("model.") > -1){
+		// try{
+		// System.out.println(___paramName +" "+ ___paramsValue[0]);
+		// }
+		// catch(Exception $ex){
+		// //
+		// }
+		// }
+		// }
+		//		
+		//		
+		// System.out.println("----------FieldInterceptor2");--%>
+		return $invocation.invoke();
+	}
+
+}

@@ -1,0 +1,151 @@
+package net.foreworld.java.beans;
+
+import java.util.List;
+
+import net.foreworld.java.domain.ConnSession;
+import net.foreworld.java.exceptions.BeanException;
+import net.foreworld.java.models.BaseModel;
+import net.foreworld.java.models.MapResultModel;
+import net.foreworld.java.services.IService;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public abstract class BaseBean implements IBean {
+
+	private ConnSession _session;
+
+	public ConnSession getSession() {
+		return _session;
+	}
+
+	public void setSession(ConnSession $session) {
+		_session = $session;
+	}
+
+	private IService _service;
+
+	public IService getService() {
+		return _service;
+	}
+
+	public void setService(IService $service) {
+		_service = $service;
+	}
+
+	public MapResultModel selectById(BaseModel $model) throws BeanException {
+		try {
+			return getService().selectById($model, getSession());
+		} catch (Exception $ex) {
+			throw new BeanException($ex.getMessage(), $ex);
+		}
+	}
+
+	public MapResultModel selectById2(BaseModel $model) throws BeanException {
+		try {
+			return getService().selectById2($model, getSession());
+		} catch (Exception $ex) {
+			throw new BeanException($ex.getMessage(), $ex);
+		}
+	}
+
+	public List<MapResultModel> select(BaseModel $model) throws BeanException {
+		try {
+			return getService().select($model, getSession());
+		} catch (Exception $ex) {
+			throw new BeanException($ex.getMessage(), $ex);
+		}
+	}
+
+	public List<MapResultModel> select2(BaseModel $model) throws BeanException {
+		try {
+			return getService().select2($model, getSession());
+		} catch (Exception $ex) {
+			throw new BeanException($ex.getMessage(), $ex);
+		}
+	}
+
+	public int selectCount(BaseModel $model) throws BeanException {
+		try {
+			return getService().selectCount($model, getSession());
+		} catch (Exception $ex) {
+			throw new BeanException($ex.getMessage(), $ex);
+		}
+	}
+
+	public int insert(BaseModel $model) throws BeanException {
+		try {
+			return getService().insert($model, getSession());
+		} catch (Exception $ex) {
+			throw new BeanException($ex.getMessage(), $ex);
+		}
+	}
+
+	public int update(BaseModel $model) throws BeanException {
+		try {
+			return getService().update($model, getSession());
+		} catch (Exception $ex) {
+			throw new BeanException($ex.getMessage(), $ex);
+		}
+	}
+
+	public int delete(BaseModel $model) throws BeanException {
+		try {
+			return getService().delete($model, getSession());
+		} catch (Exception $ex) {
+			throw new BeanException($ex.getMessage(), $ex);
+		}
+	}
+
+	public int inserts(List<BaseModel> $list) throws BeanException {
+		try {
+			return getService().inserts($list, getSession());
+		} catch (Exception $ex) {
+			throw new BeanException($ex.getMessage(), $ex);
+		}
+	}
+
+	public int updates(List<BaseModel> $list) throws BeanException {
+		try {
+			return getService().updates($list, getSession());
+		} catch (Exception $ex) {
+			throw new BeanException($ex.getMessage(), $ex);
+		}
+	}
+
+	public int startUsing(BaseModel $model) throws BeanException {
+		try {
+			return getService().startUsing($model, getSession());
+		} catch (Exception $ex) {
+			throw new BeanException($ex.getMessage(), $ex);
+		}
+	}
+
+	public int stopUsing(BaseModel $model) throws BeanException {
+		try {
+			return getService().stopUsing($model, getSession());
+		} catch (Exception $ex) {
+			throw new BeanException($ex.getMessage(), $ex);
+		}
+	}
+
+	public int availSign(BaseModel $model) throws BeanException {
+		try {
+			return getService().availSign($model, getSession());
+		} catch (Exception $ex) {
+			throw new BeanException($ex.getMessage(), $ex);
+		}
+	}
+
+	public int unavailSign(BaseModel $model) throws BeanException {
+		try {
+			return getService().unavailSign($model, getSession());
+		} catch (Exception $ex) {
+			throw new BeanException($ex.getMessage(), $ex);
+		}
+	}
+
+}

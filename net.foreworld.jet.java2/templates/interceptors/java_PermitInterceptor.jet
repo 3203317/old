@@ -1,0 +1,29 @@
+package net.foreworld.java.interceptors;
+
+import java.util.Enumeration;
+
+import net.foreworld.java.actions.BaseAction;
+
+import com.opensymphony.xwork2.ActionInvocation;
+import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
+import com.opensymphony.xwork2.util.ValueStack;
+
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class PermitInterceptor extends AbstractInterceptor {
+
+	private static final long serialVersionUID = 5016549803366550638L;
+	
+	public String intercept(ActionInvocation $actionInvocation) throws Exception {
+		System.out.println("----------PermitInterceptor");
+		
+		
+		return $actionInvocation.invoke();
+	}
+
+}

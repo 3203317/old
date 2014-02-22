@@ -1,0 +1,8 @@
+package net.foreworld.java.models;
+
+/**
+ * @generated
+ **/
+public interface FObject {
+
+}

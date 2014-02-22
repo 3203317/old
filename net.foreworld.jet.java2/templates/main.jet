@@ -1,0 +1,304 @@
+<%@taglib prefix="ws" id="org.eclipse.jet.workspaceTags" %>
+<%-- Main entry point for net.foreworld.jet.java2 --%>
+
+<%-- 
+  Let c:iterate tags set the XPath context object.
+  For 100% compatibility with JET 0.9.x or earlier, remove this statement
+ --%>
+<c:setVariable var="org.eclipse.jet.taglib.control.iterateSetsContext" select="true()"/>
+
+<%-- 
+TODO: traverse input model, performing calculations and storing 
+the results as model annotations via c:set tag 
+--%>
+
+
+<%--
+TODO: traverse annotated model, performing text generation actions 
+such as ws:file, ws:folder and ws:project 
+--%>
+   
+
+<%-- For debug purposes, dump the annotated input model in 
+   the root of the project containing the original input model.
+   
+   Note that model formatting may not be identical, and that in
+   the case of non-XML input models, the dump may look quite different.
+--%>
+
+<%--c:if test="isVariableDefined('org.eclipse.jet.resource.project.name')">
+    <ws:file template="templates/dump.jet" path="{$org.eclipse.jet.resource.project.name}/dump.xml"/>
+</c:if--%>
+
+<%--生成两个实体类--%>
+<ws:file template="templates/java_entity_fobject.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/models/FObject.java"/>
+<ws:file template="templates/java_entity_fobjectimpl.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/models/FObjectImpl.java"/>
+
+<%--生成BaseModel--%>
+<ws:file template="templates/models/java_BaseModel.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/models/BaseModel.java"/>
+
+<%--生成MapResultModel--%>
+<ws:file template="templates/models/java_MapResultModel.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/models/MapResultModel.java"/>
+
+<%--生成MapModel--%>
+<ws:file template="templates/models/java_MapModel.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/models/MapModel.java"/>
+
+<%--生成BaseAction--%>
+<%--ws:file template="templates/actions/java_ActionService.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/actions/ActionService.java"/--%>
+<ws:file template="templates/actions/java_BaseAction.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/actions/BaseAction.java"/>
+<ws:file template="templates/actions/java_ActionShadow.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/actions/ActionShadow.java"/>
+<ws:file template="templates/actions/java_IAction.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/actions/IAction.java"/>
+<ws:file template="templates/actions/java_IActionShadow.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/actions/IActionShadow.java"/>
+
+<%--生成FWException--%>
+<ws:file template="templates/exceptions/java_FWException.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/exceptions/FWException.java"/>
+
+<%--生成ActionException--%>
+<ws:file template="templates/exceptions/java_ActionException.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/exceptions/ActionException.java"/>
+<ws:file template="templates/exceptions/java_ValidatorException.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/exceptions/ValidatorException.java"/>
+
+<%--生成BeanException--%>
+<ws:file template="templates/exceptions/java_BeanException.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/exceptions/BeanException.java"/>
+
+<%--生成DaoException--%>
+<ws:file template="templates/exceptions/java_DaoException.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/exceptions/DaoException.java"/>
+
+<%--生成EjbException--%>
+<ws:file template="templates/exceptions/java_EjbException.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/exceptions/EjbException.java"/>
+
+<%--生成ServiceException--%>
+<ws:file template="templates/exceptions/java_ServiceException.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/exceptions/ServiceException.java"/>
+
+<%--生成SqlException--%>
+<ws:file template="templates/exceptions/java_SqlException.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/exceptions/SqlException.java"/>
+
+<%--生成ValidationException>
+<ws:file template="templates/exceptions/java_ValidationException.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/exceptions/ValidationException.java"/--%>
+
+
+
+<%--生成IBean--%>
+<ws:file template="templates/beans/java_IBean.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/beans/IBean.java"/>
+<ws:file template="templates/beans/java_BeanService.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/beans/BeanService.java"/>
+
+<%--生成BaseBean--%>
+<ws:file template="templates/beans/java_BaseBean.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/beans/BaseBean.java"/>
+
+
+
+
+<%--生成BasePage--%>
+<ws:file template="templates/domain/java_BasePage.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/domain/BasePage.java"/>
+
+<%--生成PaginatedList--%>
+<ws:file template="templates/domain/java_PaginatedList.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/domain/PaginatedList.java"/>
+
+<%--生成Pagination--%>
+<ws:file template="templates/domain/java_Pagination.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/domain/Pagination.java"/>
+
+<%--生成ConnSession--%>
+<ws:file template="templates/domain/java_ConnSession.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/domain/ConnSession.java"/>
+
+
+<%--生成BaseSqlMapClientDao--%>
+<ws:file template="templates/domain/ibatis/java_BaseSqlMapClientDao.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/domain/ibatis/BaseSqlMapClientDao.java"/>
+
+
+
+
+<%--生成IDao--%>
+<ws:file template="templates/daos/java_IDao.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/daos/IDao.java"/>
+<ws:file template="templates/daos/java_IDaoShadow.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/daos/IDaoShadow.java"/>
+<ws:file template="templates/daos/java_BaseDao.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/daos/BaseDao.java"/>
+<ws:file template="templates/daos/java_DaoShadow.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/daos/DaoShadow.java"/>
+
+<%--生成IValidator--%>
+<ws:file template="templates/validators/java_IValidator.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/validators/IValidator.java"/>
+<ws:file template="templates/validators/java_BaseValidator.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/validators/BaseValidator.java"/>
+<ws:file template="templates/validators/java_ValidatorShadow.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/validators/ValidatorShadow.java"/>
+<ws:file template="templates/validators/java_message_zh_CN_validators.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/validators/message_zh_CN.properties"/>
+
+
+
+<%--生成IService--%>
+<ws:file template="templates/services/java_IService.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/services/IService.java"/>
+<ws:file template="templates/services/java_IServiceShadow.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/services/IServiceShadow.java"/>
+<ws:file template="templates/services/java_Util.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/services/Util.java"/>
+<ws:file template="templates/services/java_ShadowLoader.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/services/ShadowLoader.java"/>
+<ws:file template="templates/services/java_ApplicationService2.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/services/ApplicationService.java"/>
+
+<%--生成BaseService--%>
+<ws:file template="templates/services/java_BaseService.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/services/BaseService.java"/>
+<ws:file template="templates/services/java_EncryptClasses.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/services/EncryptClasses.java"/>
+<ws:file template="templates/services/java_ServiceShadow.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/services/ServiceShadow.java"/>
+<%--ws:file template="templates/services/java_ApplicationContext2.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/services/ApplicationContext.java"/--%>
+
+
+<%--ws:file template="templates/servlet/java_ApplicationService.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/servlet/ApplicationService.java"/--%>
+
+
+<%--创建数据库 mysql--%>
+<c:iterate select="/root/project" var="p">
+	<ws:file template="templates/sql_mysql.jet" path="{$org.eclipse.jet.resource.project.name}/src/{$p/@path}/sql-mysql-{$p/@name}.sql"/>
+	<ws:file template="templates/sql_sqlser.jet" path="{$org.eclipse.jet.resource.project.name}/src/{$p/@path}/sql-sqlser-{$p/@name}.sql"/>
+	<ws:file template="templates/sql_mysql_sysmanage_action.jet" path="{$org.eclipse.jet.resource.project.name}/src/{$p/@path}/sql_mysql_sysmanage_action.sql"/>
+</c:iterate>
+
+<%--生成基于mysql的sqlmap--%>
+<c:iterate select="//class" var="p">
+	<%--暂不用mysql--%>
+	<%--ws:file template="templates/java_sqlmap_mysql.jet" path="{$org.eclipse.jet.resource.project.name}/src/{$p/@path}/{$p/@name}/sqlmap-mysql-{$p/@name}.xml"/--%>
+	<ws:file template="templates/java_sqlmap_sqlserv.jet" path="{$org.eclipse.jet.resource.project.name}/src/{$p/@path}/{$p/@name}/sqlmap-mysql-{$p/@name}.xml"/>
+</c:iterate>
+
+<%--生成基于mysql的主sqlmap>
+<c:iterate select="/root/project" var="p">
+	<ws:file template="templates/java_sqlmap_mysql_main.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/{$p/@name}/sqlmap-mysql-{$p/@name}.xml"/>
+</c:iterate--%>
+
+<c:iterate select="//class" var="p">
+	<ws:file template="templates/java_spring.jet" path="{$org.eclipse.jet.resource.project.name}/src/{$p/@path}/{$p/@name}/spring-{$p/@name}.xml"/>
+</c:iterate>
+
+<%--c:iterate select="/root/project" var="p">
+	<ws:file template="templates/java_spring_main.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/{$p/@name}/spring-{$p/@name}.xml"/>
+</c:iterate--%>
+
+<c:iterate select="//class" var="p">
+	<ws:file template="templates/java_struts.jet" path="{$org.eclipse.jet.resource.project.name}/src/{$p/@path}/{$p/@name}/struts-{$p/@name}.xml"/>
+</c:iterate>
+
+<%--c:iterate select="/root/project" var="p">
+	<ws:file template="templates/java_struts_main.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/{$p/@name}/struts-{$p/@name}.xml"/>
+</c:iterate--%>
+
+<c:iterate select="//class" var="p">
+	<ws:file template="templates/java_entity.jet" path="{$org.eclipse.jet.resource.project.name}/src/{$p/@path}/{$p/@name}/{camelCase($p/@name)}.java"/>
+	<ws:file template="templates/java_entityValidator.jet" path="{$org.eclipse.jet.resource.project.name}/src/{$p/@path}/{$p/@name}/{camelCase($p/@name)}Validator.java"/>
+</c:iterate>
+
+<%--c:iterate select="//class" var="p">
+	<ws:file template="templates/java_entity_impl.jet" path="{$org.eclipse.jet.resource.project.name}/src/{$p/@path}/{$p/@name}/{camelCase($p/@name)}Impl.java"/>
+</c:iterate-->
+
+<%--生成Action类--%>
+<c:iterate select="//class" var="p">
+	<ws:file template="templates/java_classAction.jet" path="{$org.eclipse.jet.resource.project.name}/src/{$p/@path}/{$p/@name}/{camelCase($p/@name)}Action.java"/>
+</c:iterate>
+
+<%--生成Bean类--%>
+<c:iterate select="//class" var="p">
+	<ws:file template="templates/java_classBean.jet" path="{$org.eclipse.jet.resource.project.name}/src/{$p/@path}/{$p/@name}/{camelCase($p/@name)}Bean.java"/>
+</c:iterate>
+
+<%--生成DAOImpl类--%>
+<c:iterate select="//class" var="p">
+	<ws:file template="templates/java_classDAOImpl.jet" path="{$org.eclipse.jet.resource.project.name}/src/{$p/@path}/{$p/@name}/{camelCase($p/@name)}DAOImpl.java"/>
+</c:iterate>
+
+<%--生成ServiceImpl类--%>
+<c:iterate select="//class" var="p">
+	<ws:file template="templates/java_classServiceImpl.jet" path="{$org.eclipse.jet.resource.project.name}/src/{$p/@path}/{$p/@name}/{camelCase($p/@name)}ServiceImpl.java"/>
+	<ws:file template="templates/java_message_zh_CN.jet" path="{$org.eclipse.jet.resource.project.name}/src/{$p/@path}/{$p/@name}/message_zh_CN.properties"/>
+</c:iterate>
+
+
+<%--生成jdbc.properties--%>
+<%--ws:file template="templates/config/java_jdbc_properties.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/config/java_jdbc.properties"/--%>
+
+<%--生成applicationContext.xml--%>
+<ws:file template="templates/config/java_applicationContext_xml.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/config/applicationContext.xml"/>
+
+<%--生成sqlmap-mysql.xml--%>
+<ws:file template="templates/config/java_sqlmap-mysql_xml.jet" path="{$org.eclipse.jet.resource.project.name}/src/sqlmap-mysql.xml"/>
+
+<%--生成struts.xml--%>
+<ws:file template="templates/config/java_struts_xml.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/config/struts.xml"/>
+
+<%--生成applicationContext.xml--%>
+<ws:file template="templates/java_applicationContext.jet" path="{$org.eclipse.jet.resource.project.name}/src/applicationContext.xml"/>
+<ws:file template="templates/java_jdbc.jet" path="{$org.eclipse.jet.resource.project.name}/src/jdbc.properties"/>
+
+<%--生成struts.xml--%>
+<ws:file template="templates/java_struts_root.jet" path="{$org.eclipse.jet.resource.project.name}/src/struts.xml"/>
+
+<%--生成struts.properties--%>
+<ws:file template="templates/java_struts_root_properties.jet" path="{$org.eclipse.jet.resource.project.name}/src/struts.properties"/>
+
+<%--生成log4j.properties--%>
+<ws:file template="templates/java_log4j.jet" path="{$org.eclipse.jet.resource.project.name}/src/log4j.properties"/>
+
+<%--生成SessionManager.java--%>
+<ws:file template="templates/listeners/java_SessionManager.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/listeners/SessionManager.java"/>
+<%--ws:file template="templates/listeners/java_ApplicationService.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/listeners/ApplicationService.java"/--%>
+
+
+
+
+<%--生成results--%>
+
+
+<ws:file template="templates/results/java_IResult.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/results/IResult.java"/>
+<ws:file template="templates/results/java_JSONResult.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/results/JSONResult.java"/>
+<ws:file template="templates/results/java_Success.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/results/Success.java"/>
+
+<ws:file template="templates/results/java_FailResult.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/results/FailResult.java"/>
+<ws:file template="templates/results/java_Fail.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/results/Fail.java"/>
+
+
+
+<%--生成results--%>
+
+
+
+<%--拦截器--%>
+
+<%--生成LoginInterceptor.java--%>
+<ws:file template="templates/interceptors/java_IInterceptor.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/interceptors/IInterceptor.java"/>
+
+<ws:file template="templates/interceptors/java_Login.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/interceptors/Login.java"/>
+<ws:file template="templates/interceptors/java_LoginInterceptor.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/interceptors/LoginInterceptor.java"/>
+
+
+<%--生成OperationInterceptor.java--%>
+<ws:file template="templates/interceptors/java_Operation.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/interceptors/Operation.java"/>
+<ws:file template="templates/interceptors/java_OperationInterceptor.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/interceptors/OperationInterceptor.java"/>
+
+<%--生成DataInterceptor.java--%>
+<ws:file template="templates/interceptors/java_Data.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/interceptors/Data.java"/>
+<ws:file template="templates/interceptors/java_DataInterceptor.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/interceptors/DataInterceptor.java"/>
+
+<%--生成FieldInterceptor.java--%>
+<ws:file template="templates/interceptors/java_FieldInterceptor.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/interceptors/FieldInterceptor.java"/>
+
+
+<%--生成FormParamsInterceptor.java--%>
+<ws:file template="templates/interceptors/java_FormParams.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/interceptors/FormParams.java"/>
+<ws:file template="templates/interceptors/java_FormParamsInterceptor.jet" path="{$org.eclipse.jet.resource.project.name}/src/net/foreworld/java/interceptors/FormParamsInterceptor.java"/>
+
+
+<%--拦截器--%>
+
+
+
+
+<%--生成viewList的html 和 js--%>
+<c:iterate select="//class" var="p">
+	<ws:file template="templates/webroot_index_html.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/{$p/@path}/{$p/@name}/index.xml"/>
+	<ws:file template="templates/webroot_index3_html.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/{$p/@path}/{$p/@name}/index3.xml"/>
+	<ws:file template="templates/webroot_detail_html.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/{$p/@path}/{$p/@name}/detail.xml"/>
+	<ws:file template="templates/webroot_viewAdd_html.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/{$p/@path}/{$p/@name}/viewAdd.xml"/>
+	<ws:file template="templates/webroot_viewAdd3_html.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/{$p/@path}/{$p/@name}/viewAdd3.xml"/>
+	<ws:file template="templates/webroot_viewEdit2_html.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/{$p/@path}/{$p/@name}/viewEdit2.xml"/>
+	<ws:file template="templates/webroot_viewEdit3_html.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/{$p/@path}/{$p/@name}/viewEdit3.xml"/>
+	
+	<%--ws:file template="templates/webroot_viewAdds_html.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/{$p/@path}/{$p/@name}/viewAdds.xml"/>
+	<ws:file template="templates/webroot_viewList_html.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/{$p/@path}/{$p/@name}/viewList.xml"/>
+	<ws:file template="templates/webroot_viewEdit_html.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/{$p/@path}/{$p/@name}/viewEdit.xml"/>
+	<ws:file template="templates/webroot_viewDel_html.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/{$p/@path}/{$p/@name}/viewDel.xml"/--%>
+	
+	<ws:file template="templates/webroot_class_js.jet" path="{$org.eclipse.jet.resource.project.name}/WebRoot/{$p/@path}/{$p/@name}/{$p/@name}.js"/>
+</c:iterate>
+
+
+

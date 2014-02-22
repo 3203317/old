@@ -1,0 +1,180 @@
+<html>
+	<head>
+
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="this is my page">
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+			
+		<script type="text/javascript" src="../../../../../commons/components/jquery.min.js"></script>
+
+		<script type="text/javascript" src="../../../../../commons/js/util.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/page.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/dropdownlist.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/inputtext.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/inputdate.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/button.js"></script>
+		<script type="text/javascript" src="../../../../../commons/js/dhtmlX_Grid.js"></script>
+		
+		<script type="text/javascript" src="../../../../../commons/components/My97DatePicker/WdatePicker.js"></script>
+		
+		<link rel="STYLESHEET" type="text/css" href="../../../../../commons/css/viewAdd.css">
+
+
+		<link rel="STYLESHEET" type="text/css"
+			href="../../../../../commons/components/dhtmlx/dhtmlxGrid/codebase/dhtmlxgrid.css">
+		<link rel="stylesheet" type="text/css"
+			href="../../../../../commons/components/dhtmlx/dhtmlxGrid/codebase/skins/dhtmlxgrid_dhx_skyblue.css">
+		<script
+			src="../../../../../commons/components/dhtmlx/dhtmlxGrid/codebase/dhtmlxcommon.js"></script>
+		<script
+			src="../../../../../commons/components/dhtmlx/dhtmlxGrid/codebase/dhtmlxgrid.js"></script>
+		<script
+			src="../../../../../commons/components/dhtmlx/dhtmlxGrid/codebase/dhtmlxgridcell.js"></script>
+			
+		
+		<script type="text/javascript" src="../../../../../commons/js/dhtmlxgrid_excell_My97DatePicker.js"></script>
+
+		<script type="text/javascript" src="<c:get select="$p/@name"/>.js"></script>
+		
+		<style>
+			.inp_all{height:20px; line-height:20px; border:1px #c9d6c9 solid;}
+		</style>
+		
+		<SCRIPT LANGUAGE="JavaScript">
+		<!--
+			var __fields = _<c:get select="$p/@name"/>_fields;
+		
+		//-->
+		</SCRIPT>
+	</head>
+
+	<body>
+		<TABLE id="mtable" border="0" cellpadding="0" cellspacing="0" width="98%" align="center">
+			<tr>
+				<td align="center" colspan="4">
+					<table width="100%" border="0" cellpadding="0" cellspacing="0"
+						align="center">
+						<tr height="10">
+							<td></td>
+						</tr>
+						<tr height="30">
+							<td style="font-size: 12px;">
+								<img src="../../../../../commons/images/newcapec/home.jpg" width="17" height="17" align="absmiddle" />&nbsp;&nbsp;<a href="index.html"><c:get select="$p/@label"/></a>&nbsp;&nbsp;&nbsp;&gt;&gt;&nbsp;&nbsp;&nbsp;明细信息
+							</td>
+						</tr>
+						<tr height="2">
+							<td style="border-bottom: 1px solid #eee; font-size: 1px;">
+								&nbsp;
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<TR>
+				<TD>
+					<TABLE border="0" width="100%" class="tablelist06 margin_8 bordergrey">
+						<TR height="23">
+							<TD colspan="4" class="odd" height="30">
+								<strong><c:get select="$p/@label1"/>信息明细</strong>
+							</TD>
+						</TR>
+						<TR>
+							<TD colspan="4">
+								<input type="hidden" name="id" id="model.id" _type="_inputtext"/>
+								<input type="hidden" name="path" id="path" value="<c:get select="$p/@path"/>/<c:get select="$p/@name"/>"/>
+							</TD>
+						</TR>
+						<c:iterate select="$p/property" var="propertyper">
+						<TR height="23">
+							<TD width="12%" style="font-size:12">
+								<c:get select="$propertyper/@label"/>
+							</TD>
+							<TD>
+							<c:choose select="$propertyper/@html_type">
+								<c:when test="'_dropdownlist'">
+									<select name="<c:get select="$propertyper/@name"/>" id="model.<c:get select="$propertyper/@name"/>" disabled="true"
+										_type="<c:get select="$propertyper/@html_type"/>"
+										_init_data_params="<c:get select="$propertyper/@html_init_data_params"/>"
+										_init_data="<c:get select="$propertyper/@html_init_data"/>"/>
+								</c:when>
+								<c:when test="'_inputdate'">
+									<input type="text" name="<c:get select="$propertyper/@name"/>" id="model.<c:get select="$propertyper/@name"/>" readonly="" disabled="true" _type="<c:get select="$propertyper/@html_type"/>" class="Wdate"/>
+								</c:when>
+								<c:otherwise>
+									<input type="text" name="<c:get select="$propertyper/@name"/>" id="model.<c:get select="$propertyper/@name"/>" readonly="" disabled="true" _type="_inputtext" class="inp_all"/>
+								</c:otherwise>
+							</c:choose>
+							</TD>
+							<TD>
+								&nbsp;
+							</TD>
+							<TD>
+								&nbsp;
+							</TD>
+						</TR>
+						</c:iterate>
+					</TABLE>
+				</TD>
+			</TR>
+			
+			<c:iterate select="$p/subclass" var="subc">
+							
+			<TR>
+				<TD>
+					<TABLE border="0" width="100%" class="margin_8 bordergrey">
+						<TR height="30">
+							<TD style="background: #f7f7f7; padding-left: 15px;font-size:14px" height="30">
+								<strong><c:get select="$subc/@label"/></strong>
+							</TD>
+							<TD align="right">
+								<%--input type="button" value="添加一行" _type="_button" id="_btn_addRow_<c:get select="$subc/@name"/>" _events="({'click':'_addRow_<c:get select="$subc/@name"/>'})"/>
+								<input type="button" value="删除一行" _type="_button" id="_btn_delRow_<c:get select="$subc/@name"/>" _events="({'click':'_delRow_<c:get select="$subc/@name"/>'})"/--%>
+							</TD>
+						</TR>
+						<TR>
+							<TD colspan="2" width="100%">
+								<div id="_<c:get select="$subc/@name"/>" _type="_dhtmlX_Grid"
+									_url="<c:get select="$subc/@path"/>/<c:get select="$subc/@name"/>/select.do"
+									_dataType="json"
+									_imagePath="commons/components/dhtmlx/dhtmlxGrid/codebase/imgs/"
+									_header="<c:iterate select="$subc/subproperty" var="propertyper" delimiter=","><c:get select="$propertyper/@label"/></c:iterate>"
+									_initWidths="<c:iterate select="$subc/subproperty" var="propertyper" delimiter=",">150</c:iterate>"
+									_colAlign="<c:iterate select="$subc/subproperty" var="propertyper" delimiter=",">left</c:iterate>"
+									_colType="<c:iterate select="$subc/subproperty" var="propertyper" delimiter=","><c:get select="$propertyper/@html_colType"/></c:iterate>"
+									_colSorting="<c:iterate select="$subc/subproperty" var="propertyper" delimiter=","><c:get select="$propertyper/@html_colSorting"/></c:iterate>" _skin="dhx_skyblue"
+									style="width:100%;height:300px;background-color:white;"></div>
+							</TD>
+						</TR>
+						
+					</TABLE>
+				</TD>
+			</TR>
+			
+			</c:iterate>
+			
+			</TR>
+				<TD height="50" align="center">
+					<%--input type="button" value="&nbsp;提&nbsp;&nbsp;交&nbsp;" _type="_submit" id="_submit" class="btn01"
+						_url="<c:get select="$p/@path"/>/<c:get select="$p/@name"/>/update.do"/>&nbsp;&nbsp;--%>
+					<input type="button" value="&nbsp;返&nbsp;&nbsp;回&nbsp;" class="btn01" onclick="history.back();"/>
+				</TD>
+			</TR>
+			</TR>
+				<TD>
+					<span id="_tag"></span>
+				</TD>
+			</TR>
+		</TABLE>	
+	</body>
+
+	<script type="text/javascript" src="../../../../../commons/js/pt.js"></script>
+
+	<SCRIPT LANGUAGE="JavaScript">
+	<!--
+		$(document).ready(function(){
+			
+		});
+	
+	//-->
+	</SCRIPT>
+</html>

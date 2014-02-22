@@ -1,0 +1,381 @@
+package net.foreworld.java.actions;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import net.foreworld.java.beans.BeanService;
+import net.foreworld.java.beans.IBean;
+import net.foreworld.java.models.BaseModel;
+import net.foreworld.java.models.MapResultModel;
+import net.foreworld.java.results.FailResult;
+import net.foreworld.java.validators.IValidator;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import ognl.Ognl;
+
+import org.apache.log4j.Logger;
+
+import com.opensymphony.xwork2.Action;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class ActionShadow implements IActionShadow {
+
+	static final Logger _log = Logger.getLogger(ActionShadow.class);
+
+	@SuppressWarnings("unchecked")
+	private List<BaseModel> getBatchData(String $className, BaseModel $model) throws Exception {
+		String __batchData = $model.getBatchData();
+		JSONArray __jsonArray = JSONArray.fromObject(__batchData);
+		List __list = new ArrayList();
+
+		for (int __i_3 = 0, __j_3 = (__jsonArray == null ? 0 : __jsonArray.size()); __i_3 < __j_3; __i_3++) {
+			JSONObject __jsonObject_4 = (JSONObject) __jsonArray.get(__i_3);
+
+			Object __object_4 = BeanService.getDefault().getBean($className).getClass().newInstance();
+
+			for (Iterator __iterator_5 = __jsonObject_4.keys(); __iterator_5.hasNext();) {
+				String __key_6 = __iterator_5.next().toString();
+				Ognl.setValue(__key_6, __object_4, __jsonObject_4.get(__key_6));
+			}
+
+			Ognl.setValue("append2", __object_4, $model.getAppend2());
+			__list.add(__object_4);
+		}
+		return __list;
+	}
+
+	private List<String> getFieldList(BaseModel $model) {
+		List<String> __fieldList = null;
+		String __fields = ($model.getFields() == null ? "" : $model.getFields().trim());
+
+		if ("".equals(__fields)) {
+			$model.setFields($model.getOldfields());
+			__fieldList = Arrays.asList($model.getFields().split(","));
+		} else {
+			__fieldList = new ArrayList<String>();
+			List<String> __fieldList_3 = Arrays.asList(__fields.split("\\|"));
+			String __fields_3 = "";
+
+			for (int __i_4 = 0, __j_4 = (__fieldList_3 == null ? 0 : __fieldList_3.size()); __i_4 < __j_4; __i_4++) {
+				String __field_5 = __fieldList_3.get(__i_4).trim();
+
+				if (!"".equals(__field_5)) {
+					if (__field_5.indexOf(",") > -1) {
+						String[] __fields_6 = __field_5.split(",");
+						__fields_3 += "'" + __fields_6[1].trim() + "' as " + __fields_6[0].trim().replace(" ", "");
+						__fieldList.add(__fields_6[0]);
+					} else {
+						__fields_3 += __field_5.replace(" ", "");
+						__fieldList.add(__field_5);
+					}
+					__fields_3 += ",";
+				}
+			}
+			__fields_3 = __fields_3.substring(0, __fields_3.length() - 1);
+			$model.setFields(__fields_3);
+		}
+		return __fieldList;
+	}
+
+	public String availSign(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store) {
+		try {
+			BaseModel __model = (BaseModel) $object;
+			Map<String, String> __errors = $validator.availSignMethod(__model);
+			if (__errors != null) {
+				$store.put($className + "_form_error", __errors);
+				return FailResult.FORM_ERROR;
+			}
+			$store.put($className + "_count", $bean.availSign(__model));
+		} catch (Exception $ex) {
+			$ex.printStackTrace();
+			_log.error($ex.getMessage(), $ex);
+			$store.put($className + "_other_error", $ex.getMessage());
+			return FailResult.OTHER_ERROR;
+		}
+		return Action.SUCCESS;
+	}
+
+	public String delete(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store) {
+		try {
+			BaseModel __model = (BaseModel) $object;
+			Map<String, String> __errors = $validator.deleteMethod(__model);
+			if (__errors != null) {
+				$store.put($className + "_form_error", __errors);
+				return FailResult.FORM_ERROR;
+			}
+			$store.put($className + "_count", $bean.delete(__model));
+		} catch (Exception $ex) {
+			$ex.printStackTrace();
+			_log.error($ex.getMessage(), $ex);
+			$store.put($className + "_other_error", $ex.getMessage());
+			return FailResult.OTHER_ERROR;
+		}
+		return Action.SUCCESS;
+	}
+
+	public String insert(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store) {
+		try {
+			BaseModel __model = (BaseModel) $object;
+			Map<String, String> __errors = $validator.insertMethod(__model);
+			if (__errors != null) {
+				$store.put($className + "_form_error", __errors);
+				return FailResult.FORM_ERROR;
+			}
+			$store.put($className + "_id", $bean.insert(__model));
+		} catch (Exception $ex) {
+			$ex.printStackTrace();
+			_log.error($ex.getMessage(), $ex);
+			$store.put($className + "_other_error", $ex.getMessage());
+			return FailResult.OTHER_ERROR;
+		}
+		return Action.SUCCESS;
+	}
+
+	public String inserts(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store) {
+		try {
+			BaseModel __model = (BaseModel) $object;
+			Map<String, String> __errors = $validator.insertsMethod(__model);
+			if (__errors != null) {
+				$store.put($className + "_form_error", __errors);
+				return FailResult.FORM_ERROR;
+			}
+			List<BaseModel> __list = getBatchData($className, __model);
+			$store.put($className + "_count", $bean.inserts(__list));
+		} catch (Exception $ex) {
+			$ex.printStackTrace();
+			_log.error($ex.getMessage(), $ex);
+			$store.put($className + "_other_error", $ex.getMessage());
+			return FailResult.OTHER_ERROR;
+		}
+		return Action.SUCCESS;
+	}
+
+	public String select(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store) {
+		try {
+			BaseModel __model = (BaseModel) $object;
+			Map<String, String> __errors = $validator.selectMethod(__model);
+			if (__errors != null) {
+				$store.put($className + "_form_error", __errors);
+				return FailResult.FORM_ERROR;
+			}
+			List<String> __fieldList = getFieldList(__model);
+			Object __object = $bean.select(__model);
+			int __count = $bean.selectCount(__model);
+			$store.put($className, __object);
+			$store.put($className + "_count", __count);
+			$store.put($className + "_fieldlist", __fieldList);
+			$store.put($className + "_pos", (__model.getCurrentpage() - 1) * __model.getPagesize());
+		} catch (Exception $ex) {
+			$ex.printStackTrace();
+			_log.error($ex.getMessage(), $ex);
+			$store.put($className + "_other_error", $ex.getMessage());
+			return FailResult.OTHER_ERROR;
+		}
+		return Action.SUCCESS;
+	}
+
+	public String select2(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store) {
+		try {
+			BaseModel __model = (BaseModel) $object;
+			Map<String, String> __errors = $validator.select2Method(__model);
+			if (__errors != null) {
+				$store.put($className + "_form_error", __errors);
+				return FailResult.FORM_ERROR;
+			}
+			List<String> __fieldList = getFieldList(__model);
+			Object __object = $bean.select2(__model);
+			int __count = $bean.selectCount(__model);
+			$store.put($className, __object);
+			$store.put($className + "_count", __count);
+			$store.put($className + "_fieldlist", __fieldList);
+		} catch (Exception $ex) {
+			$ex.printStackTrace();
+			_log.error($ex.getMessage(), $ex);
+			$store.put($className + "_other_error", $ex.getMessage());
+			return FailResult.OTHER_ERROR;
+		}
+		return Action.SUCCESS;
+	}
+
+	public String select3(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store) {
+		try {
+			BaseModel __model = (BaseModel) $object;
+			Map<String, String> __errors = $validator.select3Method(__model);
+			if (__errors != null) {
+				$store.put($className + "_form_error", __errors);
+				return FailResult.FORM_ERROR;
+			}
+			List<String> __fieldList = getFieldList(__model);
+			List<MapResultModel> __list = $bean.select2(__model);
+			$store.put($className, __list);
+			$store.put($className + "_count", __list.size());
+			$store.put($className + "_fieldlist", __fieldList);
+		} catch (Exception $ex) {
+			$ex.printStackTrace();
+			_log.error($ex.getMessage(), $ex);
+			$store.put($className + "_other_error", $ex.getMessage());
+			return FailResult.OTHER_ERROR;
+		}
+		return Action.SUCCESS;
+	}
+
+	public String selectById(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store) {
+		try {
+			BaseModel __model = (BaseModel) $object;
+			Map<String, String> __errors = $validator.selectByIdMethod(__model);
+			if (__errors != null) {
+				$store.put($className + "_form_error", __errors);
+				return FailResult.FORM_ERROR;
+			}
+			List<String> __fieldList = getFieldList(__model);
+			Object __object = $bean.selectById(__model);
+			$store.put($className, __object);
+			$store.put($className + "_fieldlist", __fieldList);
+		} catch (Exception $ex) {
+			$ex.printStackTrace();
+			_log.error($ex.getMessage(), $ex);
+			$store.put($className + "_other_error", $ex.getMessage());
+			return FailResult.OTHER_ERROR;
+		}
+		return Action.SUCCESS;
+	}
+
+	public String selectById2(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store) {
+		try {
+			BaseModel __model = (BaseModel) $object;
+			Map<String, String> __errors = $validator.selectById2Method(__model);
+			if (__errors != null) {
+				$store.put($className + "_form_error", __errors);
+				return FailResult.FORM_ERROR;
+			}
+			List<String> __fieldList = getFieldList(__model);
+			Object __object = $bean.selectById2(__model);
+			$store.put($className, __object);
+			$store.put($className + "_fieldlist", __fieldList);
+		} catch (Exception $ex) {
+			$ex.printStackTrace();
+			_log.error($ex.getMessage(), $ex);
+			$store.put($className + "_other_error", $ex.getMessage());
+			return FailResult.OTHER_ERROR;
+		}
+		return Action.SUCCESS;
+	}
+
+	public String selectCount(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store) {
+		try {
+			BaseModel __model = (BaseModel) $object;
+			Map<String, String> __errors = $validator.selectCountMethod(__model);
+			if (__errors != null) {
+				$store.put($className + "_form_error", __errors);
+				return FailResult.FORM_ERROR;
+			}
+			$store.put($className + "_count", $bean.selectCount(__model));
+		} catch (Exception $ex) {
+			$ex.printStackTrace();
+			_log.error($ex.getMessage(), $ex);
+			$store.put($className + "_other_error", $ex.getMessage());
+			return FailResult.OTHER_ERROR;
+		}
+		return Action.SUCCESS;
+	}
+
+	public String startUsing(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store) {
+		try {
+			BaseModel __model = (BaseModel) $object;
+			Map<String, String> __errors = $validator.startUsingMethod(__model);
+			if (__errors != null) {
+				$store.put($className + "_form_error", __errors);
+				return FailResult.FORM_ERROR;
+			}
+			$store.put($className + "_count", $bean.startUsing(__model));
+		} catch (Exception $ex) {
+			$ex.printStackTrace();
+			_log.error($ex.getMessage(), $ex);
+			$store.put($className + "_other_error", $ex.getMessage());
+			return FailResult.OTHER_ERROR;
+		}
+		return Action.SUCCESS;
+	}
+
+	public String stopUsing(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store) {
+		try {
+			BaseModel __model = (BaseModel) $object;
+			Map<String, String> __errors = $validator.stopUsingMethod(__model);
+			if (__errors != null) {
+				$store.put($className + "_form_error", __errors);
+				return FailResult.FORM_ERROR;
+			}
+			$store.put($className + "_count", $bean.stopUsing(__model));
+		} catch (Exception $ex) {
+			$ex.printStackTrace();
+			_log.error($ex.getMessage(), $ex);
+			$store.put($className + "_other_error", $ex.getMessage());
+			return FailResult.OTHER_ERROR;
+		}
+		return Action.SUCCESS;
+	}
+
+	public String unavailSign(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store) {
+		try {
+			BaseModel __model = (BaseModel) $object;
+			Map<String, String> __errors = $validator.unavailSignMethod(__model);
+			if (__errors != null) {
+				$store.put($className + "_form_error", __errors);
+				return FailResult.FORM_ERROR;
+			}
+			$store.put($className + "_count", $bean.unavailSign(__model));
+		} catch (Exception $ex) {
+			$ex.printStackTrace();
+			_log.error($ex.getMessage(), $ex);
+			$store.put($className + "_other_error", $ex.getMessage());
+			return FailResult.OTHER_ERROR;
+		}
+		return Action.SUCCESS;
+	}
+
+	public String update(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store) {
+		try {
+			BaseModel __model = (BaseModel) $object;
+			Map<String, String> __errors = $validator.updateMethod(__model);
+			if (__errors != null) {
+				$store.put($className + "_form_error", __errors);
+				return FailResult.FORM_ERROR;
+			}
+			$store.put($className + "_count", $bean.update(__model));
+		} catch (Exception $ex) {
+			$ex.printStackTrace();
+			_log.error($ex.getMessage(), $ex);
+			$store.put($className + "_other_error", $ex.getMessage());
+			return FailResult.OTHER_ERROR;
+		}
+		return Action.SUCCESS;
+	}
+
+	public String updates(IBean $bean, IValidator $validator, String $className, Object $object, Map<String, Object> $store) {
+		try {
+			BaseModel __model = (BaseModel) $object;
+			Map<String, String> __errors = $validator.updatesMethod(__model);
+			if (__errors != null) {
+				$store.put($className + "_form_error", __errors);
+				return FailResult.FORM_ERROR;
+			}
+			List<BaseModel> __list = getBatchData($className, __model);
+			$store.put($className + "_count", $bean.updates(__list));
+		} catch (Exception $ex) {
+			$ex.printStackTrace();
+			_log.error($ex.getMessage(), $ex);
+			$store.put($className + "_other_error", $ex.getMessage());
+			return FailResult.OTHER_ERROR;
+		}
+		return Action.SUCCESS;
+	}
+
+}

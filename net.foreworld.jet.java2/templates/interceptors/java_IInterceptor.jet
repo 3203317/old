@@ -1,0 +1,12 @@
+package net.foreworld.java.interceptors;
+
+import com.opensymphony.xwork2.ActionInvocation;
+
+/**
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public interface IInterceptor {
+	String intercept(ActionInvocation $invocation) throws Exception;
+}

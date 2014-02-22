@@ -1,0 +1,124 @@
+<c:iterate select="$p/class" var="classper">
+
+insert into sysmanage_action
+(
+	action_name, action_url, opt_sysmanage_user_id
+) 
+values 
+(
+	'<c:get select="$classper/@name"/>_添加', 
+	'<c:get select="$classper/@path"/>/<c:get select="$classper/@name"/>/insert.do', 
+	1
+);
+
+insert into sysmanage_action
+(
+	action_name, action_url, opt_sysmanage_user_id
+) 
+values 
+(
+	'<c:get select="$classper/@name"/>_更新', 
+	'<c:get select="$classper/@path"/>/<c:get select="$classper/@name"/>/update.do', 
+	1
+);
+
+insert into sysmanage_action
+(
+	action_name, action_url, opt_sysmanage_user_id
+) 
+values 
+(
+	'<c:get select="$classper/@name"/>_删除', 
+	'<c:get select="$classper/@path"/>/<c:get select="$classper/@name"/>/delete.do', 
+	1
+);
+
+insert into sysmanage_action
+(
+	action_name, action_url, opt_sysmanage_user_id
+) 
+values 
+(
+	'<c:get select="$classper/@name"/>_批量添加', 
+	'<c:get select="$classper/@path"/>/<c:get select="$classper/@name"/>/inserts.do', 
+	1
+);
+
+insert into sysmanage_action
+(
+	action_name, action_url, opt_sysmanage_user_id
+) 
+values 
+(
+	'<c:get select="$classper/@name"/>_批量更新', 
+	'<c:get select="$classper/@path"/>/<c:get select="$classper/@name"/>/updates.do', 
+	1
+);
+
+insert into sysmanage_action
+(
+	action_name, action_url, opt_sysmanage_user_id
+) 
+values 
+(
+	'<c:get select="$classper/@name"/>_批量删除', 
+	'<c:get select="$classper/@path"/>/<c:get select="$classper/@name"/>/deletes.do', 
+	1
+);
+
+insert into sysmanage_action
+(
+	action_name, action_url, opt_sysmanage_user_id
+) 
+values 
+(
+	'<c:get select="$classper/@name"/>_查询', 
+	'<c:get select="$classper/@path"/>/<c:get select="$classper/@name"/>/select.do', 
+	1
+);
+
+insert into sysmanage_action
+(
+	action_name, action_url, opt_sysmanage_user_id
+) 
+values 
+(
+	'<c:get select="$classper/@name"/>_查询2', 
+	'<c:get select="$classper/@path"/>/<c:get select="$classper/@name"/>/select2.do', 
+	1
+);
+
+insert into sysmanage_action
+(
+	action_name, action_url, opt_sysmanage_user_id
+) 
+values 
+(
+	'<c:get select="$classper/@name"/>_查询3', 
+	'<c:get select="$classper/@path"/>/<c:get select="$classper/@name"/>/select3.do', 
+	1
+);
+
+insert into sysmanage_action
+(
+	action_name, action_url, opt_sysmanage_user_id
+) 
+values 
+(
+	'<c:get select="$classper/@name"/>_查询总数', 
+	'<c:get select="$classper/@path"/>/<c:get select="$classper/@name"/>/selectCount.do', 
+	1
+);
+
+insert into sysmanage_action
+(
+	action_name, action_url, opt_sysmanage_user_id
+) 
+values 
+(
+	'<c:get select="$classper/@name"/>_查询ById', 
+	'<c:get select="$classper/@path"/>/<c:get select="$classper/@name"/>/selectById.do', 
+	1
+);
+
+</c:iterate>

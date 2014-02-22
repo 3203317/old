@@ -1,0 +1,177 @@
+package net.foreworld.java.services;
+
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.crypto.NoSuchPaddingException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import net.foreworld.java.actions.IActionShadow;
+import net.foreworld.java.daos.IDaoShadow;
+import net.foreworld.java.interceptors.IInterceptor;
+import net.foreworld.java.results.IResult;
+import net.foreworld.java.validators.IValidator;
+
+import org.apache.log4j.Logger;
+import org.apache.struts2.ServletActionContext;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public final class ApplicationService {
+
+	static final Logger _log = Logger.getLogger(ApplicationService.class);
+
+	public final static String S_USER_ID = "user_id";
+	public final static String S_USER_NAME = "user_name";
+	public final static String S_USER_ROLES = "user_roles";
+	public final static String S_USER_RULEROLES = "user_ruleroles";
+	public final static String S_REALNAME = "realname";
+	public final static String S_LOGIN_TIME = "login_time";
+	public final static String S_LOGIN_IP = "login_ip";
+	public final static String S_OPT_PRIVILEGE = "opt_privilege";
+	public final static String S_OPT_RULE = "opt_rule";
+	public final static String S_ORGUNITS_ID = "orgunits_id";
+	public final static String S_STATIONS_ID = "stations_id";
+
+	private static ApplicationService _INSTANCE = new ApplicationService();
+
+	private IDaoShadow _dao = null;
+	private IServiceShadow _service = null;
+	private IActionShadow _action = null;
+	private IValidator _validator = null;
+	private IResult _fail = null;
+	private IResult _success = null;
+	private IInterceptor _login = null;
+	private IInterceptor _operation = null;
+	private IInterceptor _data = null;
+	private IInterceptor _formParams = null;
+
+	private Map<String, HttpSession> _sessions = new HashMap<String, HttpSession>();
+
+	private ApplicationService() {
+		try {
+			loadShadows();
+		} catch (Exception $ex) {
+			$ex.printStackTrace();
+		}
+	}
+
+	public static ApplicationService getDefault() {
+		return _INSTANCE;
+	}
+
+	public HttpServletResponse getResponse() {
+		return ServletActionContext.getResponse();
+	}
+
+	public HttpServletRequest getRequest() {
+		return ServletActionContext.getRequest();
+	}
+
+	public HttpSession getHttpSession() {
+		return ServletActionContext.getRequest().getSession(true);
+	}
+
+	public Object getSession(String $sessionName) {
+		return getHttpSession().getAttribute($sessionName);
+	}
+
+	public void setSession(String $sessionName, Object $sessionValue) {
+		getHttpSession().setAttribute($sessionName, $sessionValue);
+	}
+
+	public Map<String, HttpSession> getSessions() {
+		return _sessions;
+	}
+
+	public void putSession(HttpSession $session) {
+		String __key = $session.getAttribute(S_USER_NAME).toString();
+		HttpSession __old_session = _sessions.get(__key);
+		if (__old_session != null) {
+			__old_session.invalidate();
+		}
+		_sessions.put(__key, $session);
+	}
+
+	public void removeSession(HttpSession $session) {
+		String __key = $session.getAttribute(S_USER_NAME).toString();
+		_sessions.remove(__key);
+	}
+
+	public IDaoShadow getDao() {
+		return _dao;
+	}
+
+	public IServiceShadow getService() {
+		return _service;
+	}
+
+	public IActionShadow getAction() {
+		return _action;
+	}
+
+	public IValidator getValidator() {
+		return _validator;
+	}
+
+	public IResult getFail() {
+		return _fail;
+	}
+
+	public IResult getSuccess() {
+		return _success;
+	}
+
+	public IInterceptor getLogin() {
+		return _login;
+	}
+
+	public IInterceptor getOperation() {
+		return _operation;
+	}
+
+	public IInterceptor getData() {
+		return _data;
+	}
+
+	public IInterceptor getFormParams() {
+		return _formParams;
+	}
+
+	@SuppressWarnings("unchecked")
+	private void loadShadows() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+		ShadowLoader __shadowLoader = new ShadowLoader();
+		Class __class = __shadowLoader.loadClass("net.foreworld.java.daos.DaoShadow", true);
+		_dao = (IDaoShadow) __class.newInstance();
+		__class = __shadowLoader.loadClass("net.foreworld.java.services.ServiceShadow", true);
+		_service = (IServiceShadow) __class.newInstance();
+		__class = __shadowLoader.loadClass("net.foreworld.java.actions.ActionShadow", true);
+		_action = (IActionShadow) __class.newInstance();
+		__class = __shadowLoader.loadClass("net.foreworld.java.validators.ValidatorShadow", true);
+		_validator = (IValidator) __class.newInstance();
+		__class = __shadowLoader.loadClass("net.foreworld.java.results.Fail", true);
+		_fail = (IResult) __class.newInstance();
+		__class = __shadowLoader.loadClass("net.foreworld.java.results.Success", true);
+		_success = (IResult) __class.newInstance();
+		__class = __shadowLoader.loadClass("net.foreworld.java.interceptors.Login", true);
+		_login = (IInterceptor) __class.newInstance();
+		__class = __shadowLoader.loadClass("net.foreworld.java.interceptors.Operation", true);
+		_operation = (IInterceptor) __class.newInstance();
+		__class = __shadowLoader.loadClass("net.foreworld.java.interceptors.Data", true);
+		_data = (IInterceptor) __class.newInstance();
+		__class = __shadowLoader.loadClass("net.foreworld.java.interceptors.FormParams", true);
+		_formParams = (IInterceptor) __class.newInstance();
+		__shadowLoader.closeJarFile();
+	}
+
+}

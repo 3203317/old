@@ -1,0 +1,174 @@
+package <c:get select="$p/@package"/>.<c:get select="$p/@name"/>;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
+
+import net.foreworld.java.actions.BaseAction;
+import net.foreworld.java.beans.BeanService;
+import net.foreworld.java.models.BaseModel;
+import net.foreworld.java.results.FailResult;
+
+import org.apache.log4j.Logger;
+
+import com.opensymphony.xwork2.Action;
+
+/**
+ * <p>
+ * Title: <c:get select="camelCase($p/@name)"/>
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright(c) 2011 郑州新开普电子股份有限公司
+ * </p>
+ * 
+ * @author 黄鑫 (huangxin)
+ * @version
+ * @data 创建日期：2011-11-11 修改日期： 修改人： 复审人：
+ * @generated
+ */
+public class <c:get select="camelCase($p/@name)"/>Action extends BaseAction {
+	static final Logger _log = Logger.getLogger(<c:get select="camelCase($p/@name)"/>Action.class);
+
+	private <c:get select="camelCase($p/@name)"/> _<c:get select="$p/@name"/> = new <c:get select="camelCase($p/@name)"/>();
+
+	public Object getModel() {
+		return _<c:get select="$p/@name"/>;
+	}
+
+	private static final String BUNDEL_NAME = "<c:get select="$p/@package"/>.<c:get select="$p/@name"/>.message";
+	private ResourceBundle _rb = ResourceBundle.getBundle(BUNDEL_NAME, Locale.getDefault());
+	private SimpleDateFormat _sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+<c:iterate select="$p/property" var="per">
+	<c:choose select="$per/@default-value">
+		<c:when test="''">
+		</c:when>
+		<c:when test="'null'">
+		</c:when>
+		<c:otherwise>
+	private static final String DEFAULT_<c:get select="upper-case($per/@name)"/> = "<c:get select="camelCase($p/@name)"/>Action_DEFAULT_<c:get select="upper-case($per/@name)"/>";
+		</c:otherwise>
+	</c:choose>
+</c:iterate>
+<%--c:iterate select="$p/property" var="per">
+	<c:choose select="$per/@update-value">
+		<c:when test="''">
+		</c:when>
+		<c:when test="'null'">
+		</c:when>
+		<c:otherwise>
+	private static final String UPDATE_<c:get select="upper-case($per/@name)"/> = "<c:get select="camelCase($p/@name)"/>Action_UPDATE_<c:get select="upper-case($per/@name)"/>";
+		</c:otherwise>
+	</c:choose>
+</c:iterate--%>
+
+	public ResourceBundle getBundle() {
+		return _rb;
+	}
+
+	public String insert() {
+		<c:get select="camelCase($p/@name)"/> __<c:get select="$p/@name"/> = (<c:get select="camelCase($p/@name)"/>) getModel();
+
+<c:iterate select="$p/property" var="per">
+	<c:choose select="$per/@default-value">
+		<c:when test="''">
+		</c:when>
+		<c:when test="'null'">
+		<%--__<c:get select="$p/@name"/>.set<c:get select="camelCase($per/@name)"/>(null);--%>
+		</c:when>
+		<c:otherwise>
+			<c:choose select="$per/@type">
+				<c:when test="'Integer'">
+		if (__<c:get select="$p/@name"/>.get<c:get select="camelCase($per/@name)"/>() == null) {
+			__<c:get select="$p/@name"/>.set<c:get select="camelCase($per/@name)"/>(Integer.parseInt(getBundle().getString(DEFAULT_<c:get select="upper-case($per/@name)"/>)));
+		}
+				</c:when>
+				<c:when test="'Date'">
+		if (__<c:get select="$p/@name"/>.get<c:get select="camelCase($per/@name)"/>() == null) {
+			try {
+				__<c:get select="$p/@name"/>.set<c:get select="camelCase($per/@name)"/>(_sdf.parse(getBundle().getString(DEFAULT_<c:get select="upper-case($per/@name)"/>)));
+			} catch (ParseException $ex) {
+				$ex.printStackTrace();
+				_log.error($ex.getMessage(), $ex);
+				putValueToStore(getClassName() + "_other_error", $ex.getMessage());
+				return FailResult.OTHER_ERROR;
+			}
+		}
+				</c:when>
+				<c:otherwise>
+		if (__<c:get select="$p/@name"/>.get<c:get select="camelCase($per/@name)"/>() == null) {
+			__<c:get select="$p/@name"/>.set<c:get select="camelCase($per/@name)"/>(getBundle().getString(DEFAULT_<c:get select="upper-case($per/@name)"/>));
+		}
+				</c:otherwise>
+			</c:choose>
+		</c:otherwise>
+	</c:choose>
+</c:iterate>
+
+		return super.insert();
+	}
+
+<%--public String update() {
+		<c:get select="camelCase($p/@name)"/> __<c:get select="$p/@name"/> = (<c:get select="camelCase($p/@name)"/>) getModel();
+
+<c:iterate select="$p/property" var="per">
+	<c:choose select="$per/@update-value">
+		<c:when test="''">
+		</c:when>
+		<c:when test="'null'">
+		__<c:get select="$p/@name"/>.set<c:get select="camelCase($per/@name)"/>(null);
+		</c:when>
+		<c:otherwise>
+			<c:choose select="$per/@type">
+				<c:when test="'Integer'">
+		__<c:get select="$p/@name"/>.set<c:get select="camelCase($per/@name)"/>(Integer.parseInt(getBundle().getString(UPDATE_<c:get select="upper-case($per/@name)"/>)));
+				</c:when>
+				<c:when test="'Date'">
+		try {
+			__<c:get select="$p/@name"/>.set<c:get select="camelCase($per/@name)"/>(_sdf.parse(getBundle().getString(UPDATE_<c:get select="upper-case($per/@name)"/>)));
+		} catch (ParseException $ex) {
+			$ex.printStackTrace();
+			_log.error($ex.getMessage(), $ex);
+			putValueToStore(getClassName() + "_other_error", $ex.getMessage());
+			return FailResult.OTHER_ERROR;
+		}
+				</c:when>
+				<c:otherwise>
+		__<c:get select="$p/@name"/>.set<c:get select="camelCase($per/@name)"/>(getBundle().getString(UPDATE_<c:get select="upper-case($per/@name)"/>));
+				</c:otherwise>
+			</c:choose>
+		</c:otherwise>
+	</c:choose>
+</c:iterate>
+
+		return super.update();
+	}
+--%>
+<c:iterate select="$p/method" var="method">
+	public String <c:get select="$method/@name"/>() {
+		try {
+			BaseModel __model = (BaseModel) getModel();
+			<c:get select="camelCase($p/@name)"/>Validator __validator = (<c:get select="camelCase($p/@name)"/>Validator) BeanService.getDefault().getBean("<c:get select="$p/@name"/>Validator");
+			Map<String, String> __errors = __validator.<c:get select="$method/@name"/>(__model);
+			if (__errors != null) {
+				putValueToStore(getClassName() + "_form_error", __errors);
+				return FailResult.FORM_ERROR;
+			}
+			<c:get select="camelCase($p/@name)"/> __<c:get select="$p/@name"/> = (<c:get select="camelCase($p/@name)"/>) __model;
+			putValueToStore(getClassName(), getBean().update(__<c:get select="$p/@name"/>));
+		} catch (Exception $ex) {
+			$ex.printStackTrace();
+			_log.error($ex.getMessage(), $ex);
+			putValueToStore(getClassName() + "_other_error", $ex.getMessage());
+			return FailResult.OTHER_ERROR;
+		}
+		return Action.SUCCESS;
+	}
+
+</c:iterate>
+}

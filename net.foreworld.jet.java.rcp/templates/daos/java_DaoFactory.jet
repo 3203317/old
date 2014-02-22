@@ -1,0 +1,53 @@
+package net.foreworld.java.daos;
+
+<c:iterate select="//class" var="p">
+import <c:get select="$p/@package"/>.<c:get select="$p/@name"/>.<c:get select="camelCase($p/@name)"/>DAOImpl;
+</c:iterate>	
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+/**
+ * 
+ * @author 	huangxin
+ * @email  	huangxin@foreworld.net
+ * @qq		3203317
+ * @generated
+ */
+public class DaoFactory {
+	
+	private static final DaoFactory _instance = new DaoFactory();
+	
+	private DaoFactory() {}
+	
+	public static DaoFactory getInstance(){
+		return _instance;
+	}
+
+	private SqlMapClient _sqlMap;
+
+	public void setSqlMap(SqlMapClient $sqlMap) {
+		this._sqlMap = $sqlMap;
+	}
+	
+	public SqlMapClient getSqlMap() {
+		return this._sqlMap;
+	}
+	
+	public IDao getDao(String $daoName){
+		
+		IDao __idao = null;
+
+<c:iterate select="//class" var="p" delimiter="		else">		
+		if(<c:get select="upper-case($p/@name)"/>DAO.equals($daoName)){
+			__idao = <c:get select="camelCase($p/@name)"/>DAOImpl.getInstance();
+		}
+</c:iterate>			
+		
+		return __idao;
+	}
+	
+<c:iterate select="//class" var="p">
+	public static final String <c:get select="upper-case($p/@name)"/>DAO = "<c:get select="$p/@name"/>DAO";
+</c:iterate>							   
+	
+}

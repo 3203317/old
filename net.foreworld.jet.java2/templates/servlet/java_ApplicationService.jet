@@ -1,0 +1,49 @@
+package net.foreworld.java.servlet;
+
+import java.util.logging.Logger;
+
+import javax.servlet.http.HttpServlet;
+
+import net.foreworld.java.services.ApplicationContext;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class ApplicationService extends HttpServlet {
+	private static final long serialVersionUID = 4037195439774426795L;
+
+	final Logger _logger = Logger.getLogger(ApplicationService.class.getName());
+
+	public ApplicationService() {
+		_logger.info("Application Service start...");
+	}
+
+	public void init() {
+		_logger.info("Application Service init...");
+
+		ApplicationContext.getDefault().init();
+	}
+
+	/*
+	 * private void createRole() { Date __date = new Date(); SimpleDateFormat
+	 * __sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	 * 
+	 * Object __sysmanage_role = BaseAction.getBean("sysmanage_role"); try {
+	 * Ognl.setValue("fields", __sysmanage_role, "*"); Ognl.setValue("append",
+	 * __sysmanage_role, "'" + __sdf.format(__date) + "' between allow_startdate
+	 * and allow_enddate"); } catch (OgnlException $ex) { $ex.printStackTrace(); }
+	 * 
+	 * IBean __sysmanage_roleBean = (IBean)
+	 * BaseAction.getBean("sysmanage_roleBean");
+	 * 
+	 * List __list = __sysmanage_roleBean.select(__sysmanage_role); }
+	 */
+
+	public void destroy() {
+		_logger.info("Application Service stop...");
+	}
+
+}

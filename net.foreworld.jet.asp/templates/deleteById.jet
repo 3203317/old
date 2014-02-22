@@ -1,0 +1,39 @@
+<!--#include file="../../../../../const.asp"-->
+<script language="javascript" runat="server" src="../../../../../json2.min.asp"></script>
+<!--#include file="../../../../../json.inc"-->
+<!--#include file="../../../../../framework.asp"-->
+<!--#include file="../../../../../function.asp"-->
+<!--#include file="../../../../../interceptor.asp"-->
+<!--#include file="<c:get select="($p/@name)"/>_Delete.asp"-->
+< %
+'####################################
+'#	<c:get select="($p/@name)"/>	
+'#	黄鑫 3203317@qq.com				#
+'####################################
+
+'定义变量
+Dim id
+
+
+'获取表单参数
+id = Trim(Checkxss(Request("model.id")))
+
+
+'参数修正
+If IsInteger(id) = False Then
+	Response.Write "{'foreworld.net':'1.0v','opt':'f','msg':'参数错误','code':6}"
+	Response.End
+End If
+
+
+'返回Json
+Dim result
+result = <c:get select="($p/@name)"/>_Delete(Array(, Array("and", "id", "=", id)))
+
+CloseDB()
+Response.Write result
+Response.End
+%>
+
+
+

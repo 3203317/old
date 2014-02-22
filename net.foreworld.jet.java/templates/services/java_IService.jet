@@ -1,0 +1,45 @@
+package net.foreworld.java.services;
+
+import java.util.List;
+
+import net.foreworld.java.domain.ConnSession;
+import net.foreworld.java.exceptions.ServiceException;
+import net.foreworld.java.models.BaseModel;
+import net.foreworld.java.models.MapResultModel;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public abstract interface IService {
+
+	public abstract MapResultModel selectById(BaseModel $model, ConnSession $session) throws ServiceException;
+
+	public abstract MapResultModel selectById2(BaseModel $model, ConnSession $session) throws ServiceException;
+
+	public abstract List<MapResultModel> select(BaseModel $model, ConnSession $session) throws ServiceException;
+
+	public abstract List<MapResultModel> select2(BaseModel $model, ConnSession $session) throws ServiceException;
+
+	public abstract int selectCount(BaseModel $model, ConnSession $session) throws ServiceException;
+
+	public abstract int insert(BaseModel $model, ConnSession $session) throws ServiceException;
+
+	public abstract int update(BaseModel $model, ConnSession $session) throws ServiceException;
+
+	public abstract int delete(BaseModel $model, ConnSession $session) throws ServiceException;
+
+	public abstract int inserts(List<BaseModel> $list, ConnSession $session) throws ServiceException;
+
+	public abstract int updates(List<BaseModel> $list, ConnSession $session) throws ServiceException;
+
+	public abstract int startUsing(BaseModel $model, ConnSession $session) throws ServiceException;
+
+	public abstract int stopUsing(BaseModel $model, ConnSession $session) throws ServiceException;
+
+	public abstract int availSign(BaseModel $model, ConnSession $session) throws ServiceException;
+
+	public abstract int unavailSign(BaseModel $model, ConnSession $session) throws ServiceException;
+}

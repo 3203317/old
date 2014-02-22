@@ -1,0 +1,94 @@
+package net.foreworld.java.interceptors;
+
+import java.util.Enumeration;
+
+import net.foreworld.java.actions.BaseAction;
+import net.foreworld.java.services.ApplicationService;
+
+import com.opensymphony.xwork2.ActionInvocation;
+import com.opensymphony.xwork2.util.ValueStack;
+
+/**
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ * 
+ */
+public class FormParams implements IInterceptor {
+
+	private static String[] _sql_inj = { "exec ", "insert ", "delete ", "update ", "truncate ", "or ", ";" };
+	<%--private String[] _sql_inj2 = { "'", "and", "exec", "insert", "select", "delete", "update", "count", "*", "%", "chr", "mid", "master", "truncate", "char", "declare", ";", "or", "-", "+", "," };--%>
+
+	public String intercept(ActionInvocation $invocation) throws Exception {
+		ApplicationService.getDefault().getRequest().setCharacterEncoding("utf-8");
+
+		String __methodName = $invocation.getProxy().getMethod();
+		ValueStack __valueStack = $invocation.getStack();
+
+		if (BaseAction.ACTION_SELECTBYID.equals(__methodName) || BaseAction.ACTION_SELECTBYID2.equals(__methodName)) {
+			byIdOperation(__valueStack);
+		} else if (BaseAction.ACTION_INSERTS.equals(__methodName) || BaseAction.ACTION_UPDATES.equals(__methodName)) {
+			batchOperation(__valueStack);
+		} else {
+			defaultOperation(__valueStack);
+		}
+
+		return $invocation.invoke();
+	}
+
+	@SuppressWarnings("unchecked")
+	private void byIdOperation(ValueStack $valueStack) throws Exception {
+		Enumeration __enum = ApplicationService.getDefault().getRequest().getParameterNames();
+
+		while (__enum.hasMoreElements()) {
+			String __paramName_3 = (String) __enum.nextElement();
+			String[] __paramsValue_3 = ApplicationService.getDefault().getRequest().getParameterValues(__paramName_3);
+
+			if ("model.id".equals(__paramName_3)) {
+				$valueStack.setValue("id", __paramsValue_3[0]);
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void batchOperation(ValueStack $valueStack) throws Exception {
+		Enumeration __enum = ApplicationService.getDefault().getRequest().getParameterNames();
+
+		while (__enum.hasMoreElements()) {
+			String __paramName_3 = (String) __enum.nextElement();
+			String[] __paramsValue_3 = ApplicationService.getDefault().getRequest().getParameterValues(__paramName_3);
+
+			if ("model.batchData".equals(__paramName_3)) {
+				$valueStack.setValue("batchData", __paramsValue_3[0]);
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void defaultOperation(ValueStack $valueStack) throws Exception {
+		Enumeration __enum = ApplicationService.getDefault().getRequest().getParameterNames();
+
+		while (__enum.hasMoreElements()) {
+			String __paramName_3 = (String) __enum.nextElement();
+			String[] __paramsValue_3 = ApplicationService.getDefault().getRequest().getParameterValues(__paramName_3);
+
+			if (__paramName_3.indexOf("model.") > -1) {
+				if (__paramName_3.indexOf("_operate") > -1 || "model.append".equals(__paramName_3) || "model.orderbywhat".equals(__paramName_3) || "model.orderby".equals(__paramName_3) || "model.fields".equals(__paramName_3) || "model.batchData".equals(__paramName_3)) {
+					String __operate_4 = (__paramsValue_3[0]).toLowerCase();
+					if (checkSQLInj(__operate_4)) {
+						throw new Exception("Invalid parameter binding(s).");
+					}
+				}
+				$valueStack.setValue(__paramName_3.substring(6), __paramsValue_3[0]);
+			}
+		}
+	}
+
+	private static boolean checkSQLInj(String $sqlStr) {
+		for (int __i = 0, __j = _sql_inj.length; __i < __j; __i++) {
+			if ($sqlStr.indexOf(_sql_inj[__i]) > -1)
+				return true;
+		}
+		return false;
+	}
+}

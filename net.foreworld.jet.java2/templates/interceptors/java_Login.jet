@@ -1,0 +1,212 @@
+package net.foreworld.java.interceptors;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+
+import net.foreworld.java.beans.BeanService;
+import net.foreworld.java.daos.IDao;
+import net.foreworld.java.models.MapResultModel;
+import net.foreworld.java.results.FailResult;
+import net.foreworld.java.services.ApplicationService;
+import net.foreworld.java.services.Util;
+import net.foreworld.utils.MD5;
+import ognl.Ognl;
+
+import com.opensymphony.xwork2.ActionInvocation;
+
+/**
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public class Login implements IInterceptor {
+	private SimpleDateFormat _sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+	public String intercept(ActionInvocation $invocation) throws Exception {
+		if (checkUserSession()) {
+			return $invocation.invoke();
+		}
+
+		String[] __userAndPass = getUserAndPass();
+
+		if (__userAndPass == null) {
+			return FailResult.SESSION_TIMEOUT;
+		}
+
+		Object __sysmanage_user = getUserFromDB(__userAndPass[0], __userAndPass[1]);
+
+		if (__sysmanage_user == null) {
+			return FailResult.LOGIN_FAIL;
+		}
+
+		setUserSession(__sysmanage_user);
+
+		String __userRoles = getUserRoles();
+
+		if ("".equals(__userRoles)) {
+			return FailResult.NOT_HAVE_ROLES;
+		}
+
+		String __userRuleRoles = getUserRuleRoles();
+
+		setUserSession2(__userRoles, __userRuleRoles);
+
+		updateUserInfo2DB();
+
+		return $invocation.invoke();
+	}
+
+	/**
+	 * 判断用户Session是否存在，Session存在返回真，否则返回假
+	 * 
+	 * @return
+	 */
+	private boolean checkUserSession() {
+		Object __user_name = ApplicationService.getDefault().getSession(ApplicationService.S_USER_NAME);
+		Object __user_roles = ApplicationService.getDefault().getSession(ApplicationService.S_USER_ROLES);
+		return (__user_name != null && __user_roles != null);
+	}
+
+	/**
+	 * 获取用户录入的用户名和密码，都存在则返回用户和密码的字符串数组，否则返回null
+	 * 
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private String[] getUserAndPass() throws Exception {
+		String __user_name = "", __password = "";
+
+		Enumeration __enum = ApplicationService.getDefault().getRequest().getParameterNames();
+
+		while (__enum.hasMoreElements()) {
+			String __paramName_3 = (String) __enum.nextElement();
+			String[] __paramsValue_3 = ApplicationService.getDefault().getRequest().getParameterValues(__paramName_3);
+
+			if ("model.user_name".equals(__paramName_3)) {
+				__user_name = (__paramsValue_3[0]).trim();
+			} else if ("model.password".equals(__paramName_3)) {
+				__password = (__paramsValue_3[0]).trim();
+			}
+		}
+
+		if ("".equals(__user_name) || "".equals(__password)) {
+			return null;
+		}
+
+		String[] __userAndPass = { __user_name, MD5.toMD5String(__password) };
+		return __userAndPass;
+	}
+
+	/**
+	 * 从数据库中获取用户对象，如果存在则返回用户对象，否则返回null
+	 * 
+	 * @param $user_name
+	 *            用户名
+	 * @param $password
+	 *            密码
+	 * @return
+	 * @throws Exception
+	 */
+	private Object getUserFromDB(String $user_name, String $password) throws Exception {
+		Object __sysmanage_user = BeanService.getDefault().getBean("sysmanage_user");
+		Ognl.setValue("fields", __sysmanage_user, "*");
+		Ognl.setValue("user_name", __sysmanage_user, $user_name);
+		Ognl.setValue("password", __sysmanage_user, $password);
+		Ognl.setValue("availsign", __sysmanage_user, 21);
+		Ognl.setValue("startusing", __sysmanage_user, 23);
+
+		IDao __sysmanage_userDao = (IDao) BeanService.getDefault().getBean("sysmanage_userDAO");
+		List<MapResultModel> __models = __sysmanage_userDao.select2(__sysmanage_user, null);
+		return __models != null && __models.size() == 1 ? __models.get(0) : null;
+	}
+
+	/**
+	 * 设置用户的Session
+	 * 
+	 * @param $sysmanage_user
+	 *            用户对象
+	 * @throws Exception
+	 */
+	private void setUserSession(Object $sysmanage_user) throws Exception {
+		ApplicationService.getDefault().setSession(ApplicationService.S_USER_ID, Ognl.getValue("id", $sysmanage_user));
+		ApplicationService.getDefault().setSession(ApplicationService.S_USER_NAME, Ognl.getValue("user_name", $sysmanage_user));
+		ApplicationService.getDefault().setSession(ApplicationService.S_REALNAME, Ognl.getValue("realname", $sysmanage_user));
+		ApplicationService.getDefault().setSession(ApplicationService.S_LOGIN_TIME, new Date());
+		ApplicationService.getDefault().setSession(ApplicationService.S_LOGIN_IP, Util.getIpAddr(ApplicationService.getDefault().getRequest()));
+	}
+
+	/**
+	 * 获取用户角色，返回角色ID字符串，以逗号分割，如"2,3"
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	private String getUserRoles() throws Exception {
+		String __userRoles = "";
+
+		Object __sysmanage_user_role = BeanService.getDefault().getBean("sysmanage_user_role");
+		Ognl.setValue("fields", __sysmanage_user_role, "*");
+		Ognl.setValue("tab_sysmanage_user_id", __sysmanage_user_role, ApplicationService.getDefault().getSession(ApplicationService.S_USER_ID));
+		Ognl.setValue("availsign", __sysmanage_user_role, 21);
+		Ognl.setValue("startusing", __sysmanage_user_role, 23);
+		Ognl.setValue("append", __sysmanage_user_role, "and '" + _sdf.format(new Date()) + "' between allow_startdate and allow_enddate");
+
+		IDao __sysmanage_user_roleDao = (IDao) BeanService.getDefault().getBean("sysmanage_user_roleDAO");
+		List<MapResultModel> __models = __sysmanage_user_roleDao.select2(__sysmanage_user_role, null);
+
+		for (int __i_3 = 0, __j_3 = (__models == null ? 0 : __models.size()); __i_3 < __j_3; __i_3++) {
+			MapResultModel __model_4 = __models.get(__i_3);
+			__userRoles += __model_4.get("tab_sysmanage_role_id") + ",";
+		}
+		return "".equals(__userRoles) ? "" : __userRoles.substring(0, __userRoles.length() - 1);
+	}
+
+	/**
+	 * 获取用户规则角色，返回规则角色ID字符串，以逗号分割，如"2,3,4"
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	private String getUserRuleRoles() throws Exception {
+		String __userRuleRoles = "";
+
+		Object __sysmanage_user_rulerole = BeanService.getDefault().getBean("sysmanage_user_rulerole");
+		Ognl.setValue("fields", __sysmanage_user_rulerole, "*");
+		Ognl.setValue("tab_sysmanage_user_id", __sysmanage_user_rulerole, ApplicationService.getDefault().getSession(ApplicationService.S_USER_ID));
+		Ognl.setValue("availsign", __sysmanage_user_rulerole, 21);
+		Ognl.setValue("startusing", __sysmanage_user_rulerole, 23);
+		Ognl.setValue("append", __sysmanage_user_rulerole, "and '" + _sdf.format(new Date()) + "' between allow_startdate and allow_enddate");
+
+		IDao __sysmanage_user_ruleroleDao = (IDao) BeanService.getDefault().getBean("sysmanage_user_ruleroleDAO");
+		List<MapResultModel> __models = __sysmanage_user_ruleroleDao.select2(__sysmanage_user_rulerole, null);
+
+		for (int __i_3 = 0, __j_3 = (__models == null ? 0 : __models.size()); __i_3 < __j_3; __i_3++) {
+			MapResultModel __model_4 = __models.get(__i_3);
+			__userRuleRoles += __model_4.get("tab_sysmanage_rulerole_id") + ",";
+		}
+		return "".equals(__userRuleRoles) ? "" : __userRuleRoles.substring(0, __userRuleRoles.length() - 1);
+	}
+
+	private void setUserSession2(String $userRoles, String $userRuleRoles) throws Exception {
+		ApplicationService.getDefault().setSession(ApplicationService.S_USER_ROLES, $userRoles);
+		ApplicationService.getDefault().setSession(ApplicationService.S_USER_RULEROLES, $userRuleRoles);
+		ApplicationService.getDefault().setSession(ApplicationService.S_OPT_PRIVILEGE, new HashMap<String, Boolean>());
+		ApplicationService.getDefault().setSession(ApplicationService.S_OPT_RULE, new HashMap<String, String>());
+	}
+
+	/**
+	 * 更新用户信息到DB
+	 */
+	private void updateUserInfo2DB() throws Exception {
+		Object __sysmanage_user = BeanService.getDefault().getBean("sysmanage_user");
+		Ognl.setValue("id", __sysmanage_user, ApplicationService.getDefault().getSession(ApplicationService.S_USER_ID));
+		Ognl.setValue("last_logintime", __sysmanage_user, ApplicationService.getDefault().getSession(ApplicationService.S_LOGIN_TIME));
+		Ognl.setValue("last_loginip", __sysmanage_user, ApplicationService.getDefault().getSession(ApplicationService.S_LOGIN_IP));
+
+		IDao __sysmanage_userDao = (IDao) BeanService.getDefault().getBean("sysmanage_userDAO");
+		__sysmanage_userDao.update(__sysmanage_user, null);
+	}
+}

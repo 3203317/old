@@ -1,0 +1,44 @@
+package net.foreworld.java.beans;
+
+import java.util.List;
+
+import net.foreworld.java.exceptions.BeanException;
+import net.foreworld.java.models.BaseModel;
+import net.foreworld.java.models.MapResultModel;
+
+/**
+ * Copyright(c) 2010 foreworld.net
+ * 
+ * @author huangxin (huangxin@foreworld.net)
+ * @generated
+ */
+public abstract interface IBean {
+
+	public abstract MapResultModel selectById(BaseModel $model) throws BeanException;
+
+	public abstract MapResultModel selectById2(BaseModel $model) throws BeanException;
+
+	public abstract List<MapResultModel> select(BaseModel $model) throws BeanException;
+
+	public abstract List<MapResultModel> select2(BaseModel $model) throws BeanException;
+
+	public abstract int selectCount(BaseModel $model) throws BeanException;
+
+	public abstract int insert(BaseModel $model) throws BeanException;
+
+	public abstract int update(BaseModel $model) throws BeanException;
+
+	public abstract int delete(BaseModel $model) throws BeanException;
+
+	public abstract int inserts(List<BaseModel> $list) throws BeanException;
+
+	public abstract int updates(List<BaseModel> $list) throws BeanException;
+
+	public abstract int startUsing(BaseModel $model) throws BeanException;
+
+	public abstract int stopUsing(BaseModel $model) throws BeanException;
+
+	public abstract int availSign(BaseModel $model) throws BeanException;
+
+	public abstract int unavailSign(BaseModel $model) throws BeanException;
+}

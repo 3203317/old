@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="struts-base" extends="struts-default"
+		namespace="/">
+
+		<result-types>
+			<result-type name="jsonResult"
+				class="net.foreworld.java.results.JSONResult">
+			</result-type>
+			<result-type name="failResult"
+				class="net.foreworld.java.results.FailResult">
+			</result-type>
+		</result-types>
+		
+		<interceptors>
+			<interceptor name="loginInterceptor"
+				class="net.foreworld.java.interceptors.LoginInterceptor" />
+			<interceptor name="operationInterceptor"
+				class="net.foreworld.java.interceptors.OperationInterceptor" />
+			<interceptor name="dataInterceptor"
+				class="net.foreworld.java.interceptors.DataInterceptor" />
+			<interceptor name="fieldInterceptor"
+				class="net.foreworld.java.interceptors.FieldInterceptor" />
+			<interceptor name="formParamsInterceptor"
+				class="net.foreworld.java.interceptors.FormParamsInterceptor" />
+			<interceptor-stack name="fwBaseStatck">
+				<interceptor-ref name="modelDriven"></interceptor-ref>
+				<interceptor-ref name="loginInterceptor"></interceptor-ref>
+				<interceptor-ref name="operationInterceptor"></interceptor-ref>
+				<interceptor-ref name="fieldInterceptor"></interceptor-ref>
+				<interceptor-ref name="formParamsInterceptor"></interceptor-ref>
+				<interceptor-ref name="dataInterceptor"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>	
+		
+		<default-interceptor-ref name="fwBaseStatck" />	
+		
+		<global-results>
+			<%--result name="login" type="redirect">/login.html</result>
+			<result name="loginfail" type="redirect">/login.html</result--%>
+			<result name="success" type="jsonResult"></result>
+			<result name="session-timeout" type="failResult"></result>
+			<result name="login-fail" type="failResult"></result>
+			<result name="operate-forbid" type="failResult"></result>
+			<result name="not-have-roles" type="failResult"></result>
+			<result name="form-error" type="failResult"></result>
+			<result name="other-error" type="failResult"></result>
+		</global-results>
+
+		<global-exception-mappings>
+			<exception-mapping result="globalException"
+				exception="java.lang.Exception" />
+		</global-exception-mappings>
+
+	</package>
+
+	<package name="struts-fw" extends="struts-base" namespace="/">
+	
+	</package>
+
+	<include file="struts.xml" />
+
+</struts>
