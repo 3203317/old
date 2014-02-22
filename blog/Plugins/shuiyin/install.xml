@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<PluginInstall>
+ <main>
+  <PluginName>shuiyin</PluginName>
+  <PluginTitle>水印插件</PluginTitle>
+  <PluginType>content</PluginType>
+  <PluginHtmlCode><![CDATA[]]></PluginHtmlCode>
+  <PluginASPCode><![CDATA[]]></PluginASPCode>
+  <PluginPath><![CDATA[]]></PluginPath>
+  <SettingFile>setting.xml</SettingFile>
+  <DropTable></DropTable>
+  <Author>情留メ蚊子</Author>
+  <pubDate>2008-11-17</pubDate>
+  <About><![CDATA[水印插件 by 情留メ蚊子 ]]></About>
+ </main>
+</PluginInstall>

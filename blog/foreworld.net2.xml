@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created by 黄鑫 | 3203317@QQ.COM | HTTP://WWW.FOREWORLD.NET | 2009-12-14 -->
+<foreworld.net>
+	<extension
+		id="application"
+		point="net.foreworld.flex.applications">
+		<application
+			name="洪荒"
+			version="1.0.0.v20100224">
+			<run
+				cmd="Contact_View"/>
+		</application>
+	</extension>
+	
+	<extension
+		point="net.foreworld.flex.navigators">
+		<action
+			label="Share Article"
+			cmd="ShareArticle_Run"
+            id="ShareArticle"/>
+		<action
+			label="Photo Gallery"
+			cmd="PhotoGallery_Run"
+            id="PhotoGallery"/>
+		<action
+			label="Movies"
+			cmd="Movies_Run"
+            id="Movies"/>
+		<action
+			label="Music"
+			cmd="Music_Run"
+            id="Music"/>
+		<action
+			label="GuestBook"
+			cmd="GuestBook_Run"
+            id="GuestBook"/>
+		<action
+			label="Contact"
+			cmd="Contact_Run"
+            id="Contact"/>
+	</extension>
+	
+	<extension
+		point="net.foreworld.flex.popupMenus">
+		<menu
+			id="net.foreworld.flex.popupMenus">
+			<separator name="group1"/>
+			<separator name="group2"/>
+			<separator name="group3"/>
+		</menu>
+		<action
+			menubarPath="net.foreworld.flex.popupMenus/group1"
+			cmd="AboutMeAction_Run"
+			id="About Me."/>
+		<action
+			menubarPath="net.foreworld.flex.popupMenus/group2"
+			cmd="LookIdiomsAction_Run"
+			id="看看成语"/>
+		<action
+			menubarPath="net.foreworld.flex.popupMenus/group2"
+			cmd="Statistic_Run"
+			id="站点统计(&amp;S)"/>
+	</extension>
+
+	<extension
+		point="net.foreworld.flex.plugins">
+		<plugin
+			init="true"
+			type="action"
+            url="net/foreworld/flex/plugins/FWLookIdiomsAction.swf"
+            id="LookIdiomsAction"/>
+		<plugin
+			init="true"
+			type="action"
+            url="net/foreworld/flex/plugins/FWRecordVisitorAction.swf"
+            id="RecordVisitorAction"/>
+		<plugin
+			type="action"
+            url="net/foreworld/flex/plugins/FWAboutMeAction.swf"
+            id="AboutMeAction"/>
+		<plugin
+			type="swf"
+            url="net/foreworld/flex/plugins/FWShareArticle.swf"
+            id="ShareArticle"/>
+		<plugin
+			type="swf"
+            url="net/foreworld/flex/plugins/FWPhotoGallery.swf"
+            id="PhotoGallery"/>
+		<plugin
+			type="swf"
+            url="net/foreworld/flex/plugins/FWMovies.swf"
+            id="Movies"/>
+		<plugin
+			type="swf"
+            url="net/foreworld/flex/plugins/FWMusic.swf"
+            id="Music"/>
+		<plugin
+			type="swf"
+            url="net/foreworld/flex/plugins/FWAboutMe.swf"
+            id="AboutMe"/>
+		<plugin
+			type="swf"
+            url="net/foreworld/flex/plugins/FWContact.swf"
+            id="Contact"/>
+		<plugin
+			type="swf"
+			url="net/foreworld/flex/plugins/FWStatistic.swf"
+			id="Statistic"/>
+		<plugin
+			type="swf"
+			url="net/foreworld/flex/plugins/FWPreview.swf"
+			id="Preview"/>
+		<plugin
+			type="swf"
+            url="net/foreworld/flex/plugins/FWGuestBook.swf"
+            id="GuestBook"/>
+	</extension>
+
+
+	
+</foreworld.net>

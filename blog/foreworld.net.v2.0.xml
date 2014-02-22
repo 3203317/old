@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created by 黄鑫 | 3203317@QQ.COM | HTTP://WWW.FOREWORLD.NET | 2009-12-14  -->
+<foreworld.net>
+	<extension
+		id="application"
+		point="net.foreworld.flex.applications">
+		<application
+			name="洪荒"
+			version="2.0.0.v20110113, 2.0.0.v20110101, 1.0.0.v20101207, 1.0.0.v20100224"
+			logo=""
+			style="inc/default/style.swf">
+			<init 
+				url="net/foreworld/flex/actions/FWLookIdiomsAction.swf"/>
+			<init
+				url="net/foreworld/flex/actions/FWRecordVisitorAction.swf"/>
+		</application>
+	</extension>
+	
+	<extension
+		point="net.foreworld.flex.popupMenus">
+		<category
+			id="net.foreworld.flex.popupMenus">
+			<separator name="group1"/>
+			<separator name="group2"/>
+			<separator name="group3"/>
+		</category>
+		<popupMenu
+			label="About Me."
+			popupMenuPath="net.foreworld.flex.popupMenus/group1"
+            url="net/foreworld/flex/actions/FWAboutMeAction.swf"/>
+		<popupMenu
+			label="看看成语"
+			popupMenuPath="net.foreworld.flex.popupMenus/group2"
+            url="net/foreworld/flex/actions/FWLookIdiomsAction.swf"/>
+		<popupMenu
+			label="站点统计(&amp;S)"
+			popupMenuPath="net.foreworld.flex.popupMenus/group2"
+			url="net/foreworld/flex/plugins/FWStatistic.swf"
+			target="net.foreworld.flex.plugins.FWMainContainer"/>
+	</extension>
+	
+</foreworld.net>

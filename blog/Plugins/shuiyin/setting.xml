@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<PluginOptions>
+ <Key name="FileNameMid" value="0" type="select" description="上传文件命名随机方式">
+   <option value="0">上传日期时间</option>
+   <option value="1">文件原名</option>
+   <option value="2">上传日期时间_文件原名</option>
+   <option value="3">上传日期时间带-</option>
+   <option value="4">pjblog默认</option>
+ </Key>
+ <Key name="FileNameType" value="0" type="select" description="上传文件命名方式">
+   <option value="0">随机数</option>
+   <option value="1">前缀_随机数</option>
+   <option value="2">随机数_后缀</option>
+   <option value="3">前缀_随机数_后缀</option>
+ </Key>
+ <Key name="FileNameLeft" value="qlwz" type="input" description="上传文件命名前缀" size="40"/>
+ <Key name="FileNameRight" value="qlwz" type="input" description="上传文件命名后缀" size="40"/>
+ <Key name="SYIsKeepOn" value="1" type="select" description="图片长宽比水印小时是否添加水印">
+   <option value="1">启用</option>
+   <option value="0">关闭</option>
+ </Key>
+ <Key name="Place" value="0" type="select" description="水印位置">
+   <option value="0">默认</option>
+   <option value="1">随机</option>
+   <option value="2">左上</option>
+   <option value="3">右上</option>
+   <option value="4">左下</option>
+   <option value="5">右下</option>
+   <option value="6">居中</option>
+ </Key>
+ <Key name="Calculate" value="0" type="select" description="水印位置是否算边距(随机无效)">
+   <option value="0">计算</option>
+   <option value="1">不算</option>
+ </Key>
+ <Key name="SYX" value="10" type="input" description="水印离左边距离(px)" size="5"/>
+ <Key name="SYY" value="10" type="input" description="水印离顶部距离(px)" size="5"/>
+ <Key name="SYPenColor" value="FFFFFF" type="input" description="添加图片边框颜色(H)" size="5"/>
+ <Key name="SYPenWidth" value="0" type="input" description="添加图片边框宽度(px)" size="5"/>
+ <Key name="SYPaddingH" value="10" type="input" description="水印水平边距(px)" size="5"/>
+ <Key name="SYPaddingV" value="10" type="input" description="水印垂直边距(px)" size="5"/>
+  <Key name="SYAlpha" value="0.5" type="input" description="水印透明度" size="5"/>
+ <Key name="PicPath" value="/images/wind.png" type="input" description="图片水印设置" size="40"/>
+ <Key name="PicWidth" value="120" type="input" description="图片水印宽度(px)" size="5"/>
+ <Key name="PicHeight" value="35" type="input" description="图片水印高度(px)" size="5"/>
+ <Key name="Character" value="www.94qing.com" type="input" description="文字水印设置" size="40"/>
+ <Key name="FontColor" value="FFFFFF" type="input" description="水印字体颜色(H)" size="5"/>
+ <Key name="FontSize" value="18" type="input" description="水印字体大小(px)" size="5"/>
+ <Key name="FontFamily" value="宋体" type="select" description="水印字体类型">
+   <option value="宋体">宋体</option>
+   <option value="黑体">黑体</option>
+   <option value="Arial">Arial</option>
+   <option value="Book Antiqua">Book Antiqua</option>
+   <option value="Century Gothic">Century Gothic</option>
+   <option value="Courier New">Courier New</option>
+   <option value="Georgia">Georgia</option>
+   <option value="Impact">Impact</option>
+   <option value="Courier New">Courier New</option>
+   <option value="Tahoma">Tahoma</option>
+   <option value="Times New Roman">Times New Roman</option>
+   <option value="Verdana">Verdana</option>
+ </Key>
+ <Key name="FontBold" value="1" type="select" description="是否使用加粗(B)">
+   <option value="1">是</option>
+   <option value="0">否</option>
+ </Key>
+ <Key name="FontItalic" value="0" type="select" description="是否使用斜体(I)">
+   <option value="1">是</option>
+   <option value="0">否</option>
+ </Key>
+ <Key name="FontShadowColor" value="000000" type="input" description="水印阴影颜色(H)" size="5"/>
+ <Key name="FontShadowXOffset" value="0" type="input" description="水印阴影向右偏移量(px)" size="5"/>
+ <Key name="FontShadowYOffset" value="0" type="input" description="水印阴影向下偏移量(px)" size="5"/>
+</PluginOptions>
