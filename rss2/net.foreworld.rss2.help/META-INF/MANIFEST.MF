@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Help Plug-in
+Bundle-SymbolicName: net.foreworld.rss2.help; singleton:=true
+Bundle-Version: 1.0.0.vqualifier
+Bundle-Activator: net.foreworld.rss2.help.Activator
+Bundle-Vendor: Foreworld.Net
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime
+Eclipse-LazyStart: true
+Export-Package: net.foreworld.rss2.help

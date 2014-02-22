@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp spec="1.0+" codebase="http://localhost:8081/jws/" href="rss2.jnlp"> 
+	<information>
+		<title>RSS聚合浏览器 Ver1.0</title>
+		<vendor>黄鑫 foreworld@vip.qq.com</vendor>
+		<homepage href="http://www.foreworld.net/"/>
+		<description>RSS聚合浏览器 Ver1.0</description>
+		<icon href="icon16x16.gif"/>
+		<icon kind="splash" href="mylogo.gif"/>
+		<offline-allowed/>
+	</information>
+
+	<security>    
+		<!-- 设置此RCP应用对文件系统进行完全的访问权限 -->
+		<all-permissions/>
+	</security>
+
+	<!-- 设置此应用程序的启动类，RCP应用总是由此类来引导启动 -->
+	<application-desc main-class="org.eclipse.equinox.launcher.WebStartMain">     
+		<!--  这里可以设置应用程序启动时所要传递的参数，与eclipse.exe所使用的参数类似 -->
+		<argument>-nosplash</argument>
+	</application-desc>
+
+	<resources>  
+		<!-- 指定此应用程序所使用的JRE版本 -->
+		<j2se version="1.4+" />   
+		<!--  指定启动类所在的Jar包，发布RCP应用时总是要下载此Jar包 -->
+		<jar href="plugins/org.eclipse.equinox.launcher_1.0.0.v20070606.jar"/>  
+		<!--  这里设置扩展配置文件的地址，对于JWS管理器来说，
+		一个扩展配置文件即对应一个库，主应用程序可以使用多个库来完成特定的功能。
+		扩展配置文件也是可以再包含扩展配置文件的，即可以递归使用 -->
+		<extension name="Foreworld RSS2 Feature" href="features/net.foreworld.rss2.feature_1.0.0.v200905231119.jnlp"/>
+		<!--  设置RCP应用启动时所要运行的产品Id，与config.ini中的配置相同 -->
+		<property name="osgi.splashPath" value="platform:/base/plugins/net.foreworld.rss2"/>
+		<property name="eclipse.product" value="net.foreworld.rss2.product"/>
+		<property name="osgi.bundles" value="org.eclipse.equinox.common@2:start,org.eclipse.update.configurator@3:start,org.eclipse.core.runtime@start"/>
+		<property name="osgi.bundles.defaultStartLevel" value="4"/>
+		
+		<!--  这里设置RCP应用程序的工作空间目录，与普通RCP应用中config.ini的配置项类似 -->
+		<property name="osgi.instance.area" value="@user.home/RSS聚合浏览器 Ver1.0"/>
+		<!--  设置RCP应用的配置文件目录 -->
+		<property name="osgi.configuration.area" value="@user.home/RSS聚合浏览器 Ver1.0"/>
+	</resources>  
+</jnlp>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description url="http://www.foreworld.net/site/">
+      The main update site of Rss2.
+   </description>
+   <feature url="features/net.foreworld.rss2.feature_1.0.0.200811261804.jar" id="net.foreworld.rss2.feature" version="1.0.0.200811261804">
+      <category name="Rss2"/>
+   </feature>
+   <category-def name="Rss2" label="Rss2"/>
+</site>

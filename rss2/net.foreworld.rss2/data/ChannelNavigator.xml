@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<opml version="1.1"> 
+  <head> 
+    <title>My Rss 2.0</title> 
+  </head>  
+  <body> 
+    <outline id="20080815164429" title="sda"> 
+      <outline id="20080815164431" title="fsd"> 
+        <outline id="20080815205920" title="ttt"> 
+          <outline id="20080815223442.xml" title="动漫BT下载" updateTime="900000" xmlUrl="http://localhost/20080811184708.xml" unReadCount="91" itemCount="95" type="rss" saveCount="978" status="waiting" updateNextTime="2008-11-17 09:03:18"/>  
+          <outline id="20080816110335.xml" title="国内焦点新闻-新浪新闻" updateTime="86400000" xmlUrl="http://rss.sina.com.cn/news/china/focus15.xml" unReadCount="16" itemCount="27" type="rss" saveCount="25" status="running" updateNextTime="2008-11-18 09:03:18"/>  
+          <outline id="20080902094905" title="wweeee"> 
+            <outline id="20080902095331" title="1111"> 
+              <outline id="20080902114114" title="ee"/> 
+            </outline> 
+          </outline>  
+          <outline id="20080902094952.xml" title="软件BT下载" updateTime="3600000" xmlUrl="http://www.ttbt.cn/rss/n3.xml" unReadCount="12" itemCount="19" type="rss" saveCount="500" status="waiting" updateNextTime="2008-11-18 10:03:18"/>  
+          <outline id="20080902124716" title="wer"/>  
+          <outline id="20080902124729" title="xddx"> 
+            <outline id="20080902124934" title="s"/> 
+          </outline>  
+          <outline id="20080902124940" title="ffd"/>  
+          <outline id="20080902125336.xml" title="综艺BT下载" updateTime="3600000" xmlUrl="http://www.ttbt.cn/rss/n6.xml" unReadCount="17" itemCount="0" type="rss" saveCount="500" status="waiting" updateNextTime="2008-11-18 11:03:18"/>  
+          <outline id="20081104230142" title="dsse"/>  
+          <outline xmlUrl="http://www.ttbt.cn/rss/n2.xml" itemCount="20" updateTime="3600000" unReadCount="18" type="rss" title="动漫BT下载" saveCount="500" id="20081114150153.xml" updateNextTime="2008-11-18 12:03:18"/> 
+        </outline> 
+      </outline>  
+      <outline id="20080815173211" title="wewew"> 
+        <outline id="20080815174555.xml" title="电影BT下载" updateTime="21600000" xmlUrl="http://www.ttbt.cn/rss/n5.xml" unReadCount="262" itemCount="70" type="rss" saveCount="500" status="waiting" updateNextTime="2008-11-18 18:03:18"/>  
+        <outline id="20080817092336.xml" title="音乐BT下载" updateTime="1800000" xmlUrl="http://www.ttbt.cn/rss/n7.xml" unReadCount="236" itemCount="23" type="rss" saveCount="500" status="waiting" updateNextTime="2008-11-18 18:33:18"/>  
+        <outline id="20080901212541" title="xzzxxz"/>  
+        <outline id="20080901212646.xml" title="电视BT下载11" updateTime="3600000" xmlUrl="http://www.ttbt.cn/rss/n8.xml" unReadCount="167" itemCount="174" type="rss" saveCount="500" status="running" updateNextTime="2008-11-18 19:33:18"/>  
+        <outline id="20080902114957" title="fr"/>  
+        <outline id="20081024175932" title="fr"/> 
+      </outline> 
+    </outline>  
+    <outline id="20080815173200" title="ewew"> 
+      <outline id="20080815174603.xml" title="wwww学习BT下载" updateTime="900000" xmlUrl="http://www.ttbt.cn/rss/n1.xml" unReadCount="198" itemCount="65" type="rss" saveCount="501" status="waiting" updateNextTime="2008-11-18 19:48:18"/>  
+      <outline id="20080830132806" title="ewew"/>  
+      <outline id="20080901205129.xml" title="游戏BT下载" updateTime="3600000" xmlUrl="http://www.ttbt.cn/rss/n4.xml" unReadCount="194" itemCount="37" type="rss" saveCount="500" status="running" updateNextTime="2008-11-18 20:48:18"/> 
+    </outline>  
+    <outline id="20080902113616" title="wee"> 
+      <outline id="20080902113622" title="rrr"/> 
+    </outline>  
+    <outline id="20081104230158" title="abc"> 
+      <outline id="20081104230206" title="eff"/> 
+    </outline>  
+    <outline id="20081104230215" title="fe"/>  
+    <outline id="20081105142041" title="rff"> 
+      <outline id="20081105142045" title="eee"> 
+        <outline id="20081105142050" title="222"/> 
+      </outline> 
+    </outline>  
+    <outline id="20081105142403" title="ff"/>  
+    <outline title="iuuuuu" id="20081117084827"/>
+  </body> 
+</opml>
