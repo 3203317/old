@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one
+  or more contributor license agreements.  See the NOTICE file
+  distributed with this work for additional information
+  regarding copyright ownership.  The ASF licenses this file
+  to you under the Apache License, Version 2.0 (the
+  "License"); you may not use this file except in compliance
+  with the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing,
+  software distributed under the License is distributed on an
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, either express or implied.  See the License for the
+  specific language governing permissions and limitations
+  under the License.
+ -->
+<Config xmlns="http:///org.apache.tuscany.das.rdb/config.xsd" >
+
+   <!--  <ConnectionInfo dataSource="java:comp/env/jdbc/testdemo" />
+ -->
+   <ConnectionInfo>
+    <ConnectionProperties
+      driverClass="oracle.jdbc.driver.OracleDriver"
+      databaseURL="jdbc:oracle:thin:@192.168.131.118:1521:orcl"
+      userName="CPPT"
+      password="GGJCYY"
+      loginTimeout="600000"/>
+  </ConnectionInfo>
+   <Command name="getDicItemById" SQL="select code,
+  code_dictionary_name,
+  data_key,
+  data_value,
+  key_code,
+  info,
+  create_user_account_id,
+  create_date,
+  sortid,
+  ver
+  from z_code_dictionary_data
+ where code = ?" kind="Select">
+<ResultDescriptor columnName="code"  tableName="z_code_dictionary_data"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="code_dictionary_name"  tableName="z_code_dictionary_data"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="data_key"  tableName="z_code_dictionary_data"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="data_value"  tableName="z_code_dictionary_data"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="key_code"  tableName="z_code_dictionary_data"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="info"  tableName="z_code_dictionary_data"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="create_user_account_id"  tableName="z_code_dictionary_data"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="create_date"  tableName="z_code_dictionary_data"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="sortid"  tableName="z_code_dictionary_data"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="ver"  tableName="z_code_dictionary_data"    columnType="commonj.sdo.String"/>
+</Command>
+<Table tableName="z_code_dictionary_data">
+    <Column columnName="code" primaryKey="true"/>
+ </Table>
+  <Command name="getDicTableById" SQL="select code,
+    name,
+    name_alias,
+    info,
+    create_user_account_id,
+    to_char(create_date,'yyyy-mm-dd hh24:mi:ss') create_date,
+    sortid,
+    ver
+    from z_code_dictionary
+     where code = ?" kind="Select">
+<ResultDescriptor columnName="code"  tableName="z_code_dictionary"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="name"  tableName="z_code_dictionary"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="name_alias"  tableName="z_code_dictionary"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="info"  tableName="z_code_dictionary"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="create_user_account_id"  tableName="z_code_dictionary"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="create_date"  tableName="z_code_dictionary"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="sortid"  tableName="z_code_dictionary"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="ver"  tableName="z_code_dictionary"    columnType="commonj.sdo.String"/>
+</Command>
+<Table tableName="z_code_dictionary">
+    <Column columnName="code" primaryKey="true"/>
+ </Table>
+  <Command name="getMenuBindingById" SQL="select code,
+	menu_code,
+	type,
+	form_code,
+	limit,
+	memo
+	from p_menubind
+ where code = ?" kind="Select">
+<ResultDescriptor columnName="code"  tableName="p_menubind"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="menu_code"  tableName="p_menubind"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="type"  tableName="p_menubind"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="form_code"  tableName="p_menubind"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="limit"  tableName="p_menubind"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="memo"  tableName="p_menubind"    columnType="commonj.sdo.String"/>
+</Command>
+<Table tableName="p_menubind">
+    <Column columnName="code" primaryKey="true"/>
+ </Table>
+<Command name="getGridPrintById" SQL="select code,
+form_code,
+temp_code,
+print_parm
+from p_gridprint
+ where code = ?" kind="Select">
+<ResultDescriptor columnName="code"  tableName="p_gridprint"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="form_code"  tableName="p_gridprint"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="temp_code"  tableName="p_gridprint"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="print_parm"  tableName="p_gridprint"    columnType="commonj.sdo.String"/>
+</Command>
+<Table tableName="p_gridprint">
+    <Column columnName="code" primaryKey="true"/>
+ </Table>
+  <!--根据数据库连接表的配置id取的数据库的表配置   begin-->
+  <Command name="getDBConnById"
+    SQL="select
+      code,
+      domain_code,
+      unit_code,
+      name,
+      dbtype_code,
+      ip,
+      port,
+      server_id,
+      db_account,
+      db_password,
+      memo,
+      create_user_code,
+      to_char(create_date,'yyyy-mm-dd hh24:mi:ss') create_date,
+      encryption_info,
+      encryption_timestamp,
+      ver
+      from
+      p_dbconn where code = ?" kind="Select" >
+    <ResultDescriptor columnName="code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="domain_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="unit_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="name"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="dbtype_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="ip"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="port"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="server_id"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="db_account"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="db_password"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="memo"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+
+    <ResultDescriptor columnName="create_user_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="create_date"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="encryption_info"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="encryption_timestamp"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="ver"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <Parameter name="code" index="1"/>
+  </Command>
+  <!--根据数据库连接表的配置id取的数据库的表配置   end-->
+  <!-- 数据库信息配置表 -->
+  <Table tableName="p_dbconn">
+    <Column columnName="code" primaryKey="true"/>
+  </Table>
+
+
+<!--根据域编号组织机构编号菜单父id查的具体的资源列表   begin-->
+  <Command name="getResourceListByParentId"
+    SQL="select code,
+       user_unit_code,
+       resource_type_code,
+       name,
+       status,
+       info,
+       domain_code,
+       sys_code,
+       super_code,
+       is_have_child,
+       is_enabled,
+       small_icon_code,
+       large_icon_code,
+       url,
+       uuid,
+       create_user_account_id,
+       to_char(create_date,'yyyy-mm-dd hh24:mi:ss') createdate,
+       sortid,
+       ver
+      from p_resource_info where user_unit_code =? and domain_code = ? and super_code = ? " kind="Select" >
+    <ResultDescriptor columnName="code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="user_unit_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="resource_type_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="name"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="status"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="info"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="domain_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="sys_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="super_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="is_have_child"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="is_enabled"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+
+    <ResultDescriptor columnName="small_icon_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="large_icon_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="url"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="uuid"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="create_user_account_id"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="createdate"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="sortid"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="ver"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <Parameter name="user_unit_code" index="2"/>
+    <Parameter name="domain_code" index="1"/>
+    <Parameter name="super_code" index="3"/>
+  </Command>
+  <!--根据域编号组织机构编号菜单父id查的具体的资源列表   end-->
+
+  <!--根据资源id获得资源信息   begin-->
+  <Command name="getResourceById"
+    SQL="select code,
+       user_unit_code,
+       resource_type_code,
+       name,
+       status,
+       info,
+       domain_code,
+       sys_code,
+       super_code,
+       is_have_child,
+       is_enabled,
+       small_icon_code,
+       large_icon_code,
+       url,
+       uuid,
+       create_user_account_id,
+       to_char(create_date,'yyyy-mm-dd hh24:mi:ss') createdate,
+       sortid,
+       ver
+      from p_resource_info where code = ?" kind="Select" >
+    <ResultDescriptor columnName="code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="user_unit_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="resource_type_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="name"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="status"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="info"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="domain_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="sys_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="super_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="is_have_child"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="is_enabled"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+
+    <ResultDescriptor columnName="small_icon_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="large_icon_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="url"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="uuid"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="create_user_account_id"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="createdate"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="sortid"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="ver"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+    <Parameter name="code" index="1"/>
+  </Command>
+  <!--根据资源id获得资源信息   end-->
+
+  <!--获取用户密码  begin -->
+  <Command name="getPasswordByName" SQL="select name,password,code from  p_user where name = ?" kind="Select">
+   <ResultDescriptor columnName="name"  tableName="p_user"    columnType="commonj.sdo.String"/>
+   <ResultDescriptor columnName="password"  tableName="p_user"    columnType="commonj.sdo.String"/>
+   <ResultDescriptor columnName="code"  tableName="p_user"    columnType="commonj.sdo.String"/>
+  </Command>
+  <!--获取用户密码 end -->
+
+  <!--修改用户密码 begin -->
+  <Command name="updatePasswordByName" SQL="update p_user set password = ? where name = ?" kind="Update">
+  </Command>
+  <!--修改用户密码 end -->
+
+  <!-- 资源信息表 -->
+  <Table tableName="p_resource_info">
+    <Column columnName="code" primaryKey="true"/>
+  </Table>
+  <!-- 用户表 -->
+  <Table tableName="p_user">
+    <Column columnName="name" primaryKey="true"/>
+  </Table>
+
+  <!-- demo 区 begin -->
+    <Command name="ALLZ_NATION" SQL="Select * from z_nation" kind="Select">
+       <ResultDescriptor columnName="sortid"  tableName="z_nation"    columnType="commonj.sdo.IntObject"/>
+       <ResultDescriptor columnName="name"  tableName="z_nation"    columnType="commonj.sdo.String"/>
+       <ResultDescriptor columnName="code"  tableName="z_nation"    columnType="commonj.sdo.String"/>
+       <ResultDescriptor columnName="ver"   tableName="z_nation"    columnType="commonj.sdo.IntObject"/>
+  </Command>
+   <Command name="getPart" SQL="Select name,code from z_nation" kind="Select">
+  </Command>
+   <Command name="allTest" SQL="select max(code) code,max(loginId) loginId from z_nation left outer join userlogin on z_nation.code = userlogin.loginId" kind="Select">
+    <ResultDescriptor columnName="code" tableName="z_nation"    columnType="commonj.sdo.String"/>
+    <ResultDescriptor columnName="loginId"  tableName="userlogin"    columnType="commonj.sdo.String"/>
+  </Command>
+  <Table tableName="userlogin">
+    <Column columnName="loginId" primaryKey="true"/>
+    </Table>
+
+  <Table tableName="z_nation">
+        <Column columnName="code" primaryKey="true"/>
+    </Table>
+    <Command name="createZ_nation" SQL="insert into z_nation(code,name,sortid) values ( ?, ?, ?)" kind="Insert">
+      <Parameter name="sortid" index="3"/>
+      <Parameter name="name" index="2"/>
+      <Parameter name="code" index="1"/>
+  </Command>
+   <!-- demo 区 end -->
+</Config>

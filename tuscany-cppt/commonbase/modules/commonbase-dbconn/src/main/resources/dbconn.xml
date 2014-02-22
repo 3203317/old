@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config xmlns="http:///org.apache.tuscany.das.rdb/config.xsd" >
+	<!--根据数据库连接表的配置id取的数据库的表配置   begin-->
+	<Command name="getDBConnById"
+		SQL="select
+			code,
+			domain_code,
+			unit_code,
+			name,
+			dbtype_code,
+			ip,
+			port,
+			server_id,
+			db_account,
+			db_password,
+			memo,
+			create_user_code,
+			to_char(create_date,'yyyy-mm-dd hh24:mi:ss') create_date,
+			encryption_info,
+			encryption_timestamp,
+			ver
+			from
+			p_dbconn where code = ? " kind="Select" >
+		<ResultDescriptor columnName="code"  tableName="p_dbconn"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="domain_code"  tableName="p_dbconn"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="unit_code"  tableName="p_dbconn"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="name"  tableName="p_dbconn"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="dbtype_code"  tableName="p_dbconn"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="ip"  tableName="p_dbconn"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="port"  tableName="p_dbconn"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="server_id"  tableName="p_dbconn"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="db_account"  tableName="p_dbconn"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="db_password"  tableName="p_dbconn"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="memo"  tableName="p_dbconn"    columnType="commonj.sdo.String"/>
+
+		<ResultDescriptor columnName="create_user_code"  tableName="p_dbconn"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="create_date"  tableName="p_dbconn"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="encryption_info"  tableName="p_dbconn"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="encryption_timestamp"  tableName="p_dbconn"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="ver"  tableName="p_dbconn"    columnType="commonj.sdo.String"/>
+		<Parameter name="code" index="1"/>
+	</Command>
+	<!--根据数据库连接表的配置id取的数据库的表配置   end-->
+	<!-- 数据库信息配置表 -->
+	<Table tableName="p_dbconn">
+		<Column columnName="code" primaryKey="true"/>
+	</Table>
+</Config>

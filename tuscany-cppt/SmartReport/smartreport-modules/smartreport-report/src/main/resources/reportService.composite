@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+           xmlns:tuscany="http://tuscany.apache.org/xmlns/sca/1.1"
+           targetNamespace="http://newcapec.net/smartreport/report/reportService"
+           name="reportService-contribution">
+
+	<component name="ReportServiceComponent">
+		<implementation.java class="net.newcapec.sca.report.service.impl.ReportServiceImpl"/>
+		<reference name="reportDAS" target="ReportDASComponent" />
+		<reference name="sessionService" target="SessionComponent" />
+<!-- 		<reference name="dataSourceService" target="DataSourceServiceComponent"></reference> -->
+		<reference name="reportDsFieldService" target="ReportDsFieldServiceComponent/ReportDsFieldService"></reference>
+		<reference name="reportDsParamService" target="ReportDsParamServiceComponent/ReportDsParamService"></reference>
+    	<reference name="gridViewService" target="GridViewServiceComponent/GridViewService"></reference>
+		<reference name="gridPrintService" target="GridPrintServiceComponent/GridPrintService"></reference>
+		<reference name="componentDatasetService" target="ComponentDatasetServiceComponent/ComponentDatasetService"></reference>
+		<service name="ReportService">
+			<tuscany:binding.jsonrpc/>
+		</service>
+	</component>
+
+</composite>

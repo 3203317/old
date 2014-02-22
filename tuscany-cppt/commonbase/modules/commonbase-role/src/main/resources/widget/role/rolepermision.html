@@ -1,0 +1,219 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<TITLE></TITLE>
+<style type="text/css">
+#_frm_per_grid_left {
+	height: 100%;
+}
+
+#_frm_per_grid_right {
+	height: 100%;
+}
+</style>
+<script type="text/javascript">
+	var _dlg_per_ = {};
+
+	/*p_user p_permission  写入关系表 p_role_permission*/
+
+	_dlg_per_.saveData = function(){
+		var __selItems = dijit.byId("_frm_per_grid_left").store._arrayOfAllItems;
+		var __ids = [];
+
+		dojo.forEach(__selItems, function($item) {
+			if ($item != null) { __ids.push($item.permission_code[0]); }
+		});
+
+		var __selItem = dijit.byId("_main_grid").selection.getSelected();
+
+		/*sql*写入p_role_permission表*/
+		var __params = {
+			roleCode: __selItem[0].code[0],
+			perCodes: __ids
+		};
+
+		_rolemanager.rolePermisionService.saveRolePermision(_rolemanager.sessionId, __params.roleCode, __params.perCodes.join(",")).addCallback(function($value) {
+			if ($value.resultMsg != null){
+				dijit.byId("capec.dialog.optErrDialog").show();
+				return;
+			}
+			dijit.byId("_dlg_per").hide();
+		});
+	};
+
+	_dlg_per_.reset = function() {
+		dijit.byId("_frm_per").reset();
+	};
+
+	_dlg_per_.setLeftGridData = function($roleId) {
+		require(["dojo/data/ItemFileWriteStore"], function($ItemFileWriteStore) {
+			_rolemanager.rolePermisionService.findRolePermisionListByRoleId(_rolemanager.sessionId,_rolemanager.resourceId,$roleId).addCallback(function($value) {
+				if ($value.resultMsg != null){
+					dijit.byId("capec.dialog.optErrDialog").show();
+					return;
+				}
+				var __store = new dojo.data.ItemFileWriteStore({
+					data : { items : $value }
+				});
+				dijit.byId("_frm_per_grid_left").selection.clear();
+				dijit.byId("_frm_per_grid_left").setStore(__store);
+			});
+		});
+	};
+
+	_dlg_per_.setRightGridData = function($roleId) {
+		require(["dojo/data/ItemFileWriteStore"], function($ItemFileWriteStore) {
+			_rolemanager.rolePermisionService.findUnRolePermisionListByRoleId(_rolemanager.sessionId,_rolemanager.resourceId, $roleId).addCallback(function($value) {
+				if ($value.resultMsg != null){
+					dijit.byId("capec.dialog.optErrDialog").show();
+					return;
+				}
+				var __store = new dojo.data.ItemFileWriteStore({
+					data : { items : $value }
+				});
+				_dlg_per_.grid_right.setStore(__store);
+				_dlg_per_.grid_right.selection.clear();
+			});
+		});
+	};
+
+	_dlg_per_.set = function() {
+		var __selItem = dijit.byId("_main_grid").selection.getSelected();
+		var __code = __selItem[0].code[0];
+		/*加载左右侧列表*/
+		_dlg_per_.setLeftGridData(__code);
+		_dlg_per_.setRightGridData(__code);
+	};
+
+	_dlg_per_.init = function() {
+		dijit.byId("_dlg_per_btn_reset").set("style","display:none");
+		console.log("init");
+
+		require(["dojox/grid/EnhancedGrid",
+			"dojo/data/ItemFileWriteStore",
+			"dojox/grid/_CheckBoxSelector"], function($EnhancedGrid,$ItemFileWriteStore) {
+
+			/* 创建左grid */
+			_dlg_per_.grid_left = new $EnhancedGrid({
+				style: { height : "100%", width : "100%", margin : 0, padding : 0 },
+				structure : [{
+					type : "dojox.grid._CheckBoxSelector"
+				}, [
+					{ name : "权限名称", field : "permission_name", width : "auto"}
+					]
+				]
+			}, "_frm_per_grid_left");
+			_dlg_per_.grid_left.startup();
+
+			/* 创建右grid */
+			_dlg_per_.grid_right = new $EnhancedGrid({
+				style : { height : "100%", width : "100%", margin : 0, padding : 0 },
+				structure : [ {
+					type : "dojox.grid._CheckBoxSelector"
+				}, [
+				     { name : "权限名称", field : "permission_name", width : "auto" }
+				     ]
+				]
+			}, "_frm_per_grid_right");
+			_dlg_per_.grid_right.startup();
+
+			/* 开始加载页面组件数据 */
+			dojo.connect(dijit.byId("_dlg_per"), "onShow", function() {
+				_dlg_per_.set();
+			});
+		});
+
+		/* 两个grid数据左右移动 */
+		require([ "dojo" ], function() {
+			_dlg_per_.addLeftGridItem = function($newItem, $oldItem) {
+				_dlg_per_.grid_left.store.newItem($newItem);
+				_dlg_per_.grid_right.store.deleteItem($oldItem);
+			};
+			_dlg_per_.addRightGridItem = function($newItem, $oldItem) {
+				_dlg_per_.grid_right.store.newItem($newItem);
+				_dlg_per_.grid_left.store.deleteItem($oldItem);
+			};
+
+			/* 点击左按钮  */
+			dojo.connect(dijit.byId('btn_left'), "onClick", function() {
+				var __selItems = dijit.byId("_frm_per_grid_right").selection.getSelected();
+				if (__selItems.length == 0) return;
+				for ( var i = 0, j = __selItems.length; i < j; i++) {
+					var __item_3 = __selItems[i];
+					if(__item_3 != null){
+						var __newItem_3 = {
+							permission_name: __item_3.permission_name[0],
+							permission_code: __item_3.permission_code[0]
+						};
+						_dlg_per_.addLeftGridItem(__newItem_3,__item_3);
+					}
+				}
+				_dlg_per_.grid_left.store.save();
+				_dlg_per_.grid_right.store.save();
+			});
+
+			/* 点击右按钮 */
+			dojo.connect(dijit.byId('btn_right'), "onClick", function() {
+				var __selItems = dijit.byId("_frm_per_grid_left").selection.getSelected();
+				if (__selItems.length == 0) return;
+
+				for ( var i = 0, j = __selItems.length; i < j; i++) {
+					var __item_3 = __selItems[i];
+					if(__item_3 != null){
+						var __newItem_3 = {
+							permission_name: __item_3.permission_name[0],
+							permission_code: __item_3.permission_code[0]
+						};
+						_dlg_per_.addRightGridItem(__newItem_3, __item_3);
+					}
+				}
+				_dlg_per_.grid_left.store.save();
+				_dlg_per_.grid_right.store.save();
+			});
+		});
+
+		/* 保存按钮 */
+		var __btn_submit = dijit.byId("_dlg_per_btn_submit");
+		__btn_submit.on("click", function() {
+			_dlg_per_.saveData();
+		});
+		/*sql*打开时加载 左grid和右grid，左显示已经拥有的权限，右显示未分配的权限*/
+
+		dijit.byId("_dlg_per_btn_close").on("click", function(){
+			dijit.byId("_dlg_per").hide();
+		});
+
+		if (dijit.byId("_dlg_per")._state == "edit") {
+			_dlg_per_.set();
+		}
+	};
+</script>
+</HEAD>
+
+<BODY class="soria">
+	<form id="_frm_per" data-dojo-type="dijit.form.Form">
+		<table style="width: 100%">
+			<tr>
+				<td>待分配权限</td>
+				<td></td>
+				<td>已分配权限</td>
+			</tr>
+			<tr>
+				<td style="border: 1px #8BA0BD solid; width: 215px; height: 277px;">
+					<div id="_frm_per_grid_right" style="height: 100%"></div>
+				</td>
+				<td>
+					<button data-dojo-type='dijit.form.Button' id="btn_left"
+						data-dojo-props='type:"button"'>></button> <br />
+					<button data-dojo-type='dijit.form.Button' id="btn_right"
+						data-dojo-props='type:"button"'><</button>
+				</td>
+				<td style="border: 1px #8BA0BD solid; width: 215px; height: 277px;">
+					<div id="_frm_per_grid_left" style="height: 100%"></div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</BODY>
+</HTML>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+           xmlns:tuscany="http://tuscany.apache.org/xmlns/sca/1.1"
+           targetNamespace="http://newcapec.net/ui/FormAndReportUi"
+           name="FormAndReportUi-contribution">
+
+	 <component name="FormAndReportUi">
+        <tuscany:implementation.widget location="widget/customFormReport/formreport.html" widgetUri="/customFormReport/reportform" />
+		<reference name="reportService" target="ReportServiceComponent/ReportService"/>
+		<reference name="reportDsService" target="ReportDsServiceComponent/ReportDsService"/>
+		<reference name="dataSourceService" target="DataSourceServiceComponent"></reference>
+		<reference name="reportDsFieldService" target="ReportDsFieldServiceComponent/ReportDsFieldService"></reference>
+		<reference name="reportDsParamService" target="ReportDsParamServiceComponent/ReportDsParamService"></reference>
+    	<reference name="gridPrintService" target="GridPrintServiceComponent/GridPrintService"></reference>
+    	<reference name="componentDatasetService" target="ComponentDatasetServiceComponent/ComponentDatasetService"></reference>
+    	<reference name="gridViewService" target="GridViewServiceComponent/GridViewService"></reference>
+    </component>
+
+</composite>

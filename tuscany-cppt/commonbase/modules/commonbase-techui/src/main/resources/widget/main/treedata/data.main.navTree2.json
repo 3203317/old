@@ -1,0 +1,53 @@
+{
+	"opt":"s",
+	"msg":"消息",
+	"identifier": "menuid",
+	"label": "menuname",
+
+	"items":[{
+		"menuid":2,"menuname":"人员管理",type:"module","icon":"dijitIconEmployee",
+		children: [{
+			"menuid":21,"menuname":"郑州市",type:"module",href:"test/hx/h1.html?test=a",
+			children: [{
+				"menuid":22,"menuname":"金水区",type:"module",href:"test/zpf/iframe.html"
+			},{
+				"menuid":23,"menuname":"二七区",type:"module",href:"test/hx/iframeInfo3.html"
+			},{
+				"menuid":24,"menuname":"角色管理",type:"module",href:"com/newcapec/role/index.html"
+			}]
+		},{
+			"menuid":25,"menuname":"安阳市",type:"module",
+			children: [{
+				"menuid":26,"menuname":"某某区",type:"module",href:"test2.html"
+			}]
+		},{
+			"menuid":125,"menuname":"具体模块",type:"module",
+			children: [{
+				"menuid":121,"menuname":"操作流程设置",type:"module",href:"newcapec/czlcsz/index.html"
+			},{
+				"menuid":122,"menuname":"业务模块管理",type:"module",href:"newcapec/ywmkgl/index.html"
+			},{
+				"menuid":123,"menuname":"业务授权管理",type:"module",href:"newcapec/ywsqgl/index.html"
+			}]
+		}]
+	},{
+		"menuid":1,"menuname":"角色管理",type:"module","icon":"dijitIconRole",
+		children: [{
+			"menuid":12,"menuname":"XX管理A",type:"module",
+			children: [{
+				"menuid":13,"menuname":"XX管理B1",type:"module"
+			}]
+		}]
+
+	},{
+		"menuid":3,"menuname":"卡管理",type:"module","icon":"dijitIconCard",
+		children: [{
+			"menuid":31,"menuname":"XX管理C",type:"module",
+			children: [{
+				"menuid":32,"menuname":"XX管理D1",type:"module"
+			}]
+		}]
+
+	}]
+
+}

@@ -1,0 +1,44 @@
+<style>
+
+@import "css/style.css";
+
+</style>
+	<form dojoType='dijit.form.Form' id='form5' jsid='form5'>
+		<div class="taborm" >
+			<div class="titbg">
+				<div style="margin-left:10px;" dojotype="dijit/form/CheckBox"  id="tymb" name="tymb" jsid="tymb" checked=true onclick="changeStateTy();"></div>
+				<span>通用模板</span>
+			</div>
+			<div class="titbor">
+				<div class="m1"><span class="sp1 left">报表标题：</span>
+					<div dojotype="dijit/form/ValidationTextBox"   jsid="title" data-dojo-props="placeholder:'报表标题'" id="title" name="title"></div>
+				</div>
+				<div class="m1"><span class="sp1 left">报表表尾：</span>
+					<div dojotype="dijit/form/CheckBox"  id="yema" name="yema" jsid="yema" checked="true" ></div><span>页码</span>&nbsp;&nbsp;
+					<div dojotype="dijit/form/CheckBox"  id="printdate" name="printdate" jsid="printdate" checked="true" ></div><span>打印时间</span>&nbsp;&nbsp;
+					<div dojotype="dijit/form/CheckBox"  id="printperson" name="printperson" jsid="printperson" checked="true" ></div><span>打印人</span>
+				</div>
+				<div class="m1">
+					<span class="sp1 left">备注：</span><div data-dojo-type="dijit/form/SimpleTextarea" style="width:200px;" ></div>
+				</div>
+			</div>
+			<div class="botbg"></div>
+		</div>
+		<div class="taborm" >
+			<div class="titbg">
+				<div style="margin-left:10px;" dojotype="dijit/form/CheckBox" id="zdmb" name="zdmb" jsid='zdmb' onclick="changeStateDz();"></div>定制模板
+			</div>
+			<div class="titbor" style="height:40px;">
+				<div class="m1">
+					<span class="sp1 left">数据源绑定: </span>
+					<span class="sp2 left">
+						<select dojoType="dijit/form/FilteringSelect"  style="width:180px;" disabled=true name="sjybd" jsid="sjybd"  id='sjybd'>
+					        <option value="1">查询浏览列表管理</option>
+							<option value="2">报表管理</option>
+					    </select>
+					</span>
+				</div>
+			</div>
+			<div class="botbg"></div>
+		</div>
+	</form>

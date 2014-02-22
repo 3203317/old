@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+           xmlns:tuscany="http://tuscany.apache.org/xmlns/sca/1.1"
+           targetNamespace="http://newcapec.net/smartreport/gridview/gridViewService"
+           name="gridViewService-contribution">
+	<component name="gridlayoutUIComponent">
+	    <tuscany:implementation.widget location="widget/formcustom/gridlayout.html" widgetUri="/formcustom/gridlayout"/>
+		<reference name="gridViewService" target="GridViewServiceComponent/GridViewService"></reference>
+	</component>
+
+	<component name="GridViewServiceComponent">
+		<implementation.spring location="gridViewService-context.xml"/>
+		<reference name="gridViewDAS" target="GridViewDASComponent" />
+		<reference name="sessionService" target="SessionComponent" />
+		<service name="GridViewService">
+			<tuscany:binding.jsonrpc/>
+		</service>
+	</component>
+
+</composite>

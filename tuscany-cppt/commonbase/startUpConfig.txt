@@ -1,0 +1,121 @@
+install file:///E:/sca/commonbase/target/commonbase-session-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/commonbase-techui-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/commonbase-user-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/commonbase-login-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/commonbase-dbconn-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/commonbase-tech-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/commonbase-org-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/commonbase-darule-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/commonbase-operation-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/commonbase-resource-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/commonbase-rolepermission-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/commonbase-role-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/commonbase-pemission-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/commonbase-diccode-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/commonbase-userrole-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/commonbase-menubinding-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/smartreport-datasource-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/smartreport-gridstat-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/smartreport-gridcondition-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/smartreport-gridview-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/smartreport-gridfield-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/smartreport-gridprint-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/smartreport-custform-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/smartreport-formlayout-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/smartreport-gridcust-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/smartreport-report-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/smartreport-componentdataset-1.0.1-SNAPSHOT.jar
+install file:///E:/sca/commonbase/target/smartreport-reportpublish-1.0.1-SNAPSHOT.jar
+start commonbase-session session.composite
+start commonbase-techui menu-menuBind.composite
+start commonbase-techui mainFormManagerUI.composite
+start commonbase-techui menu-treeInfo.composite
+start commonbase-techui gridFormUIComponent.composite
+start commonbase-techui reportFormUI.composite
+start commonbase-techui formAndReport.composite
+start commonbase-user userBaseInfoService.composite
+start commonbase-user userBaseInfoManagerUI.composite
+start commonbase-user userPasswordDAS.composite
+start commonbase-user userPasswordService.composite
+start commonbase-user userPasswordManagerUIComponent.composite
+start commonbase-user userPhotoService.composite
+start commonbase-user photoUpload.composite
+start commonbase-user userPhotoBatchUpload.composite
+start commonbase-user ShowUserPhotoByUserCodeComponent.composite
+start commonbase-user UploadUserPhotoByUserCodeComponent.composite
+start commonbase-login loginService.composite
+start commonbase-dbconn DBConnectionService.composite
+start commonbase-dbconn dbconnUI-manager.composite
+start commonbase-tech SequenceService.composite
+start commonbase-tech defDBConnectionService.composite
+
+start commonbase-org organizationService.composite
+start commonbase-org orgUI-manager.composite
+start commonbase-darule dataAccessRuleDAS.composite
+start commonbase-darule dataAccessRuleService.composite
+start commonbase-operation operateService.composite
+start commonbase-operation operationUI-manager.composite
+start commonbase-resource ResourceService.composite
+start commonbase-resource resourceManagerUIComponent.composite
+start commonbase-rolepermission rolePermisionDAS.composite
+start commonbase-rolepermission rolePermisionService.composite
+start commonbase-role roleDAS.composite
+start commonbase-role roleService.composite
+start commonbase-role roleManagerUIComponent.composite
+start commonbase-pemission permisionDAS.composite
+
+start commonbase-pemission permisionService.composite
+start commonbase-pemission permisionManagerUIComponent.composite
+start commonbase-diccode dicCodeDAS.composite
+start commonbase-diccode dicCodeService.composite
+start commonbase-diccode dicCodeManagerUIComponent.composite
+start commonbase-userrole userRoleService.composite
+start commonbase-userrole userRoleManageUI.composite
+start commonbase-menubinding MenuBindingService.composite
+
+start smartreport-datasource dataSourceDAS.composite
+start smartreport-datasource dataSourceService.composite
+start smartreport-datasource dataSourceManagerUIComponent.composite
+start smartreport-datasource fieldPrepDAS.composite
+start smartreport-datasource fieldPrepService.composite
+start smartreport-gridstat gridStatDAS.composite
+start smartreport-gridstat gridStatService.composite
+start smartreport-gridstat GridStatUIComponent.composite
+start smartreport-gridcondition GridConditionService.composite
+start smartreport-gridcondition GridStatDataCollectionService.composite
+
+start smartreport-gridview gridViewDAS.composite
+start smartreport-gridview gridViewService.composite
+start smartreport-gridfield gridFieldDAS.composite
+start smartreport-gridfield gridFieldService.composite
+start smartreport-gridprint GridPrintService.composite
+start smartreport-gridprint GridPrintDAS.composite
+start smartreport-custform customFormDAS.composite
+start smartreport-custform customFormService.composite
+start smartreport-formlayout formLayoutDAS.composite
+start smartreport-formlayout formLayoutService.composite
+start smartreport-gridcust gridCustomDAS.composite
+start smartreport-gridcust gridCustomService.composite
+
+start smartreport-report reportDAS.composite
+start smartreport-report reportService.composite
+start smartreport-report reportDsDAS.composite
+start smartreport-report reportDsService.composite
+start smartreport-report reportDsFieldDAS.composite
+start smartreport-report reportDsFieldService.composite
+start smartreport-report reportDsParamDAS.composite
+start smartreport-report reportDsParamService.composite
+start smartreport-report reportDesignerUIComponent.composite
+start smartreport-report reportManagerUIComponent.composite
+start smartreport-report reportUIComponent.composite
+
+start smartreport-report showClassicBusReport.composite
+
+start smartreport-componentdataset  componentDatasetDAS.composite
+start smartreport-componentdataset  componentDatasetService.composite
+start smartreport-componentdataset  componentDatasetManagerUIComponent.composite
+start smartreport-componentdataset  treeComponentForReportServlet.composite
+start smartreport-componentdataset  treeItemForReportDAS.composite
+start smartreport-reportpublish    reportPublishDAS.composite
+start smartreport-reportpublish    reportPublishService.composite
+start smartreport-reportpublish    reportPublishManagerUIComponent.composite

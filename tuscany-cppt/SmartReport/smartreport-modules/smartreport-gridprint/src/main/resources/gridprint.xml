@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config xmlns="http:///org.apache.tuscany.das.rdb/config.xsd" >
+	<Command name="getGridPrintById" SQL="select code,
+		form_code,
+		temp_code,
+		print_parm
+		from p_gridprint
+		where form_code = ?" kind="Select">
+		<ResultDescriptor columnName="code"  tableName="p_gridprint"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="form_code"  tableName="p_gridprint"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="temp_code"  tableName="p_gridprint"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="print_parm"  tableName="p_gridprint"    columnType="commonj.sdo.String"/>
+	</Command>
+	<Table tableName="p_gridprint">
+			<Column columnName="code" primaryKey="true"/>
+	</Table>
+</Config>

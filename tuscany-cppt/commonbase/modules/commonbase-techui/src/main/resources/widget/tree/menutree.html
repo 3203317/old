@@ -1,0 +1,277 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>菜单树</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+<style type="text/css">
+@import "/dojo/resources/dojo.css";
+@import "/dijit/themes/soria/soria.css";
+@import "/dijit/themes/soria/soria_rtl.css";
+body,html {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding:0;
+  font-family: helvetica, arial, sans-serif;
+  overflow:hidden;
+}
+
+</style>
+<script type="text/javascript" src="dojo.js"
+  djConfig="async:true,parseOnLoad: true"></script>
+<script type="text/javascript" src="menutree.js"></script>
+<script type="text/javascript" src="../../main/commons/js/base.js"></script>
+<script type="text/javascript"
+  src="../../main/commons/js/OpenAjaxManagedHub-all.js"></script>
+<script type="text/javascript">
+  require(
+      [ "dojo/ready","dojo/json", "dijit/Tree","dijit/layout/ContentPane", "dojo/store/Observable",
+          "dojo/store/Memory", "dijit/Menu", "dijit/MenuItem",
+          "dijit/tree/ObjectStoreModel", "dojo/dom",
+          "dijit/layout/AccordionContainer","dojo/domReady!" ],
+      function(ready,JSON, Tree,  ContentPane,Observable, Memory, Menu, MenuItem, ObjectStoreModel, dom) {
+
+        //@Reference
+        var myinfo = new tuscany.sca.Reference("resourceService");
+        var sessionId;
+        try {
+          session = location.search.match(new RegExp(
+              '[\?\&]sessionId=([^\&]*)(\&?)', 'i'));
+          sessionId = session ? session[1] : session;
+        } catch (e) {
+          alert(e.message);
+        }
+        addTrees = function(trees, e) {
+          if (!trees) {
+            return;
+          }
+
+          for (i = 0; i < trees.length; i++) {
+            buildAllTree(trees[i]);
+          }
+        }
+        buildAllTree = function(tree) {
+          var myStore = new Memory({
+            data : tree.items,
+            getChildren : function(object) {
+              return this.query({
+                parent : object.id
+              });
+            }
+
+          });//end myStore
+          myStore = new Observable(myStore);
+          //Create the model
+          var myModel = new ObjectStoreModel({
+            store : myStore,
+            query : {
+              id : tree.queryName
+            },
+            mayHaveChildren : function(item) {
+              return (item.type != "menu");
+            }
+          });//end myModel
+          var itemTree;
+          try {
+            itemTree = new Tree(
+                {
+                  id : tree.treeId,
+                  model : myModel,
+                  showRoot : false,
+                  onClick : function(item) {
+                    if (item.type == "menu") {
+                      hubClient
+                          .publish(
+                              'net.newcapec.ui.openNewPage',
+                              item);
+                    }
+                  },
+                  onDblClick : function(item) {
+                    myinfo.searchSubItem(sessionId,
+                        item.id)
+                        .addCallback(addSubMenu);
+                  }
+                });
+          } catch (e) {
+            console.log("buildAllTree" + e.message);
+          }
+
+          var pane = new ContentPane({
+            id : tree.paneId,
+            title : tree.treeName,
+            iconClass:tree.iconClass
+          });
+          pane.startup();
+          dijit.byId("contentMenu").addChild(pane);
+
+          itemTree.startup();
+          pane.domNode.appendChild(itemTree.domNode);
+          addMenu(true, tree.treeId);
+        }
+
+        function addSubMenu(items, e) {
+          if (items) {
+            for (i = 0; i < items.length; i++) {
+              var treeId = items[i].id.split("_");
+              dijit.byId(treeId[0]).model.store.put(items[i]);
+            }
+          }
+        }
+
+        createFuncTree = function() {
+          myinfo.getTrees(sessionId).addCallback(addTrees);
+        };
+        //add menu to the tree: true--有菜单编辑权限，false: 无菜单编辑权限
+        addMenu = function(isNeedMenu, treeid) {
+          if (!isNeedMenu) {
+            return;
+          }
+          var pMenu;
+          pMenu = new Menu({
+            style : "display: none;",
+            targetNodeIds : [ treeid ],
+            selector : ".dijitTreeNode"
+          });
+          pMenu.addChild(new MenuItem({
+                      label : "增加同级菜单",
+                      onClick : function() {
+                        var tn = dijit.byNode(this.getParent().currentTarget);
+                        //hubClient.publish('net.newcapec.topics.treeItemInfo',tn.item.id);
+                        // var itemInfo = JSON.stringify(tn.item);
+                        if(tn.item.type == "root")
+                        {
+                            hubClient.publish('net.newcapec.ui.openMenuBinding',"action=add&type=" + tn.item.type);
+                        }
+                        else
+                        {
+                            hubClient.publish('net.newcapec.ui.openMenuBinding',"type=pmenu&action=add" + "&father=" + tn.item.parent);
+                        }
+                      }
+                    }));
+          pMenu.addChild(new MenuItem({
+                      label : "增加下级菜单",
+                      onClick : function() {
+                        var tn = dijit.byNode(this.getParent().currentTarget);
+                        if (tn.item.type != "menu")
+                        {
+                          hubClient.publish('net.newcapec.ui.openMenuBinding',"father=" + tn.item.id + "&type=pmenu&action=add");
+                        }
+                        else
+                        {
+                          var reloadError = {};
+                          reloadError.info = "对菜单节点无法添加下级节点！";
+                          reloadError.infoTitle = "操作操作失败";
+                          hubClient.publish('net.newcapec.ui.operatorForbiden',reloadError);
+                        }
+            }
+          }));
+
+          pMenu.addChild(new MenuItem({
+            label : "修改菜单",
+            onClick : function() {
+              var tn = dijit.byNode(this.getParent().currentTarget);
+              hubClient.publish('net.newcapec.ui.openMenuBinding',"currItem=" +  JSON.stringify(tn.item)+"&action=update");
+            }
+          }));
+          pMenu.addChild(new MenuItem({
+            label : "删除菜单",
+            onClick : function(item) {
+              var tn = dijit
+                  .byNode(this.getParent().currentTarget);
+              dijit.byId(treeid).model.store.remove(tn.item.id);
+              var resourceId = tn.item.id.split("_")[1];
+              myinfo.delResourceById(sessionId,resourceId).addCallback(function(item){console.log(item)});
+            }
+          }));
+        }
+        var hubClient = null;
+        /* 应用程序初始化时,在回应文件load事件 */
+        function loadEventHandler() {
+          var aa = OpenAjax.gadgets.util.getUrlParameters();
+          hubClient = new OpenAjax.hub.IframeHubClient({
+            HubClient : {
+              onSecurityAlert : client2SecurityAlertHandler
+            }
+          });
+          // 连接到ManagedHub
+          hubClient.connect(connectCompleted);
+        }
+        ready(function() {
+          loadEventHandler();
+          createFuncTree();
+        });
+        reLoadNewItem = function(topic, subscriberData) {
+          var menuType = subscriberData.resource_type_code == '1' ? "pmenu" : "menu";
+          dijit.byId(subscriberData.treeId).model.store.put({
+            id : subscriberData.treeId + "_" + subscriberData.code,
+            name : subscriberData.name,
+            type : menuType,
+            href : subscriberData.url,
+            parent : subscriberData.treeId + "_" + subscriberData.super_code
+          }, {
+            overWrite : true
+          });
+          var reloadSuccess = {};
+          if(subscriberData.extraType == "update")
+          {
+            reloadSuccess.info = "您已经成功修改菜单节点！";
+          }
+          if(subscriberData.extraType == "add")
+          {
+            reloadSuccess.info = "您已经成功添加菜单节点！";
+          }
+          reloadSuccess.infoTitle = "操作成功";
+          hubClient.publish('net.newcapec.menu.success',reloadSuccess);
+        }//end reLoadNewItem
+        reLoadNewPane = function (topic,subscriberData)
+        {
+          var tree = {};
+          tree.treeId = "tree"+subscriberData.code;
+          tree.paneId = "pane"+subscriberData.code;
+          tree.treeName = subscriberData.name;
+          tree.queryName = tree.treeId + "_" + subscriberData.code;
+          var firstMenu = {};
+          firstMenu.id = tree.queryName;
+          firstMenu.type = "root";
+          firstMenu.name = subscriberData.name;
+          tree.items = [firstMenu];
+          buildAllTree(tree);
+          var reloadSuccess = {};
+          reloadSuccess.info = "您已经成功添加菜单节点！";
+          reloadSuccess.infoTitle = "操作成功";
+          hubClient.publish('net.newcapec.menu.success',reloadSuccess);
+        }
+
+        //撤销报表发布时，删除相应的菜单 add pxx
+        removeMenuItem = function(topic,subscriberData){
+        	dijit.byId(subscriberData.treeId).model.store.remove(subscriberData.resourceId);
+        }
+
+        function client2SecurityAlertHandler(source, alertType) {
+          // 理安全警报
+        }
+        /* Callback that is invoked upon successful connection to the Managed Hub */
+        function connectCompleted(hubClient, success, error) {
+          if (success) {
+            hubClient.subscribe('net.newcapec.load.menuItem',reLoadNewItem);
+
+
+            hubClient.subscribe('net.newcapec.menu.remove',removeMenuItem);// 撤销报表发布时使用  add pxx
+            // 如果需要添加面板节点请打开注释
+            //hubClient.subscribe('net.newcapec.load.newPane',reLoadNewPane);
+          }
+        }
+        function onData(topic, publisherData, subscriberData) {
+          alert(publisherData);
+          if (typeof publisherData === "string") {
+            alert(publisherData);
+          }
+        }
+      });
+</script>
+</head>
+<body class="soria">
+  <div data-dojo-type="dijit/layout/AccordionContainer" id="contentMenu"
+    style="width: 100%; height: 100%"></div>
+</body>
+</html>

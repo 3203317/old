@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+  targetNamespace="http://sample/test"
+  xmlns:tuscany="http://tuscany.apache.org/xmlns/sca/1.1"
+  name="userPhotoBatchUpload">
+
+
+  <component name="userPhotoBatchUploadComponent">
+    <implementation.java class="net.newcapec.sca.user.servlet.UploadUserPhotoServlet" />
+    <reference name="sessionService" target="SessionComponent" />
+     <reference name="userPhotoDAS" target="UserPhotoDASComponent" />
+     <reference name="userBaseInfoDAS" target="UserBaseInfoDASComponent" />
+     <reference name="sequenceService" target="SequenceServiceComponent" />
+    <service name="Servlet">
+      <tuscany:binding.http uri="/userPhotoBatchUpload" />
+    </service>
+  </component>
+</composite>

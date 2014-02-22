@@ -1,0 +1,57 @@
+<style>
+	@import "/dojox/form/resources/CheckedMultiSelect.css";
+</style>
+
+<script type="text/javascript">
+require(["dojo/ready","dojo/newcapec/MessageBox","dojo/json","dijit/form/Select",
+				"dojo/data/ItemFileReadStore","dijit/form/TextBox","dijit/form/ValidationTextBox",
+			"dijit/form/Form","dijit/form/Button","dijit/form/CheckBox","dojox/form/CheckedMultiSelect","dojo/parser"],
+			function(ready,MessageBox,JSON,Select,ItemFileReadStore,TextBox,ValidationTextBox,Form,Button,
+					CheckBox,CheckedMultiSelect,parser){
+			var form_code;
+			var code =0;
+			var sessionId =  "";
+			toolstore = new ItemFileReadStore({url:'form/data/toolbarJson.json'});
+			createBtnCheckBox = function(){
+				var filter = [{field:"code_dictionary_name",relation:"and",value:"'OPERBTN'",logical:"="}];
+				diccode.findDicItemListByCondition(sessionId,filter).addCallback(function(data){
+					html.create('div',{id:'close'},dojo.byId('tdclose'));
+					new CheckBox({
+						id:name,
+						name:name,
+						checked:true
+					},close);
+				});
+			};
+			ready(function(){
+				toolbtn.selectNode.setAttribute('style','border: 0 none;width:100%;height:30px;');
+				//createBtnCheckBox();
+			});
+});
+</script>
+<table width="100%">
+	<tr align="center">
+		<td>
+			<div><img src="form/images/layout1.jpg"></div>
+			<div><input type="radio" data-dojo-type="dijit/form/RadioButton" name="layout" id="layout1" value="layout1"/></div>
+		</td>
+		<td>
+			<div><img src="form/images/layout2.jpg"></div>
+			<div><input type="radio" data-dojo-type="dijit/form/RadioButton" checked="checked" name="layout" id="layout2" value="layout2"/></div>
+		</td>
+		<td>
+			<div><img src="form/images/layout3.jpg"></div>
+			<div><input type="radio" data-dojo-type="dijit/form/RadioButton" name="layout" id="layout3" value="layout3"/></div>
+		</td>
+	</tr>
+	<tr>
+		<td>操作按钮：</td>
+		<td colspan="2">
+			<div data-dojo-id="toolbtn" id="toolbtn" multiple="true" jsid="toolbtn" name="toolbtn"
+				invalidMessage="请选择工具栏按钮" required="true"
+				store="toolstore" data-dojo-type="dojox.form.CheckedMultiSelect">
+			</div>
+		</td>
+	</tr>
+</table>
+

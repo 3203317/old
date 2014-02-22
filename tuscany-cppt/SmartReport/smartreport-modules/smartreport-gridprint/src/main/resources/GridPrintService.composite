@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+					 xmlns:tuscany="http://tuscany.apache.org/xmlns/sca/1.1"
+					 targetNamespace="http://newcapec.net/smartreport/GridPrintservice"
+					 name="GridPrintservice-contribution">
+		<component name="GridPrintManagerUIComponent" >
+		<tuscany:implementation.widget location="widget/formcustom/gridprint.html" widgetUri="/formcustom/gridprint"/>
+			<reference name="gridPrintService" target="GridPrintServiceComponent/GridPrintService"></reference>
+		</component>
+			<component name="GridPrintServiceComponent">
+					<implementation.java class="net.newcapec.sca.gridprint.service.impl.GridPrintServiceImpl"/>
+					<service name="GridPrintService">
+					 <tuscany:binding.jsonrpc/>
+					</service>
+					 <reference name="gridPrintDAS" target="GridPrintDASComponent" />
+					 <reference name="sequenceService" target="SequenceServiceComponent" />
+					 <reference name="sessionService" target="SessionComponent" />
+					 <reference name="gridViewService" target="GridViewServiceComponent/GridViewService"/>
+					 <reference name="gridConditionService" target="GridConditionServiceComponent/GridConditionService"/>
+			</component>
+
+			 <component name="GridPrintDASComponent">
+				<implementation.java class="net.newcapec.sca.gridprint.das.impl.GridPrintDASImpl"/>
+				<reference name="defDBConnService" target="DefDBConnServiceComponent" />
+		</component>
+
+</composite>

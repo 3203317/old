@@ -1,0 +1,689 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" >
+<html>
+<head>
+    <title>自定义 字典代码</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet"  type="text/css" href="/dojo/resources/dojo.css">
+    <link rel="stylesheet" type="text/css" href="/dijit/themes/soria/soria.css" />
+    <link rel="stylesheet" type="text/css" href="/dojox/grid/resources/soriaGrid.css" />
+    <style type="text/css">
+        @import "/dojox/grid/enhanced/resources/EnhancedGrid.css";
+        @import "/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css";
+    .dijitDialogPaneContentArea {
+        margin: -10px -8px;
+        padding: 10px 8px;
+    }
+
+    .dijitDialogPaneContentAreaDetail {
+        margin: -10px -8px;
+        padding: 10px 8px;
+    }
+
+    .dijitDialogPaneActionBar {
+      background-color: #F6F6F6;
+      padding: 1px 5px 1px 5px;
+      text-align: right;
+      border-top: 1px solid #E1E1E1;
+      margin: 10px -10px -10px;
+      height:24px;
+      overflow:hidden;
+    }
+    .dijitDialogPaneActionBarDetail {
+      background-color: #F6F6F6;
+      padding: 1px 5px 1px 5px;
+      text-align: right;
+      border-top: 1px solid #E1E1E1;
+      margin: 10px -10px -10px;
+      height:24px;
+      overflow:hidden;
+    }
+
+    body, html { width: 100%; height: 100%; margin: 0;overflow:hidden;}
+    </style>
+  <style type="text/css">
+    #grid{
+      height: 91%;
+    }
+    #gridDetail{
+      height:91%;
+    }
+  </style>
+
+  <script type="text/javascript">
+    djConfig = {
+      async:true,
+      parseOnLoad:true
+    };
+  </script>
+  <script type="text/javascript" src="/dojo/dojo.js"></script>
+  <script type="text/javascript"
+	src="/dojo/extendJS/OpenAjaxManagedHub-all.js"></script>
+  <script type="text/javascript" src="manager.js"></script>
+  <script type="text/javascript">
+
+   require(["dojo/ready","dojo/_base/window","dojo/parser","dojo/newcapec/grid/EnhancedGrid",'dojo/data/ItemFileWriteStore',
+            "dojo/newcapec/grid/plugins/Pagination","dijit/Dialog","dojo/newcapec/MessageBox","dojo/store/Memory","dijit/form/FilteringSelect",
+            "dojo/data/ItemFileReadStore","dojox/grid/DataGrid","dojo/data/ItemFileWriteStore",
+            "dojox/grid/enhanced/plugins/IndirectSelection","dijit/form/Form","dojox/grid/_CheckBoxSelector",
+            "dijit/layout/BorderContainer","dijit/layout/TabContainer","dijit/layout/ContentPane","dijit/Toolbar","dijit/form/Button",
+            "dijit/form/ValidationTextBox","dijit/ToolbarSeparator","dijit/form/FilteringSelect","dijit/form/SimpleTextarea",
+            "dojo/domReady!"],
+           function(ready,win,parse,EnhancedGrid,ItemFileWriteStore,Pagination,Dialog,MessageBox,Memory,FilteringSelect,ItemFileReadStore,DataGrid,ItemFileWriteStore){
+			   var sessionId = null;
+		       //@Reference
+		       var dicCode = new tuscany.sca.Reference("dicCodeService");
+		       var paneid = 'pane1';
+		       var formcode;
+               //创建自定义字典代码grid
+			   createGrid = function(){
+
+				   var plugins = {
+							indirectSelection: {
+							headerSelector:true,
+							name: "Selection",
+							width: "30px",
+							styles: "text-align: center;"
+							},pagination: {
+							description: true,
+							pageStepper: true,
+							position: "bottom"
+					}};
+
+	                grid = new EnhancedGrid({
+						id:"grid",
+						param:'sessionId:"'+sessionId+'",resourceId:1',
+						conditionKey:"filter",
+						tuscany:dicCode.findDicTableDojoList,
+						rowsPerPage:15,//每页显示多少条
+						plugins:plugins,
+						structure:[
+						[
+							//new dojox.grid.cells.RowIndex({ name: "编号", width: "45px" }),
+							{
+	      						 name: "编号",
+				                 field: "code",
+				                 width: 'auto',
+				                 hidden:true
+
+	      					},
+	      					{
+	      						 name: "字典名称",
+				                 field: "name",
+				                 width: '50%'
+	      					},
+	      					{
+			                     name: "字典别名",
+			                     field:"name_alias",
+			                     width:'40%'
+			                }
+						]]
+
+					},"gridDiv");
+
+			    };
+
+
+			   //动态刷新自定义字典代码grid
+			   setDicTableStore = function(){
+
+				    var param = {};
+					param.filter = new Array();
+					dijit.byId('grid').find(dojo.toJson(param.filter));
+					return ;
+			   }
+			 //初始化自定义字典代码grid及明细grid
+			  initGridStore = function(){
+				    var param = {};
+					param.filter = new Array();
+					dijit.byId('grid').find(dojo.toJson(param.filter));
+					return ;
+			   }
+
+			  //创建自定义字典代码明细grid
+		      createDetailGrid = function(){
+		    	  var  gridDetail = new DataGrid({
+	      				id:"gridDetail",
+	      				name:'gridDetail',
+	      				structure:[{
+	  		                    type: "dojox.grid._CheckBoxSelector"
+	  		                },[
+	      					 new dojox.grid.cells.RowIndex({ name: "序号", width: "5%" }),
+				             {
+				                  name: "编号",
+				                  field: "code",
+				                  width: 'auto',
+				                  hidden: true
+				              },{
+				                  name: "字典名称",
+				                  field: "code_dictionary_name",
+				                  width: '25%'
+				              },{
+				                  name: "数据KEY",
+				                  field:"data_key",
+				                  width:'10%'
+				              },{
+				                  name: "数据Value",
+				                  field: "data_value",
+				                  width:'20%'
+				              },{
+				                  name: "编码KEY",
+				                  field: "key_code",
+				                  width:'10%'
+				              },{
+				                  name: "明细描述",
+				                  field: "info",
+				                  width:'30%'
+				              }
+	      				]]
+	      			},"gridDivDetail");
+		    	   gridDetail.startup();
+
+
+		      };
+		      //刷新自定义字典代码明细grid
+		       function setDicItemStore(filters){
+		    	  var param = {sessionId:sessionId,resourceId:'1',filter:filters,begin:0,limit:1000};
+	           	   dicCode.findDicItemDojoListByCondition(param).addCallback(function(data){
+	           		   var  gridDetailStore = new ItemFileWriteStore({data: data});
+	           		   dijit.byId('gridDetail').setStore(gridDetailStore);
+	           		   dijit.byId('gridDetail').resize();
+	           	   })
+		      }
+
+              //弹出自定义字典代码添加窗口
+		      showAdd=function(){
+			       if(dijit.byId('form')){
+			         form.reset();
+			       }
+			       //curddialog.placeAt(win.body());
+			       curddialog.show();
+		      };
+		      //保存新增或修改的自定义字典代码
+		      save = function(){
+
+
+		        if(form.validate()){
+		          var formdata = form.get('value');
+		          var aa = {code:formdata.code,name:formdata.dictionary_name,name_alias:formdata.name_alias,info:formdata.info};
+		          if(formdata.code == null || formdata.code == ""){
+		              dicCode.insertDicTable(sessionId,aa).addCallback(function(data){
+		              if( data.resultMsg.status == 1){
+		                 curddialog.hide();
+		                 MessageBox.alert("添加成功","success");
+		                 setDicTableStore();
+		              }else{
+		            	 MessageBox.alert("添加失败","error");
+		              }
+		            });
+		          }else{
+		              dicCode.updateDicTable(sessionId,aa).addCallback(function(data){
+		              if( data.resultMsg.status == 1){
+			              curddialog.hide();
+			              MessageBox.alert("修改成功","success");
+			              setDicTableStore();
+			              var name = formdata.dictionary_name;
+			              var filters = [{field:"code_dictionary_name",relation:"and",value:"'"+name+"'",logical:"="}];
+			              setDicItemStore(filters);
+			              code.set('value','');
+		              }else{
+		            	  MessageBox.alert("修改失败","error");
+		              }
+		            });
+		          }
+		        }
+
+		      };
+
+		      //批量删除自定义字典代码
+		      deleted =function(){
+			        var selectValues =  dijit.byId('grid').selection.getSelected();
+			        if(selectValues == null || selectValues == ""){
+			            MessageBox.alert("请选择您要删除的记录","warn");
+			            return;
+			        }
+			        var ids = null;
+			        var i=0;
+			        dojo.forEach(selectValues,function(values){
+			          if(i == 0){
+			             ids = values.code+"";
+			          }else{
+			             ids +=","+values.code;
+			          }
+			          i++;
+			        });
+			        MessageBox.confirm('确定要删除吗?',function(){
+			          dicCode.delDicCodeByTableIds(sessionId,ids).addCallback(function(data){
+				          if( data.resultMsg.status == 1){
+				              MessageBox.alert("删除成功","success");
+				              setDicTableStore();
+				          }else if ( data.resultMsg.status == -1){
+				        	  MessageBox.alert("请先删除字典代码明细","warn");
+				          }else{
+				        	  MessageBox.alert("删除失败","error");
+				          }
+			          });
+			        });
+		      };
+
+		      //弹出自定义字典代码修改窗口
+		      showModify=function(){
+		          var data = dijit.byId('grid').selection.getSelected();
+		          if(data.length == 0){
+		             MessageBox.alert("请选择您要修改的记录","warn");
+		             return;
+		          }else if(data.length > 1){
+		             MessageBox.alert("请选择一条记录","warn");
+		             return;
+		          }
+		          curddialog.show(data);
+		          var aa = {code:data[0].code[0],dictionary_name:data[0].name[0],name_alias:data[0].name_alias[0],info:data[0].info[0]};
+		          form.set('value',aa);
+		          //form.set('value',data[0]);
+		      };
+
+              //明细窗口弹出时，下拉框数据刷新
+              setDictionarySelectData=function(){
+            	  var aa = {sessionId:sessionId,resourceId:'1',filter:[],begin:0,limit:1000};
+            	  dicCode.getDicTableDojoList(aa).addCallback(function(data){
+                       dijit.byId('code_dictionary_name').store.setData(data);
+            	  })
+              }
+              //弹出自定义字典代码明细添加窗口
+		      showAddDetail=function(){
+
+			       if(dijit.byId('formdetail')){
+			    	   formdetail.reset();
+			       }
+			       setDictionarySelectData();
+			       curddialogdetail.show();
+		      };
+		      //保存新增或修改的自定义字典代码明细
+		      saveDetail = function(){
+		          if(formdetail.validate()){
+		            var formdata = formdetail.get('value');
+		            if(formdata.code == null || formdata.code == ""){
+		              dicCode.insertDicItem(sessionId,formdata).addCallback(function(data){
+		            	if ( data.resultMsg.status == 1){
+			                curddialogdetail.hide();
+			                MessageBox.alert("添加成功","success");
+			                var name = formdata.code_dictionary_name;
+			                var filters = [{field:"code_dictionary_name",relation:"and",value:"'"+name+"'",logical:"="}];
+			                setDicItemStore(filters);
+		            	}else{
+		            		MessageBox.alert("添加失败","error");
+		            	}
+		              });
+		            }else{
+		              dicCode.updateDicItem(sessionId,formdata).addCallback(function(data){
+		            	 if ( data.resultMsg.status == 1){
+			                 curddialogdetail.hide();
+			                 MessageBox.alert("修改成功","success");
+			                 var name = formdata.code_dictionary_name;
+				             var filters = [{field:"code_dictionary_name",relation:"and",value:"'"+name+"'",logical:"="}];
+			                 setDicItemStore(filters);
+			                 code.set('value','');
+		            	 }else{
+		            		 MessageBox.alert("修改失败","error");
+		            	 }
+		              });
+		            }
+		          }
+		        };
+		       //弹出自定义字典代码明细修改窗口
+		       showModifyDetail=function(){
+		            var data =  dijit.byId('gridDetail').selection.getSelected();
+		            if(data.length == 0){
+		              MessageBox.alert("请选择您要修改的记录","warn");
+		              return;
+		            }else if(data.length > 1){
+		              MessageBox.alert("请选择一条记录","warn");
+		              return;
+		            }
+		            //dijit.byId("code_dictionary_name").set("disabled",true);
+		            curddialogdetail.show(data);
+		            formdetail.set('value',data[0]);
+		        };
+		        //批量删除自定义字典代码明细
+		        deletedDetail =function(){
+			        var selectValues =  dijit.byId('gridDetail').selection.getSelected();
+			        if(selectValues == null || selectValues == ""){
+			          MessageBox.alert("请选择您要删除的记录","warn");
+			          return;
+			        }
+			        var ids = null;
+			        var i=0;
+			        dojo.forEach(selectValues,function(values){
+			          if(i == 0){
+			            ids = values.code+"";
+			          }else{
+			            ids +=","+values.code;
+			          }
+			          i++;
+			        });
+			        var name = selectValues[0].code_dictionary_name;
+			        MessageBox.confirm('确定要删除吗?',function(){
+			          dicCode.delDicCodeByItemIds(sessionId,ids).addCallback(function(data){
+			        	  if ( data.resultMsg.status == 1){
+					         MessageBox.alert("删除成功","success");
+				             var filters = [{field:"code_dictionary_name",relation:"and",value:"'"+name+"'",logical:"="}];
+					         setDicItemStore(filters);
+			        	  }else{
+			        		 MessageBox.alert("删除失败","error");
+			        	  }
+			          });
+			        });
+		      };
+
+			   //动态创建字典代码明细窗口下拉框
+			   dynamicCreateFSForAddDetail = function(){
+				            var aa = {sessionId:sessionId,resourceId:'1',filter:[],begin:0,limit:1000};
+
+				            dicCode.getDicTableDojoList(aa).addCallback(function(data){
+							var dictionaryStore = new Memory({
+							        data: data
+							    });
+
+								var filteringSelect = new FilteringSelect({
+												id: "code_dictionary_name",
+												value: "1",
+												name:"code_dictionary_name",
+												store: dictionaryStore,
+												autoComplete: true,
+												style: "width: 200px;",
+												searchAttr: "name"
+									}, dojo.byId("code_dictionary_name"));
+				            })
+
+				};
+				//动态创建字典代码明细查询下拉框
+			   dynamicCreateFSForSearchDetail = function(){
+				            var aa = {sessionId:sessionId,resourceId:'1',filter:[],begin:0,limit:1000};
+
+				            dicCode.getDicTableDojoList(aa).addCallback(function(data){
+							var dictionaryStore = new Memory({
+							        data: data
+							    });
+
+								var filteringSelect = new FilteringSelect({
+												id: "search_cdnitem",
+												value: "1",
+												name:"search_cdnitem",
+												store: dictionaryStore,
+												autoComplete: true,
+												style: "width: 160px;",
+												searchAttr: "name"
+									}, dojo.byId("search_cdnitem"));
+
+								if (data.items[0] != null){
+				            		   globalName = data.items[0].name;
+				            		   var filters = [{field:"code_dictionary_name",relation:"and",value:"'"+globalName+"'",logical:"="}];
+				   			           setDicItemStore(filters);
+			            		 }
+				            })
+
+				};
+
+				//自定义字典代码单击行，明细跟随变化
+				showDetailByMain = function()
+				{
+					gridMain =  dijit.byId("grid");
+					dojo.connect(gridMain, "onRowClick", function(e) {
+			             item =  gridMain.getItem(e.rowIndex);
+			             name =  gridMain.store.getValue(item, "name");
+			      	     var  param = {
+			      	    		         "sessionId": sessionId,
+									     "resourceId": 2,
+			      	    		          filter:[{field:"code_dictionary_name",relation:"and",value:"'"+name+"'",logical:"="}],
+			      	    		         "begin": 0,
+			   						     "limit": 1000
+			      	                   };
+			      	     dicCode.findDicItemDojoListByCondition(param).addCallback(function(value){
+								var store = new dojo.data.ItemFileWriteStore({
+						            data : value
+								});
+								dijit.byId("gridDetail").setStore(store);
+								dijit.byId("gridDetail").selection.clear();
+						 });
+			        });
+				};
+
+			   gridcellclick = function(){
+				   grid.on("CellClick", function(evt) {alert("pxx")});
+				  // dojo.connect(grid, "onCellClick", function(e){alert("pxx")});
+				   /*var obj = document.getElementById("grid");
+				   if(window.addEventListener){ // Mozilla, Netscape, Firefox
+				      obj.addEventListener("CellClick",function(){alert("第一个方法（IE浏览器）");}, false);
+				   }
+				   else{ // IE
+				      obj.attachEvent("onCellClick", function(){alert( "第一个方法（IE浏览器）");});
+				   };*/
+
+			   };
+
+
+			   searchDictionaryByName=function(){
+
+				   var name = dijit.byId("search_cdn").getValue();
+				       name = name.toUpperCase();
+				   var param = {};
+					param.filter = new Array();
+					if (name != null && name !="" )
+					   param.filter.push({field:"name",relation:"and",logical:"=",value:"'"+name+"'"});
+					dijit.byId('grid').find(dojo.toJson(param.filter));
+					return ;
+
+			   };
+
+			   searchDictionaryItemByName=function(){
+				   var filters = [];
+				   var name = dijit.byId("search_cdnitem").getValue();
+				       name = name.toUpperCase();
+				   if  (name != ""){
+				       filters = [{field:"code_dictionary_name",relation:"and",value:"'"+name+"'",logical:"="}];
+				   }
+				   var param = {sessionId:sessionId,resourceId:'1',filter:filters,begin:0,limit:1000};
+
+    	            dicCode.findDicItemDojoListByCondition(param).addCallback(function(data){
+
+							var store = new dojo.data.ItemFileWriteStore({data: data});
+							dijit.byId("gridDetail").setStore(store);
+							dijit.byId('gridDetail').resize();
+						    //dijit.byId("gridDetail").selection.clear();
+			        });
+			   };
+
+		       function loadEventHandler() {
+
+					hubClient = new OpenAjax.hub.IframeHubClient({
+							HubClient : {
+								onSecurityAlert : client2SecurityAlertHandler
+							}
+						});
+					// 连接到ManagedHub
+					try
+					{
+						hubClient.connect(connectCompleted);
+					}
+					catch(e)
+					{
+						console.log(e.message);
+					}
+				}
+
+				function client2SecurityAlertHandler(source, alertType) {
+									// 理安全警报
+				}
+
+				/* Callback that is invoked upon successful connection to the Managed Hub */
+				function connectCompleted(hubClient, success, error) {
+					//console.log(error);
+				}
+
+
+				function onData(topic, subscribeData) {
+					//console.log(topic);
+				}
+
+		        ready(function(){
+
+			   	  	loadEventHandler();
+					var urlParam = OpenAjax.gadgets.util.getUrlParameters();
+					sessionId = urlParam.sessionId;
+				    createDetailGrid();
+				   // initGridStore();
+					dynamicCreateFSForAddDetail();
+					dynamicCreateFSForSearchDetail();
+
+					createGrid();
+
+					//dijit.byId("grid").on("CellClick", function(evt) {alert("pxx")});
+					//dijit.byId("gridDetail").on("CellClick", function(evt) {alert("pxx")});
+					showDetailByMain();
+					//gridcellclick();
+
+		        });
+    });
+
+  </script>
+</head>
+<body class="soria">
+
+     <div id="main" dojoType="dijit.layout.BorderContainer" data-dojo-props='liveSplitters:false,design:"headline"' style="width:100%; height:100%">
+
+        <div dojoType="dijit/layout/ContentPane" data-dojo-props='region:"left",style:"width:30%"' >
+            <div dojoType="dijit.layout.ContentPane" region="top" >
+		        <div data-dojo-type="dijit.Toolbar" >
+		          <div dojotype="dijit.form.Button" label="增加" onclick="showAdd();" iconClass="dijitIconNewTask" jsid="add" id="add"></div>
+		          <span data-dojo-type="dijit.ToolbarSeparator"></span>
+		          <div dojotype="dijit.form.Button" label="修改" onclick="showModify();" iconClass="dijitIconEdit" jsid="modify" id="modify"></div>
+		          <span data-dojo-type="dijit.ToolbarSeparator"></span>
+		          <div dojotype="dijit.form.Button" label="删除" onclick="deleted();" iconClass="dijitIconDelete" jsid="del" id="del"></div>
+		          <span data-dojo-type="dijit.ToolbarSeparator"></span>
+		        </div>
+
+		        <div>
+		           <label for="search_cdn" style="width:3em; margin-top: 5px; float:left;">名称：</label>
+					<div data-dojo-type="dijit/form/ValidationTextBox"  style="width:150px;height:15px;" jsid='search_cdn'  name="search_cdn" id="search_cdn"   maxLength="50" ></div>
+				    <div dojoType="dijit/form/Button" id="searchbtn" onclick="searchDictionaryByName();">查询</div>
+		        </div>
+
+            </div>
+            <div dojoType="dijit.layout.ContentPane" region="center" >
+	            <div id="gridDiv"></div>
+	        </div>
+         </div>
+
+	     <div dojoType="dijit/layout/ContentPane" data-dojo-props='region:"center",style:"width:70%"' >
+	         <div dojoType="dijit.layout.ContentPane" region="top" >
+		        <div data-dojo-type="dijit.Toolbar" >
+		          <div dojotype="dijit.form.Button" label="增加" onclick="showAddDetail();" iconClass="dijitIconNewTask" jsid="addDetail" id="addDetail"></div>
+		          <span data-dojo-type="dijit.ToolbarSeparator"></span>
+		          <div dojotype="dijit.form.Button" label="修改" onclick="showModifyDetail();" iconClass="dijitIconEdit" jsid="modifyDetail" id="modifyDetail"></div>
+		          <span data-dojo-type="dijit.ToolbarSeparator"></span>
+		          <div dojotype="dijit.form.Button" label="删除" onclick="deletedDetail();" iconClass="dijitIconDelete" jsid="delDetail" id="delDetail"></div>
+		          <span data-dojo-type="dijit.ToolbarSeparator"></span>
+		        </div>
+
+		        <div>
+		           <label for="search_cdnitem" style="width:3em; margin-top: 5px; float:left;">名称：</label>
+		            <div name="search_cdnitem" jsid='search_cdnitem' id = "search_cdnitem" ></div>
+					<div dojoType="dijit/form/Button" id="searchbtnitem" onclick="searchDictionaryItemByName();">查询</div>
+		        </div>
+
+             </div>
+	         <div dojoType="dijit.layout.ContentPane" region="center" >
+	             <div id="gridDivDetail"></div>
+	         </div>
+	     </div>
+
+     </div>
+
+     <!-- 增加、修改字典代码弹出框 -->
+     <div dojoType="dijit.Dialog"  class="curddialog" jsid='curddialog' title="增加字典代码" style="width:290px;" >
+	     <div class="dijitDialogPaneContentArea">
+	       <div dojoType="dijit/form/Form" jsid="form" id="form">
+	         <button data-dojo-type="dijit/form/Button" jsid='code'  name="code" id="code" style="display:none"></button>
+
+	         <table>
+
+	                <tr height="25px" >
+	                    <td align="left"><label for="name" style="color:red">*</label>字典名称: </td>
+	                    <td><div data-dojo-type="dijit/form/ValidationTextBox"  required="true" style="width:200px;height:17px;" placeholder='字典名称' jsid='dictionary_name'  name="dictionary_name"  maxLength="50"></div></td>
+	                </tr>
+
+
+	                <tr height="25px">
+	                    <td align="left"><label for="loc">&nbsp;&nbsp;字典别名: </label></td>
+	                    <td><div data-dojo-type="dijit/form/ValidationTextBox"  style="width:200px;height:17px;" jsid='name_alias'  name="name_alias" maxLength="50" ></div></td>
+	                </tr>
+
+	                <tr height="25px">
+	                    <td align="left"><label for="desc">&nbsp;&nbsp;字典描述: </label></td>
+	                    <td><div data-dojo-type="dijit/form/SimpleTextarea" style="width:202px;" name="info" jsid='info' id="info" maxLength="50"></div></td>
+	                </tr>
+
+	          </table>
+
+	       </div>
+	    </div>
+        <div class="dijitDialogPaneActionBar">
+            <button data-dojo-type="dijit/form/Button"  type="reset" onClick="return form.reset();">重置 </button>
+            <button data-dojo-type="dijit/form/Button"   onClick="save();">保存 </button>
+            <button data-dojo-type="dijit/form/Button" type="button" onClick="curddialog.hide()">关闭 </button>
+        </div>
+     </div>
+
+     <!-- 增加、修改字典代码明细弹出框 -->
+     <div dojoType="dijit.Dialog" jsid='curddialogdetail' title="增加字典代码明细" style="width:310px;" >
+	     <div class="dijitDialogPaneContentAreaDetail">
+	       <div dojoType="dijit/form/Form" jsid="formdetail" id="formdetail">
+	         <button data-dojo-type="dijit/form/Button" jsid='codedetail'  name="code" id="codedetail" style="display:none"></button>
+
+	         <table>
+
+	                <tr height="25px" >
+	                    <td align="left"><label for="name" style="color:red">*</label>字典名称: </td>
+
+	                     <td>
+		                	 <div name="code_dictionary_name" jsid='code_dictionary_name' id = "code_dictionary_name" ></div>
+		                 </td>
+
+	                     <!--<td><select  style="width:200px;" name="code_dictionary_name"   jsid='code_dictionary_name' id='code_dictionary_name'>
+		                	 </select>
+		                </td>-->
+
+	                </tr>
+
+	                <tr height="25px">
+	                    <td align="left"><label for="loc" style="color:red">*</label>数据KEY:</td>
+	                    <td><div data-dojo-type="dijit/form/ValidationTextBox"  style="width:200px;height:17px;" jsid='data_key'  name="data_key" required="true"  placeholder="数据KEY"  maxLength="50"></div></td>
+	                </tr>
+
+	                <tr height="25px">
+	                    <td align="left"><label for="loc" style="color:red">*</label>数据Value: </td>
+	                    <td><div data-dojo-type="dijit/form/ValidationTextBox"  style="width:200px;height:17px;" jsid='data_value'  name="data_value"  required="true" placeholder="数据Value" maxLength="50"></div></td>
+	                </tr>
+	                <tr height="25px">
+	                    <td align="left"><label for="loc">&nbsp;编码KEY: </label></td>
+	                    <td><div data-dojo-type="dijit/form/ValidationTextBox"  style="width:200px;height:17px;" jsid='key_code'  name="key_code"  maxLength="50"></div></td>
+	                </tr>
+	                <tr height="25px">
+	                    <td align="left"><label for="loc">&nbsp;明细描述: </label></td>
+	                    <td><div data-dojo-type="dijit/form/SimpleTextarea"  style="width:202px;" jsid='info'  name="info" maxLength="50"></div></td>
+	                </tr>
+
+	          </table>
+
+	       </div>
+	    </div>
+        <div class="dijitDialogPaneActionBarDetail">
+            <button data-dojo-type="dijit/form/Button"  type="reset" onClick="return formdetail.reset();">重置 </button>
+            <button data-dojo-type="dijit/form/Button"   onClick="saveDetail();">保存 </button>
+            <button data-dojo-type="dijit/form/Button" type="button" onClick="curddialogdetail.hide()">关闭 </button>
+        </div>
+     </div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config xmlns="http:///org.apache.tuscany.das.rdb/config.xsd" >
+
+	<Command name="getMenuBindingById" SQL="select code,
+		menu_code,
+		type,
+		form_code,
+		limit,
+		memo
+		from p_menubind
+		where code = ?" kind="Select">
+		<ResultDescriptor columnName="code"  tableName="p_menubind"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="menu_code"  tableName="p_menubind"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="type"  tableName="p_menubind"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="form_code"  tableName="p_menubind"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="limit"  tableName="p_menubind"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="memo"  tableName="p_menubind"    columnType="commonj.sdo.String"/>
+		</Command>
+		<Table tableName="p_menubind">
+				<Column columnName="code" primaryKey="true"/>
+		</Table>
+</Config>

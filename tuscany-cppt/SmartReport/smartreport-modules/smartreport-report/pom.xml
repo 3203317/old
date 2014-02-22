@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>smartreport-modules</artifactId>
+    <groupId>net.newcapec</groupId>
+    <version>1.0.1-SNAPSHOT</version>
+	<relativePath>../pom.xml</relativePath>
+  </parent>
+  <groupId>net.newcapec</groupId>
+  <artifactId>smartreport-report</artifactId>
+  <version>1.0.1-SNAPSHOT</version>
+  <name>smartreport-report</name>
+  <description>smartreport-report</description>
+
+  <dependencies>
+     <dependency>
+		<groupId>net.newcapec</groupId>
+		<artifactId>smartreport-api</artifactId>
+		<version>1.0.1-SNAPSHOT</version>
+	</dependency>
+	<!-- dependency>
+		<groupId>dom4j</groupId>
+		<artifactId>dom4j</artifactId>
+		<version>1.6.1</version>
+	</dependency-->
+    <dependency>
+	    <groupId>net.newcapec</groupId>
+	    <artifactId>commonbase-util</artifactId>
+	    <version>1.0.1-SNAPSHOT</version>
+    </dependency>
+     <dependency>
+	    <groupId>net.newcapec</groupId>
+	    <artifactId>smartreport-gridfield</artifactId>
+	    <version>1.0.1-SNAPSHOT</version>
+    </dependency>
+    <!-- dependency>
+	  <groupId>jaxen</groupId>
+	  <artifactId>jaxen</artifactId>
+	  <version>1.1.1</version>
+	</dependency-->
+  </dependencies>
+</project>

@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>SmartReport</artifactId>
+    <groupId>net.newcapec</groupId>
+    <version>1.0.1-SNAPSHOT</version>
+	<relativePath>../pom.xml</relativePath>
+  </parent>
+  <groupId>net.newcapec</groupId>
+  <artifactId>smartreport-modules</artifactId>
+  <version>1.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>smartreport-modules</name>
+  <description>smartreport-modules</description>
+  <modules>
+  	<module>smartreport-api</module>
+  	<module>smartreport-gridfield</module>
+  	<module>smartreport-gridview</module>
+  	<module>smartreport-gridstat</module>
+  	<module>smartreport-datasource</module>
+    <module>smartreport-gridcust</module>
+  	<module>smartreport-gridprint</module>
+    <module>smartreport-gridcondition</module>
+    <module>smartreport-formlayout</module>
+  	<module>smartreport-custform</module>
+  	<module>smartreport-report</module>
+  	<module>smartreport-componentdataset</module>
+  	<module>smartreport-reportpublish</module>
+  </modules>
+</project>

@@ -1,0 +1,31 @@
+@charset "utf-8";
+/* CSS Document */
+body {
+	margin:0;
+	padding:0;
+	font-family:"" Arial;
+	font-size:12px;
+	line-height:22px;
+	color:#333;
+	background:url(../images/bg.jpg) no-repeat top center #3196CE;
+
+}
+div,form,img,ul,ol,li,dl,dt,dd {margin: 0; padding: 0; border:0; }
+li,dl{list-style-type:none;}
+a{ text-decoration:none;}
+
+
+.login{ padding:0; margin:0; overflow:hidden; width:auto;}
+.loginlab{width:574px;height:238px;margin:212px auto 0 auto;overflow: hidden;}
+.lab_1{ width:574px; height:34px; margin:0 auto; line-height:34px;}
+.dlts{color:#CC0000;width:574px; padding:4px 0 0 200px;  margin:0;height:30px; width:184px;line-height:30px;}
+.lab{ width:574px; height:34px; margin:0 auto; line-height:34px; margin-top:8px;}
+.name{ width:56px; float:left; color:#186e9e; font-size:14px; margin-left:50px; font-family:"黑体";}
+.ename{ width:68px; float:left; color:#186e9e; font-size:14px; text-align:right; padding-right:26px;}
+.namelb{width:264px; height:28px; border:1px #b6d1e2 solid; float:left; line-height:28px;}
+.yzm{width:132px; height:28px; border:1px #b6d1e2 solid; float:left; line-height:28px;}
+.djyzm{width:128px;color:#888888;float:left;text-decoration: underline;padding-left: 6px;}
+.btnbg{ width:208px; margin:0 auto;}
+.btn{ background:url(../images/btnbg.gif) no-repeat; width:72px; height:34px; float:left; font-size:14px;text-align:center; margin-left:30px; }
+.btn a{ color:#FFFFFF; font-weight:bold;}
+.lab img {float: left; padding:5px 0 0 10px;}

@@ -1,0 +1,294 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title></title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style>
+	@import "/dojo/resources/dojo.css";
+	.dijitDialogPaneContentArea {
+				margin: -10px -8px;
+				padding: 10px 8px;
+		}
+		.dijitDialogPaneActionBar {
+			background-color: #F6F6F6;
+			padding: 1px 5px 1px 5px;
+			text-align: right;
+			border-top: 1px solid #E1E1E1;
+			margin: 10px -10px -10px;
+			height:24px;
+			overflow:hidden;
+		}
+.loader {
+	padding:0;
+	margin:0;
+	position:absolute;
+	top:0; left:0;
+	width:100%; height:100%;
+	background:#ededed;
+	z-index:999;
+	vertical-align:middle;
+}
+.loaderInner {
+	padding:5px;
+	position:relative;
+	left:0;
+	top:0;
+	width:175px;
+	background:#3c3;
+	color:#fff;
+}
+</style>
+<link id="themeStyles" rel="stylesheet" href="/dijit/themes/soria/soria.css">
+<link rel="stylesheet" type="text/css" href="/dojox/grid/resources/soriaGrid.css" />
+<link rel="stylesheet" type="text/css" href="/dojox/grid/enhanced/resources/EnhancedGrid.css" />
+<link rel="stylesheet" type="text/css" href="/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css" />
+<script type="text/javascript" src="/dojo/dojo.js" djConfig="async:true,parseOnLoad: true"></script>
+<script type="text/javascript" src="gridfield.js"> </script>
+<script type="text/javascript">
+require(["dojo/ready","dijit/form/Select","dojo/json","dojo/data/ItemFileWriteStore","dojo/data/ItemFileReadStore",
+					"dojox/grid/DataGrid","dijit/form/Form","dijit/form/Button","dijit/Toolbar","dojo/newcapec/MessageBox",
+				"dijit/ToolbarSeparator","dijit/form/ComboBox","dojo/parser","dojox/grid/cells/dijitnewcapec"],
+			function(ready,Select,Json,ItemFileWriteStore,ItemFileReadStore,DataGrid,Form,Button,Toolbar,MessageBox,
+					ToolbarSeparator,ComboBox,parser){
+			//@Reference
+			var gridField = new tuscany.sca.Reference("gridFieldService");
+			//@Reference
+			var fieldPrep = new tuscany.sca.Reference("fieldprepService");
+		var zdstore;
+		var form_code = 0;
+		var code = 0;
+		var sessionId = '';
+		var ds_code = 0;
+		save = function(){
+			var grid = dijit.byId('zdglgrid');
+			var count = grid.rowCount;
+			var saveStore = new Array();
+			var b = true;
+			for(var i=0;i<count;i++){
+				if(b == false) return;
+				var griddata = grid.getItem(i);
+				var formatlist = new Array();
+				var store = '{"code":'+parseInt(griddata.code[0],10)+',"form_code":'+form_code+',';
+				var keyArray = new Array("name","xsgs","dqgs","ztys");
+				var j = 1
+				var zdgsData = '{';
+				dojo.forEach(keyArray,function(data){
+					if(b == false) return;
+					var key = "";
+					if(dojo.byId(data+(i+1)) == null){
+						key = eval("griddata."+data+"[0]");
+						if(key == ""){
+							MessageBox.isValidMsg("选择字段不能为空，请双击");
+							b = false;
+							return ;
+						}
+					}else{
+						key = dojo.byId(data+(i+1)).value;
+					}
+					if(j == 1){
+						zdgsData += dojo.toJson(data)+':'+dojo.toJson(key);
+						store += '"name":'+dojo.toJson(key);
+					}else{
+						zdgsData +=','+dojo.toJson(data)+':'+dojo.toJson(key);
+					}
+					j++
+				});
+				zdgsData +=',"field_value":"'+griddata.field_value[0]+'","xsgs_label":"'+griddata.xsgs_label[0]+
+					'","dqgs_label":"'+griddata.dqgs_label[0]+'","ztys_label":"'+griddata.ztys_label[0]+'","zxtj":"'+griddata.zxtj[0]+'"}';
+				store += ',"format":'+dojo.toJson(zdgsData)+'}';
+				saveStore.push(Json.parse(store));
+			}
+			console.log(saveStore);
+			if(code == 0 && b == true){
+				add(saveStore);
+			}else if(code != 0 && b == true){
+				update(saveStore);
+			}
+		};
+		add = function(data){
+			gridField.insertGridFields(sessionId,data).addCallback(function(data){
+				window.top.hub.publish("forward");//当添加成功是发布次事件
+			});
+		};
+		update = function(data){
+			gridField.updateGridFields(sessionId,data).addCallback(function(data){
+				window.top.hub.publish("forward");//当添加成功是发布次事件
+			});
+		};
+		createFieldOptions = function(){
+			var zdArray = new Array();
+			fieldPrep.findFieldListByDscode(sessionId,ds_code).addCallback(function(data){
+				dojo.forEach(data,function(data){
+					var value = data.name;
+					var label = data.alias;
+					var option = {"value":value,"label":label};
+					zdArray.push(option);
+				});
+				//createGrid(zdArray);
+			});
+			return zdArray;
+		};
+		createGrid = function(){
+			var fieldOption = createFieldOptions();
+			var tjgrid = new DataGrid({
+				id:"zdglgrid",
+				name:'zdglgrid',
+				structure:[
+					new dojox.grid.cells.RowIndex({ name: "编号", width: "45px" }),
+					{field: "code",hidden:true},
+					{
+							name: "选择字段",
+							field: "field_value",
+							width: 'auto',
+							type:dojox.grid.cells._Widget,
+							widgetClass: dijit.form.Select,
+							widgetProps:{id:'name',style:'width:50px;',type:'select',
+								options:fieldOption
+									},
+							editable:true
+					},
+					{field:"name",hidden:true},
+					{
+							name: "显示格式",
+							field: "xsgs_label",
+							width:'auto',
+							type:dojox.grid.cells._Widget,
+							widgetClass: dijit.form.Select,
+							widgetProps:{id:'xsgs',style:'width:50px;',type:'select',
+								options:[{"value":"string","label":"字符类型"},
+												{"value":"number","label":"数字类型"},
+												{"value":"date","label":"日期类型"}]
+							},
+							editable:true
+					},
+					{field:"xsgs",hidden:true},
+					{
+							name: "对齐格式",
+							field: "dqgs_label",
+							width:'auto',
+							type:dojox.grid.cells._Widget,
+							widgetClass: dijit.form.Select,
+							widgetProps:{id:'dqgs',style:'width:50px;',type:'select',
+								options:[{"value":"left","label":"居左"},
+								         {"value":"center","label":"居中"},
+										 {"value":"right","label":"居右"}]
+							},
+							editable:true
+					},
+					{field:"dqgs",hidden:true},
+					{
+						name: "字体颜色",field: "ztys_label",width:'auto',
+						type:dojox.grid.cells._Widget,widgetClass: dijit.form.Select,
+							widgetProps:{id:'ztys',style:'width:50px;',type:'select',
+								options:[{"value":"black","label":"黑色"},
+										{"value":"red","label":"红色"},
+										{"value":"yellow","label":"黄色"}]
+							},
+							editable:true
+					},
+					{field:"ztys",hidden:true},
+					{name:"执行条件",field:"zxtj",width:'auto',editable:true,type: dojox.grid.cells._Widget}
+				]
+			},"zdgrid");
+			tjgrid.startup();
+			getModifyData();
+
+		};
+		addRow = function(){
+			var grid = dijit.byId('zdglgrid');
+			var cc = grid.rowCount;
+			var dd = grid.getItem(0);
+			zdstore.newItem({code:Math.random(),field_value:'',name:'',xsgs_label:'字符类型',xsgs:'string',
+				dqgs_label:'居左',dqgs:'left',ztys_label:'黑色',ztys:'black',zxtj:''});
+		};
+		delRow = function(){
+			var grid = dijit.byId('zdglgrid');
+			var selectValues = grid.selection.getSelected();
+			if(!selectValues||selectValues.length == 0)
+			{
+					MessageBox.alert("请选择处理的记录!","warn");
+					return;
+			}
+			var code = selectValues[0].code[0];
+					grid.removeSelectedRows();
+					gridField.delGridFieldByIds(sessionId, code+"").addCallback(function(data){
+
+					});
+		};
+			reset = function(){
+				form3.reset();
+			};
+			hideLoader = function(){
+			dojo.byId("main_loaderInner").innerHTML += " done.";
+			setTimeout(function hideLoader(){
+				dojo.fadeOut({
+					node: "main_loader",
+					duration: 500,
+					onEnd: function($n){
+						$n.style.display = "none";
+					}
+				}).play();
+			},250);
+		};
+		getValues = function(eventname, formcode, subscriberData){
+			var formAndDscode = formcode.split(",");
+			form_code = parseInt(formAndDscode[0]);
+			ds_code = parseInt(formAndDscode[1]);
+			sessionId = formAndDscode[2];
+		};
+		getModifyData = function(){
+			var filter = [{field:"form_code",relation:"and",value:form_code,logical:"="}];
+			gridField.findGridFieldListByCondition(sessionId,filter).addCallback(function(data){
+// 				if(data == null){
+// 					MessageBox.isValidMsg("会话失效,请重新登录!");
+// 				}
+				if(data.length != 0){
+					var gridItem = new Array();
+					dojo.forEach(data,function(data){
+						var codekey = data.code
+						code = data.code;
+						var format  = Json.parse(data.format);
+						var store = {"code":codekey,"field_value":format.field_value,"name":format.name,
+								"xsgs_label":format.xsgs_label,"xsgs":format.xsgs,"dqgs_label":format.dqgs_label,
+								"dqgs":format.dqgs,"ztys_label":format.ztys_label,"ztys":format.ztys,"zxtj":format.zxtj};
+						gridItem.push(store);
+					});
+					var griddata = { identifier: 'code',label: 'code',items:gridItem};
+					zdstore = new dojo.data.ItemFileWriteStore({data:griddata});
+				}else{
+					var griddata = { identifier: 'code',label: 'code',
+						items: [{code:Math.random(),field_value:'',name:'',xsgs_label:'字符类型',xsgs:'string',
+							dqgs_label:'居左',dqgs:'left',ztys_label:'黑色',ztys:'black',zxtj:''}]
+					};
+					zdstore = new dojo.data.ItemFileWriteStore({data:griddata});
+				}
+
+				var grid = dijit.byId('zdglgrid');
+
+				grid.setStore(zdstore);
+				grid.resize();
+			});
+		};
+		ready(function(){
+			hideLoader();
+			if (window.top.hub != undefined) {
+				window.top.hub.subscribe("setformcodepane2",getValues);
+				window.top.hub.subscribe("savepane2", save);
+// 				window.top.hub.subscribe("reset", reset);
+				window.top.hub.publish("getformcode");
+			}
+			createGrid();
+		});
+	});
+</script>
+</head>
+<body class="soria">
+<div id="main_loader" class="loader"><div id="main_loaderInner" class="loaderInner">页面正在加载 ... </div></div>
+	<form dojoType='dijit.form.Form' id='form3' jsid='form3'>
+		<div id='toolbar' dojotype="dijit.Toolbar">
+			<input type="button"  value='+' onclick="addRow();"><input type="button"  value='-' onclick="delRow();">
+		</div>
+		<div id='zdgrid' style="height:265px;"></div>
+	</form>
+</body>
+</html>

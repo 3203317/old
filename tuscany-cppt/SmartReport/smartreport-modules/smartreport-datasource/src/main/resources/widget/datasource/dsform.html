@@ -1,0 +1,328 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<TITLE>dsform</TITLE>
+<style type="text/css">
+</style>
+<script type="text/javascript">
+
+	var _dlg_add_ = {};
+
+	_dlg_add_.saveData = function(){
+		if(dijit.byId("_frm_add_cbox_type").item == null) return;
+		if(dijit.byId("_frm_add_cbox_dbconn_code").item == null) return;
+
+		var __params = {
+			name: dijit.byId("_frm_add_txt_name").getValue(),
+			service: dijit.byId("_frm_add_txt_service").getValue(),
+			bind_type: dijit.byId("_frm_add_cbox_bind_type").getValue(),
+			type: dijit.byId("_frm_add_cbox_type").item.code[0],
+			dbconn_code: dijit.byId("_frm_add_cbox_dbconn_code").item.code[0],
+			method: dijit.byId("_frm_add_txta_sql").getValue().trim(),
+			memo: dijit.byId("_frm_add_txta_memo").getValue(),
+			use_scope_type: dijit.byId("_frm_add_cbox_use_scope_type").getValue()
+		};
+		if(__params.type == "proc"){
+			if(dijit.byId("_frm_add_cbox_proc").item == null) return;
+			__params.method = dijit.byId("_frm_add_cbox_proc").item.code[0];
+		}
+
+		if(__params.method == "") return;
+
+		_dsmanager.dataSourceService.insertDataSource(_dsmanager.sessionId,__params).addCallback(function($value){
+			if($value.resultMsg != null) {
+				dijit.byId("capec.dialog.optErrDialog").show();
+				return;
+			}
+			dijit.byId("_frm_add").reset();
+			dijit.byId("_dlg_add").hide();
+			_dsmanager.findGridData();
+		});
+	};
+
+	_dlg_add_.set = function(){
+		console.log("set");
+	};
+
+	_dlg_add_.reset = function(){
+		console.log("reset");
+		dijit.byId("_frm_add").reset();
+	};
+
+	_dlg_add_.findProc = function(){
+		if(dijit.byId("_frm_add_cbox_type").item == null) return;
+		if(dijit.byId("_frm_add_cbox_dbconn_code").item == null) return;
+		var __item = dijit.byId("_frm_add_cbox_dbconn_code").item;
+	    var __user = __item.accoutName[0];
+	    var __password = __item.accountPassword[0];
+	    var __ip = __item.connectIP[0];
+	    var __port = __item.connectPort[0];
+	    var __server = __item.connectSID[0];
+		_dsmanager.dataSourceService.getDbAllProcByUser(_dsmanager.sessionId,__user,__password,__ip,__port,__server).addCallback(function($value){
+			dijit.byId("_frm_add_cbox_proc").set("displayedValue",'');
+			var __data = {
+				identifier: "code",
+				label: "name",
+				items: []
+			};
+			dojo.forEach($value,function($item){
+				__data.items.push({ code: $item, name: $item });
+			});
+			var __store = new dojo.data.ItemFileWriteStore({ data: __data });
+			dijit.byId("_frm_add_cbox_proc").set("store",__store)
+		});
+	};
+
+	_dlg_add_.init = function(){
+	    var __btn_submit = dijit.byId("_dlg_add_btn_submit");
+	    var __btn_reset = dijit.byId("_dlg_add_btn_reset");
+	    var __frm = dijit.byId("_frm_add");
+	    var __valid = __frm.isValid();
+
+	    __btn_submit.set("disabled",!__valid);
+
+	    __frm.on("validStateChange", function($valid){
+	    	/*console.log($valid);
+	    	if($valid){
+	    		$valid = dijit.byId("_frm_add_txta_sql").getValue().trim() != "";
+	    	}*/
+	        __btn_submit.set("disabled",!$valid);
+	    });
+
+		__btn_reset.on("click", function(){
+			__frm.reset();
+		});
+
+		__btn_submit.on("click", function(){
+			_dlg_add_.saveData();
+		});
+
+		dijit.byId("_dlg_add_btn_close").on("click", function(){
+			dijit.byId("_dlg_add").hide();
+		});
+
+		if(dijit.byId("_dlg_add")._state == "edit"){
+			_dlg_add_.set();
+		}
+
+		dojo.connect(dijit.byId("_dlg_add_btn_test"),"onClick", function(){
+			var __typeItem = dijit.byId("_frm_add_cbox_type").item;
+			var __dbconnItem = dijit.byId("_frm_add_cbox_dbconn_code").item;
+			if(__typeItem == null) return;
+			if(__dbconnItem == null) return;
+			var __user = __dbconnItem.accoutName[0];
+			var __password = __dbconnItem.accountPassword[0];
+			var __ip = __dbconnItem.connectIP[0];
+			var __port = __dbconnItem.connectPort[0];
+			var __server = __dbconnItem.connectSID[0];
+
+			if(__typeItem.code[0] == "sql"){
+				var __sql = dijit.byId("_frm_add_txta_sql").getValue().trim();
+				if(__sql == "") return;
+				_dsmanager.dataSourceService.testSql(_dsmanager.sessionId,__user,__password,__ip,__port,__server,__sql).addCallback(function($value){
+					if($value){
+						alert("测试成功");
+					}else{
+						alert("测试失败")
+					}
+				});
+			}else if(__typeItem.code[0] == "proc"){
+				var __procItem = dijit.byId("_frm_add_cbox_proc").item;
+				if(__procItem == null) return;
+				_dsmanager.dataSourceService.testProc(_dsmanager.sessionId,__user,__password,__ip,__port,__server,__procItem.code[0]).addCallback(function($value){
+					if($value){
+						alert("测试成功");
+					}else{
+						alert("测试失败")
+					}
+				});
+			}
+		});
+
+		/**************/
+
+		/* 点击字段按钮 */
+		dojo.connect(dijit.byId("_frm_add_btn_selField"), "onClick", function(){
+			var __typeItem = dijit.byId("_frm_add_cbox_type").item;
+			var __dbconnItem = dijit.byId("_frm_add_cbox_dbconn_code").item;
+
+			if(__typeItem != null && __dbconnItem != null){
+				console.log(__typeItem);
+				console.log(__dbconnItem);
+				if(dijit.byId("_dlg_selField") == undefined){
+					new newcapec.dialog.FormDialog({
+						id: "_dlg_selField",
+						title: "添加表和字段",
+						style: { height: "375px", width: "450px" },
+						url: "dsform_selField.html?r="+ new Date(),
+						state: "edit"
+					});
+				}else{
+					_dlg_selField_.set();
+				}
+				dijit.byId("_dlg_selField").set("title", "添加表和字段");
+				dijit.byId("_dlg_selField").setState("edit");
+				dijit.byId("_dlg_selField").show();
+			}
+		});
+
+		/* 数据源类型设置 */
+		require(["dojo"],function(){
+			var __data = {
+				identifier: "code",
+				label: "name",
+				items: [
+					{ code: "sql", name: "SQL语句" },
+					{ code: "proc", name: "存储过程" }
+					//,{ code: "sca", name: "SCA服务" }
+				]
+			};
+			var __store = new dojo.data.ItemFileWriteStore({ data: __data });
+
+			new dijit.form.ComboBox({
+				autoComplete: true,
+				store: __store,
+				searchAttr: "name",
+				style: { width: "150px" }
+			},dojo.byId("_frm_add_cbox_type"));
+		});
+
+
+
+		/* 改变type 下拉框等区域显示或隐藏 */
+		dojo.connect(dijit.byId("_frm_add_cbox_type"), "onChange", function(){
+			var __item = dijit.byId("_frm_add_cbox_type").item;
+			if(__item == null) return;
+			var __id = __item.code[0];
+			switch(__id){
+			case "proc":
+				dojo.byId("_frm_add_tr_proc").style.display = "";
+				dojo.byId("_frm_add_tr_sql").style.display = "none";
+				_dlg_add_.findProc();
+				break;
+			case "sql":
+				dojo.byId("_frm_add_tr_proc").style.display = "none";
+				dojo.byId("_frm_add_tr_sql").style.display = "";
+				break;
+			}
+		});
+
+		/* 加载数据库连接 */
+		_dsmanager.dbConnService.findDBConnList(_dsmanager.sessionId,_dsmanager.resourceId,[],0,1000).addCallback(function($value){
+			if($value.resultMsg != null) {
+				dijit.byId("capec.dialog.optErrDialog").show();
+				return;
+			}
+			var __data = {
+				identifier: "code",
+				label: "name",
+				items: $value
+			};
+			var __store = new dojo.data.ItemFileWriteStore({ data: __data });
+
+			new dijit.form.ComboBox({
+				autoComplete: false,
+				store: __store,
+				searchAttr: "name",
+				style: { width: "150px" }
+			},dojo.byId("_frm_add_cbox_dbconn_code"));
+
+			dojo.connect(dijit.byId("_frm_add_cbox_dbconn_code"), "onChange", function(){
+				var __item1 = dijit.byId("_frm_add_cbox_dbconn_code").item;
+				if(__item1 == null) return;
+				var __item2 = dijit.byId("_frm_add_cbox_type").item;
+				if(__item2 == null) return;
+				var __id2 = __item2.code[0];
+				if(__id2 == "proc") _dlg_add_.findProc();
+			});
+
+			/*_dlg_add_.dbconn = $value;
+
+			for(var __i_3=0,__j_3=dijit.byId("_frm_add_cbox_dbconn_code").options.length;__i_3<__j_3;__i_3++){
+			    dijit.byId("_frm_add_cbox_dbconn_code").removeOption(0);
+			}
+			dojo.forEach($value,function($item){
+				dijit.byId("_frm_add_cbox_dbconn_code").addOption({ label: $item.name, value: $item.code });
+			});*/
+			//if($operate_code != undefined){
+			//	dijit.byId("_frm_cbox_operate_code").set("value",$operate_code);
+			//}
+			/* 下拉框添加change事件
+			dojo.connect(dijit.byId("_frm_add_cbox_dbconn_code"),"onChange", function($code){
+				console.log($code);
+			});*/
+		});
+	};
+
+</script>
+</HEAD>
+
+<BODY class="soria">
+	<form id="_frm_add" data-dojo-type="dijit/form/Form" style="height:240px">
+		<table>
+			<tr>
+				<td><label for="_frm_add_txt_name">数据源名称：</label></td>
+				<td><input id="_frm_add_txt_name" style="width:150px"
+					data-dojo-type="dijit/form/ValidationTextBox"
+					data-dojo-props='required:true' /></td>
+			</tr>
+			<tr>
+				<td><label for="_frm_add_txt_service">服务URI：</label></td>
+				<td><input id="_frm_add_txt_service" style="width:150px"
+					data-dojo-type="dijit/form/ValidationTextBox"
+					data-dojo-props='required:true' /></td>
+			</tr>
+			<tr>
+				<td><label for="_frm_add_cbox_use_scope_type">使用范围：</label></td>
+				<td><select id="_frm_add_cbox_use_scope_type" data-dojo-type="dijit/form/Select" style="width:150px">
+						<option value="0">通用数据源</option>
+						<option value="1">报表数据源</option>
+						<option value="2">控件数据源</option>
+				</select>
+				</td>
+			</tr>
+			<tr>
+				<td><label for="_frm_add_cbox_bind_type">协议类型：</label></td>
+				<td><select id="_frm_add_cbox_bind_type" data-dojo-type="dijit/form/Select" style="width:150px">
+						<option value="1">JDBC</option>
+						<option value="2">ATOM</option>
+						<option value="3">JSONRPC</option>
+				</select>
+				</td>
+			</tr>
+			<tr>
+				<td><label for="_frm_add_cbox_type">数据源类型：</label></td>
+				<td><select id="_frm_add_cbox_type" style="width:150px"></select></td>
+			</tr>
+			<tr>
+				<td><label for="_frm_add_cbox_dbconn_code">数据库连接：</label></td>
+				<td><select id="_frm_add_cbox_dbconn_code" style="width:150px"></select>
+				</td>
+			</tr>
+			<tr id="_frm_add_tr_proc" style="display: none;">
+				<td><label for="_frm_add_cbox_proc">存储过程：</label></td>
+				<td><select id="_frm_add_cbox_proc" data-dojo-type="dijit/form/ComboBox" style="width:150px" autoComplete="true" searchAttr="name"></select></td>
+			</tr>
+			<tr id="_frm_add_tr_sql">
+				<td><label for="_frm_add_txta_sql">SQL语句：</label><br />
+					<button id="_frm_add_btn_selField" data-dojo-type="dijit/form/Button">
+						选择字段
+					</button>
+				</td>
+				<td><input id="_frm_add_txta_sql" style="width: 300px; height: 50px"
+						data-dojo-type="dijit/form/SimpleTextarea"
+						data-dojo-props='required:true'></input>
+				</td>
+			</tr>
+			<tr>
+				<td><label for="_frm_add_txta_memo">备注：</label></td>
+				<td><textarea id="_frm_add_txta_memo" style="width: 300px; height: 50px"
+						data-dojo-type="dijit/form/SimpleTextarea"></textarea>
+				</td>
+			</tr>
+		</table>
+	</form>
+</BODY>
+</HTML>

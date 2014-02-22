@@ -1,0 +1,314 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title></title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style>
+	@import "/dojo/resources/dojo.css";
+		.dijitDialogPaneContentArea {
+				margin: -10px -8px;
+				padding: 10px 8px;
+		}
+		.dijitDialogPaneActionBar {
+			background-color: #F6F6F6;
+			padding: 1px 5px 1px 5px;
+			text-align: right;
+			border-top: 1px solid #E1E1E1;
+			margin: 10px -10px -10px;
+			height:24px;
+			overflow:hidden;
+		}
+.loader {
+	padding:0;
+	margin:0;
+	position:absolute;
+	top:0; left:0;
+	width:100%; height:100%;
+	background:#ededed;
+	z-index:999;
+	vertical-align:middle;
+}
+.loaderInner {
+	padding:5px;
+	position:relative;
+	left:0;
+	top:0;
+	width:175px;
+	background:#3c3;
+	color:#fff;
+}
+</style>
+<link id="themeStyles" rel="stylesheet" href="/dijit/themes/soria/soria.css">
+<link rel="stylesheet" type="text/css" href="/dojox/grid/resources/soriaGrid.css" />
+<link rel="stylesheet" type="text/css" href="/dojox/grid/enhanced/resources/EnhancedGrid.css" />
+<link rel="stylesheet" type="text/css" href="/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css" />
+<script type="text/javascript" src="/dojo/dojo.js" djConfig="async:true,parseOnLoad: true"></script>
+<script type="text/javascript" src="gridcondition.js"> </script>
+<script type="text/javascript">
+require(["dojo/ready","dojo/json","dijit/form/Select","dojo/data/ItemFileWriteStore","dojo/data/ItemFileReadStore","dijit/Menu","dojox/widget/PlaceholderMenuItem",
+				"dojox/grid/DataGrid","dijit/form/Form","dijit/form/Button","dijit/Toolbar","dojo/newcapec/MessageBox","dijit/ToolbarSeparator",
+				"dijit/form/CheckBox","dojo/data/ObjectStore","dojo/store/Memory","dojo/parser","dijit/form/TextBox",
+				"dojox/grid/cells/dijitnewcapec"],
+			function(ready,Json,Select,ItemFileWriteStore,ItemFileReadStore,Menu,PlaceholderMenuItem,DataGrid,Form,Button,
+					Toolbar,MessageBox,ToolbarSeparator,CheckBox,ObjectStore,Memory,parser){
+			//@Reference
+			var gridCondition = new tuscany.sca.Reference("gridConditionService");
+
+			var cxstore;
+			var code = 0;
+			var form_code =0 ;
+			var ds_code = 0;
+			var sessionId = null;
+			var zdArray = null;
+			getFieldOptions = function(field){
+				zdArray = new Array();
+				if(field.length != 0){
+					dojo.forEach(field,function(data){
+						var value = data.code+"";
+						var label = data.alias;
+						var option = {"value":value,"label":label};
+						zdArray.push(option);
+				    });
+				}
+			    return zdArray;
+			};
+			getRelationOptions = function(dis){
+				var tjArray = new Array();
+				if(dis.length != 0){
+					dojo.forEach(dis,function(data){
+						var label = data.data_value;
+						tjArray.push(label);
+				    });
+				}
+			    return tjArray;
+			};
+			getPaneOptions = function(pane){
+				var paneArray = new Array();
+				if(pane != null){
+					var group = JSON.parse(pane.condition_groups,true);
+					//var temp = group.panename.replace(/，/g,","); //替换，为, added pxx
+					//var str = temp.split(",");
+					var str = group.panename.split(",");
+					dojo.forEach(str,function(str){
+						paneArray.push(str);
+					});
+			    }
+				return paneArray;
+			};
+			createCxGrid = function(zdOptions,gxOptions,paneOptions){
+				var menu = new Menu();
+				var ph = new PlaceholderMenuItem({label:"GridColumns"});
+				menu.addChild(ph);
+				var cxgrid = new DataGrid({
+				id:"cxtjgl",
+				name:"cxtjgl",
+				headerMenu:menu,
+				structure:[
+					new dojox.grid.cells.RowIndex({ name: "编号", width: "45px" }),
+					{field: "code",hidden:true},
+					{
+						name: "字段",field: "field_name_value", width: 'auto',editable:true,type: dojox.grid.cells._Widget,
+									widgetClass: dijit.form.Select,
+									widgetProps:{
+										id:'zd',
+										style:'width:50px;',
+										type:'select',
+										options:zdOptions
+									}
+							},
+							{field: "field_name",hidden:true},
+							{
+									name: "关系",field: "relation",width:'auto', editable:true,
+									type: dojox.grid.cells.Select,options:gxOptions
+							},{
+									name: "级联字段",field: "parent_condition_value",width:'auto',editable:true,type: dojox.grid.cells._Widget,
+									widgetClass: dijit.form.Select,
+									widgetProps:{
+										id:'jl',
+										type:'select',
+										style:'width:50px;',
+										options:zdOptions
+									},hidden:true
+							},
+							{field: "parent_condition",hidden:true},
+							{
+									name: "查询面板",field: "group_name",width:'auto',editable:true,
+									type: dojox.grid.cells.Select,options:paneOptions
+							},{
+								name:"字段别名",field:"condition_name",width:'auto',editable:true,
+								type: dojox.grid.cells._Widget,hidden:true
+							},{
+								name:"默认值",field:"default_value",width:'auto',editable:true,
+								type: dojox.grid.cells._Widget,hidden:true
+							}
+				]
+			},"cxgrid");
+			cxgrid.startup();
+			cxgrid.resize();
+			getModefyData();
+			};
+			addRow = function(){
+			var grid = dijit.byId('cxtjgl');
+			var id = grid.rowCount;
+			cxstore.newItem({code:Math.random(),field_name_value:'',field_name:'',relation:'',
+				parent_condition_value:'',parent_condition:'',group_name:'',condition_name:'',default_value:''});
+		};
+		delRow = function(){
+			var grid = dijit.byId('cxtjgl');
+			var selectValues = grid.selection.getSelected();
+			if(!selectValues || selectValues.length == 0)
+			{
+					MessageBox.alert("请选择处理的记录!","warn");
+					return;
+			}
+			grid.removeSelectedRows();
+			var code = selectValues[0].code[0];
+			var id = parseInt(code,10);
+			gridCondition.delGridConditionById(sessionId,id).addCallback(function(data){
+
+			});
+		};
+		save = function(){
+			var arrayObj = new Array();
+			var grid = dijit.byId('cxtjgl');
+			var count = grid.rowCount;
+			var b = true;
+			for(var i=0;i<count;i++){
+				if(b == false) return;
+				var griddata = grid.getItem(i);
+				var zdkey ="";
+				var jxkey = "";
+				if(dojo.byId('zd'+(i+1)) == null){
+					zdkey = griddata.field_name[0];
+					if(zdkey == ""){
+						MessageBox.isValidMsg("字段不能为空");
+						b = false;
+						return;
+					}
+				}else{
+					zdkey = dojo.byId('zd'+(i+1)).value;
+				}
+				if( griddata.relation[0] == null || griddata.relation[0] == ""){
+					MessageBox.isValidMsg("条件关系不能为空");
+					b = false;
+					return;
+				}
+				if(dojo.byId('jx'+(i+1)) == null){
+					jxkey = griddata.parent_condition[0];
+				}else{
+					jxkey = dojo.byId('jx'+(i+1)).value;
+				}
+				var object;
+				var group_name = griddata.group_name[0];
+				if(group_name == null || group_name==""){
+					MessageBox.isValidMsg("查询面板不能为空");
+					b = false;
+					return;
+				}
+				if(code == 0 ){
+					object = {form_code:form_code+"",field_name:zdkey,
+							relation:griddata.relation[0],parent_condition:jxkey,
+							group_name:griddata.group_name[0],type:'1',default_value:griddata.default_value[0],condition_name:griddata.condition_name[0]};
+				}else{
+					object = {form_code:form_code+"",code:parseInt(griddata.code[0]),field_name:zdkey,
+							relation:griddata.relation[0],parent_condition:jxkey,
+							group_name:griddata.group_name[0],type:'1',default_value:griddata.default_value[0],condition_name:griddata.condition_name[0]};
+				}
+				arrayObj.push(object);
+			}
+			console.log(arrayObj);
+			if(code == 0 && b == true){
+				add(arrayObj);
+			}else if(code !=0 && b == true){
+				update(arrayObj);
+			}
+		};
+		add = function(data){
+			gridCondition.insertGridConditions(sessionId,data).addCallback(function(data){
+				window.top.hub.publish("forward");//当添加成功是发布次事件
+			});
+		};
+		update = function(data){
+			gridCondition.updateGridConditions(sessionId,data).addCallback(function(data){
+				window.top.hub.publish("forward");//当添加成功是发布次事件
+			});
+		};
+		getValues = function(eventname, formcode, subscriberData){
+			var formAndDscode = formcode.split(",");
+			form_code = parseInt(formAndDscode[0]);
+			ds_code = parseInt(formAndDscode[1]);
+			sessionId = formAndDscode[2];
+		};
+		getModefyData = function(){
+			gridCondition.getGridConditionByFormCode(sessionId,form_code).addCallback(function(data){
+
+				if(data.length != 0){
+					var griddata = { identifier: 'code',
+								label: 'code',
+								items: data
+					}
+					cxstore = new ItemFileWriteStore({data:griddata});
+					code = data[0].code;
+				}else{
+					var griddata = { identifier: 'code',
+								label: 'code',
+								items: [{code:Math.random(),field_name_value:'',field_name:'',relation:'',
+								parent_condition_value:'',parent_condition:'',group_name:'',condition_name:'',default_value:''}]
+					}
+					cxstore = new ItemFileWriteStore({data:griddata});
+				}
+				var grid = dijit.byId('cxtjgl');
+				grid.setStore(cxstore);
+				grid.resize();
+			});
+		}
+		hideLoader = function(){
+			dojo.byId("main_loaderInner").innerHTML += " done.";
+			setTimeout(function hideLoader(){
+				dojo.fadeOut({
+					node: "main_loader",
+					duration: 500,
+					onEnd: function($n){
+						$n.style.display = "none";
+					}
+				}).play();
+			},250);
+		};
+		getGridData = function(){
+			var filter = [{field:"code_dictionary_name",relation:"and",value:"'RELATION'",logical:"="}];
+			gridCondition.getGridConditonDataCollection(sessionId, ds_code, form_code, filter).addCallback(function(data){
+				if(data == null){
+					MessageBox.isValidMsg("会话失效,请重新登录!");
+					return ;
+				}
+				var zdOptions = getFieldOptions(data.field);
+				var gxOptions = getRelationOptions(data.dis);
+				var paneOptions = getPaneOptions(data.gridView);
+				createCxGrid(zdOptions,gxOptions,paneOptions);
+			});
+		};
+		ready(function() {
+			hideLoader();
+			if (window.top.hub != undefined) {
+				window.top.hub.subscribe("setformcodepane4",getValues);
+				window.top.hub.subscribe("savepane4", save);
+				window.top.hub.publish("getformcode");
+			}
+			getGridData();
+		});
+	});
+</script>
+</head>
+<body class="soria">
+<div id="main_loader" class="loader"><div id="main_loaderInner" class="loaderInner">页面正在加载 ... </div></div>
+	<form dojoType='dijit.form.Form' id='form4' jsid='form4'>
+			<div id='cxtoolbar' dojoType='dijit.Toolbar'>
+				<input type="button" id='addcxrow' value='+' onclick="addRow();">
+				<input type="button" id='delcxrow' value='-' onclick="delRow();">
+<!-- 				<div id='cxtjfg' dojoType='dijit/ToolbarSeparator'></div> -->
+<!-- 				<div type="checkbox" id='gxysf' name='gxysf' dojoType="dijit.form.CheckBox"></div><span>显示关系运算符</span> -->
+			</div>
+			<div id='cxgrid' style="height:265px;"></div>
+	</form>
+</body>
+</html>

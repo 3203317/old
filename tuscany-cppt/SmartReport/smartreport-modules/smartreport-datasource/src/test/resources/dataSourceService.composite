@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+           xmlns:tuscany="http://tuscany.apache.org/xmlns/sca/1.1"
+           targetNamespace="http://newcapec.net/smartreport/datasource/dataSourceService"
+           name="dataSourceService-contribution">
+
+   <component name="SequenceServiceComponent">
+         <implementation.java class="net.newcapec.sca.sequence.impl.SequenceServiceImpl"/>
+          <reference name="sequenceInit" target="SequenceInitComponent" />
+     <service name="SequenceService">
+        </service>
+   </component>
+
+   <component name="SequenceInitComponent">
+      <implementation.java class="net.newcapec.sca.sequence.SequenceInitImpl"/>
+      <reference name="defDBConnService" target="DefDBConnServiceComponent" />
+  </component>
+  <component name="DefDBConnServiceComponent">
+    <implementation.java class="net.newcapec.sca.dbconn.service.impl.DefDBConnServiceImpl"/>
+  </component>
+
+  <component name="SessionComponent">
+    <implementation.java class="net.newcapec.sca.session.service.impl.SessionImpl"/>
+    <reference name="defDBConnService" target="DefDBConnServiceComponent" />
+  </component>
+
+  <component name="DataSourceDASComponent">
+    <implementation.spring location="dataSourceDAS-context.xml"/>
+    <reference name="defDBConnService" target="DefDBConnServiceComponent" />
+    <reference name="sequenceService" target="SequenceServiceComponent" />
+  </component>
+
+  <component name="DataSourceServiceComponent">
+    <implementation.spring location="dataSourceService-context.xml"/>
+    <reference name="dataSourceDAS" target="DataSourceDASComponent" />
+    <reference name="gridFieldService" target="GridFieldServiceComponent"></reference>
+    <reference name="sessionService" target="SessionComponent" />
+    <service name="DataSourceService">
+      <tuscany:binding.jsonrpc/>
+    </service>
+  </component>
+
+  <component name="GridFieldServiceComponent">
+    <implementation.spring location="gridFieldService-context.xml"/>
+    <reference name="gridFieldDAS" target="GridFieldDASComponent" />
+    <reference name="sessionService" target="SessionComponent" />
+    <service name="GridFieldService">
+      <tuscany:binding.jsonrpc/>
+    </service>
+  </component>
+
+  <component name="GridFieldDASComponent">
+    <implementation.spring location="gridFieldDAS-context.xml"/>
+    <reference name="defDBConnService" target="DefDBConnServiceComponent" />
+    <reference name="sequenceService" target="SequenceServiceComponent" />
+  </component>
+</composite>

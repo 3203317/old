@@ -1,0 +1,72 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>commonbase-modules</artifactId>
+    <groupId>net.newcapec</groupId>
+    <version>1.0.1-SNAPSHOT</version>
+	<relativePath>../pom.xml</relativePath>
+  </parent>
+  <groupId>net.newcapec</groupId>
+  <artifactId>commonbase-util</artifactId>
+  <version>1.0.1-SNAPSHOT</version>
+  <name>commonbase-util</name>
+  <description>commonbase-util</description>
+
+
+  <dependencies>
+
+		<dependency>
+      <groupId>net.newcapec</groupId>
+      <artifactId>commonbase-api</artifactId>
+			<version>1.0.1-SNAPSHOT</version>
+    	</dependency>
+
+	<dependency>
+		  <groupId>com.oracle</groupId>
+		  <artifactId>ojdbc14</artifactId>
+		  <version>10.2.0.4.0</version>
+		</dependency>
+  	<dependency>
+	  <groupId>dom4j</groupId>
+	  <artifactId>dom4j</artifactId>
+	  <version>1.6.1</version>
+	  <type>jar</type>
+	</dependency>
+
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context</artifactId>
+		<version>3.0.5.RELEASE</version>
+	</dependency>
+
+	<dependency>
+	  <groupId>org.springframework</groupId>
+	  <artifactId>spring-core</artifactId>
+	  <version>3.0.5.RELEASE</version>
+	</dependency>
+	<dependency>
+         <groupId>org.apache.tuscany.sca</groupId>
+         <artifactId>tuscany-implementation-spring-runtime</artifactId>
+         <version>${tuscany.version}</version>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+  <groupId>org.apache.tuscany.sca</groupId>
+  <artifactId>tuscany-databinding-sdo</artifactId>
+  <version>2.0</version>
+</dependency>
+<dependency>
+  <groupId>org.apache.tuscany.sca</groupId>
+  <artifactId>tuscany-databinding-sdo-axiom</artifactId>
+  <version>2.0</version>
+</dependency>
+
+	<dependency>
+	  <groupId>org.springframework</groupId>
+	  <artifactId>spring-expression</artifactId>
+	  <version>3.0.5.RELEASE</version>
+	</dependency>
+  </dependencies>
+
+
+</project>

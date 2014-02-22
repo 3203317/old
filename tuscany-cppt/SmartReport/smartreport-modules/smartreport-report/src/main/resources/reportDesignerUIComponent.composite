@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+           xmlns:tuscany="http://tuscany.apache.org/xmlns/sca/1.1"
+           targetNamespace="http://newcapec.net/smartreport/report/reportDesignerUIComponent"
+           name="reportDesignerUIComponent-contribution">
+
+	 <component name="ReportDesignerUIComponent">
+        <tuscany:implementation.widget location="widget/report/reportdesigner.html" widgetUri="/report/designer/" />
+		<reference name="dataSourceService" target="DataSourceServiceComponent/DataSourceService"/>
+		<reference name="reportService" target="ReportServiceComponent/ReportService"/>
+		<reference name="reportDsService" target="ReportDsServiceComponent/ReportDsService"/>
+		<reference name="reportDsFieldService" target="ReportDsFieldServiceComponent/ReportDsFieldService"/>
+		<reference name="reportDsParamService" target="ReportDsParamServiceComponent/ReportDsParamService"/>
+		<reference name="componentDatasetService" target="ComponentDatasetServiceComponent/ComponentDatasetService"></reference>
+    </component>
+
+</composite>

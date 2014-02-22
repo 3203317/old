@@ -1,0 +1,292 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+ <HEAD>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <TITLE></TITLE>
+  <style type="text/css">
+  </style>
+	<script type="text/javascript">
+
+	var _dlg_add_ = {};
+
+	var recursiveHunt = function(lookfor, model, buildme, item){
+        console.log(">> recursiveHunt, item ", item, " looking for ", lookfor);
+        var id = model.getIdentity(item);
+        buildme.push(id+"");
+        if(id == lookfor){
+            // Return the buildme array, indicating a match was found
+            console.log("++ FOUND item ", item, " buildme now = ", buildme);
+            return buildme;
+        }
+        for(var idx in item.children){
+            // start a new branch of buildme, starting with what we have so far
+            var buildmebranch = buildme.slice(0);
+            console.log("Branching into ", model.store.getValue(item.children[idx], 'name'), ", buildmebranch=", buildmebranch);
+            var r = recursiveHunt(lookfor, model, buildmebranch, item.children[idx]);
+            // If a match was found in that recurse, return it.
+            //  This unwinds the recursion on completion.
+            if(r){ return r; }
+        }
+        // Return undefined, indicating no match was found
+        return undefined;
+    }
+
+	var selectTreeNodeById = function(tree, lookfor){
+        console.log("See model root=", tree.model.root);
+        var buildme = [];
+        var result = recursiveHunt(lookfor, tree.model, buildme, tree.model.root);
+        console.log("*** FINISHED: result ", result, " buildme ", buildme);
+        console.dir(result);
+        if(result && result.length > 0){
+            tree.set('path', result);
+        }
+    }
+
+	/* 保存数据 */
+	_dlg_add_.saveData = function(){
+		var __params = {
+			name: dijit.byId("_frm_txt_name").value,
+			user_unit_code: dijit.byId("_frm_tree_resource_code").selectedItem.user_unit_code[0],
+			info: dijit.byId("_frm_txt_info").value,
+			sys_code: 1,
+			operate_code: dijit.byId("_frm_cbox_operate_code").get("value"),
+			resource_code: dijit.byId("_frm_tree_resource_code").selectedItem.code[0],
+			is_enabled: dijit.byId("_frm_cbox_is_enabled").get("value"),
+			is_visible: dijit.byId("_frm_cbox_is_visible").get("value")
+		};
+
+		if(dijit.byId("_dlg_add")._state == "add"){
+			_permissionmanager.permisionService.insertPermision(_permissionmanager.sessionId,__params).addCallback(function(value){
+				if(value.resultMsg != null) {
+					dijit.byId("capec.dialog.optErrDialog").show();
+					return;
+				}
+				dijit.byId("_dlg_add").hide();
+				dijit.byId("_frm_add").reset();
+				_permissionmanager.findGridData();
+			});
+		}else{
+			var __items = dijit.byId("_main_grid").selection.getSelected();
+			var __item = __items[0];
+			__params.code = __item.code[0];
+			_permissionmanager.permisionService.updatePermision(_permissionmanager.sessionId,__params).addCallback(function(value){
+				if(value.resultMsg != null) {
+					dijit.byId("capec.dialog.optErrDialog").show();
+					return;
+				}
+				dijit.byId("_dlg_add").hide();
+				dijit.byId("_frm_add").reset();
+				_permissionmanager.findGridData();
+			});
+		}
+	};
+
+	_dlg_add_.reset = function(){
+		if(dijit.byId("_dlg_add")._state == "edit"){
+			_dlg_add_.set();
+		}else{
+			dijit.byId("_frm_add").reset();
+			/* 清除下拉框数据 */
+			for(var __i_3=0,__j_3=dijit.byId("_frm_cbox_operate_code").options.length;__i_3<__j_3;__i_3++){
+			    dijit.byId("_frm_cbox_operate_code").removeOption(0);
+			}
+		}
+	};
+
+	_dlg_add_.loadDropDownData = function($resType,$operate_code){
+		var __filter = [{ relation: "and", field: "resource_type_code", logical: "=", value: $resType }];
+
+		_permissionmanager.resourceOperateService.findOperationList(_permissionmanager.sessionId,_permissionmanager.resourceId,__filter,0,100).addCallback(function($value){
+			if($value.resultMsg != null) {
+				dijit.byId("capec.dialog.optErrDialog").show();
+				return;
+			}
+			for(var __i_3=0,__j_3=dijit.byId("_frm_cbox_operate_code").options.length;__i_3<__j_3;__i_3++){
+			    dijit.byId("_frm_cbox_operate_code").removeOption(0);
+			}
+			dojo.forEach($value,function($item){
+				dijit.byId("_frm_cbox_operate_code").addOption({ label: $item.name, value: $item.code });
+			});
+			if($operate_code != undefined){
+				dijit.byId("_frm_cbox_operate_code").set("value",$operate_code);
+			}
+
+			_dlg_add_.setPerName(dijit.byId("_frm_tree_resource_code").selectedItem.name[0],dijit.byId("_frm_cbox_operate_code").get("displayedValue"));
+		});
+	};
+
+	_dlg_add_.set = function(){
+		var __items = dijit.byId("_main_grid").selection.getSelected();
+		var __item = __items[0];
+		dijit.byId("_frm_txt_name").set("value", __item.name[0]);
+		dijit.byId("_frm_txt_info").set("value", __item.info[0]);
+
+		dijit.byId("_frm_cbox_is_enabled").set("value", __item.is_enabled[0]);
+		dijit.byId("_frm_cbox_is_visible").set("value", __item.is_visible[0]);
+
+		_permissionmanager.resourceService.getResourceById(_permissionmanager.sessionId,__item.resource_code[0]).addCallback(function($value){
+			if($value.resultMsg != null) {
+				dijit.byId("capec.dialog.optErrDialog").show();
+				return;
+			}
+			_dlg_add_.loadDropDownData($value.resource_type_code,__item.operate_code[0]);
+		});
+
+		selectTreeNodeById(dijit.byId("_frm_tree_resource_code"), __item.resource_code[0]);
+	};
+
+	_dlg_add_.createTree = function(){
+		require(["newcapec/Tree",
+			"dojo/_base/connect",
+			"dijit/tree/ForestStoreModel",
+			"dojo/data/ItemFileWriteStore"],function($Tree,$connect,$ForestStoreModel,$ItemFileWriteStore){
+
+			_permissionmanager.resourceService.findResourceList(_permissionmanager.sessionId,_permissionmanager.resourceId,[],0,1000).addCallback(function($value){
+				if($value.resultMsg != null) {
+					dijit.byId("capec.dialog.optErrDialog").show();
+					return;
+				}
+				$value = { items: $value };
+				$value = capec.utils.data2TreeObject($value,"0","code","super_code","name","children");
+
+				var __first_id = $value.children[0].code;
+
+				new $Tree({
+					model: new $ForestStoreModel({
+						store: new $ItemFileWriteStore({
+							data: {
+								"identifier": "code",
+								"label": "name",
+								"items": $value.children
+							}
+						}),
+						query: { "type": "resource" },
+						rootId: "0",
+						rootLabel: "资源信息",
+						childrenAttrs: ["children"]
+					}),
+					showRoot: false,
+					openOnDblClick: true,
+					style: {
+						height: "100%",
+						margin: 0,
+						padding: 0
+					}
+				}, "_frm_tree_resource_code");
+
+				dijit.byId("_frm_tree_resource_code").set("path",[0+'', __first_id+'']);
+
+				_dlg_add_.loadDropDownData(__first_id);
+
+				dojo.connect(dijit.byId("_frm_tree_resource_code"), "_onNodeFocus", function($item){
+					var __resType = $item.item.resource_type_code[0];
+					_dlg_add_.loadDropDownData(__resType);
+				});
+
+				/* 选择树节点 */
+				if(dijit.byId("_dlg_add")._state == "edit"){
+					var __items = dijit.byId("_main_grid").selection.getSelected();
+					var __item = __items[0];
+					selectTreeNodeById(dijit.byId("_frm_tree_resource_code"), __item.resource_code[0]);
+				}
+			});
+		});
+	};
+
+	/* dlg初始化 */
+	_dlg_add_.init = function(){
+	    var __btn_submit = dijit.byId("_dlg_add_btn_submit");
+	    var __btn_reset = dijit.byId("_dlg_add_btn_reset");
+	    var __frm = dijit.byId("_frm_add");
+	    var __valid = __frm.isValid();
+
+	    __btn_submit.set("disabled",!__valid);
+
+	    __frm.on("validStateChange", function($valid){
+	    	if(dijit.byId("_frm_tree_resource_code").selectedItem == null){
+	    		$valid = false;
+	    	}
+	        __btn_submit.set("disabled",!$valid);
+	    });
+
+		__btn_submit.on("click", function(){
+			_dlg_add_.saveData();
+		});
+
+		__btn_reset.on("click", function(){
+			__frm.reset();
+		});
+
+	    _dlg_add_.createTree();
+
+
+		dijit.byId("_dlg_add_btn_close").on("click", function(){
+			dijit.byId("_dlg_add").hide();
+		});
+
+		dojo.connect(dijit.byId("_frm_cbox_operate_code"),"onChange",function($item){
+			_dlg_add_.setPerName(dijit.byId("_frm_tree_resource_code").selectedItem.name[0],dijit.byId("_frm_cbox_operate_code").get("displayedValue"));
+		});
+
+		if(dijit.byId("_dlg_add")._state == "edit"){
+			_dlg_add_.set();
+		}
+	};
+
+	_dlg_add_.setPerName = function(a,b){
+		//dijit.byId("_frm_txt_name").set("value",a+"-"+b);
+	};
+
+	</script>
+ </HEAD>
+
+ <BODY class="soria">
+	<form id="_frm_add" data-dojo-type="dijit.form.Form">
+		<table>
+			<tr>
+				<td><label for="_frm_txt_name">权限名称：</label></td>
+				<td><input id="_frm_txt_name" data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props='required:true'/></td>
+			</tr>
+			<!-- tr>
+				<td><label for="_frm_cbox_user_unit_code">用户单位：</label></td>
+				<td><select id="_frm_cbox_user_unit_code" data-dojo-type="dijit.form.Select" style="width:280px" data-dojo-props='searchAttr:"value",autoComplete:true,required:true'>
+					<option value="1">郑州新开普电子股份有限公司</option>
+				</select></td>
+			</tr-->
+			<tr>
+				<td><label for="_frm_txt_info">权限信息：</label></td>
+				<td><input id="_frm_txt_info" data-dojo-type="dijit.form.ValidationTextBox" style="width:280px" data-dojo-props='required:true'/></td>
+			</tr>
+			<!--tr>
+				<td><label for="_frm_cbox_sys_code">所属系统：</label></td>
+				<td><select id="_frm_cbox_sys_code" data-dojo-type="dijit.form.Select" style="width:150px" data-dojo-props='searchAttr:"value",autoComplete:true,required:true'>
+					<option value="1">公共基础应用</option>
+				</select></td>
+			</tr-->
+			<tr>
+				<td><label for="_frm_tree_resource_code">所属资源：</label></td>
+				<td style="width:280px;height:200px;border:1px #8BA0BD solid;"><div id="_frm_tree_resource_code" style="height:100%;width:100%"></div></td>
+			</tr>
+			<!-- 操作类型根据选择的资源的类型查询P_RESOURCE_OPERATE表的RESOURCE_TYPE_CODE字段  -->
+			<tr>
+				<td><label for="_frm_cbox_operate_code">操作类型：</label></td>
+				<td><select id="_frm_cbox_operate_code" data-dojo-type="dijit.form.Select" style="width:150px" data-dojo-props='searchAttr:"value",autoComplete:true,required:true'></select></td>
+			</tr>
+			<tr>
+				<td><label for="_frm_cbox_is_enabled">是否启用：</label></td>
+				<td><select id="_frm_cbox_is_enabled" data-dojo-type="dijit.form.Select" style="width:150px" data-dojo-props='searchAttr:"value",autoComplete:true,required:true'>
+					<option value="1">启用</option>
+					<option value="0">禁用</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td><label for="_frm_cbox_is_visible">是否可见：</label></td>
+				<td><select id="_frm_cbox_is_visible" data-dojo-type="dijit.form.Select" style="width:150px" data-dojo-props='searchAttr:"value",autoComplete:true,required:true'>
+					<option value="1">显示</option>
+					<option value="0">隐藏</option>
+				</select></td>
+			</tr>
+		</table>
+	</form>
+ </BODY>
+</HTML>

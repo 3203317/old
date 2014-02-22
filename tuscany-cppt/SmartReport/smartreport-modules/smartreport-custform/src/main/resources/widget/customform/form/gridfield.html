@@ -1,0 +1,45 @@
+<script type="text/javascript">
+require(["dojo/ready","dijit/form/Select","dojo/json","dojo/data/ItemFileReadStore",
+					"dojox/grid/DataGrid","dijit/form/Form","dijit/form/Button","dijit/Toolbar","dojo/newcapec/MessageBox",
+				"dijit/ToolbarSeparator","dijit/form/ComboBox","dojo/parser","dojox/grid/cells/dijitnewcapec"],
+			function(ready,Select,Json,ItemFileReadStore,DataGrid,Form,Button,Toolbar,MessageBox,
+					ToolbarSeparator,ComboBox,parser){
+		createGrid = function(){
+			var tjgrid = new DataGrid({
+				structure : [[{
+					name : "字段名",
+					field : "fieldname",
+					width : "auto"
+				}, {
+					name : "标题名",
+					field : "titlename",
+					width : "auto",
+					editable : true
+				}, {
+					name : "类型",
+					field : "fieldtype",
+					width : "auto",
+					editable : false,
+					type: dojox.grid.cells.Select,
+					options:  ["string"]
+				}, {
+					name : "显示/隐藏",
+					field : "ishow",
+					width : "auto",
+					styles : 'text-align: center;'
+				}
+			]]},"zdgrid");
+			tjgrid.startup();
+		};
+		ready(function(){
+			createGrid();
+		});
+	});
+</script>
+	<form dojoType='dijit.form.Form' id='form3' jsid='form3'>
+		<div id='toolbar' dojotype="dijit.Toolbar">
+			<input type="button"  value='+' onclick="addRow();"><input type="button"  value='-' onclick="delRow();">
+		</div>
+		<div id='zdgrid' style="height:265px;"></div>
+	</form>
+

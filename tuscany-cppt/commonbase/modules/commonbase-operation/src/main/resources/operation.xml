@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config xmlns="http:///org.apache.tuscany.das.rdb/config.xsd" >
+	<Command name="getOperationById" SQL="select code,
+		user_unit_code,
+		uuid,
+		name,
+		resource_type_code,
+		info,
+		create_user_account_id,
+		to_char(create_date,'yyyy-mm-dd hh24:mi:ss')  create_date,
+		sortid,
+		ver
+	from p_resource_operate
+	where code = ?" kind="Select">
+	<ResultDescriptor columnName="code"  tableName="p_resource_operate"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="user_unit_code"  tableName="p_resource_operate"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="uuid"  tableName="p_resource_operate"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="name"  tableName="p_resource_operate"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="resource_type_code"  tableName="p_resource_operate"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="info"  tableName="p_resource_operate"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="create_user_account_id"  tableName="p_resource_operate"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="create_date"  tableName="p_resource_operate"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="sortid"  tableName="p_resource_operate"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="ver"  tableName="p_resource_operate"    columnType="commonj.sdo.String"/>
+	</Command>
+	<Table tableName="p_resource_operate">
+		<Column columnName="code" primaryKey="true"/>
+		<Column columnName="create_date" converterClassName="net.newcapec.sca.util.DateStringConverter"/>
+	</Table>
+</Config>

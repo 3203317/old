@@ -1,0 +1,9 @@
+{
+	identifier: "value",
+	label: "label",
+	items: [
+			{value: "find", label: "查询"},
+			{value: "view", label: "打印预览"},
+			{value: "print", label: "打印"}
+	]
+}

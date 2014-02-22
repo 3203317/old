@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+ <HEAD>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <TITLE></TITLE>
+  <style type="text/css">
+  </style>
+	<script type="text/javascript">
+
+	var _dlg_add_ = {};
+
+	/* 保存数据 */
+	_dlg_add_.saveData = function(){
+		var __params = {
+			name: dijit.byId("_frm_txt_name").value,
+			memo: dijit.byId("_frm_txt_memo").value
+		};
+
+		if(dijit.byId("_dlg_add")._state == "add"){
+			/*_permissionmanager.permisionService.insertPermision(_permissionmanager.sessionId,__params).addCallback(function(value){
+				if(value.resultMsg != null) {
+					dijit.byId("capec.dialog.optErrDialog").show();
+					return;
+				}
+				dijit.byId("_dlg_add").hide();
+				dijit.byId("_frm_add").reset();
+				_permissionmanager.findGridData();
+			});*/
+		}else{
+			var __items = dijit.byId("_main_grid").selection.getSelected();
+			var __item = __items[0];
+			__params.code = __item.code[0];
+
+			_reportmanager.reportService.updateReport(_reportmanager.sessionId,__params).addCallback(function(value){
+				if(value.resultMsg != null) {
+					dijit.byId("capec.dialog.optErrDialog").show();
+					return;
+				}
+				dijit.byId("_dlg_add").hide();
+				dijit.byId("_frm_add").reset();
+				_reportmanager.findGridData();
+
+				capec.utils.openFixWindow(capec.domain +"/report/designer/?reportId="+ __params.code +"&sessionId="+ _reportmanager.sessionId,screen.availWidth-50,screen.availHeight-50);
+			});
+		}
+	};
+
+	_dlg_add_.reset = function(){
+		if(dijit.byId("_dlg_add")._state == "edit"){
+			_dlg_add_.set();
+		}else{
+			dijit.byId("_frm_add").reset();
+		}
+	};
+
+	_dlg_add_.set = function(){
+		var __items = dijit.byId("_main_grid").selection.getSelected();
+		var __item = __items[0];
+		dijit.byId("_frm_txt_name").set("value", __item.name[0]);
+		dijit.byId("_frm_txt_memo").set("value", __item.memo[0]);
+	};
+
+
+	/* dlg初始化 */
+	_dlg_add_.init = function(){
+	    var __btn_submit = dijit.byId("_dlg_add_btn_submit");
+	    var __btn_reset = dijit.byId("_dlg_add_btn_reset");
+	    var __frm = dijit.byId("_frm_add");
+	    var __valid = __frm.isValid();
+
+	    __btn_submit.set("disabled",!__valid);
+
+	    __frm.on("validStateChange", function($valid){
+	        __btn_submit.set("disabled",!$valid);
+	    });
+
+		__btn_submit.on("click", function(){
+			_dlg_add_.saveData();
+		});
+
+		__btn_reset.on("click", function(){
+			__frm.reset();
+		});
+
+		dijit.byId("_dlg_add_btn_close").on("click", function(){
+			dijit.byId("_dlg_add").hide();
+		});
+
+		if(dijit.byId("_dlg_add")._state == "edit"){
+			_dlg_add_.set();
+		}
+	};
+
+	</script>
+ </HEAD>
+
+ <BODY class="soria">
+	<form id="_frm_add" data-dojo-type="dijit.form.Form">
+		<table>
+			<tr>
+				<td nowrap><label for="_frm_txt_name">报表名称：</label></td>
+				<td><input id="_frm_txt_name" data-dojo-type="dijit.form.ValidationTextBox" style="width:150px" data-dojo-props='required:true,trim:true,regExpGen:function(){return "^.{2,20}$";}' invalidMessage="长度为2-20位任意字符"/></td>
+			</tr>
+			<tr>
+				<td nowrap><label for="_frm_txt_memo">备注：</label></td>
+				<td><textarea id="_frm_txt_memo" style="width: 280px; height: 80px" data-dojo-type="dijit/form/SimpleTextarea"></textarea></td>
+			</tr>
+		</table>
+	</form>
+ </BODY>
+</HTML>

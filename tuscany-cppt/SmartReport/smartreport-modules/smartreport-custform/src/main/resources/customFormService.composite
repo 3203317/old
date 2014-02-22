@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+           xmlns:tuscany="http://tuscany.apache.org/xmlns/sca/1.1"
+           targetNamespace="http://newcapec.net/smartreport/custform/customFormService"
+           name="customFormService-contribution">
+
+	 <component name="CustomFormManagerUIComponent">
+        <tuscany:implementation.widget location="widget/customform/custformmanager.html" widgetUri="/customform/manager"/>
+		<reference name="customFormService" target="CustomFormServiceComponent/CustomFormService"/>
+   		<reference name="dataSourceService" target="DataSourceServiceComponent"></reference>
+    	<reference name="dicCodeService" target="DicCodeServiceComponent/DicCodeService"></reference>
+<!--    		<reference name="reportDsService" target="ReportDsServiceComponent/ReportDsService"/> -->
+    </component>
+
+	<component name="CustomFormServiceComponent">
+		<implementation.spring location="customFormService-context.xml"/>
+		<reference name="customFormDAS" target="CustomFormDASComponent" />
+		<reference name="sessionService" target="SessionComponent" />
+        <service name="CustomFormService">
+			<tuscany:binding.jsonrpc/>
+        </service>
+    </component>
+
+</composite>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+           xmlns:tuscany="http://tuscany.apache.org/xmlns/sca/1.1"
+           targetNamespace="http://newcapec.net/commonbase/diccode/dicCodeService"
+           name="dicCodeService-contribution">
+
+	<component name="DicCodeServiceComponent">
+		<implementation.spring location="dicCodeService-context.xml"/>
+		<reference name="dicCodeDAS" target="DicCodeDASComponent" />
+		<reference name="sessionService" target="SessionComponent" />
+        <service name="DicCodeService">
+			<tuscany:binding.jsonrpc/>
+        </service>
+    </component>
+
+</composite>

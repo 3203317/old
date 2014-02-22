@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+  <dbConfig>
+    <name>MySQL</name>
+    <dataBaseName>MySQL</dataBaseName>
+    <connectIP>localhost</connectIP>
+    <connectPort>3306</connectPort>
+    <connectSID>das_demo</connectSID>
+    <accoutName>root</accoutName>
+    <accountPassword>zpf</accountPassword>
+    <marker>111</marker>
+  </dbConfig>
+  <dbConfig>
+    <name>oracle</name>
+    <dataBaseName>oracle</dataBaseName>
+    <connectIP>192.168.131.118</connectIP>
+    <connectPort>1521</connectPort>
+    <connectSID>orcl</connectSID>
+    <accoutName>CPPT</accoutName>
+    <accountPassword>GGJCYY</accountPassword>
+    <marker>111</marker>
+  </dbConfig>
+</config>

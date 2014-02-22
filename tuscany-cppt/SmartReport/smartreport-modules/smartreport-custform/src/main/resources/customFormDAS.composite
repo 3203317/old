@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+           xmlns:tuscany="http://tuscany.apache.org/xmlns/sca/1.1"
+           targetNamespace="http://newcapec.net/smartreport/custform/customFormDAS"
+           name="customFormDAS-contribution">
+
+    <component name="CustomFormDASComponent">
+       <implementation.spring location="customFormDAS-context.xml"/>
+       <reference name="sequenceService" target="SequenceServiceComponent" />
+       <reference name="defDBConnService" target="DefDBConnServiceComponent" />
+    </component>
+
+</composite>

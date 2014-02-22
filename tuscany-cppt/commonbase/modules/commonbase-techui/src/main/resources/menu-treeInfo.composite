@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+ xmlns:tuscany="http://tuscany.apache.org/xmlns/sca/1.1"
+  name="treeMenu_contribution"
+  targetNamespace="http://newcapec.net/ui/treeMenu">
+    <component name="treeMenu">
+        <tuscany:implementation.widget location="widget/tree/menutree.html" widgetUri="/tree/menu"/>
+	 	    <reference name="resourceService" target="ResourceServiceComponent/ResourceService"/>
+    </component>
+</composite>

@@ -1,0 +1,74 @@
+<script type="text/javascript">
+require(["dojo/ready","dojo/json","dojo/newcapec/MessageBox",
+			"dojox/grid/DataGrid","dojo/parser","dojox/grid/cells/dijitnewcapec"],
+	function(ready,Json,MessageBox,DataGrid,parser){
+	var code = null;
+	createGrid = function(store){
+		var tjgrid = new DataGrid({
+			store:store,
+			structure : [[{
+				name : "字段名",
+				field : "field_name",
+				width : "auto"
+			}, {
+				name : "标题名",
+				field : "title",
+				width : "auto",
+				editable : true
+			}, {
+				name : "类型",
+				field : "field_type",
+				width : "auto"
+			}, {
+				name : "显示/隐藏",
+				field : "ishow",
+				width : "60px;",
+				styles : 'text-align: center;',
+				editable:true,
+				type: dojox.grid.cells.Bool
+			}
+		]]},"zdgrid");
+		tjgrid.startup();
+		tjgrid.resize();
+		dojo.connect(tjgrid,"onApplyCellEdit",function(item, colId) {
+			packageFieldData(colId);
+		});
+	};
+	getFiledValues = function(){
+		reportdsfield.findReportDsFieldList(sessionId,report_ds_code,ds_code).addCallback(function(data){
+			if(data.length != 0){
+				var griddata = { identifier: 'field_name',
+					items: data
+				}
+				var cxstore = new dojo.data.ItemFileWriteStore({data:griddata});
+				createGrid(cxstore);
+			}else{
+				createGrid(null);
+			}
+		});
+	};
+	packageFieldData = function(index){
+		var grid = dijit.byId('zdgrid');
+		var griddata = grid.getItem(index);
+		var object = {report_ds_code:report_ds_code,ds_code:ds_code,field_name:griddata.field_name[0],
+			title:griddata.title[0],sequence:1,ishow:griddata.ishow[0]};
+		console.log(object);
+		updateField(object);
+	};
+	updateField = function(object){
+		reportdsfield.updateReportDsField(sessionId,object).addCallback(function(data){
+			console.log("更新"+data);
+		});
+	};
+	changePane = function(){
+		//MessageBox.isValidMsg("修改成功");
+		 myTabContainer.selectChild(dijit.byId("pane3"));
+	};
+	ready(function(){
+		getFiledValues();
+		//savebtn.setAttribute("onclick","changePane()");
+	});
+});
+</script>
+<div id='zdgrid' style="height:100%;width:100%;"></div>
+

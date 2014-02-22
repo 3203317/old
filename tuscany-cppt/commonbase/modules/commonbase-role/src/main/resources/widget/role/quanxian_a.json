@@ -1,0 +1,7 @@
+{
+	"identifier": "code",
+	"label": "name",
+	"items": [
+	{ "code": "22", "name":"权限22", "type":"permission" },
+	{ "code": "33", "name":"权限33", "type":"permission" }
+]}

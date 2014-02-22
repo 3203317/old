@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<TITLE>dsform</TITLE>
+<style type="text/css">
+#_frm_field_grid{
+	height:100%;
+}
+</style>
+<script type="text/javascript">
+
+	var _dlg_field_ = {};
+
+	_dlg_field_.saveData = function(){
+		var __selItems = dijit.byId("_main_grid").selection.getSelected();
+		var __item = __selItems[0];
+		var __ds_code = __item.code[0];
+
+		var __items = dijit.byId("_frm_field_grid").store._arrayOfAllItems;
+
+		var __params = [];
+
+		for(var __i_3=0,__item_3;__item_3=__items[__i_3];__i_3++){
+			__params.push({
+				ds_code: __ds_code,
+				name: __item_3.name[0],
+				alias: __item_3.alias[0],
+				type: __item_3.type[0],
+				input_type: __item_3.input_type[0],
+				regexp: __item_3.regexp == undefined ? "" : __item_3.regexp[0],
+				memo: __item_3.memo == undefined ? "" : __item_3.memo[0]
+			});
+		}
+
+		_dsmanager.fieldPrepService.updateFieldPreps(_dsmanager.sessionId,__ds_code,__params).addCallback(function($value){
+			dijit.byId("_dlg_field").hide();
+		});
+	};
+
+	_dlg_field_.set = function(){
+		if(dijit.byId("_frm_field_grid") != undefined) dijit.byId("_frm_field_grid").setStore(null);
+		var __selItems = dijit.byId("_main_grid").selection.getSelected();
+		var __item = __selItems[0];
+
+		var __ds_code = __item.code[0];
+		var __ds_type = __item.type[0];
+		var __ds_sql = __item.method[0];
+
+		var __user = __item.db_account[0];
+		var __password = __item.db_password[0];
+		var __ip = __item.ip[0];
+		var __port = __item.port[0];
+		var __server = __item.server_id[0];
+
+		_dsmanager.fieldPrepService.findFieldPrepListByDsCode(_dsmanager.sessionId,_dsmanager.resourceId,__ds_code,__ds_type,__ds_sql,__user,__password,__ip,__port,__server).addCallback(function($value){
+			if($value.resultMsg != null) {
+				return;
+			}
+			dijit.byId("_frm_field_grid").setStore(new dojo.data.ItemFileWriteStore({ data: { items: $value } }));
+		});
+	};
+
+	_dlg_field_.reset = function(){
+		console.log("reset");
+	};
+
+	_dlg_field_.init = function(){
+	    var __btn_submit = dijit.byId("_dlg_field_btn_submit");
+	    var __btn_reset = dijit.byId("_dlg_field_btn_reset");
+	    var __frm = dijit.byId("_frm_field");
+	    var __valid = __frm.isValid();
+
+	    __btn_submit.set("disabled",!__valid);
+
+	    __frm.on("validStateChange", function($valid){
+	        __btn_submit.set("disabled",!$valid);
+	    });
+
+		__btn_reset.on("click", function(){
+			__frm.reset();
+		});
+
+		__btn_submit.on("click", function(){
+			_dlg_field_.saveData();
+		});
+
+		dijit.byId("_dlg_field_btn_close").on("click", function(){
+			dijit.byId("_dlg_field").hide();
+		});
+
+		if(dijit.byId("_dlg_field")._state == "edit"){
+			_dlg_field_.set();
+		}
+
+		/* 隐藏重置按钮 */
+		dijit.byId("_dlg_field_btn_reset").set("style","display:none");
+
+		new dojox.grid.EnhancedGrid({
+			style: {
+				height: "100%", margin: 0, padding: 0
+			},
+			structure: [{
+				cells: [
+					{ name: "编号", field: "code", width: "35px", datatype:"number", editable: false},
+					{ name: "字段名称", field: "name", width: "auto",editable: true },
+					{ name: "字段别名", field: "alias", width: "auto",editable: true },
+					{ name: "字段类型", field: "type", width: "auto",editable: true, type: dojox.grid.cells.Select,options:  ["number","string","date"] },
+					{ name: "输入类型", field: "input_type", width: "auto",editable: true, type: dojox.grid.cells.Select,options:  ["input","textarea","checkbox","select","date","number"]  },
+					{ name: "校验格式", field: "regexp", width: "auto",editable: true },
+					{ name: "字段说明", field: "memo", width: "auto",editable: true }
+				]
+			}]
+		},"_frm_field_grid");
+		dijit.byId("_frm_field_grid").startup();
+
+	};
+
+</script>
+</HEAD>
+
+<BODY class="soria">
+	<form id="_frm_field" data-dojo-type="dijit/form/Form">
+		<table style="width:500px;height:290px">
+			<tr>
+				<td><div id="_frm_field_grid"></div></td>
+			</tr>
+		</table>
+	</form>
+</BODY>
+</HTML>

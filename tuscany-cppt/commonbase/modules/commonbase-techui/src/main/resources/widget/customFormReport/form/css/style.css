@@ -1,0 +1,83 @@
+﻿@charset "utf-8";
+/* CSS Document */
+body {
+	margin:0;
+	padding:0;
+	font-family:"", Arial;
+	font-size:12px;
+	line-height:22px;
+	color:#666;
+}
+div,form,img,ul,ol,li,dl,dt,dd, {margin: 0; padding: 0; border:0; }
+li,dl{list-style-type:none;}
+h1,h2,h3{ font-size:14px; margin:0px; padding:0px;}
+a{text-decoration:none; color:#666;}
+a:hover { color:#fe0000;}
+.border{ border: 1px solid #E1E3E6;}
+.left{ float:left; }
+.right{ float:right;}
+.cl{ clear:both;}
+
+.taborm {
+	width: 670px;
+	margin-top: 20px;
+	margin-left: 20px;
+}
+.titbg {
+	background-image: url(../images/titbg.jpg);
+	background-repeat: no-repeat;
+	height: 21px;
+	width: 670px;
+}
+.botbg {
+	background-image:url(../images/botbg.jpg);background-repeat: no-repeat;
+	height:5px;
+	width: 670px
+}
+.inpche {
+	margin-left: 30px;
+}
+.titbg span {
+	padding-left: 10px;
+}
+.titbor {
+	border-right-width: 1px;
+	border-left-width: 1px;
+	border-right-style: solid;
+	border-left-style: solid;
+	border-right-color: #96B4C4;
+	border-left-color: #96B4C4;
+	padding-top: 10px;
+}
+.m1 {
+	line-height: 28px;
+	height: 28px;
+	width: 380px;
+	margin-left: 18px;
+	overflow: hidden;
+}
+.m2 {
+	width: 380px;
+	margin-left: 18px;
+	overflow: hidden;
+}
+.m1 .tex {
+	height: 18px;
+	width: 40px;
+	line-height: 18px;
+	margin-right: 3px;
+	margin-left: 3px;
+	padding: 0px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+.sp1 {
+	text-align: right;
+	width: 108px;
+}
+
+.inpche2 {
+	margin-left: 80px;
+	margin-top: 5px;
+	margin-right: 5px;
+}

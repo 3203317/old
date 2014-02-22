@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+           xmlns:tuscany="http://tuscany.apache.org/xmlns/sca/1.1"
+           targetNamespace="http://newcapec.net/smartreport/componentdataset/TreeItemForReportDAS"
+           name="treeItemForReportDAS-contribution">
+
+    <component name="TreeItemForReportDASComponent">
+       <implementation.java class="net.newcapec.sca.componentdataset.das.impl.TreeItemForReportDASImpl" />
+       <reference name="dbConnDAS" target="DBConnDASComponent" />
+       <reference name="dataSourceDAS" target="DataSourceDASComponent" />
+    </component>
+
+</composite>

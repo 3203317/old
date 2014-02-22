@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title></title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style>
+	@import "/dojo/resources/dojo.css";
+fieldset {
+	border: 1px solid;
+	margin: 1em;
+	padding: 1em;
+}
+legend {
+	font-weight: bolder;
+	font-size: larger;
+}
+.loader {
+	padding:0;
+	margin:0;
+	position:absolute;
+	top:0; left:0;
+	width:100%; height:100%;
+	background:#ededed;
+	z-index:999;
+	vertical-align:middle;
+}
+.loaderInner {
+	padding:5px;
+	position:relative;
+	left:0;
+	top:0;
+	width:175px;
+	background:#3c3;
+	color:#fff;
+}
+</style>
+<link id="themeStyles" rel="stylesheet" href="/dijit/themes/soria/soria.css">
+<link href="css/style.css" rel="stylesheet" type="text/css"  />
+<script type="text/javascript" src="/dojo/dojo.js" djConfig="async:true,parseOnLoad: true"></script>
+<script type="text/javascript" src="gridprint.js"> </script>
+<script type="text/javascript">
+require(["dojo/ready","dojo/json","dijit/form/Form","dijit/form/Button","dojo/newcapec/MessageBox",
+         "dijit/form/CheckBox","dijit/form/NumberSpinner","dijit/form/FilteringSelect","dojo/parser"],
+			function(ready,Json,Form,Button,MessageBox,CheckBox,NumberSpinner,FilteringSelect,parser){
+		//@Reference
+		var gridPrint = new tuscany.sca.Reference("gridPrintService");
+		var form_code = 0;
+		var code =0;
+		var ds_code = 0;
+		var sessionId = "";
+		save = function(){
+			var cc = tymb.get('value');
+			if(code == 0){
+				var data = {"form_code":form_code+"","temp_code":"1","print_parm":dojo.toJson(form5.get('value'))};
+				add(data);
+			}else{
+				var data = {"code":code+"","form_code":form_code+"","temp_code":"1","print_parm":dojo.toJson(form5.get('value'))};
+				update(data);
+			}
+		};
+		add = function(data){
+			gridPrint.insertGridPrint(sessionId,data).addCallback(function(data){
+				if(data.resultMsg.status == 1){
+					window.top.hub.publish('closed');
+				}
+			});
+		};
+		update = function(data){
+			gridPrint.updateGridPrint(sessionId,data).addCallback(function(data){
+				if(data.resultMsg.status == 1){
+					window.top.hub.publish('closed');
+				}
+			});
+		};
+	    hideLoader = function(){
+			dojo.byId("main_loaderInner").innerHTML += " done.";
+			setTimeout(function hideLoader(){
+				dojo.fadeOut({
+					node: "main_loader",
+					duration: 500,
+					onEnd: function($n){
+						$n.style.display = "none";
+					}
+				}).play();
+			},250);
+		};
+		changeStateTy = function(){
+			zdmb.set('checked',false);
+			if(tymb.checked){
+				btq.set('disabled',false);
+				bwq.set('disabled',false);
+				bottom.set('disabled',false);
+				sjybd.set('disabled',true);
+			}else{
+				btq.set('disabled',true);
+				bwq.set('disabled',true);
+				bottom.set('disabled',true);
+				sjybd.set('disabled',true);
+			}
+		};
+		changeStateDz = function(){
+			tymb.set('checked',false);
+			if(zdmb.checked){
+				btq.set('disabled',true);
+				bwq.set('disabled',true);
+				bottom.set('disabled',true);
+				sjybd.set('disabled',false);
+			}else{
+				btq.set('disabled',true);
+				bwq.set('disabled',true);
+				bottom.set('disabled',true);
+				sjybd.set('disabled',true);
+			}
+		};
+		getValues = function(eventname, formcode, subscriberData){
+			var formAndDscode = formcode.split(",");
+			form_code = parseInt(formAndDscode[0]);
+			ds_code = parseInt(formAndDscode[1]);
+			sessionId = formAndDscode[2];
+			var filter = [{field:"form_code",relation:"and",value:form_code,logical:"="}];
+			gridPrint.findGridPrintList(sessionId,'',filter,null,null).addCallback(function(data){
+				if(data == null){
+					MessageBox.isValidMsg("会话失效,请重新登录");
+					return;
+				}
+				if(data.length != 0){
+					var formdata = Json.parse(data[0].print_parm);
+					form5.set('value',formdata);
+					if(formdata.tymb[0] == "on"){
+						changeStateTy();
+					}else{
+						changeStateDz();
+					}
+					code = parseInt(data[0].code);
+				}
+			});
+		};
+		ready(function(){
+			hideLoader();
+			if (window.top.hub != undefined) {
+				window.top.hub.subscribe("setformcodepane5",getValues);
+				window.top.hub.subscribe("savepane5", save);
+				window.top.hub.publish("getformcode");
+			}
+		});
+	});
+</script>
+</head>
+<body class="soria">
+<div id="main_loader" class="loader">
+<div id="main_loaderInner" class="loaderInner">页面正在加载 ... </div></div>
+ 	<form dojoType='dijit.form.Form' id='form5' jsid='form5'>
+		<div class="taborm" >
+			<div class="titbg">
+				<div style="margin-left:10px;" dojotype="dijit/form/CheckBox"  id="tymb" name="tymb" jsid="tymb" checked=true onclick="changeStateTy();"></div>
+				<span>通用模板</span>
+			</div>
+			<div class="titbor">
+				<div class="m1"><span class="sp1 left">表头（标题）区：</span><span class="sp2 left">前
+					<div dojotype="dijit.form.NumberSpinner"  value='0' jsid="btq" data-dojo-props="constraints:{min:0,max:1550,places:0}" id="btq" name="btq"></div>
+				行</span></div>
+				<div class="m1"><span class="sp1 left">表尾区：</span><span class="sp2 left">后
+					<div dojotype="dijit.form.NumberSpinner" id="bwq" value='0' jsid='bwq'  data-dojo-props="constraints:{min:0,max:1550,places:0}"  name="bwq"></div>
+				行</span></div>
+				<div class="m1"><div style="margin-left: 80px;margin-top: 2px;margin-right: 5px;" dojotype="dijit/form/CheckBox" jsid='bottom'  id="bottom" name="bottom"></div>固定在页的底部</div>
+			</div>
+			<div class="botbg"></div>
+		</div>
+		<div class="taborm" >
+			<div class="titbg">
+				<div style="margin-left:10px;" dojotype="dijit/form/CheckBox" id="zdmb" name="zdmb" jsid='zdmb' onclick="changeStateDz();"></div>定制模板
+			</div>
+			<div class="titbor" style="height:40px;">
+				<div class="m1">
+					<span class="sp1 left">数据源绑定: </span>
+					<span class="sp2 left">
+						<select dojoType="dijit/form/FilteringSelect"  style="width:180px;" disabled=true name="sjybd" jsid="sjybd"  id='sjybd'>
+					        <option value="1">查询浏览列表管理</option>
+							<option value="2">报表管理</option>
+					    </select>
+					</span>
+				</div>
+			</div>
+			<div class="botbg"></div>
+		</div>
+	</form>
+</body>
+</html>

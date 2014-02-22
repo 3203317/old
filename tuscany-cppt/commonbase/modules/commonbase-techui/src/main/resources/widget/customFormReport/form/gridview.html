@@ -1,0 +1,151 @@
+<style>
+	@import "/dojox/form/resources/CheckedMultiSelect.css";
+</style>
+
+<script type="text/javascript">
+require(["dojo/ready","dojo/_base/window","dojo/dom","dojo/newcapec/MessageBox","dojo/json","dijit/form/Select",
+				"dojo/data/ItemFileReadStore","dijit/form/TextBox","dijit/form/ValidationTextBox",
+			"dijit/form/Form","dijit/form/Button","dijit/form/CheckBox","dojox/form/CheckedMultiSelect","dojo/parser"],
+			function(ready,win,dom,MessageBox,JSON,Select,ItemFileReadStore,TextBox,ValidationTextBox,Form,Button,
+					CheckBox,CheckedMultiSelect,parse){
+			var code =0;
+			toolstore = new ItemFileReadStore({url:'form/data/toolbarJson.json'});
+			var gridStyle= 2;
+// 			createBtnCheckBox = function(){
+// 				var filter = [{field:"code_dictionary_name",relation:"and",value:"'OPERBTN'",logical:"="}];
+// 				diccode.findDicItemListByCondition(sessionId,filter).addCallback(function(data){
+// 					html.create('div',{id:'close'},dojo.byId('tdclose'));
+// 					new CheckBox({
+// 						id:name,
+// 						name:name,
+// 						checked:true
+// 					},close);
+// 				});
+// 			};
+			saveGridView = function(){
+				if(gridStyle == 1 && treeds.get('value') == "0"){
+					MessageBox.alert("请绑定树型数据源","warn");
+					return;
+				}
+				if(toolbtn.validate() == false){
+					return;
+				}
+				var toolbtns = toolbtn.get('value');
+				console.log(toolbtns);
+				if(code == 0){//add
+					var data = {"form_code":form_code,"toolbuttons":dojo.toJson(toolbtns),"condition_trees":treeds.get('value'),
+							"condition_groups":"","fields":gridStyle};
+					console.log(data);
+					addGridView(data);
+				}else{
+					var data = {"code":code,"form_code":form_code,"toolbuttons":dojo.toJson(toolbtns),"condition_trees":treeds.get('value'),
+							"condition_groups":"","fields":gridStyle};
+					updateGridView(data);
+				}
+			};
+			addGridView = function(data){
+				gridView.insertGridView(sessionId,data).addCallback(function(data){
+					code = data.code;
+					if(data.resultMsg == undefined){
+						//MessageBox.isValidMsg("添加成功");
+						myTabContainer.selectChild(dijit.byId("pane2"));
+					}else{
+						MessageBox.alert("添加失败","error");
+					}
+				});
+			};
+			updateGridView = function(data){
+				gridView.updateGridView(sessionId,data).addCallback(function(data){
+					console.log(data.resultMsg);
+					if(data.resultMsg == undefined){
+						//MessageBox.isValidMsg("修改成功");
+						//dijit.byId("pane2").set("selected","selected");
+						 myTabContainer.selectChild(dijit.byId("pane2"));
+					}else{
+						MessageBox.alert("修改失败","error");
+					}
+				});
+			};
+			getGridViewData = function(){
+				gridView.getGridViewById(sessionId,form_code).addCallback(function(data){
+					if(data != null){
+						var toolbuttons = JSON.parse(data.toolbuttons,true);
+						toolbtn.set('value',toolbuttons);
+
+						var treeId = data.condition_trees;
+						treeds.set('value',treeId);
+						if(data.fields == "1"){
+							treeds.set('disabled','');
+						}
+						dijit.byId("layout"+data.fields).set("checked",true);
+						code = data.code;
+						gridStyle = parseInt(data.fields);
+					}
+				});
+			};
+			setTreeDs = function(){
+				console.log(componentDatasource);
+				var sel = dojo.byId('treeds');
+				var c1 = win.doc.createElement('option');
+				c1.innerHTML = "";
+				c1.value = "0";
+				sel.appendChild(c1);
+				dojo.forEach(componentDatasource,function(items){
+						var c = win.doc.createElement('option');
+						c.innerHTML = items.dataset_name;
+						c.value = items.code;
+						sel.appendChild(c);
+				});
+				var treeds = dojo.byId('treeds');
+				treeds.setAttribute('dojoType','dijit.form.FilteringSelect');
+				parse.instantiate([treeds]);
+				getGridViewData();
+			};
+			changeTreeState = function(value){
+				gridStyle = value;
+				if(value == 1){
+					treeds.set('disabled','');
+				}else{
+					treeds.set("value","0");
+					treeds.set('disabled','disabled');
+				}
+			};
+			ready(function(){
+				setTreeDs();
+				savebtn.setAttribute("onclick","saveGridView()");
+			});
+});
+</script>
+<table width="100%" height="250px">
+		<tr align="center">
+			<td>
+				<div><img src="form/images/layout1.jpg"></div>
+				<div><input type="radio" data-dojo-type="dijit/form/RadioButton" onclick="changeTreeState(1)" name="layout" id="layout1"  /></div>
+			</td>
+			<td>
+				<div><img src="form/images/layout2.jpg"></div>
+				<div><input type="radio" data-dojo-type="dijit/form/RadioButton" onclick="changeTreeState(2)" checked  name="layout" id="layout2"  /></div>
+			</td>
+			<td>
+				<div><img src="form/images/layout3.jpg"></div>
+				<div><input type="radio" data-dojo-type="dijit/form/RadioButton"  onclick="changeTreeState(3)" name="layout" id="layout3" /></div>
+			</td>
+		</tr>
+		<tr height="50px;"></tr>
+		<tr>
+			<td align="right">操作按钮：</td>
+			<td colspan="2">
+				<div data-dojo-id="toolbtn" id="toolbtn" multiple="true" jsid="toolbtn" name="toolbtn"
+					invalidMessage="请选择工具栏按钮" required="true"
+					store="toolstore" data-dojo-type="dojox.form.CheckedMultiSelect">
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td align="right">绑定树型数据源：</td>
+			<td colspan="2">
+				<select  id="treeds"  jsid="treeds" name="treeds" disabled="disabled"></select>
+			</td>
+		</tr>
+</table>
+

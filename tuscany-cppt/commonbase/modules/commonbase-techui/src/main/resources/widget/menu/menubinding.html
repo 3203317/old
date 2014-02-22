@@ -1,0 +1,408 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>菜单UI绑定界面</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+
+<style type="text/css">
+@import "/dojo/resources/dojo.css";
+
+@import "/dijit/themes/soria/soria.css";
+
+@import "/dijit/themes/soria/soria_rtl.css";
+.dijitDialogPaneContentArea {
+        margin: -10px -8px;
+        padding: 10px 8px;
+    }
+.dijitDialogPaneActionBar {
+      background-color: #F6F6F6;
+      padding: 1px 5px 1px 5px;
+      text-align: right;
+      border-top: 1px solid #E1E1E1;
+      margin: 10px -10px -10px;
+      height:24px;
+      overflow:hidden;
+    }
+body,html {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 90%;
+}
+
+ul li {
+  list-style-type: none;
+}
+</style>
+<script type="text/javascript" 	src="../../main/commons/js/OpenAjaxManagedHub-all.js"></script>
+<script type="text/javascript" src="/dojo/dojo.js"	djConfig="async:true,parseOnLoad: true"></script>
+<script type="text/javascript" src="menubinding.js"></script>
+<SCRIPT LANGUAGE="JavaScript">
+
+  require([ "dojo/ready", "dojo/store/Memory",  "dojo/dom-style",
+      "dojo/dom", "dijit/form/FilteringSelect", "dijit/Toolbar",
+      "dijit/form/Button", "dojo/parser", "dijit/form/ValidationTextBox",
+      "dijit/form/SimpleTextarea", "dojo/domReady!" ],
+      function(ready, Memory, style, dom, FilteringSelect) {
+      //@Reference
+      var myinfo = new tuscany.sca.Reference("reportService");
+      //@Reference
+      var resourceService = new tuscany.sca.Reference("resourceService");
+      var sessionId = null;
+      var supercode = null;
+      var treeId = null;
+      var urlParam = null;
+      
+      var hubClient = null;
+
+      function loadEventHandler() {
+
+          hubClient = new OpenAjax.hub.IframeHubClient({
+              HubClient : {
+                onSecurityAlert : client2SecurityAlertHandler
+              }
+            });
+          // 连接到ManagedHub
+          try
+          {
+            hubClient.connect(connectCompleted);
+          }
+          catch(e)
+          {
+            console.log(e.message);
+          }
+        }
+        function client2SecurityAlertHandler(source, alertType) {
+                  // 理安全警报
+        }
+        /* Callback that is invoked upon successful connection to the Managed Hub */
+        function connectCompleted(hubClient, success, error) {
+          //console.log(error);
+          hubClient.subscribe("net.newcapec.menuInfo.submitmenu",saveSubmitInfo);
+        }
+      
+      initPageBaseList = function() {
+        
+        urlParam = OpenAjax.gadgets.util.getUrlParameters();
+        
+        sessionId = urlParam.sessionId;
+        
+        var stateStore = new Memory({
+          data :[{
+              name : "表单",
+              id : "1"
+            }, {
+              name : "页面",
+              id : "2"
+            } ]
+          });
+        var filteringSelect = new FilteringSelect({
+            id : "MenuBindcgy",
+            name : "MenuBindCategory",
+            value : "1",
+            store : stateStore,
+            searchAttr : "name",
+            onChange:function(item){
+                if("1" == item)
+                {
+                  addFormCategory_addForm();
+                }
+                else
+                {
+                  addFormCategory_addMenu();
+                }
+            }
+          }, "add_MenuBindCategory");
+
+        var is_MenuStore = new Memory({
+              data : [ {
+                  name : "目录菜单",
+                  id : "1"
+                }, {
+                  name : "功能菜单",
+                  id : "6"
+                } ]
+              });
+
+        var is_MenufilteringSelect = new FilteringSelect({
+              id : "add_isMenu",
+              name : "add_isMenu",
+              value : "1",
+              store : is_MenuStore,
+              searchAttr : "name",
+              onChange:function(item){
+                  if("1" == item)
+                  {
+                    style.set(dom.byId('addBinding_category'), "display", "none");
+                    style.set(dom.byId('addForm_name'), "display", "none");
+                    //菜单路径展示控制
+                    style.set(dom.byId('addURL_Info'), "display", "none");
+                  }
+                  else
+                  {
+                    style.set(dom.byId('addBinding_category'), "display", "");
+                    style.set(dom.byId('addForm_name'), "display", "");
+                    //菜单路径展示控制
+                    style.set(dom.byId('addURL_Info'), "display", "none");
+                  }
+              }
+            }, "add_isMenu");
+        
+      }//end initList
+      
+      init_formCodeBase = function()
+            {
+              myinfo.getFilteringSelectList(sessionId).addCallback(
+                            MenuBind_fillMenu);
+            }
+            init_formCodeBaseWithCondition = function(init_formCode)
+            {
+              myinfo.getFilteringSelectList(sessionId).addCallback(
+                              function(items){
+                                var formInfoStore = new Memory({
+                                      data : items
+                                    });
+                                     var formInfofilteringSelect = new FilteringSelect({
+                                      id : "formInfo",
+                                      name : "formInfo",
+                                      value : init_formCode,
+                                      store : formInfoStore,
+                                      searchAttr : "name"
+                                    }, "add_formInfo");
+                              });
+      }// end init_formCodeBase
+      MenuBind_fillMenu = function(items, e) {
+            var formInfoStore = new Memory({
+              data : items
+            });
+             var formInfofilteringSelect = new FilteringSelect({
+              id : "formInfo",
+              name : "formInfo",
+              value : "1",
+              store : formInfoStore,
+              searchAttr : "name"
+            }, "add_formInfo");
+      }
+      initPageShowWidgetForAdd = function() {
+          if (urlParam.type == "pmenu") {
+            addFunctionShow();
+            addInitShow_addMenuContent();
+            treeId = urlParam.father.split("_")[0];
+            if(urlParam.father.split("_").length == 2)
+            {
+              supercode = urlParam.father.split("_")[1];
+            }
+            else
+            {
+              supercode = urlParam.father.substr(4, urlParam.father.length);
+            }
+          }
+      }
+      
+      manipulateFuncMenu = function(currentItem)
+          {
+            if(currentItem.href.indexOf("?")>0)
+            {
+                //表单
+                addFormCategory_addForm();
+                addInitShow_addMenuContent();
+                dijit.byId('add_isMenu').setValue("6");
+                dijit.byId('MenuBindcgy').setValue("1");
+                dijit.byId('menuName').set('value',currentItem.name);
+                var formCode = currentItem.href.split("=")[1];
+                init_formCodeBaseWithCondition(formCode);
+            }
+            else
+            {
+              //页面功能
+              addFunctionShow();
+              dijit.byId('add_isMenu').setValue("6");
+              dijit.byId('MenuBindcgy').setValue("2");
+              dijit.byId('menuName').set('value',currentItem.name);
+              dijit.byId('add_formURLInfo').set('value',currentItem.href);
+              init_formCodeBase();
+            }
+          }
+      
+      addFunctionShow = function()
+      {
+        //菜单绑定区域展示控制
+        style.set(dom.byId('addBinding_category'), "display", "none");
+        //选择添加菜单表单类型区域展示控制
+        style.set(dom.byId('addForm_name'), "display", "none");
+      }
+      addInitShow_addMenuContent = function()
+      {
+        //菜单路径展示控制
+        style.set(dom.byId('addURL_Info'), "display", "none");
+      }
+      addFormCategory_addMenu = function()
+      {
+        //选择添加菜单表单类型区域展示控制
+        style.set(dom.byId('addForm_name'), "display", "none");
+        //菜单路径展示控制
+        style.set(dom.byId('addURL_Info'), "display", "");
+      }
+      addFormCategory_addForm = function()
+      {
+        //选择添加菜单表单类型区域展示控制
+        style.set(dom.byId('addForm_name'), "display", "");
+        //菜单路径展示控制
+        style.set(dom.byId('addURL_Info'), "display", "none");
+      }
+      saveSubmitInfo = function(topic,subscribeData)
+      {
+        console.log(" " +topic + " " + subscribeData);
+        
+        var resourceInfo = {};
+        if(dijit.byId('MenuBindcgy').value == 2)
+        {
+            resourceInfo.name = dojo.byId("menuName").value;
+            resourceInfo.url = dojo.byId("add_formURLInfo").value;
+            resourceInfo.resource_type_code = dijit.byId('add_isMenu').get('value');
+            resourceInfo.super_code = supercode ;
+            resourceInfo.status = 1 ;
+            resourceInfo.is_enabled = 1 ;
+            resourceInfo.is_have_child = 0 ;
+            resourceInfo.sys_code = 1 ;
+            //如果没有请给它空值
+            resourceInfo.small_icon_code = 1;
+            resourceInfo.large_icon_code = 1;
+            resourceInfo.ver = 1;
+        }
+        else if(dijit.byId('MenuBindcgy').value == 1)
+        {
+          resourceInfo.name = dojo.byId("menuName").value;
+          resourceInfo.resource_type_code = dijit.byId('add_isMenu').get('value');
+          resourceInfo.super_code = supercode ;
+          resourceInfo.url =	"/customFormReport/reportform/?form_code=" + dijit.byId('formInfo').value;
+          resourceInfo.status = 1 ;
+          resourceInfo.is_enabled = 1 ;
+          resourceInfo.is_have_child = 0;
+          resourceInfo.sys_code = 1 ;
+          //如果没有请给它空值
+          resourceInfo.small_icon_code = 1;
+          resourceInfo.large_icon_code = 1
+          resourceInfo.ver = 1;
+        }
+        if(urlParam.action == "update")
+        {
+          //修改的方法
+          jsonUrl = JSON.parse(urlParam.currItem,true);
+          var updateTreeItemCode = jsonUrl.id.split("_")[1];
+          resourceInfo.code = updateTreeItemCode;
+          resourceService.updateResource(sessionId,resourceInfo).addCallback(function(item){
+            if(item.resultMsg.status == 1)
+              {
+            item.treeId = treeId;
+            item.extraType = "update";
+            hubClient.publish('net.newcapec.load.menuItem',item);
+              }
+              else
+              {
+                var resultInfo = {};
+                resultInfo.info = "数据库修改失败，请稍后重试";
+                resultInfo.infoTitle = "修改失败";
+                hubClient.publish('net.newcapec.ui.operatorForbiden',resultInfo);
+              }
+          });
+        }
+        else
+        {
+          //添加的方法
+          resourceService.insertResource(sessionId,resourceInfo).addCallback(function(item){
+             if(item.resultMsg.status == 1)
+             {
+                  item.treeId = treeId;
+                  item.extraType = "add";
+                  hubClient.publish('net.newcapec.load.menuItem',item);
+             }
+             else
+             {
+               var resultInfo = {};
+               resultInfo.info = "数据库添加失败，请稍后重试";
+               resultInfo.infoTitle = "添加失败";
+               hubClient.publish('net.newcapec.ui.operatorForbiden',resultInfo);
+             }
+                });
+        }
+      }
+      
+      initALLAfterReady = function() {
+        try {
+          console.log(parent);
+          loadEventHandler();
+          initPageBaseList();
+          if (urlParam.action == "add")
+          {
+              init_formCodeBase();
+              initPageShowWidgetForAdd();
+          }
+          //因为已经把根节点隐藏掉了。那么就无法对根节点进行修改这里只处理修改目录菜单和功能菜单
+          if (urlParam.action == "update")
+          {
+              var currentItem = JSON.parse(urlParam.currItem,true);
+              treeId = currentItem.id.split("_")[0];
+              supercode = treeId.substr(4, treeId.length);
+              //菜单目录类型
+              if(currentItem.type == "pmenu")
+               {
+                console.log("菜单目录");
+               }
+              else(currentItem.type == "menu")
+              {
+                //下面的函数会处理表单功能菜单和页面功能菜单
+                manipulateFuncMenu(currentItem);
+              }
+          }
+        } catch (e) {
+          console.log(e.message);
+        }
+      }
+
+      ready(initALLAfterReady);
+      });
+</script>
+</head>
+<body class="soria" style="width: 93%; height: 98%">
+   <div class="dijitDialogPaneContentArea">
+    <ul>
+      <li>
+        <label for="add_isMenu">&nbsp;&nbsp;&nbsp;菜单类型:</label>
+            <div id="add_isMenu" ></div>
+      </li>
+    </ul>
+    <ul>
+      <li><label for="add_menuName">新菜单名称:</label>
+        <div data-dojo-type="dijit/form/ValidationTextBox" id="menuName" data-dojo-props="placeHolder:'新菜单名称'">
+        </div>
+      </li>
+    </ul>
+    <div id="addBinding_category" style="display:'none'">
+      <ul>
+        <li>
+        <label>&nbsp;&nbsp;&nbsp;绑定类型:</label>
+        <div id="add_MenuBindCategory" />
+        </li>
+      </ul>
+    </div>
+    <div id="addForm_name" >
+    <ul>
+      <li><label for="add_formInfo">&nbsp;&nbsp;&nbsp;表单名称:</label>
+        <div id="add_formInfo" >
+        </div>
+      </li>
+    </ul>
+    </div>
+    <div id="addURL_Info" >
+    <ul>
+      <li><label for="add_formURLInfo">&nbsp;&nbsp;&nbsp;菜单路径:</label>
+            <div data-dojo-type="dijit/form/ValidationTextBox" id="add_formURLInfo" data-dojo-props="placeHolder:'菜单路径'"
+            name="add_formURLInfo"></div>
+      </li>
+    </ul>
+    </div>
+</div>
+</body>
+</html>

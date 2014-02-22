@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+					xmlns:tuscany="http://tuscany.apache.org/xmlns/sca/1.1"
+					targetNamespace="http://newcapec.net/smartreport/GridStatDataCollectionService"
+					name="GridStatDataCollectionService-contribution">
+
+			<component name="GridStatDataCollectionServiceComponent">
+					<implementation.java class="net.newcapec.sca.gridcondition.service.impl.GridStatDataCollectionServiceImpl"/>
+					<reference name="sessionService" target="SessionComponent" />
+					<reference name="fieldPrepService" target="FieldPrepServiceComponent"/>
+					<reference name="dicCodeService" target="DicCodeServiceComponent"/>
+				<service name="GridStatDataCollectionService">
+					<tuscany:binding.jsonrpc/>
+				</service>
+			</component>
+</composite>

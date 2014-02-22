@@ -1,0 +1,404 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" >
+<html>
+<head>
+  <title>自定义 grid</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="/dijit/themes/soria/soria.css" />
+    <link rel="stylesheet" type="text/css" href="/dojox/grid/resources/soriaGrid.css" />
+  <link rel="stylesheet"  type="text/css" href="/dojo/resources/dojo.css">
+    <style type="text/css">
+        @import "/dojox/grid/enhanced/resources/EnhancedGrid.css";
+        @import "/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css";
+
+    .dijitDialogPaneContentArea {
+        margin: -10px -8px;
+        padding: 10px 8px;
+    }
+    .dijitDialogPaneActionBar {
+      background-color: #F6F6F6;
+      padding: 1px 5px 1px 5px;
+      text-align: right;
+      border-top: 1px solid #E1E1E1;
+      margin: 10px -10px -10px;
+      height:24px;
+      overflow:hidden;
+    }
+    body, html { width: 100%; height: 100%; margin: 0;overflow:hidden;}
+    </style>
+  <style type="text/css">
+    #grid{
+      height: 100%;
+    }
+  </style>
+
+  <script type="text/javascript">
+    djConfig = {
+      async:true,
+      parseOnLoad:true
+    };
+  </script>
+  <script type="text/javascript" src="/dojo/dojo.js"></script>
+  <script type="text/javascript"
+  src="/dojo/extendJS/OpenAjaxManagedHub-all.js"></script>
+  <script type="text/javascript" src="dbconnmanager.js"></script>
+  <script type="text/javascript">
+    require(["dojo/ready","dojo/newcapec/MessageBox","dijit/form/FilteringSelect","dojo/store/Memory","dojo/_base/window","dojo/parser","dojo/newcapec/grid/EnhancedGrid",'dojo/data/ItemFileWriteStore',
+            "dojo/newcapec/grid/plugins/Pagination","dijit/Dialog","dijit/form/Form","dojox/grid/_CheckBoxSelector",
+            "dijit/layout/BorderContainer","dijit/layout/TabContainer","dijit/layout/ContentPane","dijit/Toolbar","dijit/form/Button","dijit/form/ValidationTextBox",
+            "dijit/ToolbarSeparator","dijit/form/SimpleTextarea","dojo/domReady!"],
+    function(ready,MessageBox,FilteringSelect,Memory,win,parse,EnhancedGrid,ItemFileWriteStore,Pagination,Dialog){
+    var sessionId = null;
+    var grid = null;
+    //@Reference
+    var dbConnService = new tuscany.sca.Reference("dbConnService");
+    var paneid = 'pane1';
+    var plugins = {
+        pagination: {
+            description: true,
+            pageStepper: true,
+            position: "bottom"
+        }
+    };
+    transferName = function(item) {
+        if ("1" == item) {
+            return "oracle";
+        } else if ("2" == item) {
+            return "MS SQL";
+        } else if ("3" == item) {
+            return "mysql";
+        }
+    }
+    initGridInfo = function() {
+        grid = new EnhancedGrid({
+            id: "grid",
+            conditionKey: "filter",
+            param: 'sessionId:"' + sessionId + '",resourceId:1',
+            tuscany: dbConnService.findDBConnDojoList,
+            rowsPerPage: 15,
+            //每页显示多少条
+            plugins: plugins,
+            structure: [{
+                type: "dojox.grid._CheckBoxSelector"
+            },
+            [new dojox.grid.cells.RowIndex({
+                name: "编号",
+                width: "45px"
+            }), {
+                name: "名称",
+                field: "name",
+                width: 'auto'
+            },
+            {
+                name: "数据库类型",
+                field: "dataBaseName",
+                width: 'auto',
+                formatter: transferName
+            },
+            {
+                name: "ip地址",
+                field: "connectIP",
+                width: 'auto'
+            },
+            {
+                name: "端口号",
+                field: "connectPort",
+                width: 'auto'
+            },
+            {
+                name: "数据库名",
+                field: "connectSID",
+                width: 'auto'
+            },
+            {
+                name: "创建日期",
+                field: "create_date",
+                width: 'auto'
+            }]]
+        },
+        "gridDiv");
+    }
+    showAdd = function() {
+        if (dijit.byId('form')) {
+            form.reset();
+        }
+        //  setValues();
+        curddialog.show();
+    };
+    save = function() {
+      curddialog.set('title',"添加");
+        if (form.validate()) {
+            var formdata = form.get('value');
+            formdata.name = formdata.dbconn_name;
+            if (formdata.code == null || formdata.code == "") {
+                formdata.ver = "1";
+                formdata.unit_code = "1";
+                formdata.domain_code = "1";
+                formdata.create_user_code = "1";
+                formdata.encryption_info = "";
+                formdata.encryption_timestamp = "";
+                dbConnService.insertDBConn(sessionId, formdata).addCallback(function(data) {
+                    curddialog.hide();
+                    grid.reload();
+                    MessageBox.alert("添加成功", "success");
+                });
+            } else {
+                dbConnService.updateDBConn(sessionId, formdata).addCallback(function(data) {
+                    curddialog.hide();
+                    MessageBox.alert("更新成功", "success");
+                    grid.reload();
+                    code.set('value', '');
+                });
+            }
+        }
+    };
+
+    deleted = function() {
+        var selectValues = grid.selection.getSelected();
+        if (selectValues == null || selectValues == "") {
+            MessageBox.alert("您尚未选择删除信息", "warn");
+            return;
+        }
+        var ids = null;
+        var i = 0;
+        MessageBox.confirm("您确定删除吗？",
+        function() {
+            dojo.forEach(selectValues,
+            function(values) {
+                if (i == 0) {
+                    ids = values.code + "";
+                } else {
+                    ids += "," + values.code;
+                }
+                i++;
+            });
+            dbConnService.delDBConnByIds(sessionId, ids).addCallback(function(data) {
+                var dd = data;
+                if (dd == true) {
+                    grid.selection.deselectAll();
+                    grid.reload();
+                    MessageBox.alert("删除成功", "success");
+                }
+            });
+        });
+    };
+    showModify = function() {
+        var data = grid.selection.getSelected();
+        if (data.length == 0) {
+            MessageBox.alert("请选择修改的信息", "warn");
+            return;
+        } else if (data.length > 1) {
+            MessageBox.alert("请选择一条记录修改", "warn");
+            return;
+        }
+      curddialog.set('title',"修改");
+      dbconn_name.set('value',data[0].name[0]);
+        curddialog.show(data);
+        form.set('value', data[0]);
+    };
+    heartBeat = function() {
+        if (form.validate()) {
+            var formdata = form.get('value');
+            formdata.ver = "1";
+            formdata.unit_code = "1";
+            formdata.domain_code = "1";
+            formdata.create_user_code = "1";
+            formdata.encryption_info = "";
+            formdata.encryption_timestamp = "";
+            dbConnService.getDBConfig2Connection(sessionId, formdata).addCallback(function(data) {
+                if (data == true) {
+                    MessageBox.alert("测试成功", "success");
+                } else {
+                    MessageBox.alert("测试失败", "error");
+                }
+            });
+        } else {
+            MessageBox.alert("信息不全", "error");
+        }
+
+    }
+
+    function loadEventHandler()
+    {
+        hubClient = new OpenAjax.hub.IframeHubClient({
+            HubClient: {
+                onSecurityAlert: client2SecurityAlertHandler
+            }
+        });
+        // 连接到ManagedHub
+        try {
+            hubClient.connect(connectCompleted);
+        } catch(e) {
+            console.log(e.message);
+        }
+    }
+    function client2SecurityAlertHandler(source, alertType) {
+        // 理安全警报
+    }
+    /* Callback that is invoked upon successful connection to the Managed Hub */
+    function connectCompleted(hubClient, success, error) {
+        //console.log(error);
+    }
+
+    function onData(topic, subscribeData) {
+        //console.log(topic);
+    }
+    searchInfoByStore = function() {
+        var param = {};
+        param.filter = new Array();
+        var search_type_code = dijit.byId('search_resource_type_code').value + "";
+        if ("" != search_type_code && "0" != search_type_code) {
+            param.filter.push({
+                field: "dbtype_code",
+                relation: "and",
+                logical: "=",
+                value: dijit.byId('search_resource_type_code').value
+            });
+        }
+        if (search_name.value) {
+            param.filter.push({
+                field: "name",
+                relation: "and",
+                logical: "like",
+                value: "'%" + search_name.value + "%'"
+            });
+        }
+        dijit.byId('grid').find(JSON.stringify(param.filter));
+    };
+    initSearchPane = function() {
+        var stateStore = new Memory({
+            data: [{
+                name: "请选择数据库",
+                id: "0"
+            },
+            {
+                name: "oracle",
+                id: "1"
+            },
+            {
+                name: "MS SQL",
+                id: "2"
+            },
+            {
+                name: "mysql",
+                id: "3"
+            },
+            {
+                name: "SysBase",
+                id: "4"
+            },
+            {
+                name: "其他",
+                id: "5"
+            }]
+        });
+        var filteringSelect = new FilteringSelect({
+            id: "search_resource_type_code",
+            value: "0",
+            name: "search_resource_type_code",
+            store: stateStore,
+            searchAttr: "name"
+        },
+        dojo.byId("search_resource_type_code"));
+    }
+    ready(function() {
+        loadEventHandler();
+        var urlParam = OpenAjax.gadgets.util.getUrlParameters();
+        sessionId = urlParam.sessionId;
+        initGridInfo();
+        initSearchPane();
+    });
+    });
+
+  </script>
+</head>
+<body class="soria">
+
+    <div id="main" dojoType="dijit.layout.BorderContainer" data-dojo-props='liveSplitters:false,design:"headline"' style="width:100%; height:100%">
+      <div dojoType="dijit.layout.ContentPane" region="top" >
+        <div data-dojo-type="dijit.Toolbar" >
+          <div dojotype="dijit.form.Button" label="增加" onclick="showAdd();" iconClass="dijitIconNewTask" jsid="add" id="add"></div>
+          <span data-dojo-type="dijit.ToolbarSeparator"></span>
+          <div dojotype="dijit.form.Button" label="修改" onclick="showModify();" iconClass="dijitIconEdit" jsid="modify" id="modify"></div>
+          <span data-dojo-type="dijit.ToolbarSeparator"></span>
+          <div dojotype="dijit.form.Button" label="删除" onclick="deleted();" iconClass="dijitIconDelete" jsid="del" id="del"></div>
+
+        </div>
+        <br>
+        <div>
+          <label for="search_resource_type_code" style="width:5em; margin-top: 5px; float:left;">资源类型：</label>
+          <input id="search_resource_type_code"/>
+          <label for="search_name" >配置名称:</label>
+          <div data-dojo-type="dijit/form/ValidationTextBox"  data-dojo-props="trim:true" style="width:200px;height:17px;" placeholder='配置名称' jsid='search_name'  name="search_name" ></div>
+          <div dojoType="dijit/form/Button" id="searchbtn" onclick="searchInfoByStore();">查询</div>
+        </div>
+    </div>
+    <div dojoType="dijit.layout.ContentPane" region="center">
+      <div id="gridDiv"></div>
+    </div>
+
+  </div>
+  <div dojoType="dijit.Dialog" jsid='curddialog' title="增加" style="width:350px;" >
+      <div class="dijitDialogPaneContentArea">
+      <div dojoType="dijit/form/Form" jsid="form" id="form">
+        <button data-dojo-type="dijit/form/Button" jsid='code'  name="code" id="code" style="display:none"></button>
+        <table>
+                <tr height="25px" >
+                    <td align="right" width="80px" nowrap="nowrap"><label for="dbconn_name" style="color:red">*</label>配置名称: </td>
+                    <td><div data-dojo-type="dijit/form/ValidationTextBox"  required="true" style="width:200px;height:17px;" placeholder='配置名称' jsid='dbconn_name'  name="dbconn_name" ></div></td>
+                </tr>
+                <tr height="25px">
+                    <td align="right"><label for="dataBaseName">数据库类型: </label></td>
+                    <td><select dojoType="dijit/form/FilteringSelect" style="width:200px;" name="dataBaseName" jsid='dataBaseName' id='dataBaseName'>
+                        <option value="1">Oracle</option>
+                        <option value="2">MS SQL</option>
+                        <option value="3">MySQL</option>
+                        <option value="4">其他</option>
+                      </select>
+                    </td>
+                </tr>
+                <tr height="25px">
+                    <td align="right"><label for="connectIP">连接IP: </label></td>
+                    <td><div data-dojo-type="dijit/form/ValidationTextBox"  required="true" style="width:200px;height:17px;" placeholder='连接IP' jsid='connectIP'  name="connectIP" ></div></td>
+                </tr>
+                <tr height="25px">
+                    <td align="right"><label for="connectIP">连接端口: </label></td>
+                    <td><div data-dojo-type="dijit/form/ValidationTextBox"  required="true" style="width:100px;height:17px;" placeholder='连接端口' jsid='connectPort'  name="connectPort" ></div></td>
+                </tr>
+                <tr height="25px">
+                    <td align="right"><label for="connectSID">实例名: </label></td>
+                    <td><div data-dojo-type="dijit/form/ValidationTextBox"  required="true" style="width:100px;height:17px;" placeholder='实例名' jsid='connectSID'  name='connectSID' ></div></td>
+                </tr>
+                <tr height="25px">
+                <td align="right"><label for="accoutName">连接账户: </label></td>
+                <td><div data-dojo-type="dijit/form/ValidationTextBox"  required="true" style="width:200px;height:17px;" placeholder='连接账户' jsid='accoutName'  name="accoutName" ></div></td>
+                </tr>
+                <tr height="25px">
+                <td align="right"><label for="accountPassword">连接密码: </label></td>
+                <td><div data-dojo-type="dijit/form/ValidationTextBox"  required="true" style="width:200px;height:17px;" placeholder='连接密码' jsid='accountPassword'  name="accountPassword" ></div></td>
+                </tr>
+                <tr height="25px">
+                <td align="right"><label for="desc">备注: </label></td>
+                    <td><div data-dojo-type="dijit/form/SimpleTextarea" style="width:200px;" name="memo" jsid='memo' id="memo"></div></td>
+                </tr>
+            </table>
+      </div>
+    </div>
+
+    <div class="dijitDialogPaneActionBar">
+            <button data-dojo-type="dijit/form/Button"   onClick="heartBeat();">
+                  测试
+            </button>
+            <button data-dojo-type="dijit/form/Button"   onClick="save();">
+                  保存
+            </button>
+            <button data-dojo-type="dijit/form/Button"  type="reset" onClick="return form.reset();">
+                  重置
+            </button>
+            <button data-dojo-type="dijit/form/Button" type="button" onClick="curddialog.hide()">
+                  关闭
+            </button>
+    </div>
+
+  </div>
+</body>
+</html>

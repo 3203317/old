@@ -1,0 +1,476 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" >
+<html>
+<head>
+    <title>控件绑定数据集</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet"  type="text/css" href="/dojo/resources/dojo.css">
+    <link rel="stylesheet" type="text/css" href="/dijit/themes/soria/soria.css" />
+    <link rel="stylesheet" type="text/css" href="/dojox/grid/resources/soriaGrid.css" />
+    <style type="text/css">
+        @import "/dojox/grid/enhanced/resources/EnhancedGrid.css";
+        @import "/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css";
+    .dijitDialogPaneContentArea {
+        margin: -10px -8px;
+        padding: 10px 8px;
+    }
+
+    .dijitDialogPaneContentAreaDetail {
+        margin: -10px -8px;
+        padding: 10px 8px;
+    }
+
+    .dijitDialogPaneActionBar {
+      background-color: #F6F6F6;
+      padding: 1px 5px 1px 5px;
+      text-align: right;
+      border-top: 1px solid #E1E1E1;
+      margin: 10px -10px -10px;
+      height:24px;
+      overflow:hidden;
+    }
+    .dijitDialogPaneActionBarDetail {
+      background-color: #F6F6F6;
+      padding: 1px 5px 1px 5px;
+      text-align: right;
+      border-top: 1px solid #E1E1E1;
+      margin: 10px -10px -10px;
+      height:24px;
+      overflow:hidden;
+    }
+
+    body, html { width: 100%; height: 100%; margin: 0;overflow:hidden;}
+    </style>
+  <style type="text/css">
+    #grid{
+      height: 91%;
+    }
+    #gridDetail{
+      height:91%;
+    }
+  </style>
+
+  <script type="text/javascript">
+    djConfig = {
+      async:true,
+      parseOnLoad:true
+    };
+  </script>
+  <script type="text/javascript" src="/dojo/dojo.js"></script>
+  <script type="text/javascript"
+	src="/dojo/extendJS/OpenAjaxManagedHub-all.js"></script>
+  <script type="text/javascript" src="componentdataset.js"></script>
+  <script type="text/javascript">
+
+   require(["dojo/ready","dojo/_base/window","dojo/parser","dojo/newcapec/grid/EnhancedGrid",'dojo/data/ItemFileWriteStore',
+            "dojo/newcapec/grid/plugins/Pagination","dijit/Dialog","dojo/newcapec/MessageBox","dojo/store/Memory","dijit/form/FilteringSelect",
+            "dojo/data/ItemFileReadStore","dojox/grid/DataGrid","dojo/data/ItemFileWriteStore","dojo/dom-style","dojo/dom",
+            "dojox/grid/enhanced/plugins/IndirectSelection","dijit/form/Form","dojox/grid/_CheckBoxSelector",
+            "dijit/layout/BorderContainer","dijit/layout/TabContainer","dijit/layout/ContentPane","dijit/Toolbar","dijit/form/Button",
+            "dijit/form/ValidationTextBox","dijit/ToolbarSeparator","dijit/form/FilteringSelect","dijit/form/SimpleTextarea",
+             "dojo/domReady!"],
+           function(ready,win,parse,EnhancedGrid,ItemFileWriteStore,Pagination,Dialog,MessageBox,Memory,FilteringSelect,ItemFileReadStore,
+        		   DataGrid,ItemFileWriteStore,style,dom){
+			   var sessionId = null;
+		       //@Reference
+		       var componentDatasetService = new tuscany.sca.Reference("componentDatasetService");
+		       var paneid = 'pane1';
+		       var formcode;
+               //创建控件绑定数据集grid
+			   createGrid = function(){
+
+				   var plugins = {
+							indirectSelection: {
+							headerSelector:true,
+							name: "Selection",
+							width: "30px",
+							styles: "text-align: center;"
+							},pagination: {
+							description: true,
+							pageStepper: true,
+							position: "bottom"
+					}};
+
+	                grid = new EnhancedGrid({
+						id:"grid",
+						param:'sessionId:"'+sessionId+'",resourceId:1',
+						conditionKey:"filter",
+						tuscany:componentDatasetService.findComponentDatasetDojoList,
+						rowsPerPage:15,//每页显示多少条
+						plugins:plugins,
+						structure:[
+						[
+							//new dojox.grid.cells.RowIndex({ name: "编号", width: "45px" }),
+							{
+	      						 name: "编号",
+				                 field: "code",
+				                 width: '5%',
+				                 hidden:true
+
+	      					},
+	      					{
+	      						 name: "控件类型",
+				                 field: "component_type",
+				                 width: '15%'
+	      					},
+	      					{
+			                     name: "控件数据源id",
+			                     field:"component_datasource",
+			                     width:'auto',
+			                     hidden:true
+			                },
+			                {
+			                     name: "控件数据集名称",
+			                     field:"dataset_name",
+			                     width:'15%'
+			                },
+			                {
+			                     name: "控件数据源名称",
+			                     field:"datasource_name",
+			                     width:'20%'
+			                },
+	      					{
+			                     name: "Text字段",
+			                     field:"text_field",
+			                     width:'10%'
+			                },
+	      					{
+			                     name: "Value字段",
+			                     field:"value_field",
+			                     width:'10%'
+			                },
+	      					{
+			                     name: "父级字段",
+			                     field:"parent_field",
+			                     width:'10%'
+			                },
+	      					{
+			                     name: "顶级默认值",
+			                     field:"top_default",
+			                     width:'15%'
+			                }
+						]]
+
+					},"gridDiv");
+
+			    };
+
+			   setComponentDatasetStore = function(){
+				    var param = {};
+					param.filter = new Array();
+					dijit.byId('grid').find(dojo.toJson(param.filter));
+					return ;
+			   }
+
+
+              //弹出控件绑定数据集添加窗口
+		      showAdd=function(){
+			       if(dijit.byId('form')){
+			         form.reset();
+			       }
+			       curddialog.set('title',"增加控件绑定数据集");
+			       curddialog.show();
+		      };
+		      //保存新增或修改的控件绑定数据集
+		      save = function(){
+		        if(form.validate()){
+		          var formdata = form.get('value');
+		          if(formdata.code == null || formdata.code == ""){
+		        	  componentDatasetService.insertComponentDataset(sessionId,formdata).addCallback(function(data){
+		              if( data.resultMsg.status == 1){
+		                 curddialog.hide();
+		                 MessageBox.alert("添加成功","success");
+		                 setComponentDatasetStore();
+		              }else{
+		            	 MessageBox.alert("添加失败","error");
+		              }
+		            });
+		          }else{
+		        	  componentDatasetService.updateComponentDataset(sessionId,formdata).addCallback(function(data){
+		              if( data.resultMsg.status == 1){
+			              curddialog.hide();
+			              MessageBox.alert("修改成功","success");
+			              setComponentDatasetStore();
+			              code.set('value','');
+		              }else{
+		            	  MessageBox.alert("修改失败","error");
+		              }
+		            });
+		          }
+		        }
+		      };
+
+		      //批量删除控件绑定数据集
+		      deleted =function(){
+			        var selectValues =  dijit.byId('grid').selection.getSelected();
+			        if(selectValues == null || selectValues == ""){
+			            MessageBox.alert("请选择您要删除的记录","warn");
+			            return;
+			        }
+			        var ids = null;
+			        var i=0;
+			        dojo.forEach(selectValues,function(values){
+			          if(i == 0){
+			             ids = values.code+"";
+			          }else{
+			             ids +=","+values.code;
+			          }
+			          i++;
+			        });
+			        MessageBox.confirm('确定要删除吗?',function(){
+			          componentDatasetService.delComponentDatasetByIds(sessionId,ids).addCallback(function(data){
+				          if( data.resultMsg.status == 1){
+				              MessageBox.alert("删除成功","success");
+				              setComponentDatasetStore();
+				          }else{
+				        	  MessageBox.alert("删除失败","error");
+				          }
+			          });
+			        });
+		      };
+
+		      //弹出自定义字典代码修改窗口
+		      showModify=function(){
+		          var data = dijit.byId('grid').selection.getSelected();
+		          if(data.length == 0){
+		             MessageBox.alert("请选择您要修改的记录","warn");
+		             return;
+		          }else if(data.length > 1){
+		             MessageBox.alert("请选择一条记录","warn");
+		             return;
+		          }
+		          curddialog.set('title',"修改控件绑定数据集");
+		          curddialog.show(data);
+		          form.set('value',data[0]);
+		      };
+
+			   searchDictionaryByName=function(){
+				   var name = dijit.byId("search_cdn").getValue();
+				       name = dojo.trim(name);
+				   var param = {};
+					param.filter = new Array();
+					if (name != null && name !="" )
+					   param.filter.push({field:"dataset_name",relation:"and",logical:"like",value:"'%"+name+"%'"});
+					dijit.byId('grid').find(dojo.toJson(param.filter));
+					return ;
+			   };
+
+			   dynamicCreateFilterSelect = function(){
+
+					    var ctStore = new Memory({
+					         data: [
+                                       {name:"tree", id:"tree"},
+                                       {name:"select", id:"select"}
+						           ]
+					    });
+
+						var ctFilteringSelect = new FilteringSelect({
+										id: "component_type",
+										value: "tree",
+										name:"component_type",
+										store: ctStore,
+										autoComplete: true,
+										style: "width: 280px;",
+										searchAttr: "name",
+										onChange: function(city){
+							                console.log("combobox onchange ", city, this.item.name);
+							                style.set(dom.byId('parentfielddiv'), "display", "none");
+							                if  ( this.item.name == "tree"  ){
+							                	style.set(dom.byId('parentfielddiv'), "display", "");
+							                	style.set(dom.byId('topdefaultdiv'), "display", "");
+							                	 dijit.byId("parent_field").setAttribute("required",true);
+							                }else if (this.item.name == "select" ) {
+							                	style.set(dom.byId('parentfielddiv'), "display", "none");
+							                	style.set(dom.byId('topdefaultdiv'), "display", "none");
+							                	dijit.byId("parent_field").setAttribute("required",false);
+							                }
+							            }
+						}, "component_type");
+
+
+						componentDatasetService.obtainComponentDatasource(sessionId).addCallback(function(data){
+							var dsStore = new Memory({
+						        data: data
+						    });
+
+							var cdFilteringSelect = new FilteringSelect({
+								id: "component_datasource",
+								value: "181",
+								name:"component_datasource",
+								store: dsStore,
+								autoComplete: true,
+								style: "width: 280px;",
+								searchAttr: "name",
+								onChange: function(city){
+
+                                   if (city != null){
+									   componentDatasetService.obtainFieldByDatasource(sessionId, this.item.code).addCallback(function(data){
+										  dijit.byId('text_field').store.setData(data);
+									   })
+                                   }
+									//console.log("combobox onchange ", city, this.item);
+									//console.log("combobox onchange code ", city, this.item.code);
+					            }
+				            }, "component_datasource");
+						});
+
+                       	var fieldStore = new Memory({
+					        data: null
+					    });
+
+                       	var tfFilteringSelect = new FilteringSelect({
+   							id: "text_field",
+   							value: "1",
+   							name:"text_field",
+   							store: fieldStore,
+   							autoComplete: true,
+   							style: "width: 100px;",
+   							searchAttr: "name"
+   			           }, dojo.byId("text_field"));
+
+   						var vfFilteringSelect = new FilteringSelect({
+   							id: "value_field",
+   							value: "1",
+   							name:"value_field",
+   							store: fieldStore,
+   							autoComplete: true,
+   							style: "width: 100px;",
+   							required: true,
+   							searchAttr: "name"
+   			           }, dojo.byId("value_field"));
+
+   						var pfFilteringSelect = new FilteringSelect({
+   							id: "parent_field",
+   							value: "1",
+   							name:"parent_field",
+   							store: fieldStore,
+   							autoComplete: true,
+   							style: "width: 100px;",
+   							searchAttr: "name",
+   			           },dojo.byId("parent_field"));
+
+		        };
+
+		        checkParentField = function(){
+					if ( (dijit.byId('component_type').get('value') == "select") )
+					   { return 1==1;}
+					else if  ( (dijit.byId('component_type').get('value') == "tree") )
+					   { return dijit.byId('parent_field').getValue() != "";}
+				}
+
+
+		       loadEventHandler = function(){
+					hubClient = new OpenAjax.hub.IframeHubClient({
+							HubClient : {
+								onSecurityAlert : client2SecurityAlertHandler
+							}
+						});
+					// 连接到ManagedHub
+					try
+					{
+						hubClient.connect(connectCompleted);
+					}
+					catch(e)
+					{
+						console.log(e.message);
+					}
+				}
+
+				client2SecurityAlertHandler = function(source, alertType) {
+									// 理安全警报
+				}
+
+				/* Callback that is invoked upon successful connection to the Managed Hub */
+				connectCompleted = function(hubClient, success, error) {
+					//console.log(error);
+				}
+
+				onData = function(topic, subscribeData) {
+					//console.log(topic);
+				}
+
+		       ready(function(){
+		    	    loadEventHandler();
+		    	    var urlParam = OpenAjax.gadgets.util.getUrlParameters();
+					sessionId = urlParam.sessionId;
+					createGrid();
+					dynamicCreateFilterSelect();
+		       });
+    });
+
+  </script>
+</head>
+<body class="soria">
+
+     <div id="main" dojoType="dijit.layout.BorderContainer" data-dojo-props='liveSplitters:false,design:"headline"' style="width:100%; height:100%">
+        <div dojoType="dijit/layout/ContentPane" data-dojo-props='region:"left",style:"width:100%"' >
+            <div dojoType="dijit.layout.ContentPane" region="top" >
+		        <div data-dojo-type="dijit.Toolbar" >
+		          <div dojotype="dijit.form.Button" label="增加" onclick="showAdd();" iconClass="dijitIconNewTask" jsid="add" id="add"></div>
+		          <span data-dojo-type="dijit.ToolbarSeparator"></span>
+		          <div dojotype="dijit.form.Button" label="修改" onclick="showModify();" iconClass="dijitIconEdit" jsid="modify" id="modify"></div>
+		          <span data-dojo-type="dijit.ToolbarSeparator"></span>
+		          <div dojotype="dijit.form.Button" label="删除" onclick="deleted();" iconClass="dijitIconDelete" jsid="del" id="del"></div>
+		          <span data-dojo-type="dijit.ToolbarSeparator"></span>
+		        </div>
+		        <div>
+		           <label for="search_cdn" style="width:3em; margin-top: 5px; float:left;">名称：</label>
+					<div data-dojo-type="dijit/form/ValidationTextBox"  style="width:150px;height:17px;" jsid='search_cdn'  name="search_cdn" id="search_cdn"   maxLength="50" ></div>
+				    <div dojoType="dijit/form/Button" id="searchbtn" onclick="searchDictionaryByName();">查询</div>
+		        </div>
+            </div>
+            <div dojoType="dijit.layout.ContentPane" region="center" >
+	            <div id="gridDiv"></div>
+	        </div>
+         </div>
+     </div>
+
+     <!-- 增加、修改控件绑定数据集弹出框 -->
+     <div dojoType="dijit.Dialog"  class="curddialog" jsid='curddialog' title="增加控件绑定数据集" style="width:380px;" >
+	     <div class="dijitDialogPaneContentArea">
+	       <div dojoType="dijit/form/Form" jsid="form" id="form">
+	         <button data-dojo-type="dijit/form/Button" jsid='code'  name="code" id="code" style="display:none"></button>
+	         <table>
+	                <tr height="40px" >
+	                    <td align="left"><label for="name" style="color:red">*</label>控件类型: </td>
+	                    <td><div name="component_type" jsid='component_type' id = "component_type" ></div></td>
+	                </tr>
+
+	                <tr height="40px">
+	                    <td align="left"><label for="loc" style="color:red">*</label>控件数据源:</td>
+	                    <td><div name="component_datasource" jsid='component_datasource' id = "component_datasource" ></div></td>
+	                </tr>
+
+	                 <tr height="40px">
+	                    <td align="left"><label for="name" style="color:red">*</label>数据集名称:</td>
+	                    <td><div data-dojo-type="dijit/form/ValidationTextBox"  required="true"  style="width:280px;height:17px;"   jsid='dataset_name' name="dataset_name"  id="dataset_name" maxLength="50"></div></td>
+	                </tr>
+
+	                <tr height="40px">
+	                    <td align="left"><label for="text_field" style="color:red">*</label>Text字段:</td>
+	                    <td><div name="text_field" jsid='text_field' id = "text_field" ></div>
+	                        <label for="value_field" style="color:red">&nbsp;*</label>Value&nbsp;&nbsp;字段:
+	                        <div name="value_field" jsid='value_field' id = "value_field" ></div>
+	                    </td>
+	                </tr>
+	                <tr height="40px">
+	                    <td align="left"><div id="parentfielddiv" ><label for="parent_field" style="color:red">*</label>父级字段:</div></td>
+	                    <td>
+	                       <div id="topdefaultdiv"  >
+	                         <div name="value_field" jsid='parent_field' id = "parent_field" ></div>
+	                          <label for="parent_field" >&nbsp;&nbsp;&nbsp;顶级默认值:</label>
+	                         <div data-dojo-type="dijit/form/ValidationTextBox" style="width:100px;height:17px;"  jsid='top_default'  name="top_default"  id="top_default" maxLength="50">
+	                       </div>
+	                    </td>
+	                </tr>
+
+	          </table>
+	       </div>
+	    </div>
+        <div class="dijitDialogPaneActionBar">
+            <button data-dojo-type="dijit/form/Button"  type="reset" onClick="return form.reset();">重置 </button>
+            <button data-dojo-type="dijit/form/Button"   onClick="save();">保存 </button>
+            <button data-dojo-type="dijit/form/Button" type="button" onClick="curddialog.hide()">关闭 </button>
+        </div>
+     </div>
+</body>
+</html>

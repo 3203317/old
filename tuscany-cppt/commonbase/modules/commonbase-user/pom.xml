@@ -1,0 +1,87 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>commonbase-modules</artifactId>
+    <groupId>net.newcapec</groupId>
+    <version>1.0.1-SNAPSHOT</version>
+  <relativePath>../pom.xml</relativePath>
+  </parent>
+  <groupId>net.newcapec</groupId>
+  <artifactId>commonbase-user</artifactId>
+  <version>1.0.1-SNAPSHOT</version>
+  <name>commonbase-user</name>
+  <description>commonbase-user</description>
+
+  <dependencies>
+  <dependency>
+    <groupId>log4j</groupId>
+    <artifactId>log4j</artifactId>
+    <version>1.2.14</version>
+  </dependency>
+
+    <dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.8.1</version>
+  </dependency>
+
+    <dependency>
+    <groupId>net.newcapec</groupId>
+    <artifactId>commonbase-api</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
+  </dependency>
+  <dependency>
+    <groupId>net.newcapec</groupId>
+    <artifactId>commonbase-tech</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
+  </dependency>
+  <dependency>
+    <groupId>net.newcapec</groupId>
+    <artifactId>commonbase-dbconn</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
+  </dependency>
+  <dependency>
+    <groupId>net.newcapec</groupId>
+    <artifactId>commonbase-session</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
+  </dependency>
+  <dependency>
+    <groupId>net.newcapec</groupId>
+    <artifactId>commonbase-util</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
+  </dependency>
+
+
+      <dependency>
+        <groupId>org.apache.tuscany.sca</groupId>
+        <artifactId>tuscany-sca-api</artifactId>
+        <version>${tuscany.version}</version>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.tuscany.sca</groupId>
+        <artifactId>tuscany-implementation-spring-runtime</artifactId>
+        <version>${tuscany.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.tuscany.sca</groupId>
+        <artifactId>tuscany-base-runtime</artifactId>
+        <version>${tuscany.version}</version>
+        <scope>test</scope>
+      </dependency>
+       <dependency>
+        <groupId>commons-fileupload</groupId>
+        <artifactId>commons-fileupload</artifactId>
+        <version>1.2.2</version>
+        </dependency>
+        <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>2.4</version>
+        </dependency>
+  </dependencies>
+
+</project>

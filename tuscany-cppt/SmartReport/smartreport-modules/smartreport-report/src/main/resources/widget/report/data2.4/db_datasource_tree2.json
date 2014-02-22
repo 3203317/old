@@ -1,0 +1,83 @@
+{
+    "identifier": "code",
+    "label": "name",
+    "items": [
+        {
+            "code": "10",
+            "name": "SQL语句&视图",
+            "type": "dstype",
+            "children": [
+                {
+                    "_reference": "1011"
+                },
+                {
+                    "_reference": "1012"
+                },
+                {
+                    "_reference": "1013"
+                }
+            ]
+        },
+        {
+            "code": "1011",
+            "name": "产品列表",
+            "ds_type": "SQL",
+            "type": "datasource"
+        },
+        {
+            "code": "1012",
+            "name": "SQL语句2",
+            "ds_type": "SQL",
+            "type": "datasource"
+        },
+        {
+            "code": "1013",
+            "name": "SQL语句3",
+            "ds_type": "SQL",
+            "type": "datasource"
+        },
+        {
+            "code": "11",
+            "name": "存储过程",
+            "type": "dstype",
+            "children": [
+                {
+                    "_reference": "1111"
+                },
+                {
+                    "_reference": "1112"
+                },
+                {
+                    "_reference": "1113"
+                },
+                {
+                    "_reference": "1114"
+                }
+            ]
+        },
+        {
+            "code": "1111",
+            "name": "人员列表",
+            "ds_type": "PROC",
+            "type": "datasource"
+        },
+        {
+            "code": "1112",
+            "name": "存储过程2",
+            "ds_type": "PROC",
+            "type": "datasource"
+        },
+        {
+            "code": "1113",
+            "name": "存储过程3",
+            "ds_type": "PROC",
+            "type": "datasource"
+        },
+        {
+            "code": "1114",
+            "name": "存储过程4",
+            "ds_type": "PROC",
+            "type": "datasource"
+        }
+    ]
+}

@@ -1,0 +1,360 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" >
+<html>
+<head>
+  <title>自定义 grid</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="/dijit/themes/soria/soria.css" />
+    <link rel="stylesheet" type="text/css" href="/dojox/grid/resources/soriaGrid.css" />
+  <link rel="stylesheet"  type="text/css" href="/dojo/resources/dojo.css">
+    <style type="text/css">
+        @import "/dojox/grid/enhanced/resources/EnhancedGrid.css";
+        @import "/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css";
+
+    .dijitDialogPaneContentArea {
+        margin: -10px -8px;
+        padding: 10px 8px;
+    }
+    .dijitDialogPaneActionBar {
+      background-color: #F6F6F6;
+      padding: 1px 5px 1px 5px;
+      text-align: right;
+      border-top: 1px solid #E1E1E1;
+      margin: 10px -10px -10px;
+      height:24px;
+      overflow:hidden;
+    }
+    body, html { width: 100%; height: 100%; margin: 0;overflow:hidden;}
+    </style>
+  <style type="text/css">
+    #grid{
+      height: 100%;
+    }
+  </style>
+
+  <script type="text/javascript">
+    djConfig = {
+      async:true,
+      parseOnLoad:true
+    };
+  </script>
+  <script type="text/javascript" src="/dojo/dojo.js"></script>
+  <script type="text/javascript"
+  src="/dojo/extendJS/OpenAjaxManagedHub-all.js"></script>
+  <script type="text/javascript" src="operationmanager.js"></script>
+  <script type="text/javascript">
+
+  require(["dojo/ready","dojo/newcapec/MessageBox","dojo/json","dojo/_base/window","dojo/parser","dojo/newcapec/grid/EnhancedGrid",'dojo/data/ItemFileWriteStore',
+            "dojo/newcapec/grid/plugins/Pagination","dijit/Dialog","dojo/store/Memory","dijit/form/FilteringSelect","dojox/grid/enhanced/plugins/IndirectSelection",
+            "dijit/form/Form","dojox/grid/_CheckBoxSelector","dijit/layout/BorderContainer","dijit/layout/TabContainer","dijit/layout/ContentPane","dijit/Toolbar",
+            "dijit/form/Button","dijit/form/ValidationTextBox",
+            "dijit/ToolbarSeparator","dijit/form/SimpleTextarea","dojo/domReady!"],
+          function(ready,MessageBox,JSON,win,parse,EnhancedGrid,ItemFileWriteStore,Pagination,Dialog,Memory,FilteringSelect){
+      var sessionId = null;
+      var grid = null;
+    //@Reference
+     var  operationService = new tuscany.sca.Reference("operationService");
+      initKeyData = function()
+      {
+         
+      }
+      initBaseInfo = function()
+      {
+        
+        operationService.findSelectItemForResourceType(sessionId).addCallback(function(data){
+            if(data)
+            {
+                var stateStore = new Memory({
+                          data:data
+                      });
+                var filteringSelect = new FilteringSelect({
+                        id: "resource_type_code",
+                        value: "1",
+                        name:"resource_type_code",
+                          style: "width: 200px;",
+                        store: stateStore,
+                        searchAttr: "name"
+                    }, dojo.byId("resource_type_code"));
+                //查询面板下拉列表
+                var filteringSelect1 = new FilteringSelect({
+                    id: "search_resource_type_code",
+                    value: "1",
+                    name:"search_resource_type_code",
+                      style: "width: 200px;",
+                    store: stateStore,
+                    searchAttr: "name"
+                }, dojo.byId("search_resource_type_code"));
+            }
+        });
+      }
+      transferName = function(item)
+      {
+        for(var i = 0 ; i < selectItemForResourceType.length;i++)
+        {
+            if(selectItemForResourceType[i].id == item)
+            {
+              return selectItemForResourceType[i].name;
+            }
+        }
+      }
+      initGridInfo = function (){
+        var paneid = 'pane1';
+        var plugins = {pagination: {
+          description: true,
+          pageStepper: true,
+          position: "bottom"
+        }};
+        var plugins = {
+            indirectSelection: {
+            headerSelector:true,
+            name: "Selection",
+            width: "30px",
+            styles: "text-align: center;"
+            },pagination: {
+            description: true,
+            pageStepper: true,
+            position: "bottom"
+        }};
+        grid = new EnhancedGrid({
+          id:"grid",
+          conditionKey:"filter",
+          param:'sessionId:"'+sessionId+'",resourceId:1',
+          tuscany:operationService.findOperationDojoList,
+          conditionKey:'filter',
+          plugins:plugins,
+          rowsPerPage:15,//每页显示多少条
+          plugins:plugins,
+          structure:[
+          [
+            new dojox.grid.cells.RowIndex({ name: "编号", width: "45px" }),
+            {
+                  name: "名称",
+                  field: "name",
+                  width: 'auto'
+              },{
+                  name: "资源类型类型",
+                  field: "resource_type_code",
+                  width:'auto'
+              },{
+                  name: "创建人id",
+                  field: "create_user_account_id",
+                  width:'auto'
+              },{
+                  name: "创建日期",
+                  field: "create_date",
+                  width:'auto'
+              } ,{
+                  name: "备注信息",
+                  field: "info",
+                  width:'auto'
+              }
+          ]]
+        },"gridDiv");
+      }
+
+
+      showAdd=function(){
+        if(dijit.byId('form')){
+          form.reset();
+        }
+      //  setValues();
+        curddialog.show();
+      };
+      save = function(){
+        if(form.validate()){
+          var formdata = form.get('value');
+            formdata.name = formdata.resource_name;
+          if(formdata.code == null || formdata.code == ""){
+            operationService.insertOperation(sessionId,formdata).addCallback(function(data){
+              if(data.resultMsg.status == "1")
+              {
+                MessageBox.alert("添加成功","success");
+                curddialog.hide();
+                grid.reload();
+              }
+              else
+              {
+                MessageBox.alert("添加失败","error");
+              }
+            });
+          }else{
+            operationService.updateOperation(sessionId,formdata).addCallback(function(data){
+              if(data.resultMsg.status == "1")
+              {
+                MessageBox.alert("更新成功","success");
+                curddialog.hide();
+                grid.selection.deselectAll();
+                grid.reload();
+                code.set('value','');
+              }
+              else
+              {
+                MessageBox.alert("更新失败","error");
+              }
+            });
+          }
+        }
+      };
+
+      deleted=function(){
+        var selectValues = grid.selection.getSelected();
+        if(selectValues == null || selectValues == ""){
+          MessageBox.alert("您尚未选择删除信息","warn");
+          return;
+        }
+        var ids = null;
+        var i=0;
+        MessageBox.confirm("您确定删除吗？",function(){
+        dojo.forEach(selectValues,function(values){
+          if(i == 0){
+            ids = values.code+"";
+          }else{
+            ids +=","+values.code;
+          }
+          i++;
+        });
+        operationService.delOperationByIds(sessionId,ids).addCallback(function(data){
+          var dd = data;
+          if(dd == true){
+            MessageBox.alert("删除成功","success");
+            grid.selection.deselectAll();
+            grid.reload();
+          }
+        });
+        });
+      };
+      showModify=function(){
+
+        var data = grid.selection.getSelected();
+        if(data.length == 0){
+          MessageBox.alert("请选择修改的信息","warn");
+          return;
+        }else if(data.length > 1){
+          MessageBox.alert("请选择一条记录修改","warn");
+          return;
+        }
+        curddialog.set('title','修改');
+        resource_name.set('value',data[0].name[0]);
+        operationService.getOperationById(sessionId,data[0].code[0]).addCallback(function(item){
+          form.set('value',item);
+        });
+        curddialog.show();
+      };
+      searchInfoByStore = function ()
+      {
+        var param = {};
+        param.filter = new Array();
+        param.filter.push({field:"resource_type_code",relation:"and",logical:"=",value:dijit.byId('search_resource_type_code').value});
+        grid.find(JSON.stringify(param.filter));
+      };
+      function loadEventHandler() {
+
+            hubClient = new OpenAjax.hub.IframeHubClient({
+                HubClient : {
+                  onSecurityAlert : client2SecurityAlertHandler
+                }
+              });
+            // 连接到ManagedHub
+            try
+            {
+              hubClient.connect(connectCompleted);
+            }
+            catch(e)
+            {
+              console.log(e.message);
+            }
+          }
+          function client2SecurityAlertHandler(source, alertType) {
+                    // 理安全警报
+                    console.log(source);
+                    console.log(alertType);
+          }
+          /* Callback that is invoked upon successful connection to the Managed Hub */
+          function connectCompleted(hubClient, success, error) {
+            console.log(error);
+          }
+
+          function onData(topic, subscribeData) {
+            console.log(topic);
+          }
+      ready(function(){
+        loadEventHandler();
+        var urlParam = OpenAjax.gadgets.util.getUrlParameters();
+        sessionId = urlParam.sessionId;
+        try
+        {
+          initKeyData();
+          initBaseInfo();
+          initGridInfo();
+        }
+        catch(e)
+        {
+          console.log(e.message)
+        }
+      });
+    });
+
+  </script>
+</head>
+<body class="soria">
+
+    <div id="main" dojoType="dijit.layout.BorderContainer" data-dojo-props='liveSplitters:false,design:"headline"' style="width:100%; height:100%">
+      <div dojoType="dijit.layout.ContentPane" region="top" >
+        <div data-dojo-type="dijit.Toolbar" >
+          <div dojotype="dijit.form.Button" label="增加" onclick="showAdd();" iconClass="dijitIconNewTask" jsid="add" id="add"></div>
+          <span data-dojo-type="dijit.ToolbarSeparator"></span>
+          <div dojotype="dijit.form.Button" label="修改" onclick="showModify();" iconClass="dijitIconEdit" jsid="modify" id="modify"></div>
+          <span data-dojo-type="dijit.ToolbarSeparator"></span>
+          <div dojotype="dijit.form.Button" label="删除" onclick="deleted();" iconClass="dijitIconDelete" jsid="del" id="del"></div>
+        </div>
+        <br>
+        <div>
+          <label for="search_resource_type_code" style="width:5em; margin-top: 5px; float:left;">资源类型：</label>
+          <input id="search_resource_type_code"/>
+
+          <div dojoType="dijit/form/Button" id="searchbtn" onclick="searchInfoByStore();">查询</div>
+        </div>
+    </div>
+    <div dojoType="dijit.layout.ContentPane" region="center">
+     <div id="gridDiv"></div>
+    </div>
+</div>
+
+
+  <div dojoType="dijit.Dialog" jsid='curddialog' title="增加" style="width:350px;" >
+      <div class="dijitDialogPaneContentArea">
+      <div dojoType="dijit/form/Form" jsid="form" id="form">
+        <button data-dojo-type="dijit/form/Button" jsid='code'  name="code" id="code" style="display:none"></button>
+       
+        <table>
+                <tr height="25px">
+                    <td align="right"><label for="resource_type_code">资源类型: </label></td>
+                    <td><input id="resource_type_code"/>
+                    </td>
+                </tr>
+                <tr height="25px">
+                    <td align="right"><label for="resource_name">名称 </label></td>
+                    <td><div data-dojo-type="dijit/form/ValidationTextBox"  required="true" style="width:200px;height:17px;" placeholder='名称' jsid='resource_name'  name="resource_name" ></div></td>
+                </tr>
+                <tr height="25px">
+                <td align="right"><label for="info">备注: </label></td>
+                    <td><div data-dojo-type="dijit/form/SimpleTextarea"  data-dojo-props='style:"width:200px;font-size:12px;line-height:15px",name:"info"' jsid='info' id="info"></div></td>
+                </tr>
+            </table>
+      </div>
+    </div>
+
+    <div class="dijitDialogPaneActionBar">
+            <button data-dojo-type="dijit/form/Button"  type="reset" onClick="return form.reset();">
+                  重置
+            </button>
+            <button data-dojo-type="dijit/form/Button"   onClick="save();">
+                  保存
+            </button>
+            <button data-dojo-type="dijit/form/Button" type="button" onClick="curddialog.hide()">
+                  关闭
+            </button>
+    </div>
+
+  </div>
+</body>
+</html>

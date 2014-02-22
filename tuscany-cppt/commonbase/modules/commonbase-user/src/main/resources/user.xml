@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config xmlns="http:///org.apache.tuscany.das.rdb/config.xsd" >
+<Table tableName="p_user_type">
+    <Column columnName="code" primaryKey="true"/>
+</Table>
+<Table tableName="p_unit">
+    <Column columnName="code" primaryKey="true"/>
+</Table>
+<Table tableName="p_department">
+    <Column columnName="code" primaryKey="true"/>
+</Table>
+<Table tableName="p_user_photo">
+    <Column columnName="code" primaryKey="true"/> 
+    <Column columnName="create_date" converterClassName="net.newcapec.sca.util.DateStringConverter"/>
+ </Table>
+ <Command name="getUserPhotoById" SQL="select code,
+    account_id,
+    user_unit_code,
+    cust_code,
+    photo_no,
+    photo,
+    photo_file_path,
+    create_user_account_id,
+    create_date,
+    ver 
+from p_user_photo 
+ where code = ?" kind="Select"> 
+<ResultDescriptor columnName="code"  tableName="p_user_photo"    columnType="commonj.sdo.String"/> 
+<ResultDescriptor columnName="account_id"  tableName="p_user_photo"    columnType="commonj.sdo.String"/> 
+<ResultDescriptor columnName="user_unit_code"  tableName="p_user_photo"    columnType="commonj.sdo.String"/> 
+<ResultDescriptor columnName="cust_code"  tableName="p_user_photo"    columnType="commonj.sdo.String"/> 
+<ResultDescriptor columnName="photo_no"  tableName="p_user_photo"    columnType="commonj.sdo.String"/> 
+<ResultDescriptor columnName="photo"  tableName="p_user_photo"    columnType="commonj.sdo.Bytes"/> 
+<ResultDescriptor columnName="photo_file_path"  tableName="p_user_photo"    columnType="commonj.sdo.String"/> 
+<ResultDescriptor columnName="create_user_account_id"  tableName="p_user_photo"    columnType="commonj.sdo.String"/> 
+<ResultDescriptor columnName="create_date"  tableName="p_user_photo"    columnType="commonj.sdo.String"/> 
+<ResultDescriptor columnName="ver"  tableName="p_user_photo"    columnType="commonj.sdo.String"/> 
+</Command>
+<Command name="getUserPhotoByUserCode" SQL="select code,
+    account_id,
+    user_unit_code,
+    cust_code,
+    photo_no,
+    photo,
+    photo_file_path,
+    create_user_account_id,
+    create_date,
+    ver 
+from p_user_photo 
+ where cust_code = ?" kind="Select"> 
+<ResultDescriptor columnName="code"  tableName="p_user_photo"    columnType="commonj.sdo.String"/> 
+<ResultDescriptor columnName="account_id"  tableName="p_user_photo"    columnType="commonj.sdo.String"/> 
+<ResultDescriptor columnName="user_unit_code"  tableName="p_user_photo"    columnType="commonj.sdo.String"/> 
+<ResultDescriptor columnName="cust_code"  tableName="p_user_photo"    columnType="commonj.sdo.String"/> 
+<ResultDescriptor columnName="photo_no"  tableName="p_user_photo"    columnType="commonj.sdo.String"/> 
+<ResultDescriptor columnName="photo"  tableName="p_user_photo"    columnType="commonj.sdo.Bytes"/> 
+<ResultDescriptor columnName="photo_file_path"  tableName="p_user_photo"    columnType="commonj.sdo.String"/> 
+<ResultDescriptor columnName="create_user_account_id"  tableName="p_user_photo"    columnType="commonj.sdo.String"/> 
+<ResultDescriptor columnName="create_date"  tableName="p_user_photo"    columnType="commonj.sdo.String"/> 
+<ResultDescriptor columnName="ver"  tableName="p_user_photo"    columnType="commonj.sdo.String"/> 
+</Command>
+<Command name="getUserBaseInfoByCode" SQL="select account_id,
+    code,
+    user_unit_code,
+    login_alias,
+    sex,
+    name,
+    user_type_code,
+    status_code,
+    to_char(open_date,'yyyy-mm-dd hh24:mi:ss')  open_date,
+    to_char(cur_use_date,'yyyy-mm-dd hh24:mi:ss')  cur_use_date,
+    to_char(no_use_date,'yyyy-mm-dd hh24:mi:ss')  no_use_date,
+    activation_type_code,
+    to_char(activation_date,'yyyy-mm-dd hh24:mi:ss')  activation_date,
+    dept_code,
+    uuid,
+    cust_skin,
+    create_user_account_id,
+    to_char(create_date,'yyyy-mm-dd hh24:mi:ss')  create_date,
+    encryption_info,
+    encryption_timestamp,
+    record_status,
+    ver,
+    password
+from p_user
+where code = ?" kind="Select">
+<ResultDescriptor columnName="account_id"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="code"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="user_unit_code"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="login_alias"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="sex"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="name"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="user_type_code"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="status_code"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="open_date"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="cur_use_date"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="no_use_date"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="activation_type_code"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="activation_date"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="dept_code"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="uuid"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="cust_skin"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="create_user_account_id"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="create_date"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="encryption_info"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="encryption_timestamp"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="record_status"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="ver"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="password"  tableName="p_user"    columnType="commonj.sdo.String"/>
+</Command>
+
+  <Command name="getUserBaseInfoById" SQL="select account_id,
+    code,
+    user_unit_code,
+    login_alias,
+    sex,
+    name,
+    user_type_code,
+    status_code,
+    to_char(open_date,'yyyy-mm-dd hh24:mi:ss')  open_date,
+    to_char(cur_use_date,'yyyy-mm-dd hh24:mi:ss')  cur_use_date,
+    to_char(no_use_date,'yyyy-mm-dd hh24:mi:ss')  no_use_date,
+    activation_type_code,
+    to_char(activation_date,'yyyy-mm-dd hh24:mi:ss')  activation_date,
+    dept_code,
+    uuid,
+    cust_skin,
+    create_user_account_id,
+    to_char(create_date,'yyyy-mm-dd hh24:mi:ss')  create_date,
+    encryption_info,
+    encryption_timestamp,
+    record_status,
+    ver,
+    password
+from p_user
+where account_id = ?" kind="Select">
+<ResultDescriptor columnName="account_id"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="code"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="user_unit_code"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="login_alias"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="sex"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="name"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="user_type_code"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="status_code"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="open_date"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="cur_use_date"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="no_use_date"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="activation_type_code"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="activation_date"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="dept_code"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="uuid"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="cust_skin"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="create_user_account_id"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="create_date"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="encryption_info"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="encryption_timestamp"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="record_status"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="ver"  tableName="p_user"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="password"  tableName="p_user"    columnType="commonj.sdo.String"/>
+</Command>
+<!--获取用户密码  begin -->
+  <Command name="getPasswordByName" SQL="select name,password,account_id,code from  p_user where code = ?" kind="Select">
+  <ResultDescriptor columnName="name"  tableName="p_user"    columnType="commonj.sdo.String"/>
+  <ResultDescriptor columnName="password"  tableName="p_user"    columnType="commonj.sdo.String"/>
+  <ResultDescriptor columnName="account_id"  tableName="p_user"    columnType="commonj.sdo.String"/>
+  <ResultDescriptor columnName="code"  tableName="p_user"    columnType="commonj.sdo.String"/>
+  </Command>
+  <Command name="getPasswordByAccountId" SQL="select name,password,account_id,code from  p_user where account_id = ?" kind="Select">
+  <ResultDescriptor columnName="name"  tableName="p_user"    columnType="commonj.sdo.String"/>
+  <ResultDescriptor columnName="password"  tableName="p_user"    columnType="commonj.sdo.String"/>
+  <ResultDescriptor columnName="account_id"  tableName="p_user"    columnType="commonj.sdo.String"/>
+  <ResultDescriptor columnName="code"  tableName="p_user"    columnType="commonj.sdo.String"/>
+  </Command>
+  <!--获取用户密码 end -->
+
+  <!--修改用户密码 begin -->
+  <Command name="updatePasswordByName" SQL="update p_user set password = ? where name = ?" kind="Update">
+  </Command>
+  <Command name="updatePasswordByAccountId" SQL="update p_user set password = ? where account_id = ?" kind="Update">
+  </Command>
+  <!--修改用户密码 end -->
+<Table tableName="p_user">
+    <Column columnName="account_id" primaryKey="true"/>
+    <Column columnName="open_date" converterClassName="net.newcapec.sca.util.DateStringConverter"/>
+    <Column columnName="no_use_date" converterClassName="net.newcapec.sca.util.DateStringConverter"/>
+    <Column columnName="cur_use_date" converterClassName="net.newcapec.sca.util.DateStringConverter"/>
+    <Column columnName="activation_date" converterClassName="net.newcapec.sca.util.DateStringConverter"/>
+    <Column columnName="create_date" converterClassName="net.newcapec.sca.util.DateStringConverter"/>
+</Table>
+</Config>

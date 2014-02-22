@@ -1,0 +1,13 @@
+{
+	"identifier": "code",
+	"label": "name",
+	"items": [
+	        {"code": "1", "name":"权限1", "type":"permission", "population":"900 million", "area": "30,221,532 sq km",
+	        		"timezone": "-1 UTC to +4 UTC",
+	        		"children":[
+	        			{ "code": "4", "name":"权限4", "type":"permission" },
+	        			{ "code": "5", "name":"权限5", "type":"permission" }
+	        		] },
+	{ "code": "2", "name":"权限2", "type":"permission" },
+	{ "code": "3", "name":"权限3", "type":"permission", "children":[{"_reference":"Nairobi"}, {"_reference":"Mombasa"}] }
+]}

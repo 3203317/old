@@ -1,0 +1,267 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title></title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style>
+	@import "/dojo/resources/dojo.css";
+.loader {
+	padding:0;
+	margin:0;
+	position:absolute;
+	top:0; left:0;
+	width:100%; height:100%;
+	background:#ededed;
+	z-index:999;
+	vertical-align:middle;
+}
+.loaderInner {
+	padding:5px;
+	position:relative;
+	left:0;
+	top:0;
+	width:175px;
+	background:#3c3;
+	color:#fff;
+}
+</style>
+<link id="themeStyles" rel="stylesheet" href="/dijit/themes/soria/soria.css">
+<link rel="stylesheet" type="text/css" href="/dojox/grid/resources/soriaGrid.css" />
+<link rel="stylesheet" type="text/css" href="/dojox/grid/enhanced/resources/EnhancedGrid.css" />
+<link rel="stylesheet" type="text/css" href="/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css" />
+<script type="text/javascript" src="/dojo/dojo.js" djConfig="async:true,parseOnLoad: true"></script>
+<script type="text/javascript" src="gridstat.js"></script>
+<script type="text/javascript">
+require(["dojo/ready","dijit/form/Select","dojo/json","dojo/data/ItemFileWriteStore","dojo/data/ItemFileReadStore",
+         	"dojox/grid/DataGrid","dijit/form/Form","dijit/form/Button","dijit/Toolbar","dojo/newcapec/MessageBox",
+		    "dijit/ToolbarSeparator","dijit/form/ComboBox","dojo/parser","dojox/grid/cells/dijitnewcapec"],
+			function(ready,Select,Json,ItemFileWriteStore,ItemFileReadStore,DataGrid,Form,Button,Toolbar,MessageBox,
+					ToolbarSeparator,ComboBox,parser){
+	    //@Reference
+	    var gridStat = new tuscany.sca.Reference("gridStatService");
+	    //@Reference
+	    var gridCondition = new tuscany.sca.Reference("gridConditionDataService");
+		var tjstore;
+		var form_code = 0;
+		var ds_code = 0;
+		var code =0;
+		var sessionId = '';
+		save = function(){
+			var grid = dijit.byId('tjszgrid');
+			var formdata = form3.get('value');
+			var count = grid.rowCount;
+			var fieldtypelist = new Array();
+			var b = true;
+			for(var i=0;i<count;i++){
+				if(b==false)return;
+				var griddata = grid.getItem(i);
+				var zdkey = "";
+				var tjkey = "";
+				if(dojo.byId('zd'+(i+1)) == null){
+					zdkey = griddata.zdkey[0];
+					if(zdkey == ""){
+						MessageBox.isValidMsg("字段名称不能为空");
+						b = false;
+						return;
+					}
+				}else{
+					zdkey = dojo.byId('zd'+(i+1)).value;
+				}
+				if(dojo.byId('tj'+(i+1)) == null){
+					tjkey = griddata.tjkey[0];
+					if(tjkey == ""){
+						MessageBox.isValidMsg("统计类型不能为空");
+						b = false;
+						return;
+					}
+				}else{
+					tjkey = dojo.byId('tj'+(i+1)).value;
+				}
+				var data = {"id":i+"","zdmc":griddata.zdmc[0],"zdkey":zdkey,"tjlx":griddata.tjlx[0],"tjkey":tjkey};
+				fieldtypelist.push(data);
+			}
+			if(code == 0 && b == true){
+				var data = {type: parseInt(formdata.tjfs,10),form_code:form_code,field_type_list:dojo.toJson(fieldtypelist)};
+				add(data);
+			}else if(code !=0 && b == true){
+				var data = {code:code,type: parseInt(formdata.tjfs,10),form_code:form_code,field_type_list:dojo.toJson(fieldtypelist)};
+				update(data);
+			}
+		};
+		add = function(data){
+			gridStat.insertGridStat(sessionId,data).addCallback(function(data){
+				window.top.hub.publish("forward");//当添加成功是发布次事件
+			});
+		};
+		update = function(data){
+			gridStat.updateGridStat(sessionId,data).addCallback(function(data){
+				window.top.hub.publish("forward");//当添加成功是发布次事件
+			});
+		};
+		createFieldOptions = function(data){
+			var zdArray = new Array();
+			if(data.length != 0){
+	 			dojo.forEach(data,function(data){
+					var value = data.name;
+					var label = data.alias;
+					var option = {"value":value,"label":label};
+					zdArray.push(option);
+				});
+			}
+			return zdArray;
+		};
+		createTjOptions = function(data){
+			var tjArray = new Array();
+			if(data.length != 0){
+				dojo.forEach(data,function(data){
+					var value = data.data_key;
+					var label = data.data_value;
+					var option = {"value":value,"label":label};
+					tjArray.push(option);
+				});
+			}
+			return tjArray;
+		};
+		createGrid = function(fieldOption,tjOption){
+
+			var tjgrid = new DataGrid({
+				id:"tjszgrid",
+				name:'tjszgrid',
+				structure:[
+					new dojox.grid.cells.RowIndex({ name: "编号", width: "45px" }),
+					{field: "id",hidden:true},
+					{
+					    name: "字段名称",
+					    field: "zdmc",
+					    width: 'auto',
+					    type:dojox.grid.cells._Widget,
+					    widgetClass: dijit.form.Select,
+					    widgetProps:{
+					    	id:'zd',
+			            	style:'width:50px;',
+			            	type:'select',
+					    	options:fieldOption
+			            },
+					    editable:true
+					},
+					{field:"zdkey",hidden:true},
+					{
+					    name: "统计类型",
+					    field: "tjlx",
+					    width:'auto',
+					    type:dojox.grid.cells._Widget,
+					    widgetClass: dijit.form.Select,
+					    widgetProps:{
+					    	id:'tj',
+			            	style:'width:50px;',
+			            	type:'select',
+					    	options:tjOption
+					    },
+					    editable:true
+					},
+					{field:"tjkey",hidden:true}
+				]
+			},"tjgrid");
+			tjgrid.startup();
+			getModifyData();
+		};
+		addRow = function(){
+			var grid = dijit.byId('tjszgrid');
+			var cc = grid.rowCount;
+			var dd = grid.getItem(0);
+			tjstore.newItem({id:new Date()+cc, zdmc:'',zdkey:'',tjlx:'',tjkey:''});
+		};
+		delRow = function(){
+			 var grid = dijit.byId('tjszgrid');
+	   		 grid.removeSelectedRows();
+		};
+	    reset = function(){
+	    	form3.reset();
+	    };
+	    hideLoader = function(){
+			dojo.byId("main_loaderInner").innerHTML += " done.";
+			setTimeout(function hideLoader(){
+				dojo.fadeOut({
+					node: "main_loader",
+					duration: 500,
+					onEnd: function($n){
+						$n.style.display = "none";
+					}
+				}).play();
+			},250);
+		};
+		getValues = function(eventname, formcode, subscriberData){
+			var formAndDscode = formcode.split(",");
+			form_code = parseInt(formAndDscode[0]);
+			ds_code = parseInt(formAndDscode[1]);
+			sessionId = formAndDscode[2];
+		};
+		getModifyData = function(){
+			gridStat.getGridStatById(sessionId,form_code).addCallback(function(data){
+				if(data != null){
+					tjfs.set('value',data.type);
+					var item = Json.parse(data.field_type_list);
+					var griddata = { identifier: 'id',label: 'id',items:item};
+					tjstore = new dojo.data.ItemFileWriteStore({data:griddata});
+					code = data.code;
+				}else{
+					var griddata = { identifier: 'id',label: 'id',
+						items: [{id:new Date(),zdmc:'',zdkey:'',tjlx:'',tjkey:''}]
+					};
+					tjstore = new dojo.data.ItemFileWriteStore({data:griddata});
+				}
+				var grid = dijit.byId('tjszgrid');
+				grid.setStore(tjstore);
+				grid.resize();
+			});
+		};
+		getGridInitData = function(){
+			var filter = [{field:"code_dictionary_name",relation:"and",value:"'tjlx'",logical:"="}];
+			gridCondition.getGridStatDataCollection(sessionId,ds_code,filter).addCallback(function(data){
+				if(data == null){
+					MessageBox.isValidMsg("回话失效,请重新登录!");
+					return;
+				}
+				var fieldOption = createFieldOptions(data.fieldPrepList);
+				var tjOption = createTjOptions(data.dicItemList);
+				createGrid(fieldOption,tjOption);
+			});
+		};
+		ready(function(){
+			hideLoader();
+			if (window.top.hub != undefined) {
+				window.top.hub.subscribe("setformcodepane3",getValues);
+				window.top.hub.subscribe("savepane3", save);
+				window.top.hub.publish("getformcode");
+			}
+			getGridInitData();
+		});
+	});
+</script>
+</head>
+<body class="soria">
+<div id="main_loader" class="loader"><div id="main_loaderInner" class="loaderInner">页面正在加载 ... </div></div>
+ 	<form dojoType='dijit.form.Form' id='form3' jsid='form3'>
+		<div id='toolbar' dojotype="dijit.Toolbar">
+			<span>统计方式:</span>
+			<select id='tjfs' jsid='tjfs' name='tjfs' dojotype='dijit.form.Select' style="width:100px;">
+				<option value='1'>最后合计</option>
+				<option value='2'>分组统计</option>
+				<option value='3'>分组小计</option>
+			</select>
+			<div id='gfx' dojotype='dijit/ToolbarSeparator'></div>
+			<input type="button"  value='+' onclick="addRow();"><input type="button"  value='-' onclick="delRow();">
+		</div>
+		<div id='tjgrid' style="height:265px;"></div>
+<!-- 		<div> -->
+<!-- 			<table border="1" align="center" width="100%" id="tjgrid"> -->
+<!-- 				<tr onclick="getId(0)"> -->
+<!-- 					<th>编号</th><th>字段名称</th><th>统计类型</th> -->
+<!-- 				</tr> -->
+<!-- 			</table> -->
+<!-- 		</div> -->
+	</form>
+<!-- 		<div id='tjgrid'></div> -->
+
+</body>
+</html>

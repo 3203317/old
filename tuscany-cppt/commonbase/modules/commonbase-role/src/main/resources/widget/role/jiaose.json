@@ -1,0 +1,13 @@
+{
+	"identifier": "code",
+	"label": "name",
+	"items": [
+	        {"code": "1", "name":"角色1", "type":"role", "domain_code_text":"域1", "max_user_number": "121","max_group_number":21,
+	        		"timezone": "-1 UTC to +4 UTC",
+	        		"children":[
+	        			{ "code": "4", "name":"角色4", "type":"role" },
+	        			{ "code": "5", "name":"角色5", "type":"role" }
+	        		] },
+	{ "code": "2", "name":"角色2", ver:"12", "type":"role", "domain_code_text":"域2", "max_user_number": "542","max_group_number":22 },
+	{ "code": "3", "name":"角色3", "type":"role", "domain_code_text":"域3", "max_user_number": "765","max_group_number":23, "children":[{"_reference":"Nairobi"}, {"_reference":"Mombasa"}] }
+]}

@@ -1,0 +1,44 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>commonbase</artifactId>
+		<groupId>net.newcapec</groupId>
+		<version>1.0.1-SNAPSHOT</version>
+	<relativePath>../pom.xml</relativePath>
+	</parent>
+	<groupId>net.newcapec</groupId>
+	<artifactId>commonbase-modules</artifactId>
+	<version>1.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>commonbase-modules</name>
+	<description>commonbase-modules</description>
+	<modules>
+		<module>commonbase-api</module>
+		<module>commonbase-util</module>
+		<module>commonbase-tech</module>
+		<module>commonbase-session</module>
+		<module>commonbase-dbconn</module>
+		<module>commonbase-user</module>
+		<module>commonbase-login</module>
+		<module>commonbase-role</module>
+		<module>commonbase-resource</module>
+		<module>commonbase-menubinding</module>
+		<module>commonbase-operation</module>
+		<module>commonbase-techui</module>
+		<module>commonbase-diccode</module>
+		<module>commonbase-darule</module>
+		<module>commonbase-pemission</module>
+		<module>commonbase-rolepermission</module>
+		<module>commonbase-org</module>
+		<module>commonbase-userrole</module>
+
+	</modules>
+	<dependencies>
+	<dependency>
+		<groupId>org.json</groupId>
+		<artifactId>json</artifactId>
+		<version>20090211</version>
+	</dependency>
+
+	</dependencies>
+</project>

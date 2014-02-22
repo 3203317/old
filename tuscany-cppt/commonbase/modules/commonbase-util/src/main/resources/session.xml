@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config xmlns="http:///org.apache.tuscany.das.rdb/config.xsd" >
+	<ConnectionInfo>
+		<ConnectionProperties
+			driverClass="oracle.jdbc.driver.OracleDriver"
+			databaseURL="jdbc:oracle:thin:@192.168.131.118:1521:ORCL"
+			userName="CPPT"
+			password="GGJCYY"
+			loginTimeout="600000"/>
+	</ConnectionInfo>
+		<Command name="getSessionById" SQL="select id,user_code,age,update_time,content,domain_code,
+			unit_code,to_char(invalid_date,'yyyy-mm-dd hh24:mi:ss') as b from  p_session where id=?" kind="Select">
+			<ResultDescriptor columnName="id" 	tableName="p_session"  columnType="commonj.sdo.String"/>
+			<ResultDescriptor columnName="user_code" tableName="p_session"  columnType="commonj.sdo.Decimal"/>
+			<ResultDescriptor columnName="age" tableName="p_session"  columnType="commonj.sdo.Decimal"/>
+			<ResultDescriptor columnName="update_time" tableName="p_session"  columnType="commonj.sdo.Date"/>
+			<ResultDescriptor columnName="content" 	tableName="p_session"  columnType="commonj.sdo.String"/>
+			<ResultDescriptor columnName="domain_code" tableName="p_session"  columnType="commonj.sdo.Decimal"/>
+			<ResultDescriptor columnName="unit_code" tableName="p_session"  columnType="commonj.sdo.Decimal"/>
+			<ResultDescriptor columnName="b" tableName="p_session"  columnType="commonj.sdo.String"/>
+		</Command>
+
+	<Command name="updateSessionById" SQL="update p_session set   update_time = to_date(?,'yyyy-mm-dd hh24:mi:ss') ,
+		invalid_date = to_date(?,'yyyy-mm-dd hh24:mi:ss') where id = ?" kind="Update"></Command>
+
+	<Command name="deleteSessionById" SQL="delete from p_session  where id = ?" kind="Delete"></Command>
+
+	<Command name="deleteInvalidSession" SQL="delete from p_session  where invalid_date &lt; sysdate" kind="Delete"></Command>
+
+	<Command name="createSession" SQL="insert into  p_session(id,user_code,age,update_time,content,domain_code,unit_code,invalid_date)
+				values (?,?,?,to_date(?,'yyyy-mm-dd hh24:mi:ss'),?,?,?,to_date(?,'yyyy-mm-dd hh24:mi:ss')) " kind="Insert"></Command>
+
+	<Table tableName="p_session">
+				<Column columnName="id" primaryKey="true"/>
+		</Table>
+</Config>

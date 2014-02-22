@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config xmlns="http:///org.apache.tuscany.das.rdb/config.xsd" >
+	<!--根据域编号组织机构编号菜单父id查的具体的资源列表   begin-->
+	<Command name="getResourceListByParentId"
+		SQL="select code,
+			user_unit_code,
+			resource_type_code,
+			name,
+			status,
+			info,
+			domain_code,
+			sys_code,
+			super_code,
+			is_have_child,
+			is_enabled,
+			small_icon_code,
+			large_icon_code,
+			url,
+			uuid,
+			create_user_account_id,
+			to_char(create_date,'yyyy-mm-dd hh24:mi:ss') create_date,
+			sortid,
+			ver
+			from p_resource_info where user_unit_code =? and domain_code = ? and super_code = ?
+			order by code desc " kind="Select" >
+		<ResultDescriptor columnName="code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="user_unit_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="resource_type_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="name"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="status"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="info"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="domain_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="sys_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="super_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="is_have_child"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="is_enabled"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+
+		<ResultDescriptor columnName="small_icon_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="large_icon_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="url"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="uuid"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="create_user_account_id"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="create_date"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="sortid"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="ver"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<Parameter name="user_unit_code" index="2"/>
+		<Parameter name="domain_code" index="1"/>
+		<Parameter name="super_code" index="3"/>
+	</Command>
+	<!--根据域编号组织机构编号菜单父id查的具体的资源列表   end-->
+
+	<!--根据资源id获得资源信息   begin-->
+	<Command name="getResourceById"
+		SQL="select code,
+			user_unit_code,
+			resource_type_code,
+			name,
+			status,
+			info,
+			domain_code,
+			sys_code,
+			super_code,
+			is_have_child,
+			is_enabled,
+			small_icon_code,
+			large_icon_code,
+			url,
+			uuid,
+			create_user_account_id,
+			to_char(create_date,'yyyy-mm-dd hh24:mi:ss') create_date,
+			sortid,
+			ver
+			from p_resource_info where code = ?" kind="Select" >
+		<ResultDescriptor columnName="code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="user_unit_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="resource_type_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="name"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="status"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="info"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="domain_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="sys_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="super_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="is_have_child"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="is_enabled"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+
+		<ResultDescriptor columnName="small_icon_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="large_icon_code"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="url"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="uuid"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="create_user_account_id"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="create_date"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="sortid"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<ResultDescriptor columnName="ver"  tableName="p_resource_info"    columnType="commonj.sdo.String"/>
+		<Parameter name="code" index="1"/>
+	</Command>
+	<!-- 资源信息表 -->
+	<Table tableName="p_resource_info">
+		<Column columnName="code" primaryKey="true"/>
+	</Table>
+</Config>

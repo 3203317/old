@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+  xmlns:tuscany="http://tuscany.apache.org/xmlns/sca/1.1"
+  targetNamespace="http://newcapec.net/smartreport/GridStatDataCollectionServiceTest"
+  name="GridStatDataCollectionServiceTest-contribution">
+
+  <component name="GridStatDataCollectionServiceComponent">
+    <implementation.java
+      class="net.newcapec.sca.gridcondition.service.impl.GridStatDataCollectionServiceImpl" />
+    <reference name="sessionService" target="SessionComponent" />
+    <reference name="fieldPrepService" target="FieldPrepServiceComponent" />
+    <reference name="dicCodeService" target="DicCodeServiceComponent" />
+    <service name="GridStatDataCollectionService">
+      <tuscany:binding.jsonrpc />
+    </service>
+  </component>
+
+ <component name="SequenceServiceComponent">
+         <implementation.java class="net.newcapec.sca.sequence.impl.SequenceServiceImpl"/>
+          <reference name="sequenceInit" target="SequenceInitComponent" />
+     <service name="SequenceService">
+        </service>
+   </component>
+
+   <component name="SequenceInitComponent">
+      <implementation.java class="net.newcapec.sca.sequence.SequenceInitImpl"/>
+      <reference name="defDBConnService" target="DefDBConnServiceComponent" />
+  </component>
+
+  <component name="DefDBConnServiceComponent">
+    <implementation.java
+      class="net.newcapec.sca.dbconn.service.impl.DefDBConnServiceImpl" />
+  </component>
+
+  <component name="SessionComponent">
+    <implementation.java
+      class="net.newcapec.sca.session.service.impl.SessionImpl" />
+    <reference name="defDBConnService" target="DefDBConnServiceComponent" />
+  </component>
+
+  <component name="DicCodeDASComponent">
+    <implementation.spring location="dicCodeDAS-context.xml" />
+    <reference name="defDBConnService" target="DefDBConnServiceComponent" />
+    <reference name="sequenceService" target="SequenceServiceComponent" />
+  </component>
+
+  <component name="DicCodeServiceComponent">
+    <implementation.spring location="dicCodeService-context.xml" />
+    <reference name="sessionService" target="SessionComponent" />
+    <reference name="dicCodeDAS" target="DicCodeDASComponent" />
+    <service name="DicCodeService">
+      <tuscany:binding.jsonrpc />
+    </service>
+  </component>
+
+
+  <component name="FieldPrepDASComponent">
+    <implementation.spring location="fieldPrepDAS-context.xml" />
+    <reference name="defDBConnService" target="DefDBConnServiceComponent" />
+    <reference name="sequenceService" target="SequenceServiceComponent" />
+  </component>
+
+  <component name="FieldPrepServiceComponent">
+    <implementation.spring location="fieldPrepService-context.xml" />
+    <reference name="fieldPrepDAS" target="FieldPrepDASComponent" />
+    <reference name="sessionService" target="SessionComponent" />
+    <service name="FieldPrepService">
+      <tuscany:binding.jsonrpc />
+    </service>
+  </component>
+</composite>

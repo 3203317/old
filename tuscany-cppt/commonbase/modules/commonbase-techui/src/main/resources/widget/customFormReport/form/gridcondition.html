@@ -1,0 +1,334 @@
+<script type="text/javascript">
+	require([ "dojo/ready","dojox/grid/DataGrid","dojo/newcapec/MessageBox", "dojox/grid/_RadioSelector",
+			"dojox/grid/_CheckBoxSelector","dojox/grid/cells/dijitnewcapec" ], function(ready,DataGrid,MessageBox) {
+		createSqlParamFieldGrid = function(store) {
+			var _sqlParamfieldGrid = new DataGrid({
+				store:store,
+				structure : [ [{
+					field:"report_ds_code",
+					hidden:true
+				}, {
+					name : "字段名",
+					field : "field_name",
+					width : "auto"
+				}, {
+					name : "标题名",
+					field : "title",
+					width : "auto"
+				}, {
+					name : "类型",
+					field : "field_type",
+					width : "auto"
+				} ] ]
+			}, "_designer_right_tabs_sqlParam_fieldgrid");
+			_sqlParamfieldGrid.startup();
+			_sqlParamfieldGrid.resize();
+
+			dojo.connect(_sqlParamfieldGrid, "onDblClick", this,function($item) {
+						var __selItem = _sqlParamfieldGrid.selection.getSelected()[0];
+						var data = {"code":"", "ds_type":ds_type,"report_ds_code":report_ds_code,"logical":"and", "field_name":__selItem.field_name[0],
+								"relation":"like", "field_value":"1", "field_type":__selItem.field_type[0],
+								"label":__selItem.title[0],"input_type":"input","widget_ds_code":"0"
+						}
+						console.log(data);
+						insertSqlParam(data);
+					});
+		};
+		insertSqlParam = function(data){
+			reportdsparam.insertReportDsParam(sessionId,data).addCallback(function(data){
+				console.log(data);
+				if(data.resultMsg == undefined){
+					dijit.byId("_designer_right_tabs_sqlParam_paramGrid").store.newItem({
+						"code" : data.code,"logical" : "and","field_name" :data.field_name,
+						"label":data.label,"input_type":"input","widget_ds_label":"","widget_ds_code":"0",
+						"relation" : "like","field_value" : "1"
+					});
+				}else{
+					MessageBox.alert(data.resultMsg.errorMsg,"error");
+				}
+			});
+		};
+		createSqlParamGrid = function(store) {
+			var plugins = {
+						indirectSelection:{
+							headerSelector:true,
+							name: "Selection",
+							width: "20px",
+							styles: "text-align: center;"
+			}};
+			var _sqlParamGrid = new dojo.newcapec.grid.EnhancedGrid({
+				store:store,
+				plugins:plugins,
+				structure : [ [ {
+					field:"code",
+					hidden:true
+				},{
+					name : "逻辑",
+					field : "logical",
+					width : "40px;",
+					editable : true,
+					type : dojox.grid.cells.Select,
+					options : ["and", "or", "and not", "or not" ]
+				}, {
+					name : "参数",
+					field : "field_name",
+					width : "auto"
+				}, {
+					name : "别名",
+					field : "label",
+					width : "auto",
+					editable:true
+				}, {
+					name : "输入类型",
+					field : "input_type",
+					width : "auto",
+					editable:true,
+					type: dojox.grid.cells.Select,
+					options:["input","select","checkbox","date","radio"]
+				}, {
+					name : "控件数据",
+					field : "widget_ds_label",
+					width : "auto",
+					type:dojox.grid.cells._Widget,
+					widgetClass: dijit.form.Select,
+					widgetProps:{id:"widget_ds_code",style:'width:50px;',type:'select',
+						options:componentsArray
+					},
+					editable:true
+				}, {
+					field:"widget_ds_code",
+					hidden:true
+				},{
+					name : "关系",
+					field : "relation",
+					width : "30px;",
+					editable : true,
+					type : dojox.grid.cells.Select,
+					options : ["=", ">", "<",">=", "<=", "<>", "like" ]
+				}, {
+					name : "默认值",
+					field : "field_value",
+					width : "auto",
+					editable : true
+				} ] ]
+			}, "_designer_right_tabs_sqlParam_paramGrid");
+			_sqlParamGrid.startup();
+			_sqlParamGrid.resize();
+			dojo.connect(_sqlParamGrid,"onApplyCellEdit",function(item, colId) {
+				packageParamData(_sqlParamGrid,colId);
+			});
+		};
+		createProcParamGrid = function(store){
+
+			var procParamGrid = new DataGrid({
+				store:store,
+				structure : [[{
+					field : "code",
+					hidden:true
+				},{
+					field : "logical",
+					hidden:true
+				},{
+					field : "relation",
+					hidden:true
+				},{
+					name : "参数名",
+					field : "field_name",
+					width : "auto"
+				}, {
+					name : "别名",
+					field : "label",
+					width : "auto",
+					editable:true
+				}, {
+					name : "输入类型",
+					field : "input_type",
+					width : "auto",
+					editable:true,
+					type: dojox.grid.cells.Select,
+					options:["input","select","checkbox","date","radio"]
+				}, {
+					name : "控件数据",
+					field : "widget_ds_label",
+					width : "auto",
+					type:dojox.grid.cells._Widget,
+					widgetClass: dijit.form.Select,
+					widgetProps:{id:'widget_ds_code',style:'width:50px;',type:'select',
+						options:componentsArray
+					},
+					editable:true
+				}, {
+					field:"widget_ds_code",
+					hidden:true
+				}, {
+					name : "默认值",
+					field : "field_value",
+					width : "auto",
+					type: dojox.grid.cells._Widget,
+					editable : true
+				},{
+					name : "参数类型",
+					field : "field_type",
+					width : "auto"
+				} ] ]
+			}, "_designer_procparamgrid");
+			procParamGrid.startup();
+			procParamGrid.resize();
+			dojo.connect(procParamGrid,"onApplyCellEdit",function(item, colIndex) {
+				packageParamData(procParamGrid,colIndex);
+			});
+		};
+		packageParamData = function(paramGrid,colIndex){
+			var griddata =paramGrid.getItem(colIndex);
+			var widgetDsCode=0;
+			if(dojo.byId("widget_ds_code"+(colIndex+1)) == null){
+				if(griddata.widget_ds_code[0] == ""){
+					widgetDsCode=0
+				}
+			}else{
+				widgetDsCode = dojo.byId("widget_ds_code"+(colIndex+1)).value;
+			}
+			var logical,relation = "";
+			if(griddata.logical == undefined){
+				logical = "";
+				relation = "";
+			}else{
+				logical=griddata.logical[0];
+				relation=griddata.relation[0];
+			}
+			var object = {code:griddata.code[0],logical:logical,relation:relation,field_value:griddata.field_value[0],
+					label:griddata.label[0],input_type:griddata.input_type[0],widget_ds_code:widgetDsCode};
+			console.log(object);
+			updateparam(object);
+		};
+		updateparam = function(object){
+			reportdsparam.updateReportDsParam(sessionId,object).addCallback(function(data){
+				console.log("更新"+data);
+			});
+		};
+		getConditionData =  function(){
+			reportdsparam.findReportDsParamList(sessionId,report_ds_code,ds_code,ds_type).addCallback(function(data){
+				if(data.length != 0){
+					var griddata = { identifier: 'code',
+						items: data
+					}
+					var cxstore = new dojo.data.ItemFileWriteStore({data:griddata});
+					if(ds_type == "SQL"){
+						createSqlParamGrid(cxstore);
+		 			}else if(ds_type == "PROC"){
+		 				createProcParamGrid(cxstore);
+		 			}
+				}else{
+					var griddata = { identifier: 'code',
+							items: []
+					}
+					var cxstore = new dojo.data.ItemFileWriteStore({data:griddata});
+
+					if(ds_type == "SQL"){
+						createSqlParamGrid(cxstore);
+			 		}else if(ds_type == "PROC"){
+			 				createProcParamGrid(cxstore);
+			 		}
+				}
+			});
+		};
+		getSqlFieldData = function(){
+			reportdsfield.findReportDsFieldList(sessionId,report_ds_code,ds_code).addCallback(function(data){
+				if(data.length != 0){
+					var griddata = { identifier: 'field_name',
+						items: data
+					}
+					var cxstore = new dojo.data.ItemFileWriteStore({data:griddata});
+				//	dojo.byId("_designer_right_tabs_sqlParam").setAttribute("style","height:100%;width:100%;");
+	 				createSqlParamFieldGrid(cxstore);
+	 				//createSqlParamGrid();
+				}else{
+					createGrid(null);
+				}
+			});
+		};
+		deleteSqlConditions = function(){
+			var grid = dijit.byId('_designer_right_tabs_sqlParam_paramGrid');
+			var selectValues = grid.selection.getSelected();
+			if(selectValues == null || selectValues == ""){
+				MessageBox.alert('请选择您要删除的记录','warn');
+				return;
+			}
+			var ids = null;
+			var i=0;
+			dojo.forEach(selectValues,function(values){
+				if(i == 0){
+					ids = values.code+"";
+				}else{
+					ids +=","+values.code;
+				}
+				i++;
+			});
+			MessageBox.confirm('确定要删除吗?',function(){
+				reportdsparam.delReportDsParamByIds(sessionId,ids).addCallback(function(data){
+					console.log(data);
+					dojo.forEach(selectValues, function(item){
+						dijit.byId('_designer_right_tabs_sqlParam_paramGrid').store.deleteItem(item);
+					});
+					dijit.byId('_designer_right_tabs_sqlParam_paramGrid').store.save();
+				});
+			});
+		};
+		changeConditionPane = function(){
+			myTabContainer.selectChild(dijit.byId("pane4"));
+		};
+		ready(function() {
+			if(ds_type == "SQL"){
+				getSqlFieldData();
+ 			}else if(ds_type == "PROC"){
+ 				dojo.byId("_designer_right_tabs_sqlParam").setAttribute("style","display:none");
+ 			}
+			getConditionData();
+			//savebtn.setAttribute("onclick","changeConditionPane()");
+		});
+	});
+</script>
+
+<div   id="_designer_procparamgrid" ></div>
+
+<table width="100%" height="98%" border="0" id="_designer_right_tabs_sqlParam">
+  <tr>
+    <td width="240" rowspan="2">
+		<div id="_designer_right_tabs_sqlParam_fieldgrid"
+			style="width: 100%; height: 100%"></div>
+	</td>
+    <td height="20px;">
+		<div data-dojo-type="dijit.Toolbar" >
+			<button data-dojo-type="dijit/form/Button"   onClick="deleteSqlConditions();" iconClass="dijitEditorIcon dijitEditorIconDelete">删除</button>
+		</div>
+	</td>
+  </tr>
+  <tr><td>
+		<div id="_designer_right_tabs_sqlParam_paramGrid" style="width: 100%; height: 100%"></div>
+	</td>
+  </tr>
+</table>
+
+
+
+
+<!-- <div id="_designer_right_tabs_sqlParam" -->
+<!-- 	data-dojo-type="dijit.layout.BorderContainer" -->
+<!-- 	data-dojo-props='design:"sidebar",title:"查询参数", tooltip:"SQL语句&视图查询参数设置", showTitle:true, iconClass:"dijitEditorIcon dijitEditorIconCut"'> -->
+<!-- 	<div data-dojo-type="dijit.layout.ContentPane" -->
+<!-- 		data-dojo-props='region:"left"' style="width:30%"> -->
+<!-- 		<div id="_designer_right_tabs_sqlParam_fieldgrid" -->
+<!-- 			style="width: 100%; height: 100%"></div> -->
+<!-- 	</div> -->
+<!-- 	<div data-dojo-type="dijit.layout.ContentPane" -->
+<!-- 		data-dojo-props='region:"top"'> -->
+<!-- 		<div data-dojo-type="dijit.Toolbar" > -->
+<!-- 			<button data-dojo-type="dijit/form/Button"   onClick="deleteSqlConditions();" iconClass="dijitEditorIcon dijitEditorIconDelete">删除</button> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+<!-- 	<div data-dojo-type="dijit.layout.ContentPane" -->
+<!-- 		data-dojo-props='region:"center"'> -->
+<!-- 		<div id="_designer_right_tabs_sqlParam_paramGrid"></div> -->
+<!-- 	</div> -->
+<!-- </div> -->
+

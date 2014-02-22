@@ -1,0 +1,148 @@
+<style>
+@import "css/style.css";
+</style>
+<script type="text/javascript">
+require(["dojo/ready","dojo/json","dijit/form/Form","dojo/newcapec/MessageBox",
+         "dijit/form/CheckBox"],
+			function(ready,Json,Form,MessageBox,CheckBox){
+		var code =0;
+		packagePrintReportData = function(){
+			if(form5.validate()){
+				if(code == 0){
+					var data = {"form_code":form_code+"","temp_code":"1","print_parm":dojo.toJson(form5.get('value'))};
+					addPrint(data);
+				}else{
+					var data = {"code":code+"","form_code":form_code+"","temp_code":"1","print_parm":dojo.toJson(form5.get('value'))};
+					updatePrint(data);
+				}
+			}
+		};
+		addPrint = function(data){
+			gridPrint.insertGridPrint(sessionId,data).addCallback(function(data){
+				if(data.resultMsg.status = 1){
+					//MessageBox.isValidMsg("添加成功");
+					dijit.byId('formguid').hide();
+				}else{
+					MessageBox.alert("添加失败","error");
+				}
+			});
+		};
+		updatePrint = function(data){
+			gridPrint.updateGridPrint(sessionId,data).addCallback(function(data){
+				if(data.resultMsg.status = 1){
+					//MessageBox.isValidMsg("修改成功");
+					dijit.byId('formguid').hide();
+				}else{
+					MessageBox.alert("修改失败","error");
+				}
+			});
+		};
+		changeStateTy = function(){
+			zdmb.set('checked',false);
+			if(tymb.checked){
+				title.set('disabled',false);
+				yema.set('disabled',false);
+				printdate.set('disabled',false);
+				printperson.set('disabled',false);
+				gridreportmemo.set('disabled',false);
+				setTempletBtn.set('disabled',true);
+			}else{
+				title.set('disabled',true);
+				yema.set('disabled',true);
+				printdate.set('disabled',true);
+				printperson.set('disabled',true);
+				gridreportmemo.set('disabled',true);
+				//setTempletBtn.set('disabled',true);
+			}
+		};
+		changeStateDz = function(){
+			tymb.set('checked',false);
+			if(zdmb.checked){
+				title.set('disabled',true);
+				yema.set('disabled',true);
+				printdate.set('disabled',true);
+				printperson.set('disabled',true);
+				gridreportmemo.set('disabled',true);
+				setTempletBtn.set('disabled',false);
+			}else{
+// 				title.set('disabled',false);
+// 				yema.set('disabled',false);
+// 				printdate.set('disabled',false);
+// 				printperson.set('disabled',false);
+// 				gridreportmemo.set('disabled',false);
+				setTempletBtn.set('disabled',true);
+			}
+		};
+		getPringReportValues = function(){
+
+			var filter = [{field:"form_code",relation:"and",value:form_code,logical:"="}];
+			gridPrint.findGridPrintList(sessionId,'',filter,null,null).addCallback(function(data){
+
+				if(data.length != 0){
+					var formdata = Json.parse(data[0].print_parm);
+					form5.set('value',formdata);
+					console.log(formdata);
+					console.log(formdata);
+					code = parseInt(data[0].code);
+					console.log(code);
+					if(formdata.tymb[0] == "on"){
+						changeStateTy();
+					}else{
+						changeStateDz();
+					}
+				}
+			});
+		};
+		createTemplate = function(){
+			var uri = "../../report/designer/?reportId="+form_code+"&sessionId="+sessionId;
+			dijit.byId('formguid').hide();
+			window.open(uri,"_black");
+
+		};
+		dddddd = function(){
+			alert("ddddd");
+		};
+		ready(function(){
+			getPringReportValues();
+			//savebtn.setAttribute("onclick","packagePrintReportData()");
+		});
+	});
+</script>
+	<form dojoType='dijit.form.Form' id='form5' jsid='form5'>
+		<div class="taborm" >
+			<div class="titbg">
+				<div style="margin-left:10px;" dojotype="dijit/form/CheckBox"  id="tymb" name="tymb" jsid="tymb" checked=true onclick="changeStateTy();"></div>
+				<span>通用模板</span>
+			</div>
+			<div class="titbor" align="center">
+				<div class="m1"><span class="sp1 left">报表标题：</span>
+					<div dojotype="dijit/form/ValidationTextBox" required="true" style="float:left;margin-top:6px;width:200px;height:17px;"  jsid="title"    id="title" name="title"></div>
+				</div>
+				<div class="m1">
+					<span class="sp1 left">报表表尾：</span>
+					<span style="float:left;">
+						<div dojotype="dijit/form/CheckBox"  id="yema" name="yema" jsid="yema" checked="true" ></div><span>页码</span>&nbsp;&nbsp;
+						<div dojotype="dijit/form/CheckBox"  id="printdate" name="printdate" jsid="printdate" checked="true" ></div><span>打印时间</span>&nbsp;&nbsp;
+						<div dojotype="dijit/form/CheckBox"  id="printperson" name="printperson" jsid="printperson" checked="true" ></div><span>打印人</span>
+					</span>
+				</div>
+				<div class="m2">
+					<span class="sp1 left">备注：</span><div data-dojo-type="dijit/form/SimpleTextarea" name="gridreportmemo" jsid="gridreportmemo" style="width:200px;float:left;" ></div>
+				</div>
+			</div>
+			<div class="botbg"></div>
+		</div>
+		<div class="taborm" >
+			<div class="titbg">
+				<div style="margin-left:10px;" dojotype="dijit/form/CheckBox" id="zdmb" name="zdmb" jsid='zdmb' onclick="changeStateDz();"></div>定制报表
+			</div>
+			<div class="titbor" style="height:40px;" align="center">
+				<div class="m1">
+					<button data-dojo-type="dijit/form/Button" type="button" onclick="createTemplate()" jsid="setTempletBtn" disabled="disabled">
+						设计模板
+					</button>
+				</div>
+			</div>
+			<div class="botbg"></div>
+		</div>
+	</form>

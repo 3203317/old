@@ -1,0 +1,460 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" >
+<html>
+<head>
+	<title>用户角色分配</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" type="text/css" href="/dijit/themes/soria/soria.css" />
+	<link rel="stylesheet"  type="text/css" href="/dojo/resources/dojo.css">
+		<link rel="stylesheet" type="text/css" href="/dojox/grid/resources/soriaGrid.css" />
+		<style type="text/css">
+				@import "/dojox/grid/enhanced/resources/EnhancedGrid.css";
+				@import "/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css";
+
+		.dijitDialogPaneContentArea {
+				margin: -10px -8px;
+				padding: 10px 8px;
+		}
+		.dijitDialogPaneActionBar {
+			background-color: #F6F6F6;
+			padding: 1px 5px 1px 5px;
+			text-align: right;
+			border-top: 1px solid #E1E1E1;
+			margin: 10px -10px -10px;
+			height:24px;
+			overflow:hidden;
+		}
+		body, html { width: 100%; height: 100%; margin: 0;overflow:hidden;}
+		</style>
+	<style type="text/css">
+		#grid{
+			height: 95%;
+		}
+		#employeeRoles
+		{
+			height: 95%;
+		}
+	</style>
+
+	<script type="text/javascript">
+		djConfig = {
+			async:true,
+			parseOnLoad:true
+		};
+	</script>
+	<script type="text/javascript" src="/dojo/dojo.js"></script>
+	<script type="text/javascript"
+	src="/dojo/extendJS/OpenAjaxManagedHub-all.js"></script>
+	<script type="text/javascript" src="userroleassign.js"></script>
+	<script type="text/javascript">
+
+	require(["dojo/ready","dojo/newcapec/MessageBox","dojo/json","dojo/_base/connect","dijit/tree/ObjectStoreModel","dijit/Tree","dojo/store/Observable",
+						"dojo/store/Memory","dijit/form/FilteringSelect","dojo/data/ItemFileWriteStore","dojox/grid/DataGrid",
+						"dojo/newcapec/grid/EnhancedGrid","dojo/newcapec/grid/plugins/Pagination",
+						"dijit/Dialog","dojo/parser","dojox/grid/enhanced/plugins/IndirectSelection","dijit/form/Form",
+						"dojox/grid/_CheckBoxSelector","dijit/layout/BorderContainer","dijit/layout/TabContainer",
+						"dijit/layout/ContentPane","dijit/Toolbar","dijit/form/Button","dijit/form/ValidationTextBox",
+						"dijit/ToolbarSeparator","dijit/form/SimpleTextarea","dojo/domReady!"],
+	function(ready,MessageBox,JSON,connect,ObjectStoreModel,Tree,Observable,Memory,FilteringSelect,ItemFileWriteStore,
+			DataGrid,EnhancedGrid,Pagination,Dialog,parse){
+			var sessionId = null;
+			var itemTree = null;
+			var grid = null;
+			var employeeRoles = null;
+			var search_dept_code = null;
+			//@Reference
+			var organizationService = new tuscany.sca.Reference("organizationService");
+			//@Reference
+			var userRoleService = new tuscany.sca.Reference("userRoleService");
+
+			initBaseWidget = function()
+			{
+				var stateStore = new Memory({
+										data:[{id:'0',name:"请选择角色"}]
+								});
+				var filteringSelect = new FilteringSelect({
+								id: "role_code",
+								name:"role_code",
+								value:"0",
+								store: stateStore,
+								searchAttr: "name"
+						}, dojo.byId("role_code_info"));
+			}
+
+			initOrgTree = function()
+			{
+				try
+				{
+					organizationService.getOrganizationTree(sessionId,'').addCallback(buildOrgTree);
+				}
+				catch(e)
+				{
+					console.log(e.message);
+				}
+			}
+			//根据account_id初始化filterselect
+			initBaseInfo = function(sessionId,account_id)
+			{
+					userRoleService.getRolesWhichWillBe(sessionId,account_id).addCallback(function(data){
+								if(data){
+									dijit.byId('role_code').store.setData(data);
+								}
+						});
+					}
+			function buildOrgTree(items,e)
+			{
+					var myStore = new Memory({
+									data : items,
+									getChildren:function(item)
+									{
+											return this.query({parent: item.id});
+									}
+								});//end myStore
+					myStore = new Observable(myStore);
+					//Create the model
+					var myModel = new ObjectStoreModel({
+						store : myStore,
+						query : {id : "0"},
+						mayHaveChildren : function(item) {
+							//等于说明有子节点
+							return (item.type == "1");
+						}
+					});//end myModel
+					try {
+						itemTree = new dijit.Tree(
+								{
+									id : "orgTree",
+									model : myModel,
+									showRoot : true,
+									onClick : function(item) {
+										search_dept_code = item.id;
+										//展示下级节点+展示下级gird展示对应的节点;
+										organizationService.getOrganizationTree(sessionId,item.id).addCallback(function(items,e)
+										{
+												if(!items)
+												{
+														return ;
+												}
+												for(var i = 0 ; i < items.length; i++)
+												{
+													dijit.byId('orgTree').model.store.put(items[i]);
+												}
+										});
+										initGridInfo(item.id);
+
+									}
+								},"orgTree").startup();
+					} catch (e) {
+						console.log("buildAllTree" + e.message);
+					}
+			}
+			transferName = function(item)
+			{
+					if(item == "0")
+					{
+					return "未知性别";
+					}
+					else if(item == "1")
+					{
+					return "男";
+					}
+					else if(item == "2")
+					{
+					return "女";
+					}
+					else if(item == "9")
+					{
+					return "未说明性别";
+					}
+			}
+
+			initGridInfo = function (dept_code){
+					if(!dept_code)
+					{
+							return;
+					}
+					//如果gird存在执行查询操作
+					if(grid)
+					{
+						var param = {};
+						param.filter = new Array();
+						param.filter.push({field:"dept_code",relation:"and",logical:"=",value:dept_code});
+						dijit.byId('grid').find('[{field:"dept_code",relation:"and",logical:"=",value:"'+dept_code+'"}]');
+						return ;
+					}
+
+					var plugins = {
+							pagination: {
+							description: true,
+							pageStepper: true,
+							position: "bottom"
+					}};
+
+					grid = new EnhancedGrid({
+						id:"grid",
+						param:'sessionId:"'+sessionId+'",resourceId:1',
+						conditionKey:"filter",
+						conditionValue:'[{field:"dept_code",relation:"and",logical:"=",value:"'+dept_code+'"}]',
+						tuscany:userRoleService.findUserAndRoles,
+						rowsPerPage:15,//每页显示多少条
+						plugins:plugins,
+						structure:[
+						[
+							new dojox.grid.cells.RowIndex({ name: "编号", width: "45px" }),
+								{
+										name: "姓名",
+										field: "user_name",
+										width: '8em'
+								},
+								{
+										name: "工号",
+										field: "dyn2",
+										width: '4em'
+								},
+								{
+										name: "性别",
+										field: "dyn1",
+										width: '4em',
+										formatter:transferName
+								},
+								{
+										name: "拥有角色",
+										field: "userRoles",
+										width:'auto'
+								}
+						]]
+					},"gridDiv");
+			}
+			showAdd = function(){
+						if(dijit.byId('form')){
+							form.reset();
+						}
+						var selectValues = grid.selection.getSelected();
+						curddialog.set('title',selectValues[0].user_name[0] + "增加角色");
+						account_id.set('value',selectValues[0].account_id[0]);
+						initBaseInfo(sessionId,selectValues[0].account_id[0]);
+						curddialog.show();
+			};
+			save = function()
+			{
+					var formdata = form.get('value');
+					userRoleService.insertUserRole(sessionId,formdata).addCallback(function(item){
+						grid.reload();
+						setEmployeeRolesStore(item.account_id);
+					});
+					curddialog.hide();
+					MessageBox.alert('保存成功','success');
+			}
+			deleted = function()
+			{
+					var selectValues = dijit.byId('employeeRoles').selection.getSelected();
+					var account_id = selectValues[0].account_id[0];
+					if(selectValues == null || selectValues == ""){
+						MessageBox.alert('请选择您要删除的记录','warn');
+						return;
+					}
+					var ids = null;
+					var i=0;
+					dojo.forEach(selectValues,function(values){
+						if(i == 0){
+							ids = values.userrole_code+"";
+						}else{
+							ids +=","+values.userrole_code;
+						}
+						i++;
+					});
+					MessageBox.confirm("您确定删除吗？",function(){
+					userRoleService.delUserRoleByIds(sessionId,ids).addCallback(function(data){
+									var dd = data;
+									if(dd == true){
+										grid.reload();
+											MessageBox.alert('删除成功','success');
+										setEmployeeRolesStore(account_id);
+									}
+					});
+					});
+					//
+			}
+
+			searchGridInfo = function()
+			{
+					var param = {};
+					param.filter = new Array();
+					param.filter.push({field:"dept_code",relation:"and",logical:"=",value:search_dept_code});
+					if(user_code.value != ""){
+						param.filter.push({field:"code",relation:"and",logical:"=",value:"'"+user_code.value+"'"});
+					}
+					if(user_name.value != ""){
+						param.filter.push({field:"name",relation:"and",logical:"like",value:"\'%" + user_name.value + "%\'"});
+					}
+					dijit.byId('grid').find(dojo.toJson(param.filter));
+			}
+			initSingleUserGridInfo = function (userId){
+							if(!userId)
+							{
+									return;
+							}
+							//如果employeeRoles存在执行查询操作
+							if(dijit.byId('employeeRoles'))
+							{
+								setEmployeeRolesStore(userId);
+								return ;
+							}
+
+							var  gridDetail = new DataGrid({
+									id:"employeeRoles",
+									name:'employeeRoles',
+									structure:[{
+															type: "dojox.grid._CheckBoxSelector"
+													},[
+										new dojox.grid.cells.RowIndex({ name: "序号", width: "5%" }),
+										{
+																	name: "姓名",
+																	field: "user_name",
+																	width: 'auto'
+															},{
+																	name: "角色名称",
+																	field: "role_name",
+																	width:'auto'
+															}
+									]]
+								},"employeeRolesGridDiv");
+								gridDetail.startup();
+					}
+
+
+					setEmployeeRolesStore = function(userId){
+						var param = {sessionId:sessionId,resourceId:'1',filter:[{field:"account_id",relation:"and",logical:"=",value:"'"+userId+"'"}],begin:0,limit:1000};
+						userRoleService.findRoleInfo_UnitDojoList(param).addCallback(function(data){
+									var  gridDetailStore = new ItemFileWriteStore({data: data});
+									dijit.byId('employeeRoles').setStore(gridDetailStore);
+									dijit.byId('employeeRoles').resize();
+								})
+
+					}
+			function loadEventHandler() {
+
+						hubClient = new OpenAjax.hub.IframeHubClient({
+								HubClient : {
+									onSecurityAlert : client2SecurityAlertHandler
+								}
+							});
+						// 连接到ManagedHub
+						try
+						{
+							hubClient.connect(connectCompleted);
+						}
+						catch(e)
+						{
+							console.log(e.message);
+						}
+					}
+					function client2SecurityAlertHandler(source, alertType) {
+										// 理安全警报
+					}
+					/* Callback that is invoked upon successful connection to the Managed Hub */
+					function connectCompleted(hubClient, success, error) {
+						//console.log(error);
+					}
+
+					function onData(topic, subscribeData) {
+						//console.log(topic);
+					}
+
+					initConnectEvent = function()
+					{
+									dojo.connect(grid, "onRowClick", function(e) {
+										var item =  grid.getItem(e.rowIndex);
+										var account_id =  grid.store.getValue(item, "account_id");
+										initSingleUserGridInfo(account_id);
+									});
+					}
+
+			ready(function(){
+				loadEventHandler();
+				var urlParam = OpenAjax.gadgets.util.getUrlParameters();
+				sessionId = urlParam.sessionId;
+				initBaseWidget();
+				initOrgTree();
+				initGridInfo("0");
+				initSingleUserGridInfo("0");
+				initConnectEvent();
+			});
+		});
+
+	</script>
+</head>
+<body class="soria">
+	<div id="border1" data-dojo-type="dijit/layout/BorderContainer"   data-dojo-props='style:"width: 100%; height: 100%; "'>
+		<div role="banner" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='id:"border1-top", region:"top", style:"width:100%; height: 5%;"'>
+				<div id="toolbar1" data-dojo-type="dijit/Toolbar">
+						<div data-dojo-type="dijit/form/Button" id="menuBindToolbar"
+							data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconPaste', showLabel:true">人员角色分配</div>
+				</div>
+		</div>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='id:"tree_left", splitter:true, region:"left", style:"width: 20%;"'>
+			<div id="orgTree"></div>
+		</div>
+		<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='id:"grid_right", region:"center", style:"width: 80%;height:100%"'>
+			<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='id:"userrole_detailmain", region:"center", style:"width: 70%;height:100%;overflow: hidden"'>
+			<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='id:"userrole_detailtop", region:"top", style:"width: 100%;height:10%;overflow: hidden"'>
+					<div data-dojo-type="dijit.Toolbar" >
+						<div dojotype="dijit.form.Button" label="用户角色信息"  iconClass="dijitIconNewTask" jsid="insert" id="insert"></div>
+					</div>
+				<br>
+					<div>
+						<label for="user_name" style="width:3em; float:left;">&nbsp;&nbsp;姓名</label>
+						<div data-dojo-type="dijit/form/ValidationTextBox"   data-dojo-props='trim:true,style:"width:100px;height:17px;float:left;"' placeholder="姓名" id="user_name" jsid='user_name'  name="user_name" ></div>
+						<label for="user_code" style="width:3em;  float:left;">&nbsp;&nbsp;工号</label>
+						<div data-dojo-type="dijit/form/ValidationTextBox"  data-dojo-props='trim:true,style:"width:100px;height:17px;float:left;"' placeholder='工号' id="user_code" jsid='user_code'  name="user_code" ></div>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<div dojoType="dijit/form/Button" id="searchbtn" style="margin-top: -2px" onclick="searchGridInfo();">查询</div>
+					</div>
+			</div>
+			<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='id:"userrole_detailcenter", region:"center", style:"overflow: hidden"'>
+						<div id="gridDiv"></div>
+						</div>
+			</div>
+			<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='id:"role_detailmain", region:"right", style:"width: 30%;height:80%;overflow: hidden"'>
+				<div role="banner" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='id:"role_detailtop", region:"top", style:"width:100%; height: 5%;"'>
+				<div data-dojo-type="dijit.Toolbar" >
+					<div dojotype="dijit.form.Button" label="增加" onclick="showAdd();" iconClass="dijitIconNewTask"  jsid="add" id="add"></div>
+					<span data-dojo-type="dijit.ToolbarSeparator"></span>
+					<div dojotype="dijit.form.Button" label="删除" onclick="deleted();" iconClass="dijitIconDelete" jsid="del" id="del"></div>
+				</div>
+				</div>
+				<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='id:"role_detailcenter", region:"center", style:"width: 100%;height:95%;overflow: hidden"'>
+				<div id="employeeRolesGridDiv" ></div>
+				</div>
+			</div>
+		</div>
+</div>
+<div dojoType="dijit.Dialog" jsid='curddialog' title="增加" style="width:350px;" >
+			<div class="dijitDialogPaneContentArea">
+			<div dojoType="dijit/form/Form" jsid="form" id="form">
+				<button data-dojo-type="dijit/form/Button" jsid='code'  name="code" id="code" style="display:none"></button>
+				<button data-dojo-type="dijit/form/Button" jsid='account_id'  name="account_id" id="account_id" style="display:none"></button>
+				<table>
+								<tr height="25px">
+										<td align="right"><label for="role_code_info">未分配的角色 </label></td>
+										<td><input id="role_code_info"/>
+										</td>
+								</tr>
+						</table>
+			</div>
+		</div>
+
+		<div class="dijitDialogPaneActionBar">
+						<button data-dojo-type="dijit/form/Button"  type="reset" onClick="return form.reset();">
+									重置
+						</button>
+						<button data-dojo-type="dijit/form/Button"   onClick="save();">
+									保存
+						</button>
+						<button data-dojo-type="dijit/form/Button" type="button" onClick="curddialog.hide()">
+									关闭
+						</button>
+		</div>
+
+	</div>
+</body>
+</html>

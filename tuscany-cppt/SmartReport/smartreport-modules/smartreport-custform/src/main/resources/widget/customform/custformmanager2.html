@@ -1,0 +1,371 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" >
+<html>
+<head>
+	<title>表单定制管理</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet"  type="text/css" href="/dojo/resources/dojo.css">
+		<link rel="stylesheet" type="text/css" href="/dijit/themes/soria/soria.css" />
+		<link rel="stylesheet" type="text/css" href="/dojox/grid/resources/soriaGrid.css" />
+		<style type="text/css">
+				@import "/dojox/grid/enhanced/resources/EnhancedGrid.css";
+		.dijitDialogPaneContentArea {
+				margin: -10px -8px;
+				padding: 10px 8px;
+		}
+		.dijitDialogPaneActionBar {
+			background-color: #F6F6F6;
+			padding: 1px 5px 1px 5px;
+			text-align: right;
+			border-top: 1px solid #E1E1E1;
+			margin: 10px -10px -10px;
+			height:24px;
+			overflow:hidden;
+		}
+		.loader {
+			padding:0;
+			margin:0;
+			position:absolute;
+			top:0; left:0;
+			width:100%; height:100%;
+			background:#ededed;
+			z-index:999;
+			vertical-align:middle;
+		}
+		.loaderInner {
+			padding:5px;
+			position:relative;
+			left:0;
+			top:0;
+			width:175px;
+			background:#3c3;
+			color:#fff;
+		}
+		body, html { width: 100%; height: 100%; margin: 0;overflow:hidden;}
+		</style>
+	<style type="text/css">
+		#grid{
+			height: 100%;
+		}
+	</style>
+
+	<script type="text/javascript">
+		djConfig = {
+			async:true,
+			parseOnLoad:true
+		};
+	</script>
+	<script type="text/javascript" src="/dojo/dojo.js"></script>
+	<script type="text/javascript" src="/dojo/extendJS/OpenAjaxManagedHub-all.js"></script>
+	<script type="text/javascript" src="/dojo/OpenAjax.js"></script>
+	<script type="text/javascript" src="../../main/commons/js/base.js"></script>
+	<script type="text/javascript" src="custformmanager.js"></script>
+	<script type="text/javascript">
+
+	require(["dojo/ready","dojo/_base/window","dojo/parser","dojo/newcapec/grid/EnhancedGrid",'dojo/data/ItemFileWriteStore',
+						"dojo/newcapec/grid/plugins/Pagination","dijit/Dialog","dojo/newcapec/MessageBox","dojox/grid/enhanced/plugins/IndirectSelection",
+						"dojo/newcapec/Report","dijit/form/Form","dijit/layout/BorderContainer","dijit/layout/TabContainer","dijit/layout/ContentPane",
+						"dijit/Toolbar","dijit/form/Button","dijit/form/ValidationTextBox","dijit/ToolbarSeparator","dijit/form/FilteringSelect",
+						"dijit/form/SimpleTextarea","dojox/layout/ContentPane","dijit/form/RadioButton"],
+					function(ready,win,parse,EnhancedGrid,ItemFileWriteStore,Pagination,Dialog,MessageBox){
+			//@Reference
+			var customForm = new tuscany.sca.Reference("customFormService");
+			//@Reference
+			var dataSource = new tuscany.sca.Reference("dataSourceService");
+			//@Reference
+			diccode = new tuscany.sca.Reference("dicCodeService");
+
+			var paneid = 'pane1';
+			var formAndDscode;
+			var sessionId = null;
+			createGrid=function(){
+				    var plugins = {
+						indirectSelection:{
+							headerSelector:true,
+							name: "Selection",
+							width: "30px",
+							styles: "text-align: center;"
+						},pagination: {
+							description: true,
+							pageStepper: true,
+							position: "bottom"
+					}};
+					var grid = new EnhancedGrid({
+						id:"grid",
+						param:'sessionId:"'+sessionId+'",resourceId:1',
+						tuscany:customForm.findCustomFormDojoList,
+						rowsPerPage:15,//每页显示多少条
+						plugins:plugins,
+						structure:[
+						[
+							new dojox.grid.cells.RowIndex({ name: "编号", width: "45px" }),
+							{
+										name: "名称",
+										field: "name",
+										width: 'auto'
+								},{
+										name: "功能类型",
+										field: "type",
+										width:'auto'
+								},{
+										name: "数据源",
+										field: "ds_code",
+										width:'auto'
+								},{
+									name: "用途",
+									field: "memo",
+									width:'auto'
+								},{
+										name: "创建日期",
+										field: "create_date",
+										width:'auto'
+								},{
+									name: "操作人员",
+									field: "create_user_code",
+									width:'auto'
+								}
+						]]
+					},"gridDiv");
+			};
+			showAdd=function(){
+				if(dijit.byId('form')){
+					form.reset();
+				}
+				curddialog.show();
+			};
+			save = function(){
+				var grid = dijit.byId('grid');
+				if(form.validate()){
+					var formdata = form.get('value');
+					if(formdata.code == null || formdata.code == ""){
+						customForm.insertCustomForm(sessionId+"",formdata).addCallback(function(data){
+							curddialog.hide();
+							MessageBox.alert('添加成功','success');
+							grid.reload(true);
+						});
+					}else{
+						customForm.updateCustomForm(sessionId+"",formdata).addCallback(function(data){
+							curddialog.hide();
+							MessageBox.alert('修改成功','success');
+							grid.reload(true);
+							code.set('value','');
+						});
+					}
+				}
+			};
+			setValues = function(){
+				var aa = {sessionId:sessionId+"",resourceId:'',filter:[],begin:0,limit:1000};
+				dataSource.findDataSourceDojoList(aa).addCallback(function(data){
+					var sel = dojo.byId('ds_code');
+							dojo.forEach(data.items,function(items){
+									var c = win.doc.createElement('option');
+									c.innerHTML = items.name;
+									c.value = items.code;
+									sel.appendChild(c);
+							});
+							var ds_code = dojo.byId('ds_code');
+							ds_code.setAttribute('dojoType','dijit.form.FilteringSelect');
+					parse.instantiate([ds_code]);
+
+				});
+			};
+			deleted=function(){
+				var grid = dijit.byId('grid');
+				var selectValues = grid.selection.getSelected();
+				if(selectValues == null || selectValues == ""){
+					MessageBox.alert('请选择您要删除的记录','warn');
+					return;
+				}
+				var ids = null;
+				var i=0;
+				dojo.forEach(selectValues,function(values){
+					if(i == 0){
+						ids = values.code+"";
+					}else{
+						ids +=","+values.code;
+					}
+					i++;
+				});
+				MessageBox.confirm('确定要删除吗?',function(){
+					customForm.delCustomFormByIds(sessionId+"",ids).addCallback(function(data){
+						var dd = data;
+						MessageBox.alert('删除成功','success');
+						grid.reload(true);
+					});
+				});
+			};
+			showModify=function(){
+				var grid = dijit.byId('grid');
+				var data = grid.selection.getSelected();
+				if(data.length == 0){
+					MessageBox.alert('请选择您要修改的记录','warn');
+					return;
+				}else if(data.length > 1){
+					MessageBox.alert('请选择一条记录','warn');
+					return;
+				}
+				curddialog.show(data);
+				form.set('value',data[0]);
+			};
+			back = function(){
+				myTabContainer.back();
+				changeBtnState();
+			};
+			next = function(){
+				window.top.hub.publish("save"+paneid);
+			};
+			alertdialog = function(){
+				var grid = dijit.byId('grid');
+				var data = grid.selection.getSelected();
+				if(data.length != 1){
+					MessageBox.alert('请选择一条记录','warn');
+					return;
+				}
+				formAndDscode = data[0].code[0]+","+data[0].ds_code[0];
+				if(dijit.byId('formguid')){
+					//dijit.byId('formguid').show();
+					//return;
+					dijit.byId('formguid').destroyRecursive();
+					paneid = 'pane1';
+				}
+				var dlg = new Dialog({
+					id : "formguid",
+					title: '报表表单定制导航',
+					style:"width:750px;",
+					href:'guidetab.html',
+					loadingMessage:"正在打开,请稍等..."
+				});
+				dlg.show();
+
+			};
+			forward = function(){
+				myTabContainer.forward();
+				changeBtnState();
+			};
+			changeBtnState = function(){
+				if(paneid == 'pane1'){
+					previous.set('disabled','disabled');
+					nextbtn.set('label','下一步');
+				}else if(paneid == 'pane5'){
+					previous.set('disabled','');
+					nextbtn.set('label','完成');
+				}else{
+					nextbtn.set('label','下一步');
+					previous.set('disabled','');
+				}
+			};
+			getformAndDscode = function(){
+				window.top.hub.publish("setformcode"+paneid,formAndDscode+","+sessionId);
+			};
+			loadEventHandler = function(){
+				hubClient = new OpenAjax.hub.IframeHubClient({
+					HubClient : {
+						onSecurityAlert : client2SecurityAlertHandler
+					}
+				});
+				// 连接到ManagedHub
+				try{
+					hubClient.connect(function(hubClient, success, error){
+
+					});
+				}catch(e){
+					console.log(e.message);
+				}
+			};
+			client2SecurityAlertHandler= function(source, alertType){
+
+			};
+			onData = function(topic, subscribeData){
+
+			};
+			hideloader = function(){
+				dojo.byId("main_loaderInner").innerHTML += " done.";
+				setTimeout(function hideLoader(){
+					dojo.fadeOut({
+						node: "main_loader",
+						duration: 500,
+						onEnd: function($n){
+							$n.style.display = "none";
+						}
+					}).play();
+				},250);
+			};
+			closeDialog = function(){
+				dijit.byId('formguid').hide();
+			};
+			ready(function(){
+				hideloader();
+				loadEventHandler();
+				var urlParam = OpenAjax.gadgets.util.getUrlParameters();
+				sessionId = urlParam.sessionId;
+				createGrid();
+				setValues();
+			});
+		});
+
+	</script>
+</head>
+<body class="soria">
+<div id="main_loader" class="loader"><div id="main_loaderInner" class="loaderInner">页面正在加载 ... </div></div>
+
+		<div id="main" dojoType="dijit.layout.BorderContainer" data-dojo-props='liveSplitters:false,design:"headline"' style="width:100%; height:100%">
+			<div dojoType="dijit.layout.ContentPane" region="top" >
+				<div data-dojo-type="dijit.Toolbar" >
+					<div dojotype="dijit.form.Button" label="增加" onclick="showAdd();" iconClass="dijitIconNewTask" jsid="add" id="add"></div>
+					<span data-dojo-type="dijit.ToolbarSeparator"></span>
+					<div dojotype="dijit.form.Button" label="修改" onclick="showModify();" iconClass="dijitIconEdit" jsid="modify" id="modify"></div>
+					<span data-dojo-type="dijit.ToolbarSeparator"></span>
+					<div dojotype="dijit.form.Button" label="删除" onclick="deleted();" iconClass="dijitIconDelete" jsid="del" id="del"></div>
+					<span data-dojo-type="dijit.ToolbarSeparator"></span>
+					<div dojotype="dijit.form.Button" label="报表表单定制导航" onclick="alertdialog();"  jsid="alertbtn" id="alertbtn"></div>
+				</div>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="center">
+			<div id="gridDiv"></div>
+		</div>
+
+	</div>
+	<div dojoType="dijit.Dialog" jsid='curddialog' title="增加" style="width:300px;" >
+			<div class="dijitDialogPaneContentArea">
+			<div dojoType="dijit/form/Form" jsid="form" id="form">
+				<button data-dojo-type="dijit/form/Button" jsid='code'  name="code" id="code" style="display:none"></button>
+				<table>
+								<tr height="25px" >
+										<td align="right"><label for="name" style="color:red">*</label>名称: </td>
+										<td><div data-dojo-type="dijit/form/ValidationTextBox"  required="true" style="width:200px;height:17px;" placeholder='表单名称' jsid='name'  name="name" ></div></td>
+								</tr>
+								<tr height="25px">
+										<td align="right"><label for="loc">功能类型: </label></td>
+										<td>
+											<select dojoType="dijit/form/FilteringSelect"  style="width:200px;" name="type"  id='type'>
+												<option value="1">查询表单</option>
+												<option value="2">报表</option>
+											</select>
+										</td>
+								</tr>
+								<tr height="25px">
+										<td align="right"><label for="loc">数据源: </label></td>
+										<td><select  style="width:200px;" name="ds_code" jsid='ds_code' id='ds_code'></select>
+										</td>
+								</tr>
+								<tr height="25px">
+										<td align="right"><label for="desc">用途: </label></td>
+										<td><div data-dojo-type="dijit/form/SimpleTextarea" style="width:200px;" name="memo" jsid='memo' id="memo"></div></td>
+								</tr>
+						</table>
+			</div>
+		</div>
+		<div class="dijitDialogPaneActionBar">
+						<button data-dojo-type="dijit/form/Button"  type="reset" onClick="return form.reset();">
+							重置
+						</button>
+						<button data-dojo-type="dijit/form/Button"   onClick="save();">
+							保存
+						</button>
+						<button data-dojo-type="dijit/form/Button" type="button" onClick="curddialog.hide()">
+							关闭
+						</button>
+		</div>
+	</div>
+
+</body>
+</html>

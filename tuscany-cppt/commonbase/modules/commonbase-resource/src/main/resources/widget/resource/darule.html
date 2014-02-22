@@ -1,0 +1,415 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<TITLE></TITLE>
+<style type="text/css">
+#_frm_darule_leftree{
+	height:100%;
+}
+#_frm_darule_grid{
+	height:100%;
+}
+</style>
+<script type="text/javascript">
+	var _dlg_darule_ = {};
+
+	_dlg_darule_.reset = function(){
+	};
+
+
+	_dlg_darule_.set = function(){
+		dijit.byId("_frm_darule_formnameText").set("value","");
+		dijit.byId("_frm_darule_leftree").setStore(new dojo.data.ItemFileWriteStore({data:{items:[]}}));
+		dijit.byId("_frm_darule_leftree").selection.clear();
+		dijit.byId("_frm_darule_grid").setStore(new dojo.data.ItemFileWriteStore({data:{items:[]}}));
+		dijit.byId("_frm_darule_grid").selection.clear();
+		var __items = dijit.byId("_main_grid").selection.getSelected();
+		var __item = __items[0];
+		_rsmanager.dataAccessRuleService.getDataAccessRuleByResId(_rsmanager.sessionId,__item.code[0]).addCallback(function($value){
+			if($value == null) return;
+
+			var __type_code = $value.type_code;
+
+			switch(__type_code){
+			case 1:
+				dijit.byId("_frm_darule_cbox_1").set("checked",true);
+				break;
+			case 2:
+				dijit.byId("_frm_darule_cbox_2").set("checked",true);
+				break;
+			case 3:
+				dijit.byId("_frm_darule_cbox_3").set("checked",true);
+				var __data = dojo.eval($value.content);
+
+				var __value = {
+					items: []
+				};
+
+				for(var i=0,item;item=__data[i];i++){
+					__value.items.push({code: item[0], name: item[1]});
+				}
+
+				var __store = new dojo.data.ItemFileWriteStore({
+					data : __value
+				});
+				dijit.byId("_frm_darule_leftree").setStore(__store);
+				break;
+			case 4:
+				dijit.byId("_frm_darule_cbox_4").set("checked",true);
+				var __data = dojo.eval("("+ $value.content +")");
+				dijit.byId("_frm_darule_formnameText").set("value",__data.form);
+
+				/* 加载grid数据 */
+				var __value = {
+					items: []
+				};
+
+				for(var i=0,item;item=__data.content[i];i++){
+					__value.items.push({logical: item[0], field: item[1], relation: item[2], value: item[3]});
+				}
+
+				var __store = new dojo.data.ItemFileWriteStore({
+					data : __value
+				});
+
+				dijit.byId("_frm_darule_grid").setStore(__store);
+
+				break;
+			};
+		})
+	};
+
+	_dlg_darule_.saveData = function(){
+		//var __formVals = dojo.toJson(__formObj, true);
+		//var __selRadio = __formVals._frm_darule_cbox;
+		/*sql*/
+		//console.log("Object is: " + dojo.toJson(__formObj, true));
+		//console.log(22);
+		var __selItem = _rsmanager.grid.selection.getSelected()[0];
+		var __params = {
+			resource_code: __selItem.code[0],
+			content: "",
+			name: ""
+		};
+		var __formObj = dijit.byId('_frm_darule').get('value');
+		var __selRadioVal = __formObj._frm_darule_cbox;
+		switch(__selRadioVal){
+		case '1':
+			__params.type_code = '1';
+			break;
+		case '2':
+			__params.type_code = '2';
+			break;
+		case '3':
+			var __selItems = dijit.byId("_frm_darule_leftree").store._arrayOfAllItems;
+			var __items = [];
+			dojo.forEach(__selItems, function($item) {
+				if ($item != null) {
+					var __item = [];
+					__item.push($item.code[0]);
+					__item.push($item.name[0]);
+					__items.push(__item);
+				}
+			});
+			__params.content = dojo.toJson(__items);
+			__params.type_code = '3';
+			break;
+		case '4':
+			var __selItems = dijit.byId("_frm_darule_grid").store._arrayOfAllItems;
+			var __items = [];
+			dojo.forEach(__selItems, function($item) {
+				if ($item != null) {
+					var __item = [];
+					__item.push($item.logical[0]);
+					__item.push($item.field[0]);
+					__item.push($item.relation[0]);
+					__item.push($item.value[0]);
+					__items.push(__item);
+				}
+			});
+			var __content = {
+				form: dijit.byId("_frm_darule_formnameText").getValue().trim(),
+				content: __items
+			};
+
+			__params.content = dojo.toJson(__content);
+			__params.type_code = '4';
+			break;
+		};
+
+		_rsmanager.dataAccessRuleService.setDataAccessRule(_rsmanager.sessionId,__params).addCallback(function($value){
+			if($value.resultMsg != null) {
+				dijit.byId("capec.dialog.optErrDialog").show();
+				return;
+			}
+			dijit.byId("_dlg_darule").hide();
+		});
+	};
+
+	_dlg_darule_.init = function(){
+		dijit.byId("_dlg_darule_btn_reset").set("style","display:none");
+
+		require(["dojo/_base/connect"], function($connect){
+		    var __btn_submit = dijit.byId("_dlg_darule_btn_submit");
+			__btn_submit.on("click", function(){
+				_dlg_darule_.saveData();
+			});
+
+			dojo.connect(dijit.byId("_dlg_darule"),"onShow",function(){
+				_dlg_darule_.set();
+			});
+		});
+
+		require(["newcapec/dialog/FormDialog",
+		         "dijit/Toolbar",
+		 		"dijit/form/Button",
+		 		"dijit/Tooltip",
+		 		"dojo/_base/connect",
+		 		"dijit/Dialog"], function($Dialog,$Toolbar, $Button, $Tooltip, $connect){
+
+		 		_dlg_darule_.toolbar = new $Toolbar({}, dojo.byId("_frm_darule_toolbar"));
+
+		 		_dlg_darule_.toolbar.addChild(new $Button({
+		 			id: "_frm_darule_toolbar_add",
+		 			label: "添加",
+		 			iconClass: "dijitEditorIcon dijitEditorIconCut",
+		 			onClick: function(){
+		 				dijit.byId("_frm_darule_grid").store.newItem({logical:'and',field:'',relation:'=',value:''});
+		 			}
+		 		}));
+
+		 		_dlg_darule_.toolbar.addChild(new $Button({
+		 			id: "_frm_darule_toolbar_del",
+		 			label: "删除",
+		 			iconClass: "dijitEditorIcon dijitEditorIconPaste",
+		 			onClick: function(){
+		 				var __selItems = dijit.byId("_frm_darule_grid").selection.getSelected();
+		 				dojo.forEach(__selItems,function($item){
+		 					dijit.byId("_frm_darule_grid").store.deleteItem($item);
+		 				});
+		 			}
+		 		}));
+		});
+
+		require(["dojox/grid/EnhancedGrid",
+					"dojo/data/ItemFileWriteStore",
+		         "dojox/grid/_CheckBoxSelector"],function($EnhancedGrid,$ItemFileWriteStore){
+			_dlg_darule_.grid = new $EnhancedGrid({
+				style: { height: "150px", width:"100%", margin: 0, padding: 0 },
+				structure: [{
+						type: "dojox.grid._CheckBoxSelector"
+					}, [
+						{
+							name: "逻辑",
+							field: "logical",
+						    width: 'auto',
+						    cellType:dojox.grid.cells.Select,
+						    editable: true,
+						    options:  ["and","or","and not","or not"]
+						},
+						{ name: "字段", field: "field", width: "auto", editable: true, required:true },
+						{
+						    name: "关系",
+						    field: "relation",
+						    width: 'auto',
+						    cellType:dojox.grid.cells.Select,
+						    editable: true,
+						    options:  ["=",">","<",">=","<=","<>","like"]
+						},
+						{ name: "值", field: "value", width: "auto", editable: true }
+					]
+				]
+			},"_frm_darule_grid");
+			_dlg_darule_.grid.startup();
+			_dlg_darule_.grid.setStore(new $ItemFileWriteStore({ data: {items:[]} }));
+		});
+
+		require(["dojox/grid/EnhancedGrid",
+					"dojo/data/ItemFileWriteStore",
+		         "dojox/grid/_CheckBoxSelector"],function($EnhancedGrid,$ItemFileWriteStore){
+
+			_dlg_darule_.rightree = new $EnhancedGrid({
+				style: { height: "150px", width:"100%", margin: 0, padding: 0 },
+				structure: [{
+						type: "dojox.grid._CheckBoxSelector"
+					}, [
+						{ name: "部门名称", field: "name", width: "auto" }
+					]
+				]
+			},"_frm_darule_leftree");
+			_dlg_darule_.rightree.startup();
+			_dlg_darule_.rightree.setStore(new $ItemFileWriteStore({ data: { items: []}}));
+		});
+
+		/*未分配部门树*/
+		require(["newcapec/Tree",
+		         "dijit/tree/ForestStoreModel",
+		         "dojo/data/ItemFileWriteStore"],function($Tree,$ForestStoreModel,$ItemFileWriteStore){
+			//var store = new $ItemFileWriteStore({ url: "bumen.json" })
+
+			_rsmanager.organizationService.findOrgList(_rsmanager.sessionId,_rsmanager.resourceId,[],0,1000).addCallback(function($value){
+				if($value.resultMsg != null) {
+					dijit.byId("capec.dialog.loadErrDialog").show();
+					return;
+				}
+
+				var __value = { items: $value };
+				__value = capec.utils.data2TreeObject(__value,"0","code","super_code","name","children");
+
+				var __store = new $ItemFileWriteStore({
+					data: {
+						"identifier": "code",
+						"label": "name",
+						"items": __value.children
+					}
+				});
+
+				var __model = new $ForestStoreModel({
+					store: __store,
+					query: { "type": "department" },
+					rootId: "0",
+					rootLabel: "部门树",
+					childrenAttrs: ["children"]
+				});
+
+				_dlg_darule_.rightree = new $Tree({
+					model: __model,
+					showRoot: false,
+					openOnDblClick: true,
+					style: { height: "100%", margin: 0, padding: 0 }
+				}, "_frm_darule_rightree");
+
+				_dlg_darule_.rightree.on("click", function($item){
+					console.log($item.code);
+				});
+			});
+
+		});
+
+		/*左右移*/
+		require(["dojo"],function(){
+			dojo.connect(dijit.byId('_frm_darule_leftbtn'), "onClick",function(){
+				var __leftree = dijit.byId("_frm_darule_leftree");
+				var __rightree = dijit.byId("_frm_darule_rightree");
+
+				var __newItem = {
+					code: __rightree.selectedItem.code[0],
+					name: __rightree.selectedItem.name[0]
+				};
+
+				__leftree.store.fetch({
+					query: { code: __newItem.code},
+					onComplete: function($item){
+						if($item.length==0){
+							__leftree.store.newItem(__newItem);
+						}
+					}
+				});
+			});
+
+			dojo.connect(dijit.byId('_frm_darule_rightbtn'), "onClick",function(){
+				var __selItems = dijit.byId("_frm_darule_leftree").selection.getSelected();
+				if (__selItems.length == 0) return;
+
+				for ( var i = 0, j = __selItems.length; i < j; i++) {
+					var __item_3 = __selItems[i];
+					dijit.byId("_frm_darule_leftree").store.deleteItem(__item_3);
+				}
+			});
+		});
+
+
+		dijit.byId("_dlg_darule_btn_close").on("click", function(){
+			dijit.byId("_dlg_darule").hide();
+		});
+
+		if(dijit.byId("_dlg_darule")._state == "edit"){
+			_dlg_darule_.set();
+		}
+	};
+</script>
+</HEAD>
+
+<BODY class="soria">
+	<span dojoType="dojo.data.ItemFileWriteStore" jsId="jsonStore"
+		url="countries.json"> </span>
+	<form id="_frm_darule" data-dojo-type="dijit.form.Form">
+		<table style="width: 100%">
+			<tr>
+				<td style="width: 100%; height: 23px"><input
+					data-dojo-type="dijit/form/RadioButton"
+					id="_frm_darule_cbox_1"
+					data-dojo-props='name:"_frm_darule_cbox", value:"1",checked:true' />
+					<label for="_frm_darule_cbox_1">只允许访问自己的数据</label>
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 100%; height: 23px"><input
+					data-dojo-type="dijit/form/RadioButton"
+					id="_frm_darule_cbox_2"
+					data-dojo-props='name:"_frm_darule_cbox", value:"2" ' />
+					<label for="_frm_darule_cbox_2">只允许访问所属部门的数据</label></td>
+			</tr>
+			<tr>
+				<td style="width: 100%; height: 23px"><input
+					data-dojo-type="dijit/form/RadioButton"
+					id="_frm_darule_cbox_3"
+					data-dojo-props='name:"_frm_darule_cbox", value:"3" ' />
+					<label for="_frm_darule_cbox_3">允许访问多个部门的数据</label></td>
+			</tr>
+			<tr>
+				<td>
+					<table>
+						<tr>
+							<td>待分配部门</td>
+							<td></td>
+							<td>已分配部门</td>
+						</tr>
+						<tr>
+							<td
+								style="border: 1px #8BA0BD solid; width: 228px; height: 150px;">
+								<div id="_frm_darule_rightree"></div></td>
+							<td style="width: 24px" align="center">
+								<button data-dojo-type='dijit.form.Button' id="_frm_darule_rightbtn"
+									data-dojo-props='type:"button"'><</button>
+								<br />
+								<button data-dojo-type='dijit.form.Button' id="_frm_darule_leftbtn"
+									data-dojo-props='type:"button"'>></button></td>
+							<td
+								style="border: 1px #8BA0BD solid; width: 228px; height: 150px;">
+								<div id="_frm_darule_leftree"></div></td>
+						</tr>
+					</table></td>
+			</tr>
+			<tr>
+				<td style="width: 100%; height: 23px"><input
+					data-dojo-type="dijit/form/RadioButton"
+					id="_frm_darule_cbox_4"
+					data-dojo-props='name:"_frm_darule_cbox", value:"4" ' />
+					<label for="_frm_darule_cbox_4">允许访问限定条件内的数据</label></td>
+			</tr>
+			<tr>
+				<td>
+					<table>
+						<tr>
+							<td><label for="_frm_darule_formnameText">表单名称</label>
+							</td>
+							<td><input id="_frm_darule_formnameText"
+								data-dojo-type="dijit.form.ValidationTextBox" />
+							</td>
+						</tr>
+					</table></td>
+			</tr>
+			<tr>
+				<td style="width: 100%; height: 23px">
+					<div id="_frm_darule_toolbar"></div></td>
+			</tr>
+			<tr>
+				<td style="border: 1px #8BA0BD solid; width: 100%; height: 152px;">
+					<div id="_frm_darule_grid"></div></td>
+			</tr>
+		</table>
+	</form>
+</BODY>
+</HTML>

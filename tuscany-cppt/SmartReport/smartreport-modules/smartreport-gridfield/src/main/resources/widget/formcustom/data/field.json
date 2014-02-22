@@ -1,0 +1,42 @@
+{
+	identifier: "code",
+	label: "label",
+	items:[
+	    {	"code" : "1",
+	        "label": "用户名",
+	        "name" : "username",
+	        "type": "input",
+	    },
+	     {
+	     	"code" : "2",
+	        "label": "密码",
+	        "name" : "password",
+	        "type": "input",
+
+	    },
+	    {
+	    	"code" : "3",
+	        "label": "日期",
+	        "name" : "date",
+	        "type": "date"
+	    },
+	    {
+	    	"code" : "4",
+	        "label": "数字选择器",
+	        "name" : "num",
+	        "type": "number"
+	    },
+	    {
+	    	"code" : "5",
+	        "label": "人员角色",
+	        "name" : "employee",
+	        "type": "select"
+	    },
+	    {
+	    	"code" : "6",
+	        "label": "有效",
+	        "name" : "isActive",
+	        "type": "checkbox"
+	    }
+	]
+}

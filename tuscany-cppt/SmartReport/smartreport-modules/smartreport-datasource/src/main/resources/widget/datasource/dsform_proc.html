@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<TITLE>dsform_proc</TITLE>
+<style type="text/css">
+</style>
+<script type="text/javascript">
+	var _dlg_add_proc_ = {};
+
+	_dlg_add_proc_.saveData = function(){
+		var __params = {
+			name: dijit.byId("_frm_add_proc_txt_name").getValue(),
+			service: dijit.byId("_frm_add_proc_txt_service").getValue(),
+			memo: dijit.byId("_frm_add_proc_txta_memo").getValue(),
+			use_scope_type: dijit.byId("_frm_add_proc_cbox_use_scope_type").getValue()
+		};
+
+		/* 获取选择的grid项 */
+		var __selItem = dijit.byId("_main_grid").selection.getSelected();
+		/* 主键赋值 */
+		if(__selItem.length == 1){ __params.code = __selItem[0].code[0]; }
+
+		_dsmanager.dataSourceService.updateDataSource(_dsmanager.sessionId,__params).addCallback(function($value){
+			if($value.resultMsg != null) {
+				dijit.byId("capec.dialog.optErrDialog").show();
+				return;
+			}
+			dijit.byId("_frm_add_proc").reset();
+			dijit.byId("_dlg_add_proc").hide();
+			_dsmanager.findGridData();
+		});
+	};
+
+	_dlg_add_proc_.set = function(){
+		var __selItems = dijit.byId("_main_grid").selection.getSelected();
+		var __item = __selItems[0];
+		dijit.byId("_frm_add_proc_txt_name").set("value",__item.name[0]);
+		dijit.byId("_frm_add_proc_txt_service").set("value",__item.service[0]);
+		dijit.byId("_frm_add_proc_txta_memo").set("value",(__item.memo==undefined ? "": __item.memo[0]));
+
+		dijit.byId("_frm_add_proc_cbox_type").removeOption(0);
+		dijit.byId("_frm_add_proc_cbox_type").addOption({ label: __item.type_text[0], value: __item.type_text[0] });
+
+		dijit.byId("_frm_add_proc_cbox_bind_type").removeOption(0);
+		dijit.byId("_frm_add_proc_cbox_bind_type").addOption({ label: __item.bind_type_text[0], value: __item.bind_type_text[0] });
+
+		dijit.byId("_frm_add_proc_cbox_dbconn_code").removeOption(0);
+		dijit.byId("_frm_add_proc_cbox_dbconn_code").addOption({ label: __item.dbconn_code_text[0], value: __item.dbconn_code_text[0] });
+
+		dijit.byId("_frm_add_proc_cbox_proc").removeOption(0);
+		dijit.byId("_frm_add_proc_cbox_proc").addOption({ label: __item.method[0], value: __item.method[0] });
+		dijit.byId("_frm_add_proc_cbox_use_scope_type").set("value",__item.use_scope_type[0]);
+	};
+
+	_dlg_add_proc_.reset = function(){
+		console.log("reset");
+	};
+
+	_dlg_add_proc_.init = function(){
+	    var __btn_submit = dijit.byId("_dlg_add_proc_btn_submit");
+	    var __btn_reset = dijit.byId("_dlg_add_proc_btn_reset");
+	    var __frm = dijit.byId("_frm_add_proc");
+	    var __valid = __frm.isValid();
+
+	    __btn_submit.set("disabled",!__valid);
+
+	    __frm.on("validStateChange", function($valid){
+	        __btn_submit.set("disabled",!$valid);
+	    });
+
+		__btn_reset.on("click", function(){
+			__frm.reset();
+		});
+
+		__btn_submit.on("click", function(){
+			_dlg_add_proc_.saveData();
+		});
+
+		if(dijit.byId("_dlg_add_proc")._state == "edit"){
+			_dlg_add_proc_.set();
+		}
+
+		dojo.connect(dijit.byId("_dlg_add_proc_btn_test"),"onClick", function(){
+			console.log("未实现");
+		});
+	};
+</script>
+</HEAD>
+
+<BODY class="soria">
+	<form id="_frm_add_proc" data-dojo-type="dijit/form/Form" style="height:240px">
+		<table>
+			<tr>
+				<td><label for="_frm_add_proc_txt_name">数据源名称：</label></td>
+				<td><input id="_frm_add_proc_txt_name" style="width:150px"
+					data-dojo-type="dijit/form/ValidationTextBox"
+					data-dojo-props='required:true' /></td>
+			</tr>
+			<tr>
+				<td><label for="_frm_add_proc_txt_service">服务URI：</label></td>
+				<td><input id="_frm_add_proc_txt_service" style="width:150px"
+					data-dojo-type="dijit/form/ValidationTextBox"
+					data-dojo-props='required:true' /></td>
+			</tr>
+			<tr>
+				<td><label for="_frm_add_proc_cbox_use_scope_type">使用范围：</label></td>
+				<td><select id="_frm_add_proc_cbox_use_scope_type" data-dojo-type="dijit/form/Select" style="width:150px">
+						<option value="0">通用数据源</option>
+						<option value="1">报表数据源</option>
+						<option value="2">控件数据源</option>
+				</select>
+				</td>
+			</tr>
+			<tr>
+				<td><label for="_frm_add_proc_cbox_bind_type">协议类型：</label></td>
+				<td><select id="_frm_add_proc_cbox_bind_type" data-dojo-type="dijit/form/Select" style="width:150px" disabled="true"></select></td>
+			</tr>
+			<tr>
+				<td><label for="_frm_add_proc_cbox_type">数据源类型：</label></td>
+				<td><select id="_frm_add_proc_cbox_type" data-dojo-type="dijit/form/Select" style="width:150px" disabled="true"></select></td>
+			</tr>
+			<tr>
+				<td><label for="_frm_add_proc_cbox_dbconn_code">数据库连接：</label></td>
+				<td><select id="_frm_add_proc_cbox_dbconn_code" data-dojo-type="dijit/form/Select" style="width:150px" disabled="true"></select></td>
+			</tr>
+			<tr id="_frm_add_proc_tr_proc">
+				<td><label for="_frm_add_proc_cbox_proc">存储过程：</label></td>
+				<td><select id="_frm_add_proc_cbox_proc" data-dojo-type="dijit/form/Select" style="width:150px" disabled="true"></select></td>
+			</tr>
+			<tr>
+				<td><label for="_frm_add_proc_txta_memo">备注：</label></td>
+				<td><textarea id="_frm_add_proc_txta_memo" style="width: 300px; height: 50px"
+						data-dojo-type="dijit/form/SimpleTextarea"></textarea>
+				</td>
+			</tr>
+		</table>
+	</form>
+</BODY>
+</HTML>

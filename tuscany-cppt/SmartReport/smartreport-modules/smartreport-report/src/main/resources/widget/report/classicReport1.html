@@ -1,0 +1,55 @@
+<html>
+<head><title>体验Supcan Report</title>
+<meta http-equiv="content-type" content="text/html; charset=GB2312">
+<script type='text/javascript' src='supcan/dynaload.js?72'></script>
+<script type="text/javascript"
+  src="/dojo/extendJS/OpenAjaxManagedHub-all.js"></script>
+<script language="JavaScript">
+function OnReady(id)
+{
+ var obj = document.getElementById(id);
+ obj.func("Build", "/showClassicBusReport/");
+}
+function loadEventHandler() {
+
+    hubClient = new OpenAjax.hub.IframeHubClient({
+        HubClient : {
+          onSecurityAlert : client2SecurityAlertHandler
+        }
+      });
+    // 连接到ManagedHub
+    try
+    {
+      hubClient.connect(connectCompleted);
+    }
+    catch(e)
+    {
+      console.log(e.message);
+    }
+  }
+  function client2SecurityAlertHandler(source, alertType) {
+            // 理安全警报
+  }
+  /* Callback that is invoked upon successful connection to the Managed Hub */
+  function connectCompleted(hubClient, success, error) {
+  //  console.log(error);
+  }
+
+  function onData(topic, subscribeData) {
+    console.log(topic);
+  }
+test = function()
+{
+  loadEventHandler();
+}
+
+</script>
+</head>
+
+<body topmargin=0 leftmargin=0 rightmargin=0 bottommargin=0 scroll=no style="overflow:hidden" onload="test()">
+<script>
+ var trname='AF';
+ insertReport(trname, 'Border=none;  Ruler=Horz;  Rebar=Print;  print=11, 216')
+</script>
+</body>
+</html>

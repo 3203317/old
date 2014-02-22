@@ -1,0 +1,8 @@
+{"identifier":"code",
+"label":"name",
+"items":[
+		{"code":1,"name":"分组统计"},
+		{"code":2,"name":"分组小计"},
+		{"code":3,"name":"最后合计"}
+		]
+}

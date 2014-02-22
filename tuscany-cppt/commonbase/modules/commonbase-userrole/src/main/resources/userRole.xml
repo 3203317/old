@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config xmlns="http:///org.apache.tuscany.das.rdb/config.xsd" >
+<Command name="getUserRoleById" SQL="select code,
+		account_id,
+		role_code,
+		create_user_account_id,
+		to_char(create_date,'yyyy-mm-dd hh24:mi:ss')  create_date,
+		ver
+from p_user_role
+where code = ?" kind="Select">
+<ResultDescriptor columnName="code"  tableName="p_user_role"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="account_id"  tableName="p_user_role"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="role_code"  tableName="p_user_role"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="create_user_account_id"  tableName="p_user_role"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="create_date"  tableName="p_user_role"    columnType="commonj.sdo.String"/>
+<ResultDescriptor columnName="ver"  tableName="p_user_role"    columnType="commonj.sdo.String"/>
+</Command>
+<Table tableName="p_user_role">
+		<Column columnName="code" primaryKey="true"/>
+		<Column columnName="create_date" converterClassName="net.newcapec.sca.util.DateStringConverter"/>
+</Table>
+<Table tableName="roleinfo_unit">
+		<Column columnName="userrole_code" primaryKey="true"/>
+</Table>
+<Table tableName="p_user">
+		<Column columnName="account_id" primaryKey="true"/>
+</Table>
+<Table tableName="p_role">
+		<Column columnName="code" primaryKey="true"/>
+</Table>
+</Config>

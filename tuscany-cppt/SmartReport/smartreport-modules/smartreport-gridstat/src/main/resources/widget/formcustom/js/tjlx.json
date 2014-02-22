@@ -1,0 +1,7 @@
+{"identifier":"lx",
+"label":"name",
+"items":[
+		{"lx":"count","name":"总计"},
+		{"lx":"sum","name":"和"}
+		]
+}

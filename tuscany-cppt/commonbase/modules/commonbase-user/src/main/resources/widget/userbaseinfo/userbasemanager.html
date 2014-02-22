@@ -1,0 +1,710 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" >
+<html>
+<head>
+  <title>用户基本信息管理</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="/dijit/themes/soria/soria.css" />
+    <link rel="stylesheet" type="text/css" href="/dojox/grid/resources/soriaGrid.css" />
+  <link rel="stylesheet"  type="text/css" href="/dojo/resources/dojo.css">
+    <style type="text/css">
+        @import "/dojox/grid/enhanced/resources/EnhancedGrid.css";
+        @import "/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css";
+
+    .dijitDialogPaneContentArea {
+        margin: -10px -8px;
+        padding: 10px 8px;
+    }
+    .dijitDialogPaneActionBar {
+      background-color: #F6F6F6;
+      padding: 1px 5px 1px 5px;
+      text-align: right;
+      border-top: 1px solid #E1E1E1;
+      margin: 10px -10px -10px;
+      height:24px;
+      overflow:hidden;
+    }
+    body, html { width: 100%; height: 100%; margin: 0;overflow:hidden;}
+    </style>
+  <style type="text/css">
+    #grid{
+      height: 100%;
+    }
+    .ul-1 li{
+    width:380px;
+    margin:5px 0;
+    list-style:none;
+    text-align:left;
+    }
+    .ul-2 li{
+    margin:5px 0;
+    list-style:none;
+    text-align:left;
+    }
+    .photo{
+    position:absolute;
+    right:20px;
+    top:0px;
+    width:200px;
+    padding:10px;
+    }
+  </style>
+
+  <script type="text/javascript" src="swfupload/swfupload.js"></script>
+  <script type="text/javascript" src="js/handlers.js"></script>
+  <script type="text/javascript">
+    djConfig = {
+      async:true,
+      parseOnLoad:true
+    };
+  </script>
+  <script type="text/javascript" src="/dojo/dojo.js"></script>
+  <script type="text/javascript"
+  src="/dojo/extendJS/OpenAjaxManagedHub-all.js"></script>
+  <script type="text/javascript" src="userbasemanager.js"></script>
+  <script type="text/javascript">
+  var swfu = null;
+  var sessionId = null;
+  function swfUploadSuccess(serverData)
+  {
+    console.log(serverData);
+       var photoId = serverData.split("=")[1];
+       document.getElementById('userPhoto_id').value = photoId;
+       document.getElementById('userPhoto').src = "/showSingleUserPhotoBYUserCode/?sessionId="+sessionId+"&userPhoto_Id="+photoId+"&time="+new Date();
+  }
+  function nofind(){
+    var img=document.getElementById("userPhoto");
+    img.src="im.jpg";
+  }
+
+  require(["dojo/ready","dojo/dom","dojo/dom-style","dojo/store/Memory","dijit/tree/ObjectStoreModel","dijit/Tree","dojo/newcapec/MessageBox","dojo/store/Observable","dojo/json","dojo/_base/window","dojo/newcapec/grid/EnhancedGrid",'dojo/data/ItemFileWriteStore',
+            "dojo/newcapec/grid/plugins/Pagination","dijit/Dialog","dijit/form/FilteringSelect","dijit/form/Form","dojox/grid/_CheckBoxSelector",
+            "dijit/layout/BorderContainer","dijit/layout/TabContainer","dijit/layout/ContentPane","dijit/Toolbar","dijit/form/Button","dijit/form/ValidationTextBox",
+            "dijit/ToolbarSeparator","dijit/form/SimpleTextarea","dijit/form/DateTextBox","dojo/parser","dojo/domReady!"],
+          function(ready,dom,style,Memory,ObjectStoreModel,Tree,MessageBox,Observable,JSON,win,EnhancedGrid,ItemFileWriteStore,Pagination,Dialog,FilteringSelect){
+
+      var selectItemForResourceType = null;
+      var grid = null;
+      var treeIDLeafTORoot = new Array();
+      var treeIDRootTOLeaf = new Array();
+      //@Reference
+      var userBaseInfoService = new tuscany.sca.Reference("userBaseInfoService");
+      //@Reference
+      var organizationService = new tuscany.sca.Reference("organizationService");
+
+      initBaseInfo = function()
+      {
+          try
+          {
+            organizationService.getOrganizationTree(sessionId,'').addCallback(buildOrgTree);
+          }
+          catch(e)
+          {
+            console.log(e.message);
+          }
+          var userTypeSelect = new FilteringSelect({
+              id: "user_type_code",
+              value: "1",
+              name:"user_type_code",
+              store: new Memory({data:[{id:"0",name:"暂无数据"}]}),
+              style: "width: 200px;",
+              searchAttr: "name"
+          }, dojo.byId("user_type_code"));
+
+          userBaseInfoService.getUserTypeSelectItem(sessionId).addCallback(function(data){
+                    if(data)
+                    {
+                      dijit.byId('user_type_code').store.setData(data);
+                    }
+                    else
+                    {
+                      dijit.byId('user_type_code').store.setData([{id:"0",name:"暂无数据"}]);
+                    }
+          });
+      }
+
+      swfReadyTOUse = function (sessionId,user_code) {
+
+          if(swfu)
+           {
+             var uploadURL = "/uploadSingleUserPhotoBYUserCode/?sessionId="+sessionId+"&userPhoto_Id="+user_code;
+               swfu.setUploadURL(uploadURL);
+               return;
+           }
+          swfu = new SWFUpload({
+            // Backend settings
+            upload_url: "/uploadSingleUserPhotoBYUserCode/?sessionId="+sessionId+"&userPhoto_Id="+user_code,
+            file_post_name: "resume_file",
+
+            // Flash file settings
+            file_size_limit : "4 MB",
+            file_types : "*.jpg",     // or you could use something like: "*.doc;*.wpd;*.pdf",
+            file_types_description : "只允许jpg格式的图片",
+            file_upload_limit : 0,
+            file_queue_limit : 1,
+
+            // Event handler settings
+            swfupload_loaded_handler : swfUploadLoaded,
+
+            file_dialog_start_handler: fileDialogStart,
+            file_queued_handler : fileQueued,
+            file_queue_error_handler : fileQueueError,
+            file_dialog_complete_handler : fileDialogComplete,
+
+            //upload_start_handler : uploadStart, // I could do some client/JavaScript validation here, but I don't need to.
+            swfupload_preload_handler : preLoad,
+            swfupload_load_failed_handler : loadFailed,
+            upload_progress_handler : uploadProgress,
+            upload_error_handler : uploadError,
+            upload_success_handler : uploadSuccess,
+            upload_complete_handler : uploadComplete,
+
+            // Button Settings
+            button_image_url : "images/upload.jpg",
+            button_placeholder_id : "singleUploadButton",
+            button_width: 41,
+            button_height: 22,
+            button_text_top_padding: -22,
+            // Flash Settings
+            flash_url : "swfupload/swfupload.swf",
+            flash9_url : "swfupload/swfupload_fp9.swf",
+
+            // Debug settings
+            debug: false
+          });
+
+        };
+
+      transferName = function(item)
+      {
+          if(item == "0")
+          {
+          return "未知性别";
+          }
+          else if(item == "1")
+          {
+          return "男";
+          }
+          else if(item == "2")
+          {
+          return "女";
+          }
+          else if(item == "9")
+          {
+          return "未说明性别";
+          }
+      }
+      initGridInfo = function (){
+        var paneid = 'pane1';
+        var plugins = {pagination: {
+          description: true,
+          pageStepper: true,
+          position: "bottom"
+        }};
+        grid = new EnhancedGrid({
+          id:"grid",
+          conditionKey:"filter",
+          param:'sessionId:"'+sessionId+'",resourceId:1',
+          tuscany:userBaseInfoService.findUserBaseInfoDojoList,
+          rowsPerPage:15,//每页显示多少条
+          plugins:plugins,
+          structure:[{
+              type: "dojox.grid._CheckBoxSelector"
+          },
+          [
+            new dojox.grid.cells.RowIndex({ name: "编号", width: "45px" }),
+            {
+                  name: "用户工号",
+                  field: "code",
+                  width: 'auto'
+              },{
+                  name: "用户姓名",
+                  field: "name",
+                  width:'auto'
+              },
+              {
+                  name: "用户性别",
+                  field: "sex",
+                  width:'auto',
+                  formatter:transferName
+              },
+              {
+                  name: "所属部门",
+                  field: "dept_code",
+                  width:'auto'
+              },{
+                  name: "创建人",
+                  field: "create_user_account_id",
+                  width:'auto'
+              },{
+                  name: "创建日期",
+                  field: "create_date",
+                  width:'auto'
+              } ,{
+                  name: "开通日期",
+                  field: "open_date",
+                  width:'auto'
+              } ,{
+                  name: "最终有效日期",
+                  field: "no_use_date",
+                  width:'auto'
+              },{
+                  name: "激活日期",
+                  field: "activation_date",
+                  width:'auto'
+              }
+          ]]
+        },"gridDiv");
+      }
+
+      showAdd=function()
+      {
+        //dijit.byId("modifyButton").set('disabled',true);
+        dom.byId('userPhoto_id').value = "";
+        initUploadSinglePhoto();
+        curddialog.set('title',"添加");
+        userBaseInfoService.getCustSkinsSelectItem(sessionId).addCallback(function(data){
+          if(data)
+          {
+            dijit.byId('cust_skin').store.setData(data);
+          }
+          else
+          {
+            dijit.byId('cust_skin').store.setData([{id:"0",name:"暂无数据"}]);
+          }
+        });
+          if(dijit.byId('form')){
+            form.reset();
+          }
+          swfReadyTOUse(sessionId,'');
+          dom.byId("userPhoto").src = "im.jpg";
+          account_id.set('value',"");
+          dept_code.set('value',"");
+          dojo.byId('deptname').innerHTML = "未知部门";
+          curddialog.show();
+      };
+      save = function(){
+        if(form.validate()){
+          var formdata = form.get('value');
+          if(formdata.account_id == null || formdata.account_id == ""){
+              formdata.name = formdata.account_name;
+              formdata.userPhotoId = dom.byId('userPhoto_id').value;
+              /* var param = "&code= " + formdata.code +"&name="+formdata.account_name+"&login_alias="+formdata.login_alias
+              +"&password="+formdata.password+"&sex="+formdata.sex +"&user_type_code="+formdata.user_type_code+"&cust_skin="+formdata.cust_skin
+              +"&deptname="+formdata.deptname;
+              var uploadURL = "/zzy/uploadSingleUserPhotoBYUserCode/?sessionId="+sessionId+param;
+              console.log(uploadURL);
+              swfu.setUploadURL(uploadURL);
+              swfu.startUpload(); */
+               userBaseInfoService.insertUserBaseInfo(sessionId,formdata).addCallback(function(data){
+                if(data.resultMsg.status == "1")
+                {
+                  MessageBox.alert("添加成功","success");
+                  grid.reload();
+                  curddialog.hide();
+                }
+                else
+                {
+                  MessageBox.alert("添加失败","error");
+                }
+              });
+            }
+          else{
+              formdata.name = formdata.account_name;
+             //swfu.destory();
+              userBaseInfoService.updateUserBaseInfo(sessionId,formdata).addCallback(function(data){
+                if(data.resultMsg.status == "1")
+                {
+                  MessageBox.alert("更新成功","success");
+                  curddialog.hide();
+                  dijit.byId('grid').reload();
+                }
+                else
+                {
+                  MessageBox.alert("更新失败","error");
+                }
+              });
+          }
+        }
+      }
+
+      showModify=function(){
+        //dijit.byId("modifyButton").set('disabled',false);
+        curddialog.set('title',"修改");
+        userBaseInfoService.getCustSkinsSelectItem(sessionId).addCallback(function(data){
+            if(data)
+            {
+              dijit.byId('cust_skin').store.setData(data);
+            }
+            else
+            {
+              dijit.byId('cust_skin').store.setData([{id:"0",name:"暂无数据"}]);
+            }
+        });
+        initUploadSinglePhoto();
+        var data = grid.selection.getSelected();
+        if(data.length != 1){
+          MessageBox.alert("请选择一条记录","warn");
+          return;
+        }
+        //取的account_id
+        var user_id = data[0].account_id[0];
+        var photo_id = data[0].ver[0];
+        swfReadyTOUse(sessionId,photo_id);
+        dom.byId('userPhoto_id').value = photo_id;
+        dom.byId("userPhoto").src = "/showSingleUserPhotoBYUserCode/?sessionId="+sessionId+"&userPhoto_Id="+photo_id+"&time="+new Date();
+        var temp_dept_name = data[0].dept_code[0];
+        dojo.byId('deptname').innerHTML = temp_dept_name;
+        dijit.byId('departmentTree').collapseAll();
+        var root = dijit.byId('departmentTree').model.store.query({parent:null});
+        dijit.byId('departmentTree').set('path',[root[0].id]);
+        curddialog.show();
+        userBaseInfoService.getUserBaseInfoById(sessionId,user_id).addCallback(function(data){
+
+          dept_code.set('value',data.dept_code);
+          account_id.set('value',data.account_id);
+          code.set('value',data.code);
+          login_alias.set('value',data.login_alias);
+          account_name.set('value',data.name);
+          password.set('value',data.password);
+          sex.setValue(data.sex);
+          dijit.byId('user_type_code').setValue(data.user_type_code);
+          dijit.byId('cust_skin').setValue(data.cust_skin);
+        });
+
+      }
+      searchGridInfo = function()
+      {
+          var param = {};
+          param.filter = new Array();
+          if(user_code.value != "")
+          {
+            param.filter.push({field:"code",relation:"and",logical:"=",value:"'"+user_code.value+"'"});
+          }
+          if(user_name.value != "")
+          {
+            param.filter.push({field:"name",relation:"and",logical:"like",value:"\'%" + user_name.value + "%\'"});
+          }
+          dijit.byId('grid').find(JSON.stringify(param.filter));
+      }
+
+      deleted = function()
+      {
+          var selectValues = grid.selection.getSelected();
+          if(selectValues == null || selectValues == ""){
+            MessageBox.alert("您尚未选择删除信息","warn");
+            return;
+          }
+          var ids = null;
+          var i=0;
+          dojo.forEach(selectValues,function(values){
+            if(i == 0){
+              ids = values.account_id+"";
+            }else{
+              ids +=","+values.account_id;
+            }
+            i++;
+          });
+          MessageBox.confirm("您确定删除吗？",function(){
+          userBaseInfoService.delUserBaseInfoByIds(sessionId,ids).addCallback(function(data){
+            var dd = data;
+            if(dd == true){
+              grid.selection.deselectAll();
+              grid.reload();
+              MessageBox.alert("删除成功","success");
+            }
+          });
+          });
+      };
+
+      openUploadDialog = function()
+      {
+        var dlg = new Dialog({
+          id : "userUploadDialog",
+          title: '照片批量上传',
+          style:"width:500px;height:330px",
+          content:"<iframe frameborder='0' height='100%' width='100%' src='/photoupload/?sessionId="+sessionId+"' />",
+          loadingMessage:"正在打开,请稍等...",
+          onHide: function(){
+              this.destroyRecursive();
+            }
+        });
+        dlg.show();
+      }
+      function loadEventHandler() {
+
+            hubClient = new OpenAjax.hub.IframeHubClient({
+                HubClient : {
+                  onSecurityAlert : client2SecurityAlertHandler
+                }
+              });
+            // 连接到ManagedHub
+            try
+            {
+              hubClient.connect(connectCompleted);
+            }
+            catch(e)
+            {
+              console.log(e.message);
+            }
+          }
+          function client2SecurityAlertHandler(source, alertType) {
+                    // 理安全警报
+          }
+          /* Callback that is invoked upon successful connection to the Managed Hub */
+          function connectCompleted(hubClient, success, error) {
+          //	console.log(error);
+          }
+
+          function onData(topic, subscribeData) {
+            console.log(topic);
+          }
+          recursionItemID = function(id,rootid)
+          {
+              var item = dijit.byId('departmentTree').model.store.get(id);
+              treeIDLeafTORoot.push(item.id);
+              if(item)
+              {
+                if(item.parent && rootid != item.parent)
+                {
+                  return recursionItemID(item.parent,rootid);
+                }
+              }
+          }
+          clickTreeItem = function(id)
+          {
+              treeIDLeafTORoot = new Array();
+              treeIDRootTOLeaf = new Array();
+              var root = dijit.byId('departmentTree').model.store.query({parent:null});
+              if(id != root[0].id)
+              {
+                recursionItemID(id,root[0].id);
+              }
+              treeIDLeafTORoot.push(root[0].id);
+              var info = "";
+              var i=treeIDLeafTORoot.length-1;
+              var k = 0;
+              for(;i>=0;i--,k++)
+              {
+                  treeIDRootTOLeaf[k] = treeIDLeafTORoot[i];
+              }
+              dijit.byId('departmentTree').set('path',treeIDRootTOLeaf);
+          }
+
+          function buildOrgTree(items,e)
+          {
+              var myStore = new Memory({
+                data : items,
+                getChildren:function(item)
+                {
+                    return this.query({parent: item.id});
+                }
+              });//end myStore
+              myStore = new Observable(myStore);
+              //Create the model
+              var myModel = new ObjectStoreModel({
+                store : myStore,
+                query : {id : "0"},
+                mayHaveChildren : function(item) {
+                  //等于说明有子节点
+                  return (item.type == "1");
+                }
+              });//end myModel
+            new Tree({
+                  id : "departmentTree",
+                  model : myModel,
+                  showRoot : true,
+                  onClick:function(item)
+                  {
+                    clickTreeItem(item.id);
+                  },
+                  onDblClick : function(item)
+                  {
+                    //展示下级节点+展示下级gird展示对应的节点;
+                      organizationService.getOrganizationTree(sessionId,item.id).addCallback(function(items,e)
+                      {
+                          if(!items)
+                          {
+                              return ;
+                          }
+                          for(var i = 0 ; i < items.length; i++)
+                          {
+                            dijit.byId('departmentTree').model.store.put(items[i]);
+                          }
+                    });
+                  }
+              },"departmentTree").startup();
+          }
+
+          showdeptTree = function()
+          {
+            dijit.byId('departmentTree').collapseAll();
+            departmentTreeDialog.show();
+          }
+          updateDept =function()
+          {
+            var item = dijit.byId('departmentTree').selectedItem;
+            dojo.byId('deptname').innerHTML = item.name;
+            dept_code.set('value',item.id);
+            departmentTreeDialog.hide();
+          }
+
+          showUploadSinglePhoto = function()
+          {
+            style.set(dom.byId('submitSingleUserPhotoDIV'), "display", "");
+            style.set(dom.byId('modifyPhotoDoor'), "display", "none");
+          }
+          initUploadSinglePhoto = function()
+          {
+            style.set(dom.byId('submitSingleUserPhotoDIV'), "display", "none");
+            style.set(dom.byId('modifyPhotoDoor'), "display", "");
+            singleFile.set('value',"");
+          }
+          /* setUploadURLParamForSWFU = function (temp_user_code)
+          {
+              var uploadURL = "/zzy/uploadSingleUserPhotoBYUserCode/?sessionId="+sessionId+"&user_code="+temp_user_code;
+              swfu.setUploadURL(uploadURL);
+          } */
+      ready(function(){
+
+        loadEventHandler();
+        var urlParam = OpenAjax.gadgets.util.getUrlParameters();
+        sessionId = urlParam.sessionId;
+        try
+        {
+          initBaseInfo();
+          initGridInfo();
+        }
+        catch(e)
+        {
+          console.log(e.message)
+        }
+      });
+    });
+
+  </script>
+</head>
+<body class="soria">
+
+    <div id="main" dojoType="dijit.layout.BorderContainer" data-dojo-props='liveSplitters:false,design:"headline"' style="width:100%; height:100%">
+      <div dojoType="dijit.layout.ContentPane" region="top" >
+        <div data-dojo-type="dijit.Toolbar" >
+          <div dojotype="dijit.form.Button" label="增加" onclick="showAdd();" iconClass="dijitIconNewTask" jsid="add" id="add"></div>
+          <span data-dojo-type="dijit.ToolbarSeparator"></span>
+          <div dojotype="dijit.form.Button" label="修改" onclick="showModify();" iconClass="dijitIconEdit" jsid="modify" id="modify"></div>
+          <span data-dojo-type="dijit.ToolbarSeparator"></span>
+          <div dojotype="dijit.form.Button" label="删除" onclick="deleted();" iconClass="dijitIconDelete" jsid="del" id="del"></div>
+          <span data-dojo-type="dijit.ToolbarSeparator"></span>
+          <div dojotype="dijit.form.Button" label="用户照片上传" onclick="openUploadDialog();" iconClass="dijitIconEdit" jsid="batchUpload" id="batchUpload"></div>
+        </div>
+        <br>
+          <div>
+            <label for="user_name" style="width:6em; margin-top: 2px; float:left;">&nbsp;&nbsp;&nbsp;&nbsp;用户姓名</label>
+            <div data-dojo-type="dijit/form/ValidationTextBox"   data-dojo-props='trim:true,style:"width:150px;height:17px;float:left;"' placeholder="姓名" jsid='user_name'  name="user_name" ></div>
+
+            <label for="user_code" style="width:6em; margin-top: 2px; float:left;">&nbsp;&nbsp;&nbsp;&nbsp;用户工号</label>
+            <div data-dojo-type="dijit/form/ValidationTextBox"  data-dojo-props='trim:true,style:"width:150px;height:17px;float:left;"' placeholder='工号' jsid='user_code'  name="user_code" ></div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div dojoType="dijit/form/Button" id="searchbtn" onclick="searchGridInfo();"  style="margin-top: -2px;">查询</div>
+          </div>
+    </div>
+    <div dojoType="dijit.layout.ContentPane" region="center">
+    <div id="gridDiv"></div>
+    </div>
+</div>
+
+
+  <div dojoType="dijit.Dialog" jsid='curddialog' title="增加" style="width:650px;" >
+      <div class="dijitDialogPaneContentArea">
+      <div dojoType="dijit/form/Form" jsid="form" id="form">
+        <button data-dojo-type="dijit/form/Button" jsid='account_id'  name="account_id" id="account_id" style="display:none"></button>
+        <button data-dojo-type="dijit/form/Button" jsid='dept_code'  name="dept_code" id="dept_code" style="display:none"></button>
+        <input  name="userPhoto_id" id="userPhoto_id" style="display:none"></input>
+
+        <ul class="ul-1">
+          <li>
+          <label>用户工号：</label>
+          <div data-dojo-type="dijit/form/ValidationTextBox"  required="true" style="width:200px;height:17px;" placeholder='用户编号' jsid='code'  name="code"></div>
+          </li>
+          <li>
+          <label>登陆别名：</label>
+          <div data-dojo-type="dijit/form/ValidationTextBox"  required="true" style="width:200px;height:17px;" placeholder='登陆别名' jsid='login_alias'  name="login_alias" ></div>
+          </li>
+          <li>
+          <label>用户姓名：</label>
+          <div data-dojo-type="dijit/form/ValidationTextBox"  required="true" style="width:200px;height:17px;" placeholder='用户姓名' jsid='account_name'  name="account_name" ></div>
+          </li>
+          <li>
+          <label>用户密码：</label>
+          <div data-dojo-type="dijit/form/ValidationTextBox"  required="true" style="width:200px;height:17px;" placeholder='用户密码' jsid='password'  name="password" type="password"></div>
+          </li>
+          <li>
+          <label>用户性别：</label>
+          <select dojoType="dijit/form/FilteringSelect" style="width:200px;" name="sex" jsid='sex' id='sex'>
+                        <option value="0">未知性别</option>
+                        <option value="1" selected>男</option>
+                        <option value="2">女</option>
+                        <option value="3">未说明性别</option>
+                      </select>
+          </li>
+          <li>
+          <label>用户类型：</label>
+          <div id="user_type_code"></div>
+          </li>
+          <label>用户皮肤：</label>
+          <div dojoType="dijit/form/FilteringSelect" style="width:200px;" id="cust_skin" data-dojo-props='id: "cust_skin",
+              value: "1",
+              name:"cust_skin",
+              style: "width: 200px;",
+              searchAttr: "name"'></div>
+          </li>
+          <li>
+          <label style="float:left;">所属部门：</label>
+          <div id="deptname" style="float:left;margin-top: 2px;">未选择部门</div>
+          <button data-dojo-type="dijit/form/Button" style="float:left;"  onClick="showdeptTree();">选择
+            </button>
+          </li>
+        </ul>
+        <div class="photo">
+            <p><img  id="userPhoto"  style="width:125px;height:159px"/ onerror="nofind()"></p>
+            <div id="submitSingleUserPhotoDIV" style="display:none">
+            <form id="modifySingleUserPhoto" action="myfileUpload" enctype="multipart/form-data" method="post">
+            <span data-dojo-type="dijit/form/ValidationTextBox" style="width:100px;height:17px;readOnly:true; margin-top: -16px;" jsid='singleFile' id="singleFile" name="singleFile" ></span>
+                   <span id="singleUploadButton" ></span>
+            </form>
+            </div>
+            <div id="modifyPhotoDoor">
+            <p><div dojotype="dijit.form.Button" name="modifyButton" id="modifyButton" onClick="showUploadSinglePhoto" label="上传照片"  ></div></p>
+          </div>
+          </div>
+          <br/>
+           <br/>
+      </div>
+    </div>
+
+    <div class="dijitDialogPaneActionBar">
+            <button data-dojo-type="dijit/form/Button"  type="reset" onClick="return form.reset();">
+                  重置
+            </button>
+            <button data-dojo-type="dijit/form/Button"   onClick="save();">
+                  保存
+            </button>
+            <button data-dojo-type="dijit/form/Button" type="button" onClick="curddialog.hide()">
+                  关闭
+            </button>
+    </div>
+  </div>
+  <div dojoType="dijit.Dialog" jsid='departmentTreeDialog' title="组织机构树" style="width:300px;" >
+  <div class="dijitDialogPaneContentArea">
+  <div id="departmentTree"></div>
+  </div>
+  <div class="dijitDialogPaneActionBar">
+            <button data-dojo-type="dijit/form/Button"   onClick="updateDept();">
+                  保存
+            </button>
+            <button data-dojo-type="dijit/form/Button" type="button" onClick="departmentTreeDialog.hide()">
+                  关闭
+            </button>
+    </div>
+  </div>
+</body>
+</html>

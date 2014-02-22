@@ -1,0 +1,152 @@
+<script type="text/javascript">
+	require([ "dojo/ready","dojox/grid/DataGrid", "dojox/grid/_RadioSelector",
+			"dojox/grid/_CheckBoxSelector" ], function(ready,DataGrid) {
+		createSqlParamFieldGrid = function() {
+			var _sqlParamfieldGrid = new DataGrid({
+				structure : [ [ {
+					name : "字段名",
+					field : "fieldname",
+					width : "auto"
+				}, {
+					name : "标题名",
+					field : "titlename",
+					width : "auto"
+				}, {
+					name : "类型",
+					field : "fieldtype",
+					width : "auto"
+				} ] ]
+			}, "_designer_right_tabs_sqlParam_fieldgrid");
+			_sqlParamfieldGrid.startup();
+
+			dojo.connect(_sqlParamfieldGrid, "onDblClick", this,
+					function($item) {
+						var __selItem = _sqlParamfieldGrid.selection
+								.getSelected()[0];
+
+						this._sqlParamGrid.store.newItem({
+							"code" : "111",
+							"logical" : "and",
+							"field" : __selItem.fieldname[0],
+							"relation" : "=",
+							"value" : "1",
+							reportds_code : 202
+						});
+					});
+		};
+		createSqlParamGrid = function() {
+			 var plugins = {
+						indirectSelection:{
+							headerSelector:true,
+							name: "Selection",
+							width: "30px",
+							styles: "text-align: center;"
+			}};
+			var _sqlParamGrid = new dojo.newcapec.grid.EnhancedGrid({
+				plugins:plugins,
+				structure : [ [ {
+					name : "逻辑",
+					field : "logical",
+					width : "auto",
+					editable : true,
+					type : dojox.grid.cells.Select,
+					options : [ "and", "or", "and not", "or not" ]
+				}, {
+					name : "参数",
+					field : "field",
+					width : "auto"
+				}, {
+					name : "别名",
+					field : "label",
+					width : "auto"
+				}, {
+					name : "输入类型",
+					field : "input_type",
+					width : "auto"
+				}, {
+					name : "控件数据",
+					field : "widget_ds_code",
+					width : "auto"
+				}, {
+					name : "关系",
+					field : "relation",
+					width : "auto",
+					editable : true,
+					type : dojox.grid.cells.Select,
+					options : [ "=", ">", "<",">=", "<=", "<>", "like" ]
+				}, {
+					name : "默认值",
+					field : "value",
+					width : "auto",
+					editable : true
+				} ] ]
+			}, "_designer_right_tabs_sqlParam_paramGrid");
+			_sqlParamGrid.startup();
+		};
+		createProcParamGrid = function(){
+			var procParamGrid = new DataGrid({
+				rowSelector: "5px",
+				style : {
+					height : "100%",
+					margin : "-4px",
+					padding : 0
+				},
+				structure : [[{
+					name : "参数名",
+					field : "paramname",
+					width : "auto"
+				},{
+					name : "参数类型",
+					field : "paramtype",
+					width : "auto"
+				}, {
+					name : "默认值",
+					field : "value",
+					width : "auto",
+					editable : true
+				}, {
+					name : "必填",
+					field : "required",
+					width : "auto"
+				} ] ]
+			}, "_designer_procparamgrid");
+			procParamGrid.startup();
+		};
+		ready(function() {
+			createSqlParamFieldGrid();
+			createSqlParamGrid();
+// 			createProcParamGrid();
+		});
+	});
+</script>
+
+<div style="width: 100%;display:none;" id="_designer_procparamgrid"></div>
+<!-- <div style="float:left;display:none;width:30%;"  id="_designer_right_tabs_sqlParam_fieldgrid"></div> -->
+<!-- <div style="float:left;display:none;width:70%;"  id="_designer_right_tabs_sqlParam_paramGrid"></div> -->
+
+
+
+<!-- <div id="_designer_right_tabs_procParam" data-dojo-type="dijit/layout/ContentPane" -->
+<!-- 					data-dojo-props='title:"查询参数", tooltip:"存储过程查询参数设置", showTitle:true, iconClass:"dijitEditorIcon dijitEditorIconCut"'> -->
+<!-- 					<div id="_designer_procparamgrid" style="height: 100%; "></div> -->
+<!-- </div> -->
+<div id="_designer_right_tabs_sqlParam"
+	data-dojo-type="dijit.layout.BorderContainer"
+	data-dojo-props='design:"sidebar",title:"查询参数", tooltip:"SQL语句&视图查询参数设置", showTitle:true, iconClass:"dijitEditorIcon dijitEditorIconCut"'>
+	<div data-dojo-type="dijit.layout.ContentPane"
+		data-dojo-props='region:"left"' style="width:30%">
+		<div id="_designer_right_tabs_sqlParam_fieldgrid"
+			style="width: 100%; height: 100%"></div>
+	</div>
+	<div data-dojo-type="dijit.layout.ContentPane"
+		data-dojo-props='region:"top"'>
+		<div data-dojo-type="dijit.Toolbar" >
+			<button data-dojo-type="dijit/form/Button"   onClick="save();" iconClass="dijitEditorIcon dijitEditorIconDelete">删除</button>
+		</div>
+	</div>
+	<div data-dojo-type="dijit.layout.ContentPane"
+		data-dojo-props='region:"center"'>
+		<div id="_designer_right_tabs_sqlParam_paramGrid"></div>
+	</div>
+</div>
+

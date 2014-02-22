@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+           xmlns:tuscany="http://tuscany.apache.org/xmlns/sca/1.1"
+           targetNamespace="http://newcapec.net/commonbase/diccode/dicCodeService"
+           name="dicCodeService-contribution">
+ <component name="SequenceServiceComponent">
+         <implementation.java class="net.newcapec.sca.sequence.impl.SequenceServiceImpl"/>
+          <reference name="sequenceInit" target="SequenceInitComponent" />
+     <service name="SequenceService">
+        </service>
+   </component>
+
+   <component name="SequenceInitComponent">
+      <implementation.java class="net.newcapec.sca.sequence.SequenceInitImpl"/>
+      <reference name="defDBConnService" target="DefDBConnServiceComponent" />
+  </component>
+
+    <component name="DefDBConnServiceComponent">
+       <implementation.java class="net.newcapec.sca.dbconn.service.impl.DefDBConnServiceImpl"/>
+    </component>
+
+    <component name="SessionComponent">
+      <implementation.java class="net.newcapec.sca.session.service.impl.SessionImpl"/>
+        <reference name="defDBConnService" target="DefDBConnServiceComponent"/>
+      </component>
+
+    <component name="DicCodeDASComponent">
+    <implementation.spring location="dicCodeDAS-context.xml"/>
+    <reference name="defDBConnService" target="DefDBConnServiceComponent"/>
+    <reference name="sequenceService" target="SequenceServiceComponent"/>
+    </component>
+
+  <component name="DicCodeServiceComponent">
+    <implementation.spring location="dicCodeService-context.xml"/>
+    <reference name="sessionService" target="SessionComponent" />
+    <reference name="dicCodeDAS" target="DicCodeDASComponent" />
+        <service name="DicCodeService">
+      <tuscany:binding.jsonrpc/>
+        </service>
+    </component>
+
+
+
+
+
+
+</composite>

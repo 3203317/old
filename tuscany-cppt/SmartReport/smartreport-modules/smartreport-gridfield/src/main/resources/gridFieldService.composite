@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+           xmlns:tuscany="http://tuscany.apache.org/xmlns/sca/1.1"
+           targetNamespace="http://newcapec.net/smartreport/gridfield/gridFieldService"
+           name="gridFieldService-contribution">
+
+	<component name="gridFieldUIComponent">
+	    <tuscany:implementation.widget location="widget/formcustom/gridfield.html" widgetUri="/formcustom/gridfield"/>
+		<reference name="gridFieldService" target="GridFieldServiceComponent/GridFieldService"></reference>
+		<reference name="fieldprepService" target="FieldPrepServiceComponent/FieldPrepService"></reference>
+	</component>
+
+	<component name="GridFieldServiceComponent">
+		<implementation.spring location="gridFieldService-context.xml"/>
+		<reference name="gridFieldDAS" target="GridFieldDASComponent" />
+		<reference name="sessionService" target="SessionComponent" />
+		<service name="GridFieldService">
+			<tuscany:binding.jsonrpc/>
+		</service>
+	</component>
+
+</composite>

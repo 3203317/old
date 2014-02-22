@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<TITLE>reportdesigner</TITLE>
+<link rel="stylesheet" type="text/css" href="/dojo/resources/dojo.css" />
+<link rel="stylesheet" type="text/css"
+	href="/dojox/grid/resources/Grid.css" />
+<link rel="stylesheet" type="text/css"
+	href="/dojox/grid/resources/soriaGrid.css" />
+<link rel="stylesheet" type="text/css"
+	href="../../main/dijit/themes/capec/capec.css" />
+<link rel="stylesheet" type="text/css"
+	href="/dojox/layout/resources/ToggleSplitter.css" />
+<style type="text/css">
+@import "/dojox/grid/enhanced/resources/EnhancedGrid.css";
+
+@import "/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css";
+
+html,body {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	padding: 0;
+	margin: 0;
+}
+
+</style>
+
+<script type="text/javascript" src="../../main/commons/js/util.js"></script>
+<script type="text/javascript" src="../../main/commons/js/base.js"></script>
+<script type="text/javascript" src="../../main/commons/js/form.js"></script>
+<script type="text/javascript"
+	src="../../main/commons/js/OpenAjaxManagedHub-all.js"></script>
+
+<SCRIPT LANGUAGE="JavaScript">
+		var djConfig = {
+			locale: capec.base.locale,
+			bindEncoding: 'UTF-8'
+		};
+	</SCRIPT>
+<script type="text/javascript" src="/dojo/dojo.js"
+	data-dojo-config="isDebug:false,parseOnLoad:true"></script>
+<script type='text/javascript' src='dynaload.js?72'></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="../../main/commons/js/managedHub.js"></script>
+
+  <script type="text/javascript">
+
+    function client2SecurityAlertHandler(source, alertType) {
+      // 理安全警报
+    }
+    /* Callback that is invoked upon successful connection to the Managed Hub */
+    function connectCompleted ( hubClient, success, error ) {
+      if (success) {
+    	  hubClient.subscribe('org.example.topics.textmessage', function(topic, publisherData, subscriberData){
+    		  alert(topic);
+    	  });
+      }
+    }
+
+    /* 应用程序初始化时,在回应文件load事件 */
+    function loadEventHandler() {
+      var aa =	OpenAjax.gadgets.util.getUrlParameters();
+      hubClient = new OpenAjax.hub.IframeHubClient({
+        HubClient: {
+          onSecurityAlert: client2SecurityAlertHandler
+        }
+      });
+      // 连接到ManagedHub
+      hubClient.connect( connectCompleted );
+
+
+    }
+    function clickEvent() {
+      hubClient.publish('org.example.topics.textmessage','Message from ClientApp2');
+    }
+
+    function onData1(topic, publisherData, subscriberData) {
+    	 alert(publisherData);
+        if (typeof publisherData === "string") {
+          alert(publisherData);
+        }
+      }
+
+  </script>
+<script type="text/javascript">
+		document.title = document.title +" - 报表2.4";
+
+		var _designer = {};
+		_designer.sessionId = Request.QueryString("sessionId");
+		_designer.reportId = Request.QueryString("reportId");
+		_designer.params = Request.QueryString("params").replaceAll("%22","'");
+
+		//@Reference
+		_designer.reportService = new tuscany.sca.Reference("reportService");
+
+		var OnReady = function(){
+
+		};
+
+		var OnEvent = function(){};
+
+		require(["dojo/ready"],function($ready){
+			console.log(_designer.params);
+
+			$ready(function(){
+				var __d_2;
+				try{
+					__d_2 = eval("("+ _designer.params +")");
+				}
+				catch(e){return;}
+
+				var params_2 = [];
+				for(var __item in __d_2){
+					params_2.push({
+						field: __item,
+						value: __d_2[__item]
+					});
+				}
+
+				console.log(params_2);
+
+				_designer.reportService.getReportById(_designer.sessionId,_designer.reportId).addCallback(function($value){
+					if($value == null) return;
+
+					var __xml = $value.templet;
+
+					AF.func("Build", __xml);
+
+					_designer.reportService.getReportData(_designer.sessionId,_designer.reportId,params_2).addCallback(function($data){
+						if($data == null) return;
+						for(var __item in $data){
+							var __ds = __item +'\r\n{"items":'+ JSON.stringify($data[__item]) +'}';
+							AF.func('SetSource', __ds);
+						}
+						AF.func('SetSource', "ReportDic\r\n{items:[{corp:'郑州新开普电子有限公司',optuser:'黄鑫',printime:'2013-01-25 11:11:11'}]}");
+						AF.func('Calc', '');
+					});
+				});
+			});
+		});
+	</script>
+</HEAD>
+
+<BODY class="soria">
+	<div style="position: relative; width: 100%; height: 100%">
+		<script>
+			insertReport('AF', 'Rebar=Main');
+		</script>
+	</div>
+</BODY>
+</HTML>

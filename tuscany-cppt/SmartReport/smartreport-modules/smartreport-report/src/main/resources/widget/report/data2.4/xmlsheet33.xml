@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--By Supcan Report -->
+<Report>
+	<WorkSheet name="演示表" isDefaultPrint="true">
+		<Properties>
+			<BackGround bgColor="#F3F3F3" arrange="tile" alpha="255"/>
+			<DefaultTD>
+				<TD fontIndex="0" textColor="#000000" transparent="true" leftBorder="0" topBorder="0" leftBorderColor="#C0C0C0" leftBorderStyle="solid" topBorderColor="#C0C0C0" topBorderStyle="solid" decimal="2" align="left" vAlign="middle" isProtected="false" isThousandSeparat="true" isRound="true" isPrint="true"/>
+			</DefaultTD>
+			<Other isShowZero="true" isRefOriPrecision="true" LineDistance="0" isRowHeightAutoExtendAble="true"/>
+		</Properties>
+		<Fonts>
+			<Font faceName="Verdana" height="-13" weight="400"/>
+			<Font faceName="Verdana" height="-13" weight="700"/>
+			<Font faceName="Verdana" height="-13" weight="400" pitchAndFamily="2" quality="1" outPrecision="3" clipPrecision="2"/>
+			<Font faceName="Verdana" height="-13" weight="700" pitchAndFamily="2" quality="1" outPrecision="3" clipPrecision="2"/>
+			<Font faceName="楷体" charSet="134" height="-27" weight="700"/>
+		</Fonts>
+		<Table>
+			<Col width="19"/>
+			<Col width="102"/>
+			<Col width="194"/>
+			<Col width="117"/>
+			<Col width="144"/>
+			<Col width="144"/>
+			<Col width="13"/>
+			<TR height="46" sequence="0">
+				<TD fontIndex="4" align="center">XXX公司订单明细表（标题）</TD>
+				<TD fontIndex="4" leftBorder="1" align="center"/>
+				<TD fontIndex="4" leftBorder="1" align="center"/>
+				<TD fontIndex="4" leftBorder="1" align="center"/>
+				<TD fontIndex="4" leftBorder="1" align="center"/>
+				<TD fontIndex="4" leftBorder="1" align="center"/>
+				<TD fontIndex="4" leftBorder="1" align="center"/>
+			</TR>
+			<TR height="23" sequence="1">
+				<TD fontIndex="1"/>
+				<TD fontIndex="1">人员列表-男:</TD>
+				<TD fontIndex="1" leftBorder="1" topBorder="1"/>
+				<TD fontIndex="1"/>
+				<TD fontIndex="1" align="center" datatype="1"/>
+				<TD fontIndex="1" align="center" datatype="1"/>
+				<TD fontIndex="1"/>
+			</TR>
+			<TR height="23" sequence="2">
+				<TD/>
+				<TD fontIndex="1" bgColor="#E0E0E0" leftBorder="1" topBorder="1" align="center" datatype="1" formula="=headrow(&apos;ds201\items&apos;)">用户名</TD>
+				<TD fontIndex="1" bgColor="#E0E0E0" leftBorder="1" topBorder="1" align="center" datatype="1">性别</TD>
+				<TD fontIndex="1" bgColor="#E0E0E0" leftBorder="1" topBorder="1" align="center" datatype="1">出生日期</TD>
+				<TD fontIndex="1" bgColor="#E0E0E0" leftBorder="1" topBorder="1" align="center" datatype="1">住址</TD>
+				<TD fontIndex="1" bgColor="#E0E0E0" leftBorder="1" topBorder="1" align="center" datatype="1">身份证</TD>
+				<TD leftBorder="1"/>
+			</TR>
+			<TR height="23" sequence="3">
+				<TD/>
+				<TD leftBorder="1" topBorder="1" datatype="1" formula="=datarow(&apos;ds201\items&apos;)"/>
+				<TD leftBorder="1" topBorder="1" datatype="1"/>
+				<TD leftBorder="1" topBorder="1" align="center" datatype="1"/>
+				<TD leftBorder="1" topBorder="1" datatype="1"/>
+				<TD leftBorder="1" topBorder="1" datatype="1"/>
+				<TD leftBorder="1"/>
+			</TR>
+			<TR height="23" sequence="4">
+				<TD/>
+				<TD topBorder="1"/>
+				<TD topBorder="1"/>
+				<TD topBorder="1" datatype="1"/>
+				<TD topBorder="1" align="center" datatype="1"/>
+				<TD topBorder="1" align="center" datatype="1"/>
+				<TD/>
+			</TR>
+			<TR height="23" sequence="5">
+				<TD fontIndex="3"/>
+				<TD fontIndex="3">订单产品列表:</TD>
+				<TD fontIndex="3" decimal="0" isThousandSeparat="false"/>
+				<TD fontIndex="3"/>
+				<TD fontIndex="3" align="center"/>
+				<TD fontIndex="3" align="center"/>
+				<TD fontIndex="1"/>
+			</TR>
+			<TR height="23" sequence="6">
+				<TD fontIndex="2"/>
+				<TD fontIndex="3" bgColor="#E0E0E0" leftBorder="1" topBorder="1" align="center" isThousandSeparat="false" datatype="1" formula="=headrow(&apos;ds202\items&apos;)">产品编号</TD>
+				<TD fontIndex="3" bgColor="#E0E0E0" leftBorder="1" topBorder="1" align="center" datatype="1">产品名</TD>
+				<TD fontIndex="2" leftBorder="1"/>
+				<TD fontIndex="2"/>
+				<TD fontIndex="2"/>
+				<TD fontIndex="2"/>
+			</TR>
+			<TR height="23" sequence="7">
+				<TD fontIndex="2"/>
+				<TD fontIndex="2" leftBorder="1" topBorder="1" isThousandSeparat="false" datatype="1" formula="=datarow(&apos;ds202\items&apos;)"/>
+				<TD fontIndex="2" leftBorder="1" topBorder="1" datatype="1"/>
+				<TD fontIndex="2" leftBorder="1"/>
+				<TD fontIndex="2"/>
+				<TD fontIndex="2"/>
+				<TD fontIndex="2"/>
+			</TR>
+			<TR height="23" sequence="8">
+				<TD fontIndex="2"/>
+				<TD fontIndex="2" topBorder="1"/>
+				<TD fontIndex="2" topBorder="1"/>
+				<TD fontIndex="2"/>
+				<TD fontIndex="2" align="center"/>
+				<TD fontIndex="2" align="center"/>
+				<TD/>
+			</TR>
+			<TR height="23" sequence="9">
+				<TD decimal="0" isThousandSeparat="false"/>
+				<TD fontIndex="1" decimal="0" isThousandSeparat="false">人员列表-女:</TD>
+				<TD decimal="0" isThousandSeparat="false"/>
+				<TD decimal="0" isThousandSeparat="false"/>
+				<TD decimal="0" align="center" isThousandSeparat="false" datatype="1"/>
+				<TD decimal="0" align="center" isThousandSeparat="false" datatype="1"/>
+				<TD decimal="0" isThousandSeparat="false"/>
+			</TR>
+			<TR height="23" sequence="10">
+				<TD decimal="0" isThousandSeparat="false"/>
+				<TD bgColor="#E0E0E0" leftBorder="1" topBorder="1" decimal="0" align="center" isThousandSeparat="false" datatype="1" formula="=headrow(&apos;ds203\items&apos;)">用户名</TD>
+				<TD fontIndex="1" bgColor="#E0E0E0" leftBorder="1" topBorder="1" decimal="0" align="center" isThousandSeparat="false" datatype="1">性别</TD>
+				<TD fontIndex="1" bgColor="#E0E0E0" leftBorder="1" topBorder="1" decimal="0" align="center" isThousandSeparat="false" datatype="1">出生日期</TD>
+				<TD fontIndex="1" bgColor="#E0E0E0" leftBorder="1" topBorder="1" decimal="0" align="center" isThousandSeparat="false" datatype="1">住址</TD>
+				<TD fontIndex="1" bgColor="#E0E0E0" leftBorder="1" topBorder="1" decimal="0" align="center" isThousandSeparat="false" datatype="1">身份证</TD>
+				<TD leftBorder="1" decimal="0" isThousandSeparat="false"/>
+			</TR>
+			<TR height="23" sequence="11">
+				<TD decimal="0" isThousandSeparat="false"/>
+				<TD leftBorder="1" topBorder="1" decimal="0" isThousandSeparat="false" datatype="1" formula="=datarow(&apos;ds203\items&apos;)"/>
+				<TD leftBorder="1" topBorder="1" decimal="0" isThousandSeparat="false" datatype="1"/>
+				<TD leftBorder="1" topBorder="1" decimal="0" align="center" isThousandSeparat="false" datatype="1"/>
+				<TD leftBorder="1" topBorder="1" decimal="0" isThousandSeparat="false" datatype="1"/>
+				<TD leftBorder="1" topBorder="1" decimal="0" isThousandSeparat="false" datatype="1"/>
+				<TD leftBorder="1" decimal="0" isThousandSeparat="false"/>
+			</TR>
+			<TR height="23" sequence="12">
+				<TD decimal="0" isThousandSeparat="false"/>
+				<TD topBorder="1" decimal="0" isThousandSeparat="false" datatype="1"/>
+				<TD topBorder="1" decimal="0" isThousandSeparat="false" datatype="1"/>
+				<TD topBorder="1" decimal="0" isThousandSeparat="false" datatype="1"/>
+				<TD topBorder="1" decimal="0" align="center" isThousandSeparat="false" datatype="1"/>
+				<TD topBorder="1" decimal="0" align="center" isThousandSeparat="false" datatype="1"/>
+				<TD decimal="0" isThousandSeparat="false"/>
+			</TR>
+		</Table>
+		<Merges>
+			<Range row1="0" col1="0" row2="0" col2="6"/>
+			<Range row1="1" col1="1" row2="1" col2="2"/>
+			<Range row1="5" col1="1" row2="5" col2="2"/>
+			<Range row1="6" col1="3" row2="6" col2="4"/>
+			<Range row1="7" col1="3" row2="7" col2="4"/>
+			<Range row1="9" col1="1" row2="9" col2="2"/>
+		</Merges>
+		<PrintPage>
+			<Paper>
+				<Margin left="19" top="25" right="19" bottom="25"/>
+			</Paper>
+			<Page align="center">
+				<PageCode>
+					<Font faceName="宋体" charSet="134" height="-14" weight="400"/>
+				</PageCode>
+			</Page>
+		</PrintPage>
+	</WorkSheet>
+	<DataSources Version="255" isAutoCalculateWhenOpen="false" isSaveCalculateResult="false">
+		<DataSource type="4"><!-- Desc: Supcan Report Component DataSource Specification -->
+<Data>
+	<ID>ds201</ID>
+	<Version>2</Version>
+	<Type>4</Type>
+	<TypeMeaning>JSON</TypeMeaning>
+	<Source/>
+	<Memo>性别-男</Memo>
+	<XML_RecordAble_Nodes>
+		<Node>
+			<name alias="项">items</name>
+		</Node>
+	</XML_RecordAble_Nodes>
+	<Columns>
+		<Column>
+			<name>items\f_name</name>
+			<text>用户名</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>1</sequence>
+		</Column>
+		<Column>
+			<name>items\f_sex</name>
+			<text>性别</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>2</sequence>
+		</Column>
+		<Column>
+			<name>items\f_age</name>
+			<text>出生日期</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>3</sequence>
+		</Column>
+		<Column>
+			<name>items\f_addr</name>
+			<text>住址</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>4</sequence>
+		</Column>
+		<Column>
+			<name>items\f_idcard</name>
+			<text>身份证</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>5</sequence>
+		</Column>
+	</Columns>
+</Data>
+
+		</DataSource>
+		<DataSource type="4"><!-- Desc: Supcan Report Component DataSource Specification -->
+<Data>
+	<ID>ds202</ID>
+	<Version>2</Version>
+	<Type>4</Type>
+	<TypeMeaning>JSON</TypeMeaning>
+	<Memo>产品</Memo>
+	<XML_RecordAble_Nodes>
+		<Node>
+			<name alias="项">items</name>
+		</Node>
+	</XML_RecordAble_Nodes>
+	<Columns>
+		<Column>
+			<name>items\p_productname</name>
+			<text>产品名称</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>2</sequence>
+		</Column>
+		<Column>
+			<name>items\p_productcode</name>
+			<text>产品编号</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>1</sequence>
+		</Column>
+	</Columns>
+</Data>
+
+		</DataSource>
+		<DataSource type="4"><!-- Desc: Supcan Report Component DataSource Specification -->
+<Data>
+	<ID>ds203</ID>
+	<Version>2</Version>
+	<Type>4</Type>
+	<TypeMeaning>JSON</TypeMeaning>
+	<Source/>
+	<Memo>性别-女</Memo>
+	<XML_RecordAble_Nodes>
+		<Node>
+			<name alias="项">items</name>
+		</Node>
+	</XML_RecordAble_Nodes>
+	<Columns>
+		<Column>
+			<name>items\f_name</name>
+			<text>用户名</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>1</sequence>
+		</Column>
+		<Column>
+			<name>items\f_sex</name>
+			<text>性别</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>2</sequence>
+		</Column>
+		<Column>
+			<name>items\f_age</name>
+			<text>出生日期</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>3</sequence>
+		</Column>
+		<Column>
+			<name>items\f_addr</name>
+			<text>住址</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>4</sequence>
+		</Column>
+		<Column>
+			<name>items\f_idcard</name>
+			<text>身份证</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>5</sequence>
+		</Column>
+	</Columns>
+</Data>
+
+		</DataSource>
+	</DataSources>
+</Report>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+					xmlns:tuscany="http://tuscany.apache.org/xmlns/sca/1.1"
+					targetNamespace="http://newcapec.net/smartreport/GridConditionservice"
+					name="GridConditionservice-contribution">
+
+	<component name="gridconditionUIComponent">
+		<tuscany:implementation.widget location="widget/formcustom/gridcondition.html" widgetUri="/formcustom/gridcondition"/>
+		<reference name="gridConditionService" target="GridConditionServiceComponent/GridConditionService"></reference>
+	</component>
+
+			<component name="GridConditionServiceComponent">
+					<implementation.java class="net.newcapec.sca.gridcondition.service.impl.GridConditionServiceImpl"/>
+					<reference name="gridConditionDAS" target="GridConditionDASComponent" />
+					<reference name="sequenceService" target="SequenceServiceComponent" />
+					<reference name="sessionService" target="SessionComponent" />
+					<reference name="fieldprepService" target="FieldPrepServiceComponent"></reference>
+					<reference name="dicCodeService" target="DicCodeServiceComponent"></reference>
+					<reference name="gridViewService" target="GridViewServiceComponent"></reference>
+				<service name="GridConditionService">
+					<tuscany:binding.jsonrpc/>
+				</service>
+			</component>
+
+			<component name="GridConditionDASComponent">
+				<implementation.java class="net.newcapec.sca.gridcondition.das.impl.GridConditionDASImpl"/>
+				<reference name="defDBConnService" target="DefDBConnServiceComponent" />
+		</component>
+
+</composite>

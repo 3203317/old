@@ -1,0 +1,14 @@
+{
+	"code": 0,
+	"identifier": "code",
+	"label": "name",
+	"items": [
+	        {"code": "1", "name":"资源1", "type":"resource", "population":"900 million", "area": "30,221,532 sq km",
+	        		"timezone": "-1 UTC to +4 UTC",
+	        		"children":[
+	        			{ "code": "4", "name":"资源4", "type":"resource" },
+	        			{ "code": "5", "name":"资源5", "type":"resource" }
+	        		] },
+	{ "code": "2", "name":"资源2", "type":"resource" },
+	{ "code": "3", "name":"资源3", "type":"resource" }
+]}

@@ -1,0 +1,499 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<TITLE>dsmanager</TITLE>
+<link rel="stylesheet" type="text/css" href="/dojo/resources/dojo.css" />
+<link rel="stylesheet" type="text/css"
+	href="/dojox/grid/resources/Grid.css" />
+<link rel="stylesheet" type="text/css"
+	href="/dojox/grid/resources/soriaGrid.css" />
+<link rel="stylesheet" type="text/css"
+	href="../../main/dijit/themes/capec/capec.css" />
+<link rel="stylesheet" type="text/css"
+	href="/dojox/layout/resources/ToggleSplitter.css" />
+<style type="text/css">
+@import "/dojox/grid/enhanced/resources/EnhancedGrid.css";
+
+@import "/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css";
+
+html,body {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	padding: 0;
+	margin: 0;
+}
+
+#_main {
+	height: 100%;
+	width: 100%;
+	font-size: 12px;
+}
+
+#_main_top {
+	height: 100px;
+	width: 100%;
+	margin: 0;
+	padding: 2px;
+}
+
+#_main_center {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0px;
+}
+
+#_main_grid {
+	height: 100%;
+}
+</style>
+
+<script type="text/javascript" src="../../main/commons/js/util.js"></script>
+<script type="text/javascript" src="../../main/commons/js/base.js"></script>
+<script type="text/javascript" src="../../main/commons/js/form.js"></script>
+<script type="text/javascript"
+	src="../../main/commons/js/OpenAjaxManagedHub-all.js"></script>
+
+<SCRIPT LANGUAGE="JavaScript">
+		var djConfig = {
+			locale: capec.base.locale,
+			bindEncoding: 'UTF-8'
+		};
+	</SCRIPT>
+<script type="text/javascript" src="/dojo/dojo.js"
+	data-dojo-config="isDebug:false,parseOnLoad:true"></script>
+<script type="text/javascript" src="dsmanager.js"></script>
+<script type="text/javascript" src="../../main/commons/js/managedHub.js"></script>
+
+  <script type="text/javascript">
+
+    function client2SecurityAlertHandler(source, alertType) {
+      // 理安全警报
+    }
+    /* Callback that is invoked upon successful connection to the Managed Hub */
+    function connectCompleted ( hubClient, success, error ) {
+      if (success) {
+    	  hubClient.subscribe('org.example.topics.textmessage', function(topic, publisherData, subscriberData){
+    		  alert(topic);
+    	  });
+      }
+    }
+
+    /* 应用程序初始化时,在回应文件load事件 */
+    function loadEventHandler() {
+      var aa =	OpenAjax.gadgets.util.getUrlParameters();
+      hubClient = new OpenAjax.hub.IframeHubClient({
+        HubClient: {
+          onSecurityAlert: client2SecurityAlertHandler
+        }
+      });
+      // 连接到ManagedHub
+      hubClient.connect( connectCompleted );
+
+
+    }
+    function clickEvent() {
+      hubClient.publish('org.example.topics.textmessage','Message from ClientApp2');
+    }
+
+    function onData1(topic, publisherData, subscriberData) {
+    	 alert(publisherData);
+        if (typeof publisherData === "string") {
+          alert(publisherData);
+        }
+      }
+
+  </script>
+<script type="text/javascript">
+		var _dsmanager = {};
+		_dsmanager.sessionId = Request.QueryString("sessionId");
+		_dsmanager.resourceId = 1;
+		_dsmanager.gridPageSize = 5;
+
+		//@Reference
+		_dsmanager.dataSourceService = new tuscany.sca.Reference("dataSourceService");
+		//@Reference
+		_dsmanager.fieldPrepService = new tuscany.sca.Reference("fieldPrepService");
+		//@Reference
+		_dsmanager.dbConnService = new tuscany.sca.Reference("dbConnService");
+
+		dojo.registerModulePath("newcapec",".."+ capec.domain +"/main/newcapec");
+
+		/* 创建弹出Dialog */
+		require(["dojo/ready",
+				"newcapec/dialog/AlertConfirm",
+				"newcapec/dialog/AlertDialog",
+				"dijit/layout/BorderContainer",
+				"dojox/layout/ToggleSplitter",
+				"dojo/parser",
+				"dojox/layout/ToggleSplitter",
+				"dojox/layout/ContentPane",
+				"dijit/layout/ContentPane",
+				"dijit/layout/BorderContainer",
+				"dijit/form/Button",
+				"dojox/grid/_CheckBoxSelector",
+				"dijit/Dialog",
+				"dijit/form/Textarea",
+				"dijit/form/SimpleTextarea"],function($ready, $AlertConfirm, $AlertDialog){
+			$ready(function(){
+				if(dijit.byId("capec.dialog.optErrDialog") == null){
+					new $AlertDialog({
+						id: "capec.dialog.optErrDialog",
+						title: "提示",
+						msg: "操作失败，请重试！",
+						img: "info_32.png",
+						style: "width:300px"
+					});
+				}
+				if(dijit.byId("capec.dialog.confirmDialog") == null){
+					new $AlertConfirm({
+						id: "capec.dialog.confirmDialog",
+						title: "提示",
+						msg: "您确定要执行删除操作吗？",
+						img: "info_32.png",
+						style: "width:300px"
+					});
+				}
+				if(dijit.byId("capec.dialog.delTipErrDialog") == null){
+					new $AlertDialog({
+						id: "capec.dialog.delTipErrDialog",
+						title: "提示",
+						msg: "删除操作失败，请重试！",
+						img: "info_32.png",
+						style: "width:300px"
+					});
+				}
+				if(dijit.byId("capec.dialog.delTipDialog") == null){
+					new $AlertDialog({
+						id: "capec.dialog.delTipDialog",
+						title: "提示",
+						msg: "请选择要删除的记录！",
+						img: "info_32.png",
+						style: "width:300px"
+					});
+				}
+				if(dijit.byId("capec.dialog.editTipDialog") == null){
+					new $AlertDialog({
+						id: "capec.dialog.editTipDialog",
+						title: "提示",
+						msg: "请选择一条记录进行编辑！",
+						img: "info_32.png",
+						style: "width:300px"
+					});
+				}
+				if(dijit.byId("capec.dialog.optTipDialog") == null){
+					new $AlertDialog({
+						id: "capec.dialog.optTipDialog",
+						title: "提示",
+						msg: "请选择一条记录进行操作！",
+						img: "info_32.png",
+						style: "width:300px"
+					});
+				}
+			});
+		});
+
+		/* 创建Grid */
+		require(["dojo/ready",
+				"dojo/newcapec/grid/EnhancedGrid",
+				"dojo/newcapec/grid/plugins/Pagination",
+				"dijit/dijit",
+				"dojox/grid/DataGrid",
+				"dojo/parser",
+				"dojox/layout/ToggleSplitter",
+		    	"dojox/layout/ContentPane",
+		    	"dijit/layout/ContentPane",
+		    	"dijit/layout/BorderContainer",
+		    	"dijit/form/Button",
+		    	"dojox/grid/_CheckBoxSelector",
+		    	"dijit/Dialog",
+		    	"dojox/grid/EnhancedGrid"],function($ready, $Grid){
+			$ready(function(){
+				_dsmanager.grid = new $Grid({
+					param: "sessionId:'"+ _dsmanager.sessionId +"',resourceId:"+ _dsmanager.resourceId,
+					conditionKey:"filter",
+					tuscany: _dsmanager.dataSourceService.findDataSourceDojoList,
+					rowsPerPage: _dsmanager.gridPageSize,//每页显示多少条
+					plugins: {
+						pagination: { description: true, pageStepper: true, position: "bottom" }
+					},
+					style: { height: "100%", margin: 0, padding: 0 },
+					structure: [{
+						type: "dojox.grid._CheckBoxSelector",
+					},{
+						cells: [
+							{ name: "编号", field: "code", width: "50px", datatype:"number", editable: false},
+							{ name: "数据源名称", field: "name", width: "150px" },
+							{ name: "用户单位", field: "unit_code_text", width: "150px" },
+							{ name: "所属域", field: "domain_code_text", width: "150px" },
+							{ name: "类型", field: "type_text", width: "80px" },
+							{ name: "绑定类型", field: "bind_type_text", width: "80px" },
+							{ name: "功能类型", field: "use_scope_type_text", width: "80px" },
+							{ name: "服务URI", field: "service", width: "150px" },
+							{ name: "数据库连接", field: "dbconn_code_text", width: "150px" },
+							{ name: "获取方法", field: "method", width: "350px" },
+							{ name: "参数", field: "param", width: "100px" },
+							{ name: "备注", field: "memo", width: "220px" }
+						]
+					}]
+				},"_main_grid");
+			});
+		});
+
+
+
+		/* 创建toolbar */
+		require(["dojo/ready",
+				"newcapec/dialog/FormDialog",
+				"dijit/form/Button",
+				"dijit/dijit",
+				"dojox/grid/DataGrid",
+				"dojo/parser",
+				"dojox/layout/ToggleSplitter",
+		    	"dojox/layout/ContentPane",
+		    	"dijit/layout/ContentPane",
+		    	"dijit/layout/BorderContainer",
+		    	"dijit/form/Button",
+		    	"dojox/grid/_CheckBoxSelector",
+		    	"dijit/Dialog",
+				"dijit/form/Form",
+				"dijit/form/ValidationTextBox",
+				"dijit/form/Select",
+				"dijit/Toolbar"],function($ready, $Dialog, $Button){
+			$ready(function(){
+					var __toolbarId = "_main_toolbar";
+					_dsmanager.toolbar = new dijit.Toolbar({}, dojo.byId(__toolbarId));
+
+		            _dsmanager.toolbar.addChild(new $Button({
+		                id: __toolbarId +"_add",
+		                label: "添加",
+		                showLabel: true,
+		                iconClass: "dijitEditorIcon dijitEditorIconCut",
+		                onClick: function(){
+							if(dijit.byId("_dlg_add") == undefined){
+								new $Dialog({
+									id: "_dlg_add",
+									title: "添加",
+									style: { height: "317px", width: "400px" },
+									url: "dsform.html?r="+ new Date(),
+									state: "add",
+									buttons: [["btn_test","测试"],
+									          ["btn_submit","保存"],
+									          ["btn_reset","重置"],
+									          ["btn_close","关闭"]]
+								});
+							}else{
+								dijit.byId("_dlg_add").reset();
+							}
+							dijit.byId("_dlg_add").set("title", "添加");
+							dijit.byId("_dlg_add").setState("add");
+							dijit.byId("_dlg_add").show();
+		                }
+		            }));
+		            _dsmanager.toolbar.addChild(new $Button({
+		                id: __toolbarId +"_edit",
+		                label: "编辑",
+		                showLabel: true,
+		                iconClass: "dijitEditorIcon dijitEditorIconCopy",
+		                onClick: function(){
+							var __selItems = dijit.byId("_main_grid").selection.getSelected();
+							if(__selItems.length != 1){
+								dijit.byId("capec.dialog.editTipDialog").show();
+								return;
+							}
+							var __type = __selItems[0].type[0];
+
+							if(__type == "proc"){
+								if(dijit.byId("_dlg_add_proc") == undefined){
+									new $Dialog({
+										id: "_dlg_add_proc",
+										title: "编辑",
+										style: { height: "317px", width: "400px" },
+										url: "dsform_proc.html?r="+ new Date(),
+										state: "edit"
+									});
+								}else{
+									_dlg_add_proc_.set();
+								}
+								dijit.byId("_dlg_add_proc").set("title", "编辑");
+								dijit.byId("_dlg_add_proc").setState("edit");
+								dijit.byId("_dlg_add_proc").show();
+							}else{
+								if(dijit.byId("_dlg_add_view") == undefined){
+									new $Dialog({
+										id: "_dlg_add_view",
+										title: "编辑",
+										style: { height: "317px", width: "400px" },
+										url: "dsform_view.html?r="+ new Date(),
+										state: "edit"
+									});
+								}else{
+									_dlg_add_view_.set();
+								}
+								dijit.byId("_dlg_add_view").set("title", "编辑");
+								dijit.byId("_dlg_add_view").setState("edit");
+								dijit.byId("_dlg_add_view").show();
+							}
+		                }
+		            }));
+		            _dsmanager.toolbar.addChild(new $Button({
+		                id: __toolbarId+ "_del",
+		                label: "删除",
+		                showLabel: true,
+		                iconClass: "dijitEditorIcon dijitEditorIconPaste",
+		                onClick: function(){
+							/* 获取grid选中的记录 */
+							var __selItems = dijit.byId("_main_grid").selection.getSelected();
+							if(__selItems.length == 0){
+								dijit.byId("capec.dialog.delTipDialog").show();
+								return;
+							}
+
+							var __ids = [];
+							dojo.forEach(__selItems, function($item){ __ids.push($item.code[0]); });
+
+							dijit.byId("capec.dialog.confirmDialog").confirm(function(){
+								_dsmanager.dataSourceService.delDataSourceByIds(_dsmanager.sessionId, __ids.join(",")).addCallback(function($value){
+									if($value.resultMsg != null) {
+										dijit.byId("capec.dialog.delTipErrDialog").show();
+									}else{
+										_dsmanager.findGridData();
+									}
+								});
+							});
+		                }
+		            }));
+
+		            _dsmanager.toolbar.addChild(new $Button({
+                        id: __toolbarId+ "_field",
+                        label: "字段设置",
+                        showLabel: true,
+                        iconClass: "dijitEditorIcon dijitEditorIconCut",
+                        onClick: function(){
+							var __selItems = dijit.byId("_main_grid").selection.getSelected();
+							if(__selItems.length != 1){
+								dijit.byId("capec.dialog.editTipDialog").show();
+								return;
+							}
+							if(dijit.byId("_dlg_field") == undefined){
+								new $Dialog({
+									id: "_dlg_field",
+									title: "字段设置",
+									style: { height: "367px", width: "520px" },
+									url: "fieldpropmanager.html?r="+ new Date(),
+									state: "edit"
+								});
+							}else{
+								_dlg_field_.set();
+							}
+							dijit.byId("_dlg_field").set("title", "字段设置");
+							dijit.byId("_dlg_field").setState("edit");
+							dijit.byId("_dlg_field").show();
+                        }
+                    }));
+			});
+		});
+
+		require(["dojo/ready",
+			"dojo/json"], function($ready, $json){
+
+			$ready(function(){
+				_dsmanager.findGridData = function(){
+					var __params = { filter: [] };
+					var __name = dijit.byId("_main_search_txt_name").getValue().trim();
+
+					if(__name != ""){
+						__params.filter.push({
+							relation: "and",
+							field: "name",
+							logical: "like",
+							value: "'%"+ __name +"%'"
+						});
+					}
+
+					var __type = dijit.byId("_main_search_cbox_type").getValue().trim();
+					if(__type != ""){
+						__params.filter.push({
+							relation: "and",
+							field: "type",
+							logical: "=",
+							value: "'"+ __type +"'"
+						});
+					}
+					dijit.byId("_main_grid").find($json.stringify(__params.filter));
+				};
+			});
+
+			$ready(function(){
+				dojo.connect(dijit.byId("_main_btn_search"), "onClick", function(){
+					_dsmanager.findGridData();
+				});
+			});
+		});
+	</script>
+</HEAD>
+
+<BODY class="soria" onload="loadEventHandler();">
+	<div id="_main" data-dojo-type="dijit.layout.BorderContainer"
+		data-dojo-props='liveSplitters:false,design:"headline"'>
+		<script type="dojo/method">
+			this._splitterClass = "dojox.layout.ToggleSplitter";
+		</script>
+
+		<div id="_main_top" data-dojo-type="dijit.layout.ContentPane"
+			style="height: 50px"
+			data-dojo-props='region:"top",splitter:true,minSize:150,maxSize:250'>
+			<div id="_main_toolbar"></div>
+			<table style="width: 100%">
+				<tr>
+					<td><label for="_main_search_txt_name">数据源名称：</label> <input
+						data-dojo-type="dijit/form/ValidationTextBox"
+						id="_main_search_txt_name" /> &nbsp;&nbsp; <label
+						for="_main_search_cbox_type">数据源类型：</label> <select
+						id="_main_search_cbox_type" data-dojo-type="dijit/form/Select" style="width:150px">
+							<option value="">&nbsp;</option>
+							<option value="sql">SQL语句</option>
+							<option value="proc">存储过程</option>
+							<option value="sca">SCA服务</option>
+					</select> &nbsp;&nbsp;
+						<button id="_main_btn_search" data-dojo-type="dijit/form/Button">查询</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="_main_center" data-dojo-type="dijit.layout.ContentPane"
+			data-dojo-props='region:"center"'>
+			<div id="_main_grid"></div>
+		</div>
+	</div>
+
+
+
+	<!-- div data-dojo-type="dijit.Dialog" id="_dsmanager_dlg_add" title="添加"
+		data-dojo-props='style:"width:450px;height:270px"'>
+		<div id='_dsmanager_dlg_add_'
+			data-dojo-type='dojox.layout.ContentPane'
+			data-dojo-props='href:"dsform.html"'>
+			<script type='dojo/method' event='onLoad'>
+				//eval('_dsmanager_dlg_add_.init()');
+				dijit.byId('_dsmanager_dlg_add').layout();
+			</script>
+		</div>
+		<div class='foreDialogPaneActionBar'>
+			<button class='foreDialogPaneButton'
+				data-dojo-type='dijit.form.Button' data-dojo-props='type:"button"'
+				id='_dsmanager_dlg_add_btn_test'>测试</button>
+			<button class='foreDialogPaneButton'
+				data-dojo-type='dijit.form.Button' data-dojo-props='type:"button"'
+				id='_dsmanager_dlg_add_btn_submit'>提交</button>
+			<button class='foreDialogPaneButton'
+				data-dojo-type='dijit.form.Button' data-dojo-props='type:"button"'
+				id='_dsmanager_dlg_add_btn_reset'>重置</button>
+		</div>
+	</div-->
+
+</BODY>
+</HTML>

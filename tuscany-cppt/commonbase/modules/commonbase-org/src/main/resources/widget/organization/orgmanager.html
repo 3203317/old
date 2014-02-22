@@ -1,0 +1,510 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" >
+<html>
+<head>
+  <title>自定义 grid</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="/dijit/themes/soria/soria.css" />
+    <link rel="stylesheet" type="text/css" href="/dojox/grid/resources/soriaGrid.css" />
+  <link rel="stylesheet"  type="text/css" href="/dojo/resources/dojo.css">
+    <style type="text/css">
+        @import "/dojox/grid/enhanced/resources/EnhancedGrid.css";
+        @import "/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css";
+.dijitDialogPaneActionBar {
+      background-color: #F6F6F6;
+      padding: 1px 5px 1px 5px;
+      text-align: right;
+      border-top: 1px solid #E1E1E1;
+      margin: 10px -10px -10px;
+      height:24px;
+      overflow:hidden;
+    }
+    .dijitDialogPaneContentArea {
+        margin: -10px -8px;
+        padding: 10px 8px;
+    }
+    body, html { width: 100%; height: 100%; margin: 0;overflow:hidden;}
+    </style>
+  <style type="text/css">
+    #grid{
+      height: 100%;
+    }
+  </style>
+
+  <script type="text/javascript">
+    djConfig = {
+      async:true,
+      parseOnLoad:true
+    };
+  </script>
+  <script type="text/javascript" src="/dojo/dojo.js"></script>
+  <script type="text/javascript"
+  src="/dojo/extendJS/OpenAjaxManagedHub-all.js"></script>
+  <script type="text/javascript" src="orgmanager.js"></script>
+  <script type="text/javascript">
+
+  require(["dojo/ready","dojo/Deferred","dojo/newcapec/MessageBox","dijit/form/FilteringSelect","dijit/tree/ObjectStoreModel","dijit/Tree","dojo/store/Observable",
+          "dojo/store/Memory","dojo/_base/window","dojo/newcapec/grid/EnhancedGrid",'dojo/data/ItemFileWriteStore',
+            "dojo/newcapec/grid/plugins/Pagination","dijit/Dialog","dijit/form/DateTextBox","dijit/form/TimeTextBox",
+            "dijit/form/Form","dojox/grid/_CheckBoxSelector","dijit/layout/BorderContainer","dijit/layout/TabContainer",
+            "dijit/layout/ContentPane","dijit/Toolbar","dijit/form/Button","dijit/form/ValidationTextBox",
+            "dijit/ToolbarSeparator","dijit/form/SimpleTextarea","dojo/domReady!"],
+          function(ready,Deferred,MessageBox,FilteringSelect,ObjectStoreModel,Tree,Observable,Memory,win,EnhancedGrid,ItemFileWriteStore,Pagination,Dialog){
+    var sessionId = null;
+      var grid = null;
+      var itemTree = null;
+      //点击节点记录它的值，方便增加
+      var parentInfo = null;
+      //@Reference
+      var organizationService = new tuscany.sca.Reference("organizationService");
+      var paneid = 'pane1';
+      var plugins = {pagination: {
+        description: true,
+        pageStepper: true,
+        position: "bottom"
+      }};
+      initOrgTree = function()
+      {
+        try
+        {
+          organizationService.getOrganizationTree(sessionId,'').addCallback(buildOrgTree);
+        }
+        catch(e)
+        {
+          console.log(e.message);
+        }
+      }
+      initMainGrid = function()
+      {
+        parentInfo = "0_组织机构";
+        grid = new EnhancedGrid({
+              id:"grid",
+              conditionKey:"filter",
+              conditionValue:'[{field:"super_code",relation:"and",logical:"=",value:"0"}]',
+              param:'sessionId:"'+sessionId+'",resourceId:1',
+              tuscany:organizationService.findOrgDojoList,
+              rowsPerPage:15,//每页显示多少条
+              plugins:plugins,
+              structure:[{
+                  type: "dojox.grid._CheckBoxSelector"
+              },
+              [
+                new dojox.grid.cells.RowIndex({ name: "编号", width: "45px" }),
+                {
+                      name: "名称",
+                      field: "name",
+                      width: 'auto'
+                  },{
+                      name: "简称",
+                      field: "short_hand",
+                      width:'auto'
+                  },{
+                      name: "组织机构别名",
+                      field: "alias",
+                      width:'auto'
+                  },{
+                      name: "状态",
+                      field: "status",
+                      width:'auto'
+                  },{
+                      name: "地址",
+                      field: "address",
+                      width:'auto'
+                  } ,{
+                      name: "启用日期",
+                      field: "open_date",
+                      width:'auto'
+                  },{
+                      name: "终止日期",
+                      field: "no_use_date",
+                      width:'auto'
+                  }
+              ]]
+            },"gridDiv");
+          }
+
+      function buildOrgTree(items,e)
+      {
+          var myStore = new Memory({
+                  data : items,
+                  getChildren:function(item)
+                  {
+                      return this.query({parent: item.id});
+                  }
+                });//end myStore
+                myStore = new Observable(myStore);
+                //Create the model
+                var myModel = new ObjectStoreModel({
+                  store : myStore,
+                  query : {id : "0"},
+                  mayHaveChildren : function(item) {
+                    //等于说明有子节点
+                    return (item.type == "1");
+                  }
+                });//end myModel
+
+                try {
+                  itemTree = new Tree(
+                      {
+                        id : "orgTree",
+                        model : myModel,
+                        showRoot : true,
+                        onClick : function(item) {
+                            parentInfo = item.id+"_"+item.name;
+                          //展示下级节点+展示下级gird展示对应的节点;
+                          organizationService.getOrganizationTree(sessionId,item.id).addCallback(function(items,e)
+                          {
+                              if(!items)
+                              {
+                                  return ;
+                              }
+                              for(var i = 0 ; i < items.length; i++)
+                              {
+                                dijit.byId('orgTree').model.store.put(items[i]);
+                              }
+                          });
+
+                          var param = {};
+                          param.filter = new Array();
+                          param.filter.push({field:"super_code",relation:"and",logical:"=",value:item.id});
+                          dijit.byId('grid').find(JSON.stringify(param.filter));
+                        }
+                      },"orgTree").startup();
+                } catch (e) {
+                  console.log("buildAllTree" + e.message);
+                }
+
+      }
+
+
+      showAdd=function(){
+        curddialog.set('title',parentInfo.split("_")[1]+"增加下级机构");
+        super_code.set('value',parentInfo.split("_")[0]);
+        if(dijit.byId('form')){
+          form.reset();
+        }
+      //	setValues();
+      startdate.set('value',new Date());
+      starttime.set('value',new Date());
+      enddate.set('value',new Date());
+      endtime.set('value',new Date());
+      finaldate.set('value',new Date());
+      finaltime.set('value',new Date());
+        curddialog.show();
+      };
+      function asyncProcess(data){
+        var deferred = new Deferred();
+
+            setTimeout(function(){
+              deferred.resolve(data);
+            }, 1000);
+
+        return deferred.promise;
+      }
+      save = function(){
+
+        if(form.validate()){
+          var formdata = form.get('value');
+          formdata.name = formdata.org_name;
+          if(formdata.code == null || formdata.code == ""){
+            formdata.no_use_date = finaldate.displayedValue+" "+finaltime.displayedValue;
+            formdata.cur_use_date = enddate.displayedValue+" "+endtime.displayedValue;
+            formdata.open_date = startdate.displayedValue+" "+starttime.displayedValue;
+            organizationService.insertOrgForOrgUI(sessionId,formdata).addCallback(function(data){
+              if(data)
+              {
+                MessageBox.alert("添加成功","success");
+                try
+                {
+                  if(data[1])
+                  {
+                    dijit.byId('orgTree').model.store.remove(data[1].code);
+                    var process = asyncProcess(data);
+                    process.then(function(data){
+                    if(data[1])
+                      {
+                        dijit.byId('orgTree').model.store.put({id:data[1].code,name:data[1].name,type:data[1].is_have_child,parent:data[1].super_code});
+                      }
+                    });
+                  }
+                  dijit.byId('orgTree').model.store.put({id:data[0].code,name:data[0].name,type:data[0].is_have_child,parent:data[0].code});
+                }
+                catch (e)
+                {
+                  console.log(e.message);
+                }
+                curddialog.hide();
+                grid.reload();
+              }
+              else
+              {
+                MessageBox.alert("添加失败","error");
+              }
+            });
+          }else{
+            formdata.no_use_date = finaldate.displayedValue+" "+finaltime.displayedValue;
+            formdata.cur_use_date = enddate.displayedValue+" "+endtime.displayedValue;
+            formdata.open_date = startdate.displayedValue+" "+starttime.displayedValue;
+            organizationService.updateOrg(sessionId,formdata).addCallback(function(data){
+              if(data.resultMsg.status == "1")
+              {
+                MessageBox.alert("更新成功","success");
+                dijit.byId('orgTree').model.store.put({id:data.code,name:data.name,type:data.is_have_child,parent:data.super_code});
+                curddialog.hide();
+                grid.selection.deselectAll();
+                grid.reload();
+                code.set('value','');
+              }
+              else
+              {
+                MessageBox.alert("更新失败","error");
+              }
+            });
+          }
+        }
+      };
+
+      deleted=function(){
+        var selectValues = grid.selection.getSelected();
+        if(selectValues == null || selectValues == ""){
+          MessageBox.alert("您尚未选择删除信息","warn");
+          return;
+        }
+        var ids = null;
+        var isAllLeaf = false;
+        dojo.forEach(selectValues,function(values){
+            if(values.is_have_child == 1)
+              {
+              isAllLeaf = true;
+              }
+            });
+        if(isAllLeaf)
+        {
+          MessageBox.alert("请选择叶子节点删除","warn");
+          return;
+        }
+        var i=0;
+        MessageBox.confirm("您确定删除吗？",function(){
+        dojo.forEach(selectValues,function(values){
+          if(i == 0){
+            ids = values.code+"";
+          }else{
+            ids +=","+values.code;
+          }
+          i++;
+        });
+          dojo.forEach(selectValues,function(values){
+                dijit.byId('orgTree').model.store.remove(values.code);
+              });
+          organizationService.delOrgByIdsForOrgUI(sessionId,ids).addCallback(function(data){
+          if(data){
+            dijit.byId('orgTree').model.store.put({id:data.code,name:data.name,type:data.is_have_child,parent:data.super_code});
+            grid.selection.deselectAll();
+            grid.reload();
+            MessageBox.alert("删除成功","success");
+          }
+        });
+        });
+      };
+      showModify=function(){
+        curddialog.set('title',parentInfo.split("_")[1]+"修改下级机构");
+        var data = grid.selection.getSelected();
+        if(data.length == 0){
+          MessageBox.alert("请选择修改的信息","warn");
+          return;
+        }else if(data.length > 1){
+          MessageBox.alert("请选择一条记录修改","warn");
+          return;
+        }
+        curddialog.show(data);
+        var startbeforeDay = data[0].open_date[0].split(" ")[0];
+        var startbelowTime = data[0].open_date[0].split(" ")[1];
+        startdate.set('value',startbeforeDay);
+        org_name.set('value',data[0].name[0]);
+        var startInfo =
+          new Date(startbeforeDay.split("-")[0],startbeforeDay.split("-")[1],startbeforeDay.split("-")[2],startbelowTime.split(":")[0],startbelowTime.split(":")[1],startbelowTime.split(":")[2]);
+        starttime.set('value',startInfo);
+
+        var endbeforeDay = data[0].cur_use_date[0].split(" ")[0];
+        var endbelowTime = data[0].cur_use_date[0].split(" ")[1];
+        enddate.set('value',endbeforeDay);
+        var endInfo =
+          new Date(endbeforeDay.split("-")[0],endbeforeDay.split("-")[1],endbeforeDay.split("-")[2],endbelowTime.split(":")[0],endbelowTime.split(":")[1],endbelowTime.split(":")[2]);
+        endtime.set('value',endInfo);
+
+        var finalbeforeDay = data[0].no_use_date[0].split(" ")[0];
+        var finalbelowTime = data[0].no_use_date[0].split(" ")[1];
+        finaldate.set('value',finalbeforeDay);
+        var finalInfo =
+          new Date(finalbeforeDay.split("-")[0],finalbeforeDay.split("-")[1],finalbeforeDay.split("-")[2],finalbelowTime.split(":")[0],finalbelowTime.split(":")[1],finalbelowTime.split(":")[2]);
+        finaltime.set('value',finalInfo);
+        form.set('value',data[0]);
+      };
+
+      function loadEventHandler() {
+
+            hubClient = new OpenAjax.hub.IframeHubClient({
+                HubClient : {
+                  onSecurityAlert : client2SecurityAlertHandler
+                }
+              });
+            // 连接到ManagedHub
+            try
+            {
+              hubClient.connect(connectCompleted);
+            }
+            catch(e)
+            {
+              console.log(e.message);
+            }
+          }
+          function client2SecurityAlertHandler(source, alertType) {
+                    // 理安全警报
+          }
+          /* Callback that is invoked upon successful connection to the Managed Hub */
+          function connectCompleted(hubClient, success, error) {
+            //console.log(error);
+          }
+
+          function onData(topic, subscribeData) {
+            //console.log(topic);
+          }
+          searchInfoByStore = function ()
+          {
+            var param = {};
+            param.filter = new Array();
+            if(search_name.value)
+            {
+              param.filter.push({field:"name",relation:"and",logical:"like",value:"'%"+search_name.value+"%'"});
+            }
+            if(parentInfo)
+            {
+              param.filter.push({field:"super_code",relation:"and",logical:"=",value:"'"+parentInfo.split("_")[0]+"'"});
+            }
+            grid.find(JSON.stringify(param.filter));
+          };
+
+      ready(function(){
+        loadEventHandler();
+        var urlParam = OpenAjax.gadgets.util.getUrlParameters();
+        sessionId = urlParam.sessionId;
+        initOrgTree();
+        initMainGrid();
+      });
+    });
+
+  </script>
+</head>
+<body class="soria">
+  <div id="border1" data-dojo-type="dijit/layout/BorderContainer" 	data-dojo-props='design:"sidebar", style:"width: 100%; height: 100%; "'>
+
+    <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='id:"tree_left",splitter:true, region:"leading", style:"width: 20%;"'>
+      <div id="orgTree"></div>
+    </div>
+    <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"top"' >
+      <div data-dojo-type="dijit.Toolbar" >
+        <div dojotype="dijit.form.Button" label="增加" onclick="showAdd();" iconClass="dijitIconNewTask" jsid="add" id="add"></div>
+        <span data-dojo-type="dijit.ToolbarSeparator"></span>
+        <div dojotype="dijit.form.Button" label="修改" onclick="showModify();" iconClass="dijitIconEdit" jsid="modify" id="modify"></div>
+        <span data-dojo-type="dijit.ToolbarSeparator"></span>
+        <div dojotype="dijit.form.Button" label="删除" onclick="deleted();" iconClass="dijitIconDelete" jsid="del" id="del"></div>
+
+      </div>
+      <br>
+      <div>
+        <label for="search_name" >配置名称:</label>
+        <div data-dojo-type="dijit/form/ValidationTextBox"  data-dojo-props="trim:true" required="true" style="width:200px;height:17px;" placeholder='配置名称' jsid='search_name'  name="search_name" ></div>
+        <div data-dojo-type="dijit/form/Button" id="searchbtn" onclick="searchInfoByStore();">查询</div>
+      </div>
+    </div>
+    <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center"' >
+      <div id="gridDiv"></div>
+    </div>
+  </div>
+  <div dojoType="dijit.Dialog" jsid='curddialog'  style="width:350px;" >
+      <div class="dijitDialogPaneContentArea">
+      <div dojoType="dijit/form/Form" jsid="form" id="form">
+        <button data-dojo-type="dijit/form/Button" jsid='code'  name="code" id="code" style="display:none"></button>
+        <button data-dojo-type="dijit/form/Button" jsid='super_code'  name="super_code" id="super_code" style="display:none"></button>
+        <table>
+                <tr height="25px" >
+                    <td align="right" width="80px" nowrap="nowrap"><label for="org_name" style="color:red">*</label>名称: </td>
+                    <td><div data-dojo-type="dijit/form/ValidationTextBox"  required="true" style="width:200px;height:17px;" placeholder='配置名称' jsid='org_name'  name="org_name" ></div></td>
+                </tr>
+                <tr height="25px" >
+                    <td align="right" width="80px" nowrap="nowrap"><label for="alias" >机构别名: </label></td>
+                    <td><div data-dojo-type="dijit/form/ValidationTextBox"  required="true" style="width:200px;height:17px;" placeholder='机构别名' jsid="alias"  name="alias" ></div></td>
+                </tr>
+                <tr height="25px" >
+                    <td align="right" width="80px" nowrap="nowrap"><label for="short_hand" >机构简称: </label></td>
+                    <td><div data-dojo-type="dijit/form/ValidationTextBox"  required="true" style="width:200px;height:17px;" placeholder='机构简称' jsid="short_hand"  name="short_hand" ></div></td>
+                </tr>
+                <tr height="25px" >
+                    <td align="right" width="80px" nowrap="nowrap"><label for="type_code" >机构类型编号: </label></td>
+                    <td><div data-dojo-type="dijit/form/ValidationTextBox"  required="true" style="width:200px;height:17px;" placeholder='组织机构类型编号' jsid="type_code"  name="type_code" ></div></td>
+                </tr>
+                <tr height="25px" >
+                    <td align="right" width="80px" nowrap="nowrap"><label for="address" >地址: </label></td>
+                    <td><div data-dojo-type="dijit/form/ValidationTextBox"  required="true" style="width:200px;height:17px;" placeholder='地址' jsid="address"  name="address" ></div></td>
+                </tr>
+                <tr height="25px" >
+                    <td align="right" width="80px" nowrap="nowrap"><label for="department_level" >部门级别: </label></td>
+                    <td><div data-dojo-type="dijit/form/ValidationTextBox"  required="true" style="width:200px;height:17px;" placeholder='部门级别' jsid="department_level"  name="department_level" ></div></td>
+                </tr>
+                  <tr height="25px" >
+                    <td align="right" width="80px" nowrap="nowrap"><label for="startTime" >启用时间： </label></td>
+                    <td>
+                        <div>
+                          <div data-dojo-id="startdate" data-dojo-type="dijit/form/DateTextBox" style="width:120px;"  data-dojo-props=''></div>
+                          <div data-dojo-id="starttime" data-dojo-type="dijit/form/TimeTextBox" style="width:80px;" data-dojo-props='constraints:{timePattern:"HH:mm:ss"}' ></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr height="25px" >
+                    <td align="right" width="80px" nowrap="nowrap"><label for="endTime" >当前有效期：</label></td>
+                    <td>
+                    <div data-dojo-id="enddate" data-dojo-type="dijit/form/DateTextBox" style="width:120px;"  data-dojo-props=''></div>
+                    <div data-dojo-id="endtime" data-dojo-type="dijit/form/TimeTextBox" style="width:80px;" data-dojo-props='constraints:{timePattern:"HH:mm:ss"}' ></div>
+                    </td>
+                </tr>
+                <tr height="25px" >
+                    <td align="right" width="80px" nowrap="nowrap"><label for="finalTime" >终止日期：</label></td>
+                    <td>
+                    <div data-dojo-id="finaldate" data-dojo-type="dijit/form/DateTextBox" style="width:120px;"  data-dojo-props=""></div>
+                    <div data-dojo-id="finaltime" data-dojo-type="dijit/form/TimeTextBox" style="width:80px;" data-dojo-props='constraints:{timePattern:"HH:mm:ss"}'  ></div>
+                    </td>
+                </tr>
+                <tr height="25px">
+                    <td align="right"><label for="status">初始状态</label></td>
+                    <td><select dojoType="dijit/form/FilteringSelect" style="width:200px;" name="status" jsid='status' id='status'>
+                        <option value="0">未启用</option>
+                        <option value="1">正常</option>
+                        <option value="2">注销</option>
+                        <option value="3">停用</option>
+                        <option value="4">异常</option>
+                      </select>
+                    </td>
+                </tr>
+
+            </table>
+      </div>
+    </div>
+
+    <div class="dijitDialogPaneActionBar">
+            <button data-dojo-type="dijit/form/Button"  type="reset" onClick="return form.reset();">
+                  重置
+            </button>
+            <button data-dojo-type="dijit/form/Button"   onClick="save();">
+                  保存
+            </button>
+            <button data-dojo-type="dijit/form/Button" type="button" onClick="curddialog.hide()">
+                  关闭
+            </button>
+    </div>
+
+  </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

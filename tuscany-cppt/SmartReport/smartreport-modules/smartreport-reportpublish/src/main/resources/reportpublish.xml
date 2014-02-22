@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config xmlns="http:///org.apache.tuscany.das.rdb/config.xsd" >
+    <Command name="ReportPublish" SQL="{call p_reportpublish(?,?,?,?,?,?,?,?,?,?)}" kind="procedure">
+        <Parameter direction="OUT" index="1" columnType="commonj.sdo.IntObject"/>
+        <Parameter direction="OUT" index="2" columnType="commonj.sdo.IntObject"/>
+        <Parameter direction="OUT" index="3" columnType="commonj.sdo.String"/>
+		<Parameter direction="IN" index="4" columnType="commonj.sdo.String"/>
+		<Parameter direction="IN" index="5" columnType="commonj.sdo.String"/>
+		<Parameter direction="IN" index="6" columnType="commonj.sdo.String"/>
+		<Parameter direction="IN" index="7" columnType="commonj.sdo.IntObject"/>
+		<Parameter direction="IN" index="8" columnType="commonj.sdo.IntObject"/>
+		<Parameter direction="IN" index="9" columnType="commonj.sdo.IntObject"/>
+		<Parameter direction="IN" index="10" columnType="commonj.sdo.IntObject"/>
+	</Command>
+
+	<Command name="RevokeReportPublish" SQL="{call  p_revokereportpublish(?,?,?)}" kind="procedure">
+        <Parameter direction="OUT" index="1" columnType="commonj.sdo.IntObject"/>
+		<Parameter direction="IN" index="2" columnType="commonj.sdo.IntObject"/>
+		<Parameter direction="IN" index="3" columnType="commonj.sdo.IntObject"/>
+	</Command>
+</Config>

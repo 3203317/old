@@ -1,0 +1,26 @@
+
+<div class="dijitDialogPaneContentArea">
+	<div jsid='myTabContainer' id="myTabContainer" dojoType="dijit/layout/TabContainer" data-dojo-props='useMenu:true,persist:false,tabStrip:true,style:"width:100%;height:350px;"' >
+		<script type="dojo/method">
+				dijit.byId("myTabContainer_tablist_rightBtn").domNode.setAttribute('style','display:none;');
+				dijit.byId("myTabContainer_tablist_leftBtn").domNode.setAttribute('style','display:none;');
+				dijit.byId("myTabContainer_tablist_menuBtn").domNode.setAttribute('style','display:none;');
+		</script>
+
+		<div id="pane1" dojoType="dojox.layout.ContentPane"  title="外观定制"  href="form/gridview.html" closable="false" renderStyles="true"></div>
+		<div id="pane2" dojoType="dojox.layout.ContentPane"  title="字段设置" href="form/gridfield.html" closable="false" renderStyles="true"></div>
+		<div id='pane4' dojoType='dijit.layout.ContentPane'  title='查询参数设置' content="<iframe frameborder='0' height='100%' width='100%' src='/zpf/formcustom/gridcondition/'" closable="false" ></div>
+		<div id='pane5' dojoType='dojox.layout.ContentPane'  title='打印模板管理' href="form/gridlayout.html" closable="false" renderStyles="true"></div>
+	</div>
+</div>
+<div class="dijitDialogPaneActionBar">
+				<button data-dojo-type="dijit/form/Button" disabled="disabled" data-dojo-id='previous'  onClick="back();">
+							上一步
+				</button>
+<!--         <button data-dojo-type="dijit/form/Button"  type="reset" onClick="reset();"> -->
+<!--             	重置 -->
+<!--         </button> -->
+				<button data-dojo-type="dijit/form/Button" type="button" data-dojo-id="nextbtn" onClick="next()">
+							下一步
+				</button>
+</div>

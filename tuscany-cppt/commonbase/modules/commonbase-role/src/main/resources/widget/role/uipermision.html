@@ -1,0 +1,222 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<TITLE></TITLE>
+<style type="text/css">
+#_frm_uiper_treegrid {
+	height: 100%;
+}
+
+#_frm_uiper_grid {
+	height: 100%;
+}
+</style>
+<script type="text/javascript">
+	var _dlg_uiper_ = {};
+
+	_dlg_uiper_.reset = function() { };
+
+	/* 保存改为关闭dlg */
+	_dlg_uiper_.saveData = function(){
+	};
+
+	_dlg_uiper_.init = function() {
+		/* 隐藏重置按钮 */
+		dijit.byId("_dlg_uiper_btn_reset").set("style","display:none");
+		dijit.byId("_dlg_uiper_btn_submit").set("style","display:none");
+
+		/*********************/
+
+		_dlg_uiper_.setLeft = function($code) {
+			dijit.byId("_frm_uiper_treegrid").selection.clear();
+			var __selItem = dijit.byId("_main_grid").selection.getSelected();
+			var __roleId = __selItem[0].code[0];
+
+			_rolemanager.roleService.findRoleUIPermissionList(_rolemanager.sessionId,_rolemanager.resourceId, __roleId).addCallback(function($value) {
+				var __value = { items: $value };
+				var __treeObj = capec.utils.data2TreeObject(__value,"0","resourceId","resourcePId","resourceName","children");
+				var __data = {
+					identifier : 'resourceId',
+					label : 'resourceName',
+					"items": __treeObj.children
+				};
+				var __store = new dojo.data.ItemFileWriteStore({
+					data : __data
+				});
+
+				var __treeModel = new dijit.tree.ForestStoreModel({
+					store : __store,
+					query : { type : 'roleUiPer' },
+					rootId : '0',
+					rootLabel : '资源树',
+					childrenAttrs : [ 'children' ]
+				});
+				_dlg_uiper_.treegrid.setModel(__treeModel);
+			});
+		};
+
+		_dlg_uiper_.setRight = function(){
+			var __store = new dojo.data.ItemFileWriteStore({
+				data : { items : [] }
+			});
+			dijit.byId("_frm_uiper_grid").setStore(__store);
+			dijit.byId("_frm_uiper_grid").selection.clear();
+		};
+
+		_dlg_uiper_.set = function() {
+			var __selItem = dijit.byId("_main_grid").selection.getSelected();
+			var __code = __selItem[0].code[0];
+			/*加载左侧列表*/
+			_dlg_uiper_.setLeft(__code);
+			_dlg_uiper_.setRight();
+		};
+
+		/* 创建右侧grid */
+		require(["dojox/grid/EnhancedGrid",
+		         "dojo/data/ItemFileWriteStore",
+		         "dojox/grid/_CheckBoxSelector"], function($EnhancedGrid,$ItemFileWriteStore) {
+			_dlg_uiper_.grid = new $EnhancedGrid({
+				style : { height : "100%",width : "100%",margin : 0,padding : 0 },
+				structure : [
+					[
+						{ name : "权限名称",field : "perName",width : "auto" },
+						{ name : "权限操作",field : "optFlag",	width : "auto",editable : true,type : dojox.grid.cells.Bool,styles : 'text-align: center;' }
+					]
+				]
+			}, "_frm_uiper_grid");
+			_dlg_uiper_.grid.startup();
+
+
+			dojo.connect(dijit.byId("_frm_uiper_grid"),"onStartEdit",function($item, $colId) {
+				if ($item.field != "optFlag") return;
+				var __items = dijit.byId("_frm_uiper_grid").store._arrayOfAllItems;
+				var __item = __items[$colId];
+
+				var __treegrid_selItem = dijit.byId("_frm_uiper_treegrid").selection.getSelected()[0];
+
+				/* 添加或删除 */
+				var __params = {
+					role_code : dijit.byId("_main_grid").selection.getSelected()[0].code[0],
+					permission_code : __item.perId[0]
+				};
+				console.log("写入p_role_permission");
+				console.log(__params);
+				/*写入p_role_permission*/
+				if (__item.optFlag[0]) {
+					_rolemanager.rolePermisionService.insertRolePermision(_rolemanager.sessionId,__params).addCallback(function($value) {
+						console.log($value);
+						var __newVal = "";
+						var __oldVal_3 = __treegrid_selItem.uiPermission[0];
+						if(__oldVal_3 == ""){
+							__newVal = __item.perName[0];
+						}else{
+							__newVal = __oldVal_3 + "," + __item.perName[0];
+						}
+						dijit.byId("_frm_uiper_treegrid").store.setValue(__treegrid_selItem, "uiPermission", __newVal);
+					});
+				}else{
+					_rolemanager.rolePermisionService.delRolePermisionByRoldPerId(_rolemanager.sessionId,__params).addCallback(function($value) {
+						console.log($value);
+						var __newVal = "";
+						var __oldVal_3 = ","+ __treegrid_selItem.uiPermission[0] +",";
+						__newVal = __oldVal_3.replace(","+ __item.perName[0] +",", ",");
+						if(__newVal.indexOf(",") > -1){
+							__newVal = __newVal.substring(1,__newVal.length-1);
+						}
+						if(__newVal == ","){
+							__newVal = "";
+						}
+						dijit.byId("_frm_uiper_treegrid").store.setValue(__treegrid_selItem, "uiPermission", __newVal);
+					});
+				}
+			});
+		});
+
+		/*创建左侧树grid*/
+		require(["dojox/grid/TreeGrid",
+		         "dojox/grid/EnhancedGrid",
+		         "dojo/data/ItemFileWriteStore",
+		         "dojox/grid/_CheckBoxSelector"],function($TreeGrid) {
+			var __data = {
+				identifier : 'resourceId',
+				label : 'resourceName',
+				items : []
+			};
+			var __store = new dojo.data.ItemFileWriteStore({
+				data : __data
+			});
+			var __treeModel = new dijit.tree.ForestStoreModel({
+				store : __store,
+				query : {
+					type : 'roleUiPer'
+				},
+				rootId : '0',
+				rootLabel : '资源树',
+				childrenAttrs : [ 'children' ]
+			});
+
+			var __layout = [{
+				name : "资源树",
+				field : "resourceName",
+				width : "auto"
+			},{
+				name : "资源权限",
+				field : "uiPermission",
+				width : "auto"
+			}];
+			_dlg_uiper_.treegrid = new dojox.grid.TreeGrid({
+				treeModel: __treeModel,
+				structure: __layout,
+				defaultOpen: true
+			}, '_frm_uiper_treegrid');
+			_dlg_uiper_.treegrid.startup();
+
+			/*根据左侧的树 得到资源权限*/
+			dojo.connect(_dlg_uiper_.treegrid, "onSelected", function($item) {
+				var __selItem = dijit.byId("_main_grid").selection.getSelected();
+				var __roleId = __selItem[0].code[0];
+
+				var __resItem = dijit.byId("_frm_uiper_treegrid").selection.getSelected()[0];
+				var __resId = __resItem.resourceId[0];
+
+				_rolemanager.roleService.findRolePerOptList(_rolemanager.sessionId,_rolemanager.resourceId, __roleId,__resId).addCallback(function($value) {
+					var __store = new dojo.data.ItemFileWriteStore({
+						data : { items : $value }
+					});
+					dijit.byId("_frm_uiper_grid").setStore(__store);
+					dijit.byId("_frm_uiper_grid").selection.clear();
+				});
+			});
+		});
+
+		if(dijit.byId("_dlg_uiper")._state == "edit") {
+			_dlg_uiper_.set();
+		}
+
+		dijit.byId("_dlg_uiper_btn_close").on("click", function(){
+			dijit.byId("_dlg_uiper").hide();
+		});
+
+		/* 开始加载页面组件数据 */
+		dojo.connect(dijit.byId("_dlg_uiper"), "onShow", function() {
+			_dlg_uiper_.set();
+		});
+	};
+</script>
+</HEAD>
+
+<BODY class="soria">
+	<form id="_frm_uiper" data-dojo-type="dijit.form.Form">
+		<table style="width: 100%">
+			<tr>
+				<td style="border: 1px #8BA0BD solid; width: 75%; height: 319px;">
+					<div id="_frm_uiper_treegrid"></div></td>
+				<td style="border: 1px #8BA0BD solid; width: 25%; height: 319px;">
+					<div id="_frm_uiper_grid"></div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</BODY>
+</HTML>

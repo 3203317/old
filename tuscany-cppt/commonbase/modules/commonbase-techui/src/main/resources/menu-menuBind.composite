@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+ xmlns:s="http://store"
+ xmlns:tuscany="http://tuscany.apache.org/xmlns/sca/1.1"
+  name="MenuBindingUI" targetNamespace="http://MenuBindingUI">
+    <component name="MenuBindingUIComponent">
+        <tuscany:implementation.widget location="widget/menu/menubinding.html" widgetUri="/menu/binding"/>
+          <reference name="reportService" target="ReportServiceComponent/ReportService"/>
+          <reference name="resourceService" target="ResourceServiceComponent/ResourceService"/>
+    </component>
+</composite>

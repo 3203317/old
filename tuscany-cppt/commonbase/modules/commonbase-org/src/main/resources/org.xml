@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config xmlns="http:///org.apache.tuscany.das.rdb/config.xsd" >
+	<Command name="getOrganizationById" SQL="select code,
+		user_unit_code,
+		name,
+		alias,
+		short_hand,
+		status,
+		super_code,
+		type_code,
+		address,
+		is_have_child,
+		department_level,
+		code_path,
+		batch_code,
+		to_char(no_use_date,'yyyy-mm-dd hh24:mi:ss') no_use_date,
+		to_char(open_date,'yyyy-mm-dd hh24:mi:ss') open_date,
+		to_char(cur_use_date,'yyyy-mm-dd hh24:mi:ss') open_date,
+		uuid,
+		create_user_account_id,
+		to_char(create_date,'yyyy-mm-dd hh24:mi:ss') create_date,
+		sortid,
+		ver
+	from p_department
+	where code = ?" kind="Select">
+	<ResultDescriptor columnName="code"  tableName="p_department"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="user_unit_code"  tableName="p_department"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="name"  tableName="p_department"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="alias"  tableName="p_department"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="short_hand"  tableName="p_department"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="status"  tableName="p_department"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="super_code"  tableName="p_department"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="type_code"  tableName="p_department"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="address"  tableName="p_department"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="is_have_child"  tableName="p_department"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="department_level"  tableName="p_department"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="code_path"  tableName="p_department"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="batch_code"  tableName="p_department"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="no_use_date"  tableName="p_department"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="open_date"  tableName="p_department"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="cur_use_date"  tableName="p_department"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="uuid"  tableName="p_department"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="create_user_account_id"  tableName="p_department"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="create_date"  tableName="p_department"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="sortid"  tableName="p_department"    columnType="commonj.sdo.String"/>
+	<ResultDescriptor columnName="ver"  tableName="p_department"    columnType="commonj.sdo.String"/>
+	</Command>
+	<Table tableName="p_department">
+			<Column columnName="code" primaryKey="true"/>
+			<Column columnName="open_date" converterClassName="net.newcapec.sca.util.DateStringConverter"/>
+			<Column columnName="no_use_date" converterClassName="net.newcapec.sca.util.DateStringConverter"/>
+			<Column columnName="cur_use_date" converterClassName="net.newcapec.sca.util.DateStringConverter"/>
+			<Column columnName="create_date" converterClassName="net.newcapec.sca.util.DateStringConverter"/>
+	</Table>
+	<Table tableName="p_user">
+			<Column columnName="code" primaryKey="true"/>
+	</Table>
+</Config>

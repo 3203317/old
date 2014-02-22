@@ -1,0 +1,33 @@
+{
+    "identifier": "code",
+    "label": "name",
+    "items": [
+        {
+            "code": "201",
+            "name": "ds201",
+            "ds_code": "1111",
+            "ds_name": "人员列表",
+            "ds_type": "PROC",
+            "memo": "性别-男",
+            "type": "reportds"
+        },
+        {
+            "code": "202",
+            "name": "ds202",
+            "ds_code": "1011",
+            "ds_name": "产品列表",
+            "ds_type": "SQL",
+            "memo": "全部(不过滤)",
+            "type": "reportds"
+        },
+        {
+            "code": "203",
+            "name": "ds203",
+            "ds_code": "1111",
+            "ds_name": "人员列表",
+            "ds_type": "PROC",
+            "memo": "性别-女",
+            "type": "reportds"
+        }
+    ]
+}

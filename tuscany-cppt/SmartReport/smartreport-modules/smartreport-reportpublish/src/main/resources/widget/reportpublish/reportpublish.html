@@ -1,0 +1,389 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" >
+<html>
+<head>
+    <title>报表发布</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet"  type="text/css" href="/dojo/resources/dojo.css">
+    <link rel="stylesheet" type="text/css" href="/dijit/themes/soria/soria.css" />
+    <link rel="stylesheet" type="text/css" href="/dojox/grid/resources/soriaGrid.css" />
+    <style type="text/css">
+        @import "/dojox/grid/enhanced/resources/EnhancedGrid.css";
+        @import "/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css";
+    .dijitDialogPaneContentArea {
+        margin: -10px -8px;
+        padding: 10px 8px;
+    }
+
+    .dijitDialogPaneContentAreaDetail {
+        margin: -10px -8px;
+        padding: 10px 8px;
+    }
+
+    .dijitDialogPaneActionBar {
+      background-color: #F6F6F6;
+      padding: 1px 5px 1px 5px;
+      text-align: right;
+      border-top: 1px solid #E1E1E1;
+      margin: 10px -10px -10px;
+      height:24px;
+      overflow:hidden;
+    }
+    .dijitDialogPaneActionBarDetail {
+      background-color: #F6F6F6;
+      padding: 1px 5px 1px 5px;
+      text-align: right;
+      border-top: 1px solid #E1E1E1;
+      margin: 10px -10px -10px;
+      height:24px;
+      overflow:hidden;
+    }
+
+    body, html { width: 100%; height: 100%; margin: 0;overflow:hidden;}
+    </style>
+  <style type="text/css">
+    #grid{
+      height: 91%;
+    }
+    #gridDetail{
+      height:91%;
+    }
+  </style>
+
+  <script type="text/javascript">
+    djConfig = {
+      async:true,
+      parseOnLoad:true
+    };
+  </script>
+  <script type="text/javascript" src="/dojo/dojo.js"></script>
+  <script type="text/javascript"
+	src="/dojo/extendJS/OpenAjaxManagedHub-all.js"></script>
+  <script type="text/javascript" src="reportpublish.js"></script>
+  <script type="text/javascript">
+
+   require(["dojo/ready","dojo/_base/window","dojo/parser","dojo/newcapec/grid/EnhancedGrid",'dojo/data/ItemFileWriteStore',
+            "dojo/newcapec/grid/plugins/Pagination","dijit/Dialog","dojo/newcapec/MessageBox","dojo/store/Memory","dijit/form/FilteringSelect",
+            "dojo/data/ItemFileReadStore","dojox/grid/DataGrid","dojo/data/ItemFileWriteStore","dojo/dom-style","dojo/dom",
+            "dojox/grid/enhanced/plugins/IndirectSelection","dijit/form/Form","dojox/grid/_CheckBoxSelector",
+            "dijit/layout/BorderContainer","dijit/layout/TabContainer","dijit/layout/ContentPane","dijit/Toolbar","dijit/form/Button",
+            "dijit/form/ValidationTextBox","dijit/ToolbarSeparator","dijit/form/FilteringSelect","dijit/form/SimpleTextarea",
+             "dojo/domReady!"],
+           function(ready,win,parse,EnhancedGrid,ItemFileWriteStore,Pagination,Dialog,MessageBox,Memory,FilteringSelect,ItemFileReadStore,
+        		   DataGrid,ItemFileWriteStore,style,dom){
+			   var sessionId = null;
+		       //@Reference
+		       var reportPublishService = new tuscany.sca.Reference("reportPublishService");
+		       var paneid = 'pane1';
+		       var formcode;
+               //创建报表发布grid
+			   createGrid = function(){
+
+				   var plugins = {
+							indirectSelection: {
+							headerSelector:true,
+							name: "Selection",
+							width: "30px",
+							styles: "text-align: center;"
+							},pagination: {
+							description: true,
+							pageStepper: true,
+							position: "bottom"
+					}};
+
+	                grid = new EnhancedGrid({
+						id:"grid",
+						param:'sessionId:"'+sessionId+'",resourceId:1',
+						conditionKey:"filter",
+						tuscany:reportPublishService.findUnpublishReportDojoList,
+						rowsPerPage:15,//每页显示多少条
+						plugins:plugins,
+						structure:[
+						[
+							//new dojox.grid.cells.RowIndex({ name: "编号", width: "45px" }),
+							{
+	      						 name: "编号",
+				                 field: "code",
+				                 width: 'auto'
+	      					},
+	      					{
+	      						 name: "报表或查询表单名称",
+				                 field: "name",
+				                 width: '20%'
+	      					},
+	      					{
+			                     name: "类型id",
+			                     field:"type",
+			                     width:'auto',
+			                     hidden:true
+			                },
+	      					{
+			                     name: "类型名称",
+			                     field:"type_name",
+			                     width:'20%'
+			                },
+	      					{
+			                     name: "是否发布id",
+			                     field:"resource_code",
+			                     width:'auto',
+			                     hidden:true
+			                },
+	      					{
+			                     name: "是否发布",
+			                     field:"publish",
+			                     width:'20%'
+			                },
+	      					{
+			                     name: "备注",
+			                     field:"memo",
+			                     width:'30%'
+			                }
+						]]
+
+					},"gridDiv");
+
+			    };
+
+			  //弹出报表发布窗口
+			   showReportPublish = function(){
+				   var data = dijit.byId('grid').selection.getSelected();
+			          if(data.length == 0){
+			             MessageBox.alert("请选择您要发布的报表","warn");
+			             return;
+			          }else if(data.length > 1){
+			             MessageBox.alert("请选择一条记录","warn");
+			             return;
+			          }
+			          if(dijit.byId('form')){
+					      form.reset();
+					  }
+					  curddialog.show();
+			   };
+
+			   reportPublish = function(){
+			        if(form.validate()){
+			        	var data = dijit.byId('grid').selection.getSelected();
+				        if(data.length == 0){
+				             MessageBox.alert("请选择您要发布的记录","warn");
+				             return;
+				        }else if(data.length > 1){
+				             MessageBox.alert("请选择一条记录","warn");
+				             return;
+				       }
+			           var  report_code = data[0].code[0];
+			           var  name = dijit.byId('menu_name').getValue();
+			           var  permit
+			           if ( dijit.byId('grant_permission').getValue() == "on")
+			        	   permit = 1;
+			           else
+			        	   permit = 0;
+			           var  info = dijit.byId('memo').getValue();
+			           var  is_publish =  data[0].resource_code[0];
+
+			           if (is_publish >= 1){
+			        	   MessageBox.alert("选择的记录已发布不需再次发布","warn");
+				           return;
+			           }
+			           var  type_id =  data[0].resource_code[0];
+
+                       var  param = {code:report_code,menu_name:name,grant_permission:permit,memo:info,type:type_id}
+			        	  reportPublishService.publishReport(sessionId,param).addCallback(function(data){
+				              if( data.resultMsg.status == 1){
+				                  curddialog.hide();
+				                  MessageBox.alert("发布成功","success");
+				                  searchReport();
+				                  if (permit == 1){
+					                  var item = {};
+					                  item.treeId = "tree9";
+					                  item.code = data.resource_code ;
+					                  item.name = data.menu_name;
+					                  item.extraType = "add";
+					                  item.resource_type_code = 6;
+					                  item.url = data.url;
+					                  item.super_code = 9;
+					                  hubClient.publish('net.newcapec.load.menuItem',item);
+				                  }
+				              }else{
+				            	  MessageBox.alert("发布失败","error");
+				              }
+			              });
+			        }
+			    };
+
+			    revokeReportPublish = function(){
+			          var data = dijit.byId('grid').selection.getSelected();
+			          if(data.length == 0){
+			             MessageBox.alert("请选择您要撤销发布的记录","warn");
+			             return;
+			          }else if(data.length > 1){
+			             MessageBox.alert("请选择一条记录","warn");
+			             return;
+			          }
+
+			          var  data = dijit.byId('grid').selection.getSelected();
+			          var  report_code = data[0].code[0];
+			          var  is_publish =  data[0].resource_code[0];
+			          var  param = {code:report_code,resource_code:is_publish};
+
+			          if (is_publish == 0){
+			        	  MessageBox.alert("选择的记录未发布不需撤销","warn");
+				          return;
+			          }
+
+			          MessageBox.confirm('确定要撤销发布吗?',function(){
+			        	  reportPublishService.revokePublishReport(sessionId,param).addCallback(function(data){
+				              if( data.resultMsg.status == 1){
+				                  MessageBox.alert("撤销发布成功","success");
+				                  searchReport();
+				                  var item = {};
+				                  item.treeId = "tree9";
+				                  item.resourceId =  "tree9_"+ data.resource_code;
+				                  hubClient.publish('net.newcapec.menu.remove',item);
+				              }else{
+				            	  MessageBox.alert("撤销发布失败","error");
+				              }
+			              });
+			          })
+
+
+			    };
+
+			   searchReport = function(){
+				    var name = dijit.byId("search_cdn").getValue();
+				        name = dojo.trim(name);
+				    var param = {};
+					param.filter = new Array();
+					if (name != null && name != "" )
+					    param.filter.push({field:"name",relation:"and",logical:"like",value:"'%"+name+"%'"});
+					var publish = dijit.byId("is_publish").getValue();
+					if (publish != null && publish !=""  ){
+						if ( publish == "0"){
+						   param.filter.push({field:"resource_code",relation:"and",logical:"=",value:publish});
+						}
+						else if ( publish == "1"){
+						   param.filter.push({field:"resource_code",relation:"and",logical:">=",value:publish});
+						}
+					}
+					dijit.byId('grid').find(dojo.toJson(param.filter));
+					return ;
+			   };
+
+			   dynamicCreateFilterSelect = function(){
+				    var ctStore = new Memory({
+				         data: [
+                                  {name:"全部", id:"2"},
+                                  {name:"未发布", id:"0"},
+                                  {name:"已发布", id:"1"}
+					           ]
+				    });
+					var ctFilteringSelect = new FilteringSelect({
+									id: "is_publish",
+									value: "tree",
+									name:"is_publish",
+									store: ctStore,
+									autoComplete: true,
+									style: "width: 160px;",
+									searchAttr: "name",
+									onChange: function(city){
+						                console.log("combobox onchange ", city, this.item.name);
+						            }
+					}, "is_publish");
+	            };
+
+
+		       loadEventHandler = function(){
+					hubClient = new OpenAjax.hub.IframeHubClient({
+							HubClient : {
+								onSecurityAlert : client2SecurityAlertHandler
+							}
+						});
+					// 连接到ManagedHub
+					try
+					{
+						hubClient.connect(connectCompleted);
+					}
+					catch(e)
+					{
+						console.log(e.message);
+					}
+				}
+
+				client2SecurityAlertHandler = function(source, alertType) {
+									// 理安全警报
+				}
+
+				/* Callback that is invoked upon successful connection to the Managed Hub */
+				connectCompleted = function(hubClient, success, error) {
+					//console.log(error);
+				}
+
+				onData = function(topic, subscribeData) {
+					//console.log(topic);
+				}
+
+		       ready(function(){
+		    	    loadEventHandler();
+		    	    var urlParam = OpenAjax.gadgets.util.getUrlParameters();
+					sessionId = urlParam.sessionId;
+					//treeId = urlParam.father.split("_")[0];
+					createGrid();
+					dynamicCreateFilterSelect();
+		       });
+    });
+
+  </script>
+</head>
+<body class="soria">
+
+     <div id="main" dojoType="dijit.layout.BorderContainer" data-dojo-props='liveSplitters:false,design:"headline"' style="width:100%; height:100%">
+        <div dojoType="dijit/layout/ContentPane" data-dojo-props='region:"left",style:"width:100%"' >
+            <div dojoType="dijit.layout.ContentPane" region="top" >
+		        <div data-dojo-type="dijit.Toolbar" >
+		          <div dojotype="dijit.form.Button" label="报表发布" onclick="showReportPublish();" iconClass="dijitIconNewTask" jsid="add" id="add"></div>
+		          <span data-dojo-type="dijit.ToolbarSeparator"></span>
+		          <div dojotype="dijit.form.Button" label="撤销发布" onclick="revokeReportPublish();" iconClass="dijitIconEdit" jsid="modify" id="modify"></div>
+		          <span data-dojo-type="dijit.ToolbarSeparator"></span>
+		        </div>
+		        <div>
+	               <label for="search_name" style="width:3em; margin-top: 5px; float:left;">名称：</label>
+				   <div data-dojo-type="dijit/form/ValidationTextBox"  style="width:150px;height:15px;" jsid='search_cdn'  name="search_cdn" id="search_cdn"   maxLength="50" ></div>
+			       <label for="search_publish" style="width:3em; margin-top: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;是否发布：</label>
+			       <div name="is_publish" jsid='is_publish' id = "is_publish" style="width:150px;height:17px;" ></div>
+			       <div dojoType="dijit/form/Button" id="searchbtn" onclick="searchReport();">查询</div>
+		        </div>
+            </div>
+            <div dojoType="dijit.layout.ContentPane" region="center" >
+	            <div id="gridDiv"></div>
+	        </div>
+         </div>
+     </div>
+
+     <!-- 报表发布弹出窗口 -->
+     <div dojoType="dijit.Dialog"  class="curddialog" jsid='curddialog' title="报表发布" style="width:300px;" >
+	     <div class="dijitDialogPaneContentArea">
+	       <div dojoType="dijit/form/Form" jsid="form" id="form">
+	         <button data-dojo-type="dijit/form/Button" jsid='code'  name="code" id="code"  style="display:none" ></button>
+	         <table>
+	                <tr height="40px">
+	                    <td align="left"><label for="name" style="color:red">*</label>&nbsp;&nbsp;菜单名称:</td>
+	                    <td><div data-dojo-type="dijit/form/ValidationTextBox"  required="true"  style="width:190px;height:17px;"   jsid='menu_name' name="menu_name"  id="menu_name" maxLength="50"></div></td>
+	                </tr>
+	                <tr height="40px">
+	                    <td align="left"></td>
+	                    <td><div data-dojo-type="dijit/form/CheckBox"  name='grant_permission'  jsid='grant_permission' id='grant_permission'></div>&nbsp;&nbsp;&nbsp;&nbsp;<label for="grant_permission" >是否给所在用户授权</label></td>
+	                </tr>
+	                <tr height="40px">
+	                    <td align="left"><label for="memo">&nbsp;&nbsp;备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注: </label></td>
+	                    <td><div data-dojo-type="dijit/form/SimpleTextarea" style="width:190px;" name="memo" jsid='memo' id="memo" maxLength="50"></div></td>
+	                </tr>
+	          </table>
+	       </div>
+	    </div>
+        <div class="dijitDialogPaneActionBar">
+            <button data-dojo-type="dijit/form/Button"  type="reset" onClick="return form.reset();">重置 </button>
+            <button data-dojo-type="dijit/form/Button"   onClick="reportPublish();">发布 </button>
+            <button data-dojo-type="dijit/form/Button" type="button" onClick="curddialog.hide()">关闭 </button>
+        </div>
+     </div>
+
+</body>
+</html>

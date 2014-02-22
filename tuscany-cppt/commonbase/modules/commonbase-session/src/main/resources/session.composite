@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+					xmlns:tuscany="http://tuscany.apache.org/xmlns/sca/1.1"
+					targetNamespace="http://session"
+					name="session-contribution">
+
+		<component name="SessionComponent">
+			<implementation.java class="net.newcapec.sca.session.service.impl.SessionImpl"/>
+				<reference name="defDBConnService" target="DefDBConnServiceComponent" />
+				
+			<service name="SessionService">
+				<tuscany:binding.jsonrpc/>
+			</service>
+		</component>
+</composite>

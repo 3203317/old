@@ -1,0 +1,15 @@
+{
+    "identifier": "code",
+    "label": "paramname",
+    "items": [
+        {
+            "code": "11",
+            "paramname": "f_sex",
+            "paramdesc": "性别",
+            "paramtype": "int",
+            "value": "1",
+            "required": "是",
+            reportds_code: 201
+        }
+    ]
+}

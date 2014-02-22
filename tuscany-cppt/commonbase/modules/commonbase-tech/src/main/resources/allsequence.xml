@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one
+  or more contributor license agreements.  See the NOTICE file
+  distributed with this work for additional information
+  regarding copyright ownership.  The ASF licenses this file
+  to you under the Apache License, Version 2.0 (the
+  "License"); you may not use this file except in compliance
+  with the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing,
+  software distributed under the License is distributed on an
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, either express or implied.  See the License for the
+  specific language governing permissions and limitations
+  under the License.
+-->
+<Config xmlns="http:///org.apache.tuscany.das.rdb/config.xsd" >
+
+<Command name="getMaxUserPhotoID"
+    SQL="select max(code) id from p_user_photo findMax" kind="Select">
+  <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+</Command>
+<Command name="getMaxUserBaseInfoID"
+    SQL="select decode(max(account_id),null,0,max(account_id)) id from p_user findMax" kind="Select">
+  <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+<Command name="getMaxUserRoleID"
+    SQL="select max(code) id from p_user_role findMax" kind="Select">
+  <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+<Command name="getMaxOperationID"
+    SQL="select max(code) id from p_resource_operate findMax" kind="Select">
+  <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+<Command name="getMaxOrganizationID"
+    SQL="select max(to_number(code)) id from p_department findMax" kind="Select">
+  <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+<Command name="getMaxDicItemID"
+    SQL="select max(code) id from z_code_dictionary_data findMax" kind="Select">
+  <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+<Command name="getMaxDicTableID"
+    SQL="select max(code) id from z_code_dictionary findMax" kind="Select">
+  <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+<Command name="getMaxMenuBindingID"
+    SQL="select max(code) id from p_menubind findMax" kind="Select">
+  <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+<Command name="getMaxGridConditionID"
+    SQL="select max(code) id from p_gridcondition findMax" kind="Select">
+  <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+<Command name="getMaxGridPrintID"
+    SQL="select max(code) id from p_gridprint findMax" kind="Select">
+  <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+<Command name="getMaxDBConnectionID"
+    SQL="select max(code) id from p_dbconn findMax" kind="Select">
+  <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+<Command name="getMaxResourceID"
+    SQL="select max(code) id from p_resource_info findMax" kind="Select">
+  <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+<!-- 多表联合查询，选择最大的id mysql
+    <Command name="getMixTableMaxID_mysql"
+    SQL="select  (case (Maxcode>MaxloginId) when true
+          then Maxcode
+            else MaxloginId end)  id
+        from
+        (select
+          max(code) Maxcode,
+          max(loginId) MaxloginId
+        from z_nation left outer join userlogin
+        on z_nation.code = userlogin.loginId) findMax" kind="Select">
+  <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+-->
+<Command name="getMixTableMaxID"
+    SQL="select id from
+      (select greatest(maxz_nationcode, maxp_user_rolecode) id
+        from (select nvl(max(z_nation.code), 0) maxz_nationcode
+                from z_nation),
+            (select nvl(max(p_user_role.code), 0) maxp_user_rolecode
+                from p_user_role)) findMax" kind="Select">
+  <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+<!--单表查询最大id  -->
+  <Command name="getSingleTableMaxID"
+    SQL = "select Max(code) id from z_nation findMax"
+    kind = "Select">
+  <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+
+  <Command name="getMaxDataSourceID"
+    SQL="select max(code) id from p_datasource findMax" kind="Select">
+    <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+
+  <Command name="getMaxCustomFormID"
+    SQL="select max(code) id from p_form findMax" kind="Select">
+    <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+
+  <Command name="getMaxFieldPrepID"
+    SQL="select max(code) id from p_fieldprep findMax" kind="Select">
+    <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+
+  <Command name="getMaxGridViewID"
+    SQL="select max(code) id from p_gridview findMax" kind="Select">
+    <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+
+  <Command name="getMaxGridFieldID"
+    SQL="select max(code) id from p_gridfield findMax" kind="Select">
+    <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+
+  <Command name="getMaxGridStatID"
+    SQL="select max(code) id from p_gridstat findMax" kind="Select">
+    <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+
+  <Command name="getMaxGridCustomID"
+    SQL="select max(code) id from p_gridcustom findMax" kind="Select">
+    <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+
+  <Command name="getMaxDataAccessRuleID"
+    SQL="select max(code) id from p_resource_rule findMax" kind="Select">
+    <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+
+  <Command name="getMaxRoleID"
+    SQL="select max(code) id from p_role findMax" kind="Select">
+    <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+
+  <Command name="getMaxPermisionID"
+    SQL="select max(code) id from p_permission findMax" kind="Select">
+    <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+
+  <Command name="getMaxRolePermisionID"
+    SQL="select max(code) id from p_role_permission findMax" kind="Select">
+    <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+
+  <Command name="getMaxFormLayoutID"
+    SQL="select max(code) id from p_formlayout  findMax" kind="Select">
+    <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+
+  <Command name="getMaxReportID"
+    SQL="select max(code) id from p_report  findMax" kind="Select">
+    <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+
+  <Command name="getMaxReportDsID"
+    SQL="select max(code) id from p_report_ds  findMax" kind="Select">
+    <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+
+  <Command name="getMaxReportFieldDsID"
+    SQL="select max(report_ds_code) id from p_report_ds_field  findMax" kind="Select">
+    <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+
+  <Command name="getMaxReportDsParamID"
+    SQL="select max(code) id from p_report_ds_param  findMax" kind="Select">
+    <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+  <Command name="getMaxComponentDatasetID"
+    SQL="select max(code) id from p_componentdataset findMax" kind="Select">
+      <ResultDescriptor columnName="id" tableName="findMax"    columnType="commonj.sdo.String"/>
+  </Command>
+</Config>

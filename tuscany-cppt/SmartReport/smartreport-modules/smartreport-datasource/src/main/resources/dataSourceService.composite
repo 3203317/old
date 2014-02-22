@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+           xmlns:tuscany="http://tuscany.apache.org/xmlns/sca/1.1"
+           targetNamespace="http://newcapec.net/smartreport/datasource/dataSourceService"
+           name="dataSourceService-contribution">
+
+    <component name="DataSourceServiceComponent">
+		<implementation.spring location="dataSourceService-context.xml"/>
+		<reference name="dataSourceDAS" target="DataSourceDASComponent" />
+		<reference name="gridFieldService" target="GridFieldServiceComponent/GridFieldService"></reference>
+		<reference name="sessionService" target="SessionComponent" />
+		<service name="DataSourceService">
+			<tuscany:binding.jsonrpc/>
+		</service>
+    </component>
+
+</composite>

@@ -1,0 +1,1163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<TITLE>reportdesigner</TITLE>
+<link rel="stylesheet" type="text/css" href="/dojo/resources/dojo.css" />
+<link rel="stylesheet" type="text/css"
+	href="/dojox/grid/resources/Grid.css" />
+<link rel="stylesheet" type="text/css"
+	href="/dojox/grid/resources/soriaGrid.css" />
+<link rel="stylesheet" type="text/css"
+	href="../../main/dijit/themes/capec/capec.css" />
+<link rel="stylesheet" type="text/css"
+	href="/dojox/layout/resources/ToggleSplitter.css" />
+<style type="text/css">
+@import "/dojox/grid/enhanced/resources/EnhancedGrid.css";
+
+@import "/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css";
+
+html,body {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	padding: 0;
+	margin: 0;
+}
+
+#_designer {
+	height: 100%;
+	width: 100%;
+	font-size: 12px;
+}
+
+#_designer_top {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0px;
+}
+
+#_designer_grid {
+	height: 100%;
+}
+</style>
+
+<script type="text/javascript" src="../../main/commons/js/util.js"></script>
+<script type="text/javascript" src="../../main/commons/js/base.js"></script>
+<script type="text/javascript" src="../../main/commons/js/form.js"></script>
+<script type="text/javascript"
+	src="../../main/commons/js/OpenAjaxManagedHub-all.js"></script>
+
+<SCRIPT LANGUAGE="JavaScript">
+		var djConfig = {
+			locale: capec.base.locale,
+			bindEncoding: 'UTF-8'
+		};
+	</SCRIPT>
+<script type="text/javascript" src="/dojo/dojo.js"
+	data-dojo-config="isDebug:false,parseOnLoad:true"></script>
+<script type='text/javascript' src='dynaload.js?72'></script>
+<script type="text/javascript" src="reportdesigner.js"></script>
+<script type="text/javascript" src="../../main/commons/js/managedHub.js"></script>
+
+  <script type="text/javascript">
+
+    function client2SecurityAlertHandler(source, alertType) {
+      // 理安全警报
+    }
+    /* Callback that is invoked upon successful connection to the Managed Hub */
+    function connectCompleted ( hubClient, success, error ) {
+      if (success) {
+    	  hubClient.subscribe('org.example.topics.textmessage', function(topic, publisherData, subscriberData){
+    		  alert(topic);
+    	  });
+      }
+    }
+
+    /* 应用程序初始化时,在回应文件load事件 */
+    function loadEventHandler() {
+      var aa =	OpenAjax.gadgets.util.getUrlParameters();
+      hubClient = new OpenAjax.hub.IframeHubClient({
+        HubClient: {
+          onSecurityAlert: client2SecurityAlertHandler
+        }
+      });
+      // 连接到ManagedHub
+      hubClient.connect( connectCompleted );
+
+
+    }
+    function clickEvent() {
+      hubClient.publish('org.example.topics.textmessage','Message from ClientApp2');
+    }
+
+    function onData1(topic, publisherData, subscriberData) {
+    	 alert(publisherData);
+        if (typeof publisherData === "string") {
+          alert(publisherData);
+        }
+      }
+
+  </script>
+<script type="text/javascript">
+		document.title = document.title +" - 报表设计器2.4";
+
+		var _designer = {};
+		_designer.sessionId = Request.QueryString("sessionId");
+		_designer.reportId = Request.QueryString("reportId");
+		_designer.resourceId = 1;
+		_designer.gridPageSize = 5;
+
+		//@Reference
+		_designer.dataSourceService = new tuscany.sca.Reference("dataSourceService");
+		//@Reference
+		_designer.reportService = new tuscany.sca.Reference("reportService");
+		//@Reference
+		_designer.reportDsService = new tuscany.sca.Reference("reportDsService");
+		//@Reference
+		_designer.reportDsFieldService = new tuscany.sca.Reference("reportDsFieldService");
+		//@Reference
+		_designer.reportDsParamService = new tuscany.sca.Reference("reportDsParamService");
+		//@Reference
+		_designer.componentDatasetService = new tuscany.sca.Reference("componentDatasetService");
+
+		console.log(_designer.componentDatasetService);
+
+		/* 控件集 */
+		_designer.controls = [{
+			value: 0,
+			label: ""
+		}];
+
+		var OnReady = function() {
+			console.log("ShuoZhengOnReady");
+		};
+
+		_designer.reloadReport = function(){
+			console.log("_designer.reloadReport");
+		};
+
+		_designer.resetReportDs = function(){
+			_designer.reportService.getReportData(_designer.sessionId,_designer.reportId,[]).addCallback(function($data){
+				if($data == null) return;
+				//console.log("----");
+				//console.log($data);
+				//console.log("----");
+
+				for(var __item in $data){
+					/*console.log(__item);
+					console.log($data[__item]);
+					console.log(JSON.stringify($data[__item]));
+					console.log(JSON.stringify(__d[__item]));*/
+
+					/***/
+					var __ds = __item +'\r\n{"items":'+ JSON.stringify($data[__item]) +'}';
+					//console.log(__ds);
+
+					AF.func('SetSource', __ds);
+				}
+				AF.func('SetSource', "ReportDic\r\n{items:[{corp:'郑州新开普电子有限公司',optuser:'黄鑫',printime:'2013-01-25 11:11:11'}]}");
+
+				AF.func("CallFunc", "301\r\n3");
+				AF.func('Calc', '');
+			});
+		};
+
+		var OnEvent = function(id, Event, p1, p2, p3, p4) {
+			console.log(arguments);
+
+			if (Event == "Saved") {
+				var __xml = dojo.byId("AF").func("GetFileXML", "false")
+				console.log(__xml);
+
+				_designer.reportService.updateReportTemplet(_designer.sessionId,{code:_designer.reportId,templet:__xml}).addCallback(function($value){
+					if($value == null) return;
+					console.log($value);
+					AF.func('Calc', '');
+				});
+			}
+		};
+
+		dojo.registerModulePath("newcapec",".."+ capec.domain +"/main/newcapec");
+
+		require([ "dojo/ready",
+		          "newcapec/dialog/AlertConfirm","dijit/tree/dndSource", "newcapec/Tree", "dijit/tree/ForestStoreModel",
+				"dojo/data/ItemFileWriteStore", "dijit/Menu", "dijit/MenuItem",
+				"dijit/layout/BorderContainer", "dijit/layout/ContentPane",
+				"dijit/form/ValidationTextBox", "dijit/form/Button",
+				"dojox/grid/cells/_Widget",
+				"dijit/form/Select",
+				"dojox/grid/cells/dijitnewcapec"], function(
+				$ready,$AlertConfirm,$dndSource, $Tree, $ForestStoreModel, $ItemFileWriteStore, $Menu,
+				$MenuItem) {
+
+			_designer.componentDatasetService.findComponentDatasetDojoList({sessionId:_designer.sessionId,resourceId:'',filter:[],begin:0,limit:1000}).addCallback(function($data){
+				if($data == null) return;
+				dojo.forEach($data.items,function($item){
+					_designer.controls.push({
+						value: $item.code,
+						label: $item.dataset_name
+					});
+				});
+			});
+
+			_designer.createDsTree = function($data) {
+				var __store = new $ItemFileWriteStore({ data : {
+					"identifier": "code",
+				    "label": "name",
+					items: $data.children
+				} });
+				_designer._dsTree = new $Tree({
+					model : new $ForestStoreModel({
+						store : __store,
+						query : {
+							"type" : "dstype"
+						},
+						rootId : "0",
+						rootLabel : "数据源",
+						childrenAttrs : [ "children" ]
+					}),
+					showRoot : true,
+					openOnDblClick : true,
+					style : {
+						height : "100%",
+						margin : "-4px",
+						padding : 0
+					}
+					//,dndController: $dndSource
+				}, "_designer_dstree");
+
+				dojo.connect(_designer._dsTree, "onDblClick", function($item){
+
+					var __newItem = {
+						report_code: _designer.reportId,
+						ds_code: $item.code[0],
+						memo: ''
+					};
+
+					_designer.reportDsService.insertReportDs(_designer.sessionId,__newItem).addCallback(function($item){
+						if($item == null) return;
+						_designer.loadReport();
+						dijit.byId("_designer_dsgrid").store.newItem($item);
+						/***/
+						var __count = dijit.byId("_designer_dsgrid").store._getItemsArray().length;
+						dijit.byId("_designer_dsgrid").selection.clear();
+						dijit.byId("_designer_dsgrid").selection.setSelected(__count-1,true);
+					});
+				});
+			};
+
+			_designer.loadDsData = function() {
+				var __treeObj = {
+					code: 0,
+					name: "数据源",
+					children: [{
+						code: -1,
+						name: "SQL语句&视图",
+						"type": "dstype"
+					},{
+						code: -2,
+						name: "存储过程",
+						"type": "dstype"
+					}]
+				};
+
+				var __filter = [{
+					"relation": "and",
+					"field": "type",
+					"logical": "=",
+					"value": "'sql'"
+				}];
+				_designer.dataSourceService.findDataSourceList(_designer.sessionId,_designer.resourceId,__filter,0,1000).addCallback(function($value){
+					if($value == null) return;
+					__treeObj.children[0].children = $value;
+
+					var __filter2 = [{
+						"relation": "and",
+						"field": "type",
+						"logical": "=",
+						"value": "'proc'"
+					}];
+
+					_designer.dataSourceService.findDataSourceList(_designer.sessionId,_designer.resourceId,__filter2,0,1000).addCallback(function($value2){
+						if($value2 == null) return;
+						__treeObj.children[1].children = $value2;
+						_designer.createDsTree(__treeObj);
+					});
+				});
+			};
+
+			_designer.loadReportDsData = function($item){
+				console.log('加载数据源对应的字段和参数');
+				_designer.reportDsFieldService.findReportDsFieldList(_designer.sessionId,$item.code[0],$item.ds_code[0]).addCallback(function($data){
+					if ($data == null) return;
+					var __store = new $ItemFileWriteStore({
+						data : {
+							"identifier": "field_name",
+						    "label": "field_name",
+							items: $data
+						}
+					});
+					_designer._fieldGrid.setStore(__store);
+					_designer._sqlParamfieldGrid.setStore(__store);
+					_designer._sqlParamfieldGrid.selection.setSelected(0, $data.length > 0);
+					dijit.byId("_designer").layout();
+
+					//_designer.loadReport();
+				});
+				/*dojo.xhrPost({
+					async : false,
+					handleAs : "json",
+					url : "data2.4/reportdsfield"+ $item.code[0] +".json?r=" + new Date(),
+					content : {},
+					load : dojo.hitch(this, function($data) {
+						if ($data == null) return;
+						var __store = new $ItemFileWriteStore({
+							data : $data
+						});
+						this._fieldGrid.setStore(__store);
+						this._sqlParamfieldGrid.setStore(__store);
+						this._sqlParamfieldGrid.selection.setSelected(0, $data.items.length > 0);
+						dijit.byId("_designer").layout();
+					})
+				});*/
+
+				_designer.reportDsParamService.findReportDsParamList(_designer.sessionId,$item.code[0],$item.ds_code[0],$item.ds_type[0]).addCallback(function($data){
+					if ($data == null) return;
+					var __store = new $ItemFileWriteStore({
+						data : {
+							"identifier": "code",
+						    "label": "code",
+							items: $data
+						}
+					});
+
+					if($item.ds_type[0] == "PROC"){
+						_designer._procParamGrid.selection.clear();
+						_designer._procParamGrid.setStore(__store);
+					}else{
+						_designer._sqlParamGrid.selection.clear();
+						_designer._sqlParamGrid.setStore(__store);
+					}
+					dijit.byId("_designer").layout();
+				});
+
+				/*dojo.xhrPost({
+					async : false,
+					handleAs : "json",
+					url : "data2.4/reportdsparam"+ $item.code[0] +".json?r=" + new Date(),
+					content : {},
+					load : dojo.hitch(this, function($data) {
+						if ($data == null) return;
+
+						if($item.ds_type[0] == "PROC"){
+							this._procParamGrid.selection.clear();
+							this._procParamGrid.setStore(new $ItemFileWriteStore({
+								data : $data
+							}));
+							this._procParamGrid.selection.setSelected(0, true);
+						}else{
+							this._sqlParamGrid.selection.clear();
+							this._sqlParamGrid.setStore(new $ItemFileWriteStore({
+								data : $data
+							}));
+						}
+
+					})
+				});*/
+
+				var __id = dijit.byId("_designer_right_tabs").tablist.getChildren()[1].id;
+				var __selItem = dijit.byId("_designer_dsgrid").selection.getSelected()[0]
+				var __ds_type = __selItem.ds_type[0];
+
+				console.log(__ds_type);
+
+				if(__ds_type == "PROC"){
+					if(__id.indexOf("_designer_right_tabs_procParam") == -1){
+						dijit.byId("_designer_right_tabs").addChild(dijit.byId("_designer_right_tabs_procParam"));
+						dijit.byId("_designer_right_tabs").removeChild(dijit.byId("_designer_right_tabs_sqlParam"));
+					}
+				}else{
+					if(__id.indexOf("_designer_right_tabs_sqlParam") == -1){
+						dijit.byId("_designer_right_tabs").addChild(dijit.byId("_designer_right_tabs_sqlParam"));
+						dijit.byId("_designer_right_tabs").removeChild(dijit.byId("_designer_right_tabs_procParam"));
+					}
+				}
+			};
+
+			require([ "dijit/Toolbar", "dijit/form/Button" ], function($Toolbar, $Button) {
+				$ready(function(){
+					_designer.delReportDs = function() {
+						if(dijit.byId("_designer_dsgrid").store._getItemsArray().length == 1){
+							alert("必须最少有一个数据源！");
+							return;
+						}
+						var __selItem = dijit.byId("_designer_dsgrid").selection.getSelected()[0];
+						if(__selItem.type[0] == 1){
+							return;
+						}
+						_designer._delConfirm.confirm(function(){
+							var xml = dojo.byId("AF").func("GetFileXML", "false");
+							_designer.reportDsService.delReportDsById(_designer.sessionId,__selItem.ds_code[0],__selItem.code[0],xml).addCallback(function($data){
+								if($data == null) return;
+								console.log($data);
+								dijit.byId("_designer").layout();
+								dijit.byId("_designer_dsgrid").store.deleteItem(dijit.byId("_designer_dsgrid").selection.getSelected()[0]);
+								dijit.byId("_designer_dsgrid").store.save();
+								dijit.byId("_designer_dsgrid").selection.setSelected(0, true);
+								_designer.loadReport();
+							});
+						});
+						_designer._delConfirm.show();
+					};
+
+					_designer._delButton = new $Button({
+						id : "_designer_toolbar_delBtn",
+						label : "删除",
+						iconClass : "dijitEditorIcon dijitEditorIconDelete"
+					});
+					_designer._delButton.on("click",_designer.delReportDs);
+
+					_designer._resetButton = new $Button({
+						label : "保存",
+						iconClass : "dijitEditorIcon dijitEditorIconSave"
+					});
+					_designer._resetButton.on("click", dojo.hitch(this, function() {
+						console.log('重新计算');
+					}));
+
+					/*_designer._selDsButton = new $Button({
+						label : "选择数据源",
+						iconClass : "dijitEditorIcon dijitEditorIconNewPage"
+					});
+					_designer._selDsButton.on("click", dojo.hitch(this, function() {
+						var __selItem = dijit.byId("_designer_dstree").selectedItem;
+						if(__selItem == null){
+							alert("请选择数据源！");
+							return;
+						}
+						if(__selItem.type[0] != "datasource") {
+							alert("请选择正确的数据源！");
+							return;
+						}
+
+						dijit.byId("_designer_dsgrid").store.newItem({
+				            "code": "2011",
+				            "name": "ds2011",
+				            "ds_code": __selItem.code[0],
+				            "ds_name": __selItem.name[0],
+				            "ds_type": __selItem.ds_type[0],
+				            "memo": "",
+				            "type": "reportds"
+				        });
+					}));*/
+
+					_designer._toolbar = new $Toolbar({
+						style : {
+							margin : "-4px",
+							padding : 0
+						}
+					}, dojo.byId("_designer_toolbar"));
+					//_designer._toolbar.addChild(_designer._selDsButton);
+					//_designer._toolbar.addChild(_designer._resetButton);
+					_designer._toolbar.addChild(_designer._delButton);
+				});
+			});
+
+			require([ "dijit/Toolbar", "dijit/form/Button" ], function($Toolbar, $Button) {
+				$ready(function(){
+					_designer._sqlParamDelButton = new $Button({
+						label : "删除",
+						iconClass : "dijitEditorIcon dijitEditorIconDelete"
+					});
+					_designer._sqlParamDelButton.on("click", dojo.hitch(this, function() {
+						var __selItems = _designer._sqlParamGrid.selection.getSelected();
+						if(__selItems.length == 0){
+							//alert("请选择需要删除的数据！");
+							return;
+						}
+
+						var __ids = [];
+						dojo.forEach(__selItems, function($item){ __ids.push($item.code[0]); });
+						console.log(__ids);
+
+						_designer._delConfirm.confirm(function(){
+							_designer.reportDsParamService.delReportDsParamByIds(_designer.sessionId,__ids.join(",")).addCallback(function($data){
+								if($data == null) return;
+								dojo.forEach(__selItems, function($item){
+									_designer._sqlParamGrid.store.deleteItem($item);
+								});
+								_designer._sqlParamGrid.store.save();
+								_designer.resetReportDs();
+							});
+						});
+						_designer._delConfirm.show();
+					}));
+
+					_designer._sqlParamSelFieldButton = new $Button({
+						label : "选择字段",
+						iconClass : "dijitEditorIcon dijitEditorIconNewPage"
+					});
+//					_designer._sqlParamSelFieldButton.on("click", dojo.hitch(this, function() {
+//						var __selItem = _designer._sqlParamfieldGrid.selection.getSelected()[0];
+//						console.log(__selItem);
+	//
+	//
+//						_designer._sqlParamGrid.store.newItem({
+//				            "code": "111",
+//				            "logical": "and",
+//				            "field": __selItem.fieldname[0],
+//				            "relation": "=",
+//				            "value": "1",
+//				            reportds_code: 202
+//				        });
+	//
+//						//执行添加操作，成功后store newItem
+//						/*dijit.byId("_designer_dsgrid").store.newItem({
+//				            "code": "2011",
+//				            "name": "ds2011",
+//				            "ds_code": __selItem.code[0],
+//				            "ds_name": __selItem.name[0],
+//				            "ds_type": __selItem.ds_type[0],
+//				            "memo": "",
+//				            "type": "reportds"
+//				        });*/
+//					}));
+
+					_designer._sqlParamToolbar = new $Toolbar({
+						style : {
+							margin : "-4px",
+							padding : 0
+						}
+					}, dojo.byId("_designer_right_tabs_sqlParam_toolbar"));
+					//_designer._sqlParamToolbar.addChild(_designer._sqlParamSelFieldButton);
+					_designer._sqlParamToolbar.addChild(_designer._sqlParamDelButton);
+				});
+			});
+
+			_designer.updateReportDsField = function($newItem){
+				_designer.reportDsFieldService.updateReportDsField(_designer.sessionId,$newItem).addCallback(function($data){
+					if($data == null) return;
+					//var __fieldname = _designer._fieldGrid.selection.getSelected()[0].field_name[0];
+					//var __ds = _designer._dsGrid.selection.getSelected()[0].rds_id[0];
+					//AF.func('SetDSColInfo', __ds+"\r\n"+__fieldname+"\r\n"+ $newItem.title +"\r\nstring");
+					//AF.func('Calc', '');
+					//console.log($data);
+					_designer.loadReport();
+				});
+			};
+
+			require([ "dojox/grid/EnhancedGrid", "dojox/grid/_RadioSelector" ],function($EnhancedGrid){
+				$ready(function(){
+					_designer._fieldGrid = new $EnhancedGrid({
+						rowSelector: "5px",
+						style : {
+							height : "100%",
+							margin : "-4px",
+							padding : 0
+						},
+						structure : [[{
+							name : "字段名",
+							field : "field_name",
+							width : "auto"
+						}, {
+							name : "标题名",
+							field : "title",
+							width : "auto",
+							editable : true
+						}, {
+							name : "类型",
+							field : "field_type",
+							width : "auto",
+							editable : false,
+							type: dojox.grid.cells.Select,
+							options:  ["string","number","date"]
+						}, {
+							name : "显示/隐藏",
+							field : "ishow",
+							width : "auto",
+							styles : 'text-align: center;',
+							editable : true,
+							type : dojox.grid.cells.Bool
+						} ] ]
+					}, "_designer_fieldgrid");
+					_designer._fieldGrid.startup();
+
+					dojo.connect(_designer._fieldGrid,"onApplyCellEdit",function($item, $colId){
+						if(arguments[2] == "title"){
+							var __selItem = _designer._fieldGrid.getItem($colId);
+							_designer.updateReportDsField({
+								ds_code: __selItem.ds_code[0],
+								report_ds_code: __selItem.report_ds_code[0],
+								field_name: __selItem.field_name[0],
+								sequence: 1,
+								title: arguments[0],
+								ishow: __selItem.ishow[0] ? 1 : 0
+							});
+						}
+					});
+
+					dojo.connect(_designer._fieldGrid,"onStartEdit",function($item, $colId) {
+ 						if ($item.field != "ishow") return;
+ 						var __selItem = _designer._fieldGrid.getItem($colId);
+						//console.log(__selItem.ishow[0]);
+ 						//console.log(__selItem);
+						_designer.updateReportDsField({
+							ds_code: __selItem.ds_code[0],
+							report_ds_code: __selItem.report_ds_code[0],
+							field_name: __selItem.field_name[0],
+							sequence: 1,
+							title: __selItem.title[0],
+							ishow: __selItem.ishow[0] ? 1 : 0
+						});
+					});
+
+// 					dojo.connect(_designer._fieldGrid,"onStartEdit",function($item, $colId) {
+// 						var __index = $item.index;
+// 						if(__index == 3){
+// 							AF.func("CallFunc", "301\r\n3");
+// 						}
+// 					});
+
+// 					dojo.connect(_designer._fieldGrid,"onApplyCellEdit",function($item, $colId) {
+// 						if(arguments[2] != "title") return;
+// 						var __fieldname = _designer._fieldGrid.selection.getSelected()[0].fieldname[0];
+// 						var __ds = _designer._dsGrid.selection.getSelected()[0].name[0] +"\\items";
+// 						AF.func("SetDSColInfo",__ds +"\r\n"+ __fieldname +"\r\n"+ $item +"\r\nstring");
+// 						AF.func('Calc', '');
+// 					});
+				});
+			});
+
+			require([ "dojox/grid/EnhancedGrid", "dojox/grid/_RadioSelector","dojox/grid/_CheckBoxSelector" ],function($EnhancedGrid){
+				_designer.createSqlParamFieldGrid = function(){
+					console.log('创建SQL语句&视图参数字段Grid');
+					this._sqlParamfieldGrid = new $EnhancedGrid({
+						rowSelector: "5px",
+						style : {
+							height : "100%",
+							width : "100%",
+							margin : "-4px",
+							padding : 0
+						},
+						structure : [[{
+							name : "字段名",
+							field : "field_name",
+							width : "auto"
+						}, {
+							name : "标题名",
+							field : "title",
+							width : "auto"
+						}, {
+							name : "类型",
+							field : "field_type",
+							width : "auto"
+						}] ]
+					}, "_designer_right_tabs_sqlParam_fieldgrid");
+					this._sqlParamfieldGrid.startup();
+
+					dojo.connect(this._sqlParamfieldGrid, "onDblClick", this, function($item){
+						var __selItem = this._sqlParamfieldGrid.selection.getSelected()[0];
+
+						var __newItem = {
+							code: 111,
+						    ds_type: 'SQL',
+						    report_ds_code: __selItem.report_ds_code[0],
+						    logical: 'and',
+						    field_name: __selItem.field_name[0],
+						    relation: 'like',
+						    field_value: 1,
+						    field_type: __selItem.field_type[0],
+						    label: __selItem.title[0],
+						    input_type: 'input',
+						    widget_ds_code: 0
+						};
+
+						_designer.reportDsParamService.insertReportDsParam(_designer.sessionId,__newItem).addCallback(function($data){
+							if($data == null) return;
+							_designer._sqlParamGrid.store.newItem({
+								code: $data.code,
+							    ds_type: 'SQL',
+							    report_ds_code: __selItem.report_ds_code[0],
+							    logical: 'and',
+							    field_name: __selItem.field_name[0],
+							    relation: 'like',
+							    field_value: 1,
+							    field_type: __selItem.field_type[0],
+							    label: __selItem.title[0],
+							    input_type: 'input',
+							    widget_ds_code: 0
+							});
+							_designer.resetReportDs();
+						});
+					});
+				};
+
+				$ready(function(){
+					_designer._sqlParamGrid = new $EnhancedGrid({
+						style : {
+							height : "100%",
+							width : "100%",
+							margin : "-4px",
+							padding : 0
+						},
+						structure : [{
+							type: "dojox.grid._CheckBoxSelector"
+						}, [{
+							name : "逻辑",
+							field : "logical",
+							width : "50px",
+							editable : true,
+							type: dojox.grid.cells.Select,
+							options:  ["and","or","and not","or not"]
+						},{
+							name : "查询字段",
+							field : "field_name",
+							width : "130px"
+						}, {
+							name : "关系",
+							field : "relation",
+							width : "40px",
+							editable : true,
+							type: dojox.grid.cells.Select,
+							options:  ["=",">","<",">=","<=","<>","like"]
+						}, {
+							name : "测试值",
+							field : "field_value",
+							width : "130px",
+							editable : true
+						}, {
+							name : "表单标题",
+							field : "label",
+							width : "130px",
+							editable : true
+						}, {
+							name : "输入类型",
+							field : "input_type",
+							width : "60px",
+							editable : true,
+							type: dojox.grid.cells.Select,
+							options:  ["input","select","date","tree","radio"]
+						}, {
+							name : "控件集",
+							field : "widget_ds_label",
+							width : "100px",
+							type: dojox.grid.cells._Widget,
+							widgetClass: dijit.form.Select,
+							widgetProps:{
+								name:'widget_ds_codea',
+								style:'width:50px;',
+								type:'select',
+								options: _designer.controls
+							},
+							editable:true
+						}, {
+							field:"widget_ds_code",
+							hidden:true
+						}] ]
+					}, "_designer_right_tabs_sqlParam_paramGrid");
+					_designer._sqlParamGrid.startup();
+
+					dojo.connect(_designer._sqlParamGrid,"onApplyCellEdit",function(item, colId) {
+						var __selItem = _designer._sqlParamGrid.getItem(colId);
+
+						var __selField = arguments[2];
+
+						var __newItem = {
+							code: __selItem.code[0],
+							logical: __selItem.logical[0],
+							relation: __selItem.relation[0],
+							field_value: __selItem.field_value[0],
+							label: __selItem.label[0],
+							input_type: __selItem.input_type[0],
+							widget_ds_code: __selItem.widget_ds_code[0]
+						};
+
+
+						if(arguments[2] == "widget_ds_label"){
+							var __widget_ds_code = 0;
+
+							if(dojo.byId("widget_ds_codea"+(colId+1)) == null){
+								if(__selItem.widget_ds_code[0] == ""){
+									__widget_ds_code=0
+								}
+							}else{
+								__widget_ds_code = dojo.byId("widget_ds_codea"+(colId+1)).value;
+							}
+							__newItem.widget_ds_code = __widget_ds_code;
+						}else{
+							__newItem[arguments[2]] = arguments[0];
+						}
+
+						_designer.reportDsParamService.updateReportDsParam(_designer.sessionId,__newItem).addCallback(function($data){
+							console.log($data);
+							if($data == null) return;
+
+							_designer._sqlParamGrid.store.setValue(__selItem,"logical",__newItem.logical);
+							_designer._sqlParamGrid.store.setValue(__selItem,"relation",__newItem.relation);
+							_designer._sqlParamGrid.store.setValue(__selItem,"field_value",__newItem.field_value);
+							_designer._sqlParamGrid.store.setValue(__selItem,"label",__newItem.label);
+							_designer._sqlParamGrid.store.setValue(__selItem,"input_type",__newItem.input_type);
+							_designer._sqlParamGrid.store.setValue(__selItem,"widget_ds_code",__newItem.widget_ds_code);
+							_designer._sqlParamGrid.store.save();
+
+							if(__selField == "relation" || __selField == "logical" || __selField == "field_value"){
+								//获取数据
+								var __reportDsId = __selItem.report_ds_code[0];
+								_designer.resetReportDs();
+							}
+						});
+					});
+				});
+			});
+
+			require([ "dojox/grid/EnhancedGrid", "dojox/grid/_RadioSelector" ],function($EnhancedGrid){
+				_designer.createProcParamGrid = function(){
+					this._procParamGrid = new $EnhancedGrid({
+						rowSelector: "5px",
+						style : {
+							height : "100%",
+							margin : "-4px",
+							padding : 0
+						},
+						structure : [[{
+							name : "查询字段",
+							field : "field_name",
+							width : "auto"
+						},{
+							name : "参数类型",
+							field : "field_type",
+							width : "auto"
+						}, {
+							name : "测试值",
+							field : "field_value",
+							width : "auto",
+							editable : true
+						}, {
+							name : "表单标题",
+							field : "label",
+							width : "130px",
+							editable : true
+						}, {
+							name : "输入类型",
+							field : "input_type",
+							width : "60px",
+							editable : true,
+							type: dojox.grid.cells.Select,
+							options:  ["input","select","date","tree","radio"]
+						}, {
+							name : "控件集",
+							field : "widget_ds_label",
+							width : "auto",
+							type: dojox.grid.cells._Widget,
+							widgetClass: dijit.form.Select,
+							widgetProps:{
+								name:'widget_ds_code',
+								style:'width:50px;',
+								type:'select',
+								options: _designer.controls
+							},
+							editable:true
+						}, {
+							field:"widget_ds_code",
+							hidden:true
+						}/*, {
+							name : "必填",
+							field : "required",
+							width : "auto"
+						}*/ ] ]
+					}, "_designer_procparamgrid");
+					this._procParamGrid.startup();
+
+					dojo.connect(_designer._procParamGrid,"onApplyCellEdit",function(item, colId) {
+						//console.log(arguments);
+						//var __selItem = _designer._procParamGrid.selection.getSelected()[0];
+						var __selItem = _designer._procParamGrid.getItem(colId);
+
+						var __selField = arguments[2];
+
+						var __newItem = {
+							code: __selItem.code[0],
+							logical: "",
+							relation: "",
+							field_value: __selItem.field_value[0],
+							label: __selItem.label[0],
+							input_type: __selItem.input_type[0],
+							widget_ds_code: __selItem.widget_ds_code[0]
+						};
+
+
+						if(arguments[2] == "widget_ds_label"){
+							var __widget_ds_code = 0;
+
+							if(dojo.byId("widget_ds_code"+(colId+1)) == null){
+								if(__selItem.widget_ds_code[0] == ""){
+									__widget_ds_code=0
+								}
+							}else{
+								__widget_ds_code = dojo.byId("widget_ds_code"+(colId+1)).value;
+							}
+							__newItem.widget_ds_code = __widget_ds_code;
+						}else{
+							__newItem[arguments[2]] = arguments[0];
+						}
+
+						_designer.reportDsParamService.updateReportDsParam(_designer.sessionId,__newItem).addCallback(function($data){
+							console.log($data);
+							if($data == null) return;
+
+							_designer._procParamGrid.store.setValue(__selItem,"logical",__newItem.logical);
+							_designer._procParamGrid.store.setValue(__selItem,"relation",__newItem.relation);
+							_designer._procParamGrid.store.setValue(__selItem,"field_value",__newItem.field_value);
+							_designer._procParamGrid.store.setValue(__selItem,"label",__newItem.label);
+							_designer._procParamGrid.store.setValue(__selItem,"input_type",__newItem.input_type);
+							_designer._procParamGrid.store.setValue(__selItem,"widget_ds_code",__newItem.widget_ds_code);
+							_designer._procParamGrid.store.save();
+
+							if(__selField == "field_value"){
+								_designer.resetReportDs();
+							}
+						});
+					});
+				};
+			});
+
+			_designer.redraw = function(){
+				dijit.byId("_designer_right_tabs_tablist_leftBtn").set("style","display:none");
+				dijit.byId("_designer_right_tabs_tablist_rightBtn").set("style","display:none");
+				dijit.byId("_designer_right_tabs_tablist_menuBtn").set("style","display:none");
+			};
+
+			$ready(function(){
+				_designer._delConfirm = new $AlertConfirm({
+					id: "capec.dialog.confirmDialog",
+					title: "提示",
+					msg: "您确定要执行删除操作吗？",
+					img: "info_32.png",
+					style: "width:300px"
+				});
+			});
+
+			_designer.loadReport = function(){
+				_designer.reportService.getReportById(_designer.sessionId,_designer.reportId).addCallback(function($value){
+					if ($value == null) return;
+					var __xml = $value.templet;
+
+					AF.func("Build", __xml);
+					/*AF.func("CallFunc", "301\r\n3");
+					AF.func('Calc', '');
+
+					AF.func('SetSource', "ds141_234\r\n{'items':[{'e_no':'1','e_name':'A部门',e_deptno:'001',f_age:'2012-12-25','f_idcard':'410101010101010101'},{'e_no':'2','e_name':'B部门'}]}");
+					AF.func('Calc', '');
+
+					_designer.reportService.getReportData(_designer.sessionId,_designer.reportId,[]).addCallback(function($data){
+						console.log($data);
+					});*/
+					_designer.resetReportDs();
+				});
+
+				/*dojo.xhrPost({
+					async : false,
+					handleAs : "text",
+					url : "data2.4/xmlsheet33.xml?r=" + new Date(),
+					content : {},
+					load : dojo.hitch(this, function($data) {
+						if ($data == null) return;
+						var __xml = $data;
+
+						AF.func("Build", __xml);
+						AF.func("CallFunc", "301\r\n3");
+
+						AF.func('SetSource', "ds201\r\n{'items':[{'f_name':'张三','f_sex':'男',f_addr:'河南郑州',f_age:'2012-12-25','f_idcard':'410101010101010101'},{'f_name':'李四','f_sex':'男'}]}");
+						AF.func('SetSource', "ds203\r\n{'items':[{'f_name':'王五','f_sex':'女'}]}");
+						AF.func('SetSource', "ds202\r\n{'items':[{'p_productname':'喜羊羊','p_productcode':'E101'},{'p_productname':'美羊羊','p_productcode':'F102'}]}");
+						AF.func('Calc', '');
+					}),
+					error : function($err, $ioArgs) {
+						console.log($err);
+					}
+				});*/
+			};
+
+			$ready(function() {
+				_designer.loadDsData();
+				_designer.createProcParamGrid();
+				_designer.createSqlParamFieldGrid();
+				_designer.redraw();
+				//默认不显示任意一个查询参数tab
+				dijit.byId("_designer_right_tabs").removeChild(dijit.byId("_designer_right_tabs_procParam"));
+
+				_designer.loadReport();
+			});
+
+
+
+			require([ "dojox/grid/EnhancedGrid", "dojox/grid/_RadioSelector" ],
+				function($EnhancedGrid) {
+					$ready(function(){
+						_designer._dsGrid = new $EnhancedGrid({
+							style : {
+								height : "100%",
+								margin : "-4px",
+								padding : 0
+							},
+							structure : [ /*{
+								type : "dojox.grid._RadioSelector"
+							}, {
+								noscroll : true
+							},*/ [ {
+								name : "数据源",
+								field : "ds_name",
+								width : "20%"
+							},{
+								name : "数据源类型",
+								field : "ds_type",
+								width : "20%"
+							}, {
+								name : "数据源名称(ID)",
+								field : "rds_id",
+								width : "20%"
+							}, {
+								name : "用途",
+								field : "memo",
+								width : "auto",
+								editable : true
+							} ] ]
+						}, "_designer_dsgrid");
+						_designer._dsGrid.startup();
+
+						dojo.connect(_designer._dsGrid,"onSelected",function($colId){
+							var __item = _designer._dsGrid.getItem($colId);
+							if(__item == null) return;
+							_designer.loadReportDsData(__item);
+						});
+
+						/*修改报表数据源的Memo和更新模板*/
+						dojo.connect(_designer._dsGrid,"onApplyCellEdit",function($item, $colId) {
+							var __selItem = _designer._dsGrid.getItem($colId);
+
+							var __item = {
+								code: __selItem.code[0],
+								ds_code: __selItem.ds_code[0],
+								memo: arguments[0]
+							};
+
+							_designer.reportDsService.updateReportDs(_designer.sessionId,__item).addCallback(function($data){
+								if($data == null) return;
+								//console.log($data);
+								_designer.loadReport();
+							});
+						});
+
+						_designer.reportDsService.findReportDsList(_designer.sessionId,_designer.reportId).addCallback(function($data){
+							if ($data == null){
+								_designer._dsGrid.setStore(null);
+								return;
+							}
+							_designer._dsGrid.selection.clear();
+							_designer._dsGrid.setStore(new $ItemFileWriteStore({ data : {
+								"identifier": "code",
+							    "label": "code",
+								items: $data
+							} }));
+							dijit.byId("_designer").layout();
+							_designer._dsGrid.selection.setSelected(0, $data.length > 0);
+						});
+
+						/*dojo.xhrPost({
+							async : false,
+							handleAs : "json",
+							url : "data2.4/reportdslist.json?r=" + new Date(),
+							content : {},
+							load : function($data){
+								if ($data == null){
+									_designer._dsGrid.setStore(null);
+									return;
+								}
+								_designer._dsGrid.selection.clear();
+								_designer._dsGrid.setStore(new $ItemFileWriteStore({ data : $data }));
+								_designer._dsGrid.selection.setSelected(0, $data.items.length > 0);
+							}
+						});*/
+					});
+				});
+
+			$ready(function(){
+				dijit.byId("_designer").layout();
+			});
+		});
+	</script>
+</HEAD>
+
+<BODY class="soria">
+
+
+	<div id="_designer" data-dojo-type="dijit.layout.BorderContainer"
+		data-dojo-props='liveSplitters:false,design:"headline",splitterClass:"dojox.layout.ToggleSplitter"'>
+
+		<div id="_designer_top" data-dojo-type="dijit.layout.ContentPane"
+			style="height: 65%"
+			data-dojo-props='region:"top",splitter:true,minSize:150'>
+			<div style="position: relative; width: 100%; height: 100%">
+				<script>
+					insertReport('AF', '');
+				</script>
+			</div>
+		</div>
+
+
+		<div id="_designer_left" data-dojo-type="dijit.layout.ContentPane"
+			style="width: 15%" data-dojo-props='region:"left",splitter:true'>
+			<div id="_designer_dstree"></div>
+		</div>
+
+
+
+
+		<div id="_designer_center"
+			data-dojo-type="dijit.layout.BorderContainer" style="width: 40%"
+			data-dojo-props='region:"center",splitter:true'>
+			<div data-dojo-type="dijit.layout.ContentPane"
+				data-dojo-props='region:"top"' style="height: 15px">
+				<div id="_designer_toolbar"></div>
+			</div>
+			<div data-dojo-type="dijit.layout.ContentPane"
+				data-dojo-props='region:"center",splitter:true'>
+				<div id="_designer_dsgrid" style="height: 100%; width: 100%;"></div>
+			</div>
+		</div>
+
+
+		<div id="_designer_right" data-dojo-type="dijit.layout.ContentPane"
+			style="width: 45%" data-dojo-props='region:"right",splitter:true'>
+			<div id="_designer_right_tabs"
+				data-dojo-type="dijit/layout/TabContainer"
+				data-dojo-props='tabPosition:"bottom"' style="margin: -6px">
+				<div data-dojo-type="dijit/layout/ContentPane"
+					data-dojo-props='title:"报表字段", showTitle:true, iconClass:"dijitEditorIcon dijitEditorIconCopy"'>
+					<div id="_designer_fieldgrid" style="height: 100%; width: 100%;"></div>
+				</div>
+				<div id="_designer_right_tabs_procParam" data-dojo-type="dijit/layout/ContentPane"
+					data-dojo-props='title:"查询参数", tooltip:"存储过程查询参数设置", showTitle:true, iconClass:"dijitEditorIcon dijitEditorIconCut"'>
+					<div id="_designer_procparamgrid" style="height: 100%; width: 100%;"></div>
+				</div>
+				<div id="_designer_right_tabs_sqlParam" data-dojo-type="dijit.layout.BorderContainer"
+					data-dojo-props='design:"sidebar",title:"查询参数", tooltip:"SQL语句&视图查询参数设置", showTitle:true, iconClass:"dijitEditorIcon dijitEditorIconCut"'>
+					<div data-dojo-type="dijit.layout.ContentPane"
+						data-dojo-props='region:"left"' style="width:35%">
+						<div id="_designer_right_tabs_sqlParam_fieldgrid" style="width: 100%;height:100%"></div>
+					</div>
+					<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"top"'>
+						<div id="_designer_right_tabs_sqlParam_toolbar"></div>
+					</div>
+					<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"center"'>
+						<div id="_designer_right_tabs_sqlParam_paramGrid"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</BODY>
+</HTML>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+           xmlns:tuscany="http://tuscany.apache.org/xmlns/sca/1.1"
+           targetNamespace="http://newcapec.net/smartreport/datasource/dataSourceDAS"
+           name="dataSourceDAS-contribution">
+
+	<component name="DataSourceDASComponent">
+		<implementation.spring location="dataSourceDAS-context.xml"/>
+       	<reference name="defDBConnService" target="DefDBConnServiceComponent" />
+		<reference name="sequenceService" target="SequenceServiceComponent" />
+	</component>
+
+</composite>

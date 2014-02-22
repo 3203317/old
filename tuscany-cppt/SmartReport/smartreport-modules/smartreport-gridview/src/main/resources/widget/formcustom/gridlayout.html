@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title></title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style>
+	@import "/dojo/resources/dojo.css";
+fieldset {
+	border: 1px solid;
+	margin: 1em;
+	padding: 1em;
+}
+legend {
+	font-weight: bolder;
+	font-size: larger;
+}
+.zdgsgl {
+	margin-top:20px;
+}.loader {
+	padding:0;
+	margin:0;
+	position:absolute;
+	top:0; left:0;
+	width:100%; height:100%;
+	background:#ededed;
+	z-index:999;
+	vertical-align:middle;
+}
+.loaderInner {
+	padding:5px;
+	position:relative;
+	left:0;
+	top:0;
+	width:175px;
+	background:#3c3;
+	color:#fff;
+}
+</style>
+<link id="themeStyles" rel="stylesheet" href="/dijit/themes/soria/soria.css">
+<link rel="stylesheet" type="text/css" href="/dojox/grid/resources/soriaGrid.css" />
+<link rel="stylesheet" type="text/css" href="/dojox/form/resources/CheckedMultiSelect.css" />
+<script type="text/javascript" src="/dojo/dojo.js" djConfig="async:true,parseOnLoad: true"></script>
+<script type="text/javascript" src="gridlayout.js"></script>
+<script type="text/javascript">
+require(["dojo/ready","dojo/newcapec/MessageBox","dojo/json","dijit/form/Select",
+				"dojo/data/ItemFileReadStore","dijit/form/TextBox","dijit/form/ValidationTextBox",
+			"dijit/form/Form","dijit/form/Button","dijit/form/CheckBox","dojox/form/CheckedMultiSelect","dojo/parser"],
+			function(ready,MessageBox,JSON,Select,ItemFileReadStore,TextBox,ValidationTextBox,Form,Button,
+					CheckBox,CheckedMultiSelect,parser){
+			//@Reference
+			var gridView = new tuscany.sca.Reference("gridViewService");
+			var form_code;
+			var code =0;
+			var sessionId =  "";
+			toolstore = new ItemFileReadStore({url:'data/toolbarJson.json'});
+			save = function(){
+				if((form1.validate() || toolbtn.validate()) == false){
+					return;
+				}
+			var formvalue = form1.get('value');
+			var toolbtns = formvalue.toolbtn;
+			if(code == 0){//add
+				var data = {"form_code":form_code,"toolbuttons":dojo.toJson(toolbtns),"condition_trees":"",
+						"condition_groups":"{\"panename\":\""+formvalue.panename+"\",\"openstate\":\""+formvalue.openstate[0]+"\"}",'fields':"1"};
+				console.log(data);
+				add(data);
+			}else{
+				var data = {"code":code,"form_code":form_code,"toolbuttons":dojo.toJson(toolbtns),"condition_trees":"",
+						"condition_groups":"{\"panename\":\""+formvalue.panename+"\",\"openstate\":\""+formvalue.openstate[0]+"\"}",'fields':"1"};
+				update(data);
+			}
+			};
+			add = function(data){
+				gridView.insertGridView(sessionId,data).addCallback(function(data){
+				if(data.code != ''){
+					window.top.hub.publish("forward");
+				}
+			});
+			};
+			update = function(data){
+				gridView.updateGridView(sessionId,data).addCallback(function(data){
+				if(data.code != ''){
+					window.top.hub.publish("forward");
+					code = 0;
+				}
+			});
+			};
+			hideLoader = function(){
+			dojo.byId("main_loaderInner").innerHTML += " done.";
+			setTimeout(function hideLoader(){
+				dojo.fadeOut({
+					node: "main_loader",
+					duration: 500,
+					onEnd: function($n){
+						$n.style.display = "none";
+					}
+				}).play();
+			},250);
+		};
+		getValues = function(eventname, formcode, subscriberData){
+			var formAndDscode = formcode.split(",");
+			form_code = parseInt(formAndDscode[0]);
+			sessionId = formAndDscode[2];
+		};
+		getModifyData = function(){
+			gridView.getGridViewById(sessionId,form_code).addCallback(function(data){
+				if(data != null){
+					var toolbuttons = JSON.parse(data.toolbuttons,true);
+					toolbtn.set('value',toolbuttons);
+					var group = JSON.parse(data.condition_groups,true);
+					panename.set('value',group.panename);
+					if(group.openstate == "on") openstate.set('checked',true);
+					code = data.code;
+				}else{
+// 					MessageBox.isValidMsg("会话失效，请重新登录!");
+					return;
+				}
+			});
+		};
+			ready(function(){
+				var dd = toolbtn;
+				toolbtn.selectNode.setAttribute('style','width:100px;height:200px;');
+				hideLoader();
+				if (window.top.hub != undefined) {
+					window.top.hub.subscribe("setformcodepane1",getValues);
+				window.top.hub.subscribe("savepane1", save);
+// 				window.top.hub.subscribe("resetpane1", reset);
+				window.top.hub.publish("getformcode");
+			}
+				getModifyData();
+			});
+});
+</script>
+</head>
+<body class="soria">
+<div id="main_loader" class="loader"><div id="main_loaderInner" class="loaderInner">页面正在加载 ... </div></div>
+	<form  id="form1" jsid='form1' dojoType='dijit.form.Form'>
+	<table>
+		<tr>
+			<td>
+				<fieldset id='1'>
+					<legend>工具栏按钮</legend>
+					<select data-dojo-id="toolbtn" id="toolbtn" multiple="true" jsid="toolbtn" name="toolbtn"
+					invalidMessage="请选择工具栏按钮" required="true"
+					store="toolstore" data-dojo-type="dojox.form.CheckedMultiSelect">
+					</select>
+				</fieldset>
+			</td>
+			<td >
+				<fieldset id='2' style="height:220px;">
+					<legend>查询面板</legend>
+						<table>
+							<tr class="zdgsgl">
+								<td align="right" width="60px;">面板名称</td>
+								<td style="padding-left:5px;">
+									<div jsid="panename"  name="panename" dojoType="dijit.form.ValidationTextBox"
+									data-dojo-props='required:"true",trim:true,placeHolder:"多个名称,以逗号分割",title:"多个名称,以逗号分割",style:"width:280px;",onChange:function(modifyInfo){this.set("value",modifyInfo.replace(new RegExp("，","gm"),",")); }'></div>
+								</td>
+							</tr>
+							<tr height="30px;" >
+								<td align="right" width="60px;">打开状态</td>
+								<td style="padding-left:5px;">
+									<div dojoType="dijit.form.CheckBox" jsid='openstate' name='openstate' title="默认关闭">
+
+									</div>
+								</td>
+							</tr>
+						</table>
+				</fieldset>
+			</td>
+		</tr>
+
+	</table>
+
+	</form>
+</body>
+</html>

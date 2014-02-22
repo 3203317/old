@@ -1,0 +1,312 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<TITLE>dsform</TITLE>
+<style type="text/css">
+#_frm_selField_grid_left {
+	height: 100%;
+}
+
+#_frm_selField_grid_right {
+	height: 100%;
+}
+</style>
+<script type="text/javascript">
+
+	var _dlg_selField_ = {};
+
+	_dlg_selField_.saveData = function(){
+		if(dijit.byId("_frm_selField_grid_right").store == null) return;
+		var __selItems = dijit.byId("_frm_selField_grid_right").store._arrayOfAllItems;
+		var __items = [];
+
+		dojo.forEach(__selItems, function($item) {
+			if ($item != null) {
+				__items.push($item.column_name[0]);
+			}
+		});
+
+		if(__items.length == 0) return;
+
+		var __sql = [];
+		__sql.push("select");
+		__sql.push(__items.join(","));
+		__sql.push("from");
+		__sql.push(dijit.byId("_frm_selField_cbox_tabview").getValue());
+
+		console.log(__sql.join(" "));
+
+		dijit.byId("_frm_add_txta_sql").set("value",__sql.join(" "));
+
+		dijit.byId("_dlg_selField").hide();
+	};
+
+	_dlg_selField_.set = function(){
+		console.log("set");
+		var __dbconn = dijit.byId("_frm_add_cbox_dbconn_code").item;
+		var __user = __dbconn.accoutName[0];
+		var __pass = __dbconn.accountPassword[0];
+		var __ip = __dbconn.connectIP[0];
+		var __port = __dbconn.connectPort[0];
+		var __server = __dbconn.connectSID[0];
+		_dsmanager.dataSourceService.getDbAllViewsByUser(_dsmanager.sessionId, __user,__pass,__ip,__port,__server).addCallback(function($value){
+			dijit.byId("_frm_selField_cbox_tabview").set("displayedValue",'');
+			var __data = {
+				identifier: "code",
+				label: "name",
+				items: []
+			};
+			dojo.forEach($value,function($item){
+				__data.items.push({ code: $item, name: $item });
+			});
+			var __store = new dojo.data.ItemFileWriteStore({ data: __data });
+			dijit.byId("_frm_selField_cbox_tabview").set("store",__store);
+		});
+
+		/*左侧grid数据加载空*/
+		var __data = {
+			identifier: "column_name",
+			label: "column_name",
+			items: []
+		};
+		var __store = new dojo.data.ItemFileWriteStore({ data: __data });
+		dijit.byId("_frm_selField_grid_left").setStore(__store);
+		dijit.byId("_frm_selField_grid_left").selection.clear();
+
+		/*右侧grid数据加载空*/
+		var __data2 = {
+			identifier: "column_name",
+			label: "column_name",
+			items: []
+		};
+		var __store2 = new dojo.data.ItemFileWriteStore({ data: __data2 });
+		dijit.byId("_frm_selField_grid_right").setStore(__store2);
+		dijit.byId("_frm_selField_grid_right").selection.clear();
+	};
+
+	_dlg_selField_.reset = function(){
+		console.log("reset");
+	};
+
+	_dlg_selField_.findProc = function(){
+		if(dijit.byId("_frm_selField_cbox_type").item == null) return;
+		if(dijit.byId("_frm_selField_cbox_dbconn_code").item == null) return;
+		var __item = dijit.byId("_frm_selField_cbox_dbconn_code").item;
+	    var __user = __item.accoutName[0];
+	    var __pass = __item.accountPassword[0];
+	    var __ip = __item.connectIP[0];
+	    var __port = __item.connectPort[0];
+	    var __server = __item.connectSID[0];
+		_dsmanager.dataSourceService.getDbAllProcByUser(_dsmanager.sessionId,__user,__pass,__ip,__port,__server).addCallback(function($value){
+			dijit.byId("_frm_selField_cbox_proc").set("displayedValue",'');
+			var __data = {
+				identifier: "code",
+				label: "name",
+				items: []
+			};
+			dojo.forEach($value,function($item){
+				__data.items.push({ code: $item, name: $item });
+			});
+			var __store = new dojo.data.ItemFileWriteStore({ data: __data });
+			dijit.byId("_frm_selField_cbox_proc").set("store",__store)
+		});
+	};
+
+	_dlg_selField_.init = function(){
+	    var __btn_submit = dijit.byId("_dlg_selField_btn_submit");
+	    var __btn_reset = dijit.byId("_dlg_selField_btn_reset");
+	    var __frm = dijit.byId("_frm_selField");
+	    var __valid = __frm.isValid();
+
+	    __btn_submit.set("disabled",!__valid);
+
+	    __frm.on("validStateChange", function($valid){
+	        __btn_submit.set("disabled",!$valid);
+	    });
+
+		__btn_reset.on("click", function(){
+			__frm.reset();
+		});
+
+		__btn_submit.on("click", function(){
+			_dlg_selField_.saveData();
+		});
+
+		/* 两个grid数据左右移动 */
+		require([ "dojo" ], function() {
+			_dlg_selField_.addLeftGridItem = function($newItem, $oldItem) {
+				_dlg_selField_.grid_left.store.newItem($newItem);
+				_dlg_selField_.grid_right.store.deleteItem($oldItem);
+			};
+			_dlg_selField_.addRightGridItem = function($newItem, $oldItem) {
+				_dlg_selField_.grid_right.store.newItem($newItem);
+				_dlg_selField_.grid_left.store.deleteItem($oldItem);
+			};
+
+			/* 点击左按钮  */
+			dojo.connect(dijit.byId('_frm_selField_btn_left'), "onClick", function() {
+				console.log(11);
+				var __selItems = dijit.byId("_frm_selField_grid_right").selection.getSelected();
+				if (__selItems.length == 0) return;
+				for ( var i = 0, j = __selItems.length; i < j; i++) {
+					var __item_3 = __selItems[i];
+					var __newItem_3 = {
+						column_name: __item_3.column_name[0],
+						column_name: __item_3.column_name[0]
+					};
+					_dlg_selField_.addLeftGridItem(__newItem_3,__item_3);
+				}
+				_dlg_selField_.grid_left.store.save();
+				_dlg_selField_.grid_right.store.save();
+			});
+
+			/* 点击右按钮 */
+			dojo.connect(dijit.byId('_frm_selField_btn_right'), "onClick", function() {
+				console.log(11);
+				var __selItems = dijit.byId("_frm_selField_grid_left").selection.getSelected();
+				if (__selItems.length == 0) return;
+
+				for ( var i = 0, j = __selItems.length; i < j; i++) {
+					var __item_3 = __selItems[i];
+					var __newItem_3 = {
+						column_name: __item_3.column_name[0],
+						column_name: __item_3.column_name[0]
+					};
+					_dlg_selField_.addRightGridItem(__newItem_3, __item_3);
+				}
+				_dlg_selField_.grid_left.store.save();
+				_dlg_selField_.grid_right.store.save();
+			});
+		});
+
+		/* 隐藏重置按钮 */
+		dijit.byId("_dlg_selField_btn_reset").set("style","display:none");
+		dijit.byId("_dlg_selField_btn_submit").set("label","完成");
+
+		/****/
+
+		require(["dojox/grid/EnhancedGrid",
+					"dojo/data/ItemFileWriteStore",
+					"dojox/grid/_CheckBoxSelector"], function($EnhancedGrid,$ItemFileWriteStore) {
+
+			/* 创建左grid */
+			_dlg_selField_.grid_left = new $EnhancedGrid({
+				style: { height : "100%", width : "100%", margin : 0, padding : 0 },
+				structure : [{
+					type : "dojox.grid._CheckBoxSelector"
+				}, [
+					{ name : "字段名称", field : "column_name", width : "auto"}
+					]
+				]
+			}, "_frm_selField_grid_left");
+			_dlg_selField_.grid_left.startup();
+
+			/* 创建右grid */
+			_dlg_selField_.grid_right = new $EnhancedGrid({
+				style : { height : "100%", width : "100%", margin : 0, padding : 0 },
+				structure : [ {
+					type : "dojox.grid._CheckBoxSelector"
+				}, [
+				     { name : "字段名称", field : "column_name", width : "auto" }
+				     ]
+				]
+			}, "_frm_selField_grid_right");
+			_dlg_selField_.grid_right.startup();
+
+			/* 开始加载页面组件数据 */
+			dojo.connect(dijit.byId("_dlg_selField"), "onShow", function() {
+				_dlg_selField_.set();
+			});
+		});
+
+
+		/**************/
+		_dlg_selField_.set();
+		/* 加载所有的表和视图
+		_dsmanager.dataSourceService.getDbAllViewsByUser(_dsmanager.sessionId, "CPPT","GGJCYY","192.168.131.118",'1521','orcl').addCallback(function($value){
+			dijit.byId("_frm_selField_cbox_tabview").set("displayedValue",'');
+			var __data = {
+				identifier: "code",
+				label: "name",
+				items: []
+			};
+			dojo.forEach($value,function($item){
+				__data.items.push({ code: $item, name: $item });
+			});
+			var __store = new dojo.data.ItemFileWriteStore({ data: __data });
+			dijit.byId("_frm_selField_cbox_tabview").set("store",__store);
+		}); */
+
+		dojo.connect(dijit.byId("_frm_selField_cbox_tabview"),"onChange",function($item){
+			var __tabview = dijit.byId("_frm_selField_cbox_tabview").value;
+			var __dbconn = dijit.byId("_frm_add_cbox_dbconn_code").item;
+			var __user = __dbconn.accoutName[0];
+			var __pass = __dbconn.accountPassword[0];
+			var __ip = __dbconn.connectIP[0];
+			var __port = __dbconn.connectPort[0];
+			var __server = __dbconn.connectSID[0];
+
+			_dsmanager.dataSourceService.getDbAllTableFieldsByUser(_dsmanager.sessionId, __user,__pass,__ip,__port,__server,__tabview).addCallback(function($value){
+				var __data = {
+					identifier: "column_name",
+					label: "column_name",
+					items: $value
+				};
+				var __store = new dojo.data.ItemFileWriteStore({ data: __data });
+				dijit.byId("_frm_selField_grid_left").setStore(__store);
+				dijit.byId("_frm_selField_grid_left").selection.clear();
+				/*右侧grid数据加载空*/
+				var __data2 = {
+					identifier: "column_name",
+					label: "column_name",
+					items: []
+				};
+				var __store2 = new dojo.data.ItemFileWriteStore({ data: __data2 });
+				dijit.byId("_frm_selField_grid_right").setStore(__store2);
+				dijit.byId("_frm_selField_grid_right").selection.clear();
+			});
+		})
+
+		if(dijit.byId("_dlg_selField")._state == "edit"){
+			_dlg_selField_.set();
+		}
+	};
+</script>
+</HEAD>
+
+<BODY class="soria">
+	<form id="_frm_selField" data-dojo-type="dijit/form/Form" style="height:298px">
+		<table>
+			<tr>
+				<td colspan="3"><table>
+						<tr>
+							<td><label for="_frm_selField_cbox_tabview">选择表/视图：</label></td>
+							<td><select id="_frm_selField_cbox_tabview" data-dojo-type="dijit/form/ComboBox" style="width:150px"></select></td>
+						</tr>
+					</table></td>
+			</tr>
+			<tr>
+				<td>可用字段</td>
+				<td></td>
+				<td>选定字段</td>
+			</tr>
+			<tr>
+				<td style="border: 1px #8BA0BD solid; width: 200px; height: 247px;">
+					<div id="_frm_selField_grid_left" style="height: 100%"></div>
+				</td>
+				<td>
+					<button data-dojo-type='dijit.form.Button' id="_frm_selField_btn_left"
+						data-dojo-props='type:"button"'><</button> <br />
+					<button data-dojo-type='dijit.form.Button' id="_frm_selField_btn_right"
+						data-dojo-props='type:"button"'>></button>
+				</td>
+				<td style="border: 1px #8BA0BD solid; width: 200px; height: 247px;">
+					<div id="_frm_selField_grid_right" style="height: 100%"></div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</BODY>
+</HTML>
