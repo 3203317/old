@@ -1,0 +1,62 @@
+{
+    "identifier": "id",
+    "label": "id",
+    "items": [
+        {
+            "id": "41",
+            "src": "images/dmgl.png",
+            "href": "sys/code/code_ifr.html",
+            "label": "代码维护",
+            "openmode": "iframe"
+        },{
+            "id": "1069",
+            "src": "images/zygl.png",
+            "href": "sys/resource/resource_ifr.html?1=1",
+            "label": "资源管理",
+            "openmode": "iframe"
+        },{
+            "id": "156",
+            "src": "images/jsgl.png",
+            "href": "sys/role/role_ifr.html?1=1",
+            "label": "角色管理",
+            "openmode": "iframe"
+        },{
+            "id": "160",
+            "src": "images/bbdz.png",
+            "href": "sys/user/user_ifr.html",
+            "label": "用户管理",
+            "openmode": "iframe"
+        },{
+            "id": "5",
+            "src": "images/bbfb.png",
+            "href": "#",
+            "label": "报表发布",
+            "openmode": "inner"
+        },{
+            "id": "6",
+            "src": "images/bbzs.png",
+            "href": "#",
+            "label": "报表展示",
+            "openmode": "inner"
+        },{
+            "id": "7",
+            "src": "images/rzgl.png",
+            "href": "sys/log/log_ifr.html",
+            "label": "日志管理",
+            "openmode": "inner"
+        },{
+            "id": "8",
+            "src": "images/xtbz.png",
+            "href": "#",
+            "label": "系统帮助",
+            "openmode": "inner"
+        },{
+            "id": "9",
+            "src": "images/n9.png",
+            "href": "#",
+            "label": "安全退出",
+            "openmode": "inner"
+        }
+    ],
+    "processed": "0.0312001"
+}

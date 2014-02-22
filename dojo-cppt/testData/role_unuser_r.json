@@ -1,0 +1,67 @@
+{
+    "identifier": "userid",
+    "label": "userid",
+    "items": [
+        {
+            "userid": "33",
+		    "username":"用户C",
+		    "orgname":"组织机构3"
+        },
+        {
+            "userid": "44",
+		    "username":"用户D",
+		    "orgname":"组织机构4"
+        },
+        {
+            "userid": "55",
+		    "username":"用户E",
+		    "orgname":"组织机构4"
+        },
+        {
+            "userid": "551",
+		    "username":"用户E",
+		    "orgname":"组织机构4"
+        },
+        {
+            "userid": "552",
+		    "username":"用户E",
+		    "orgname":"组织机构4"
+        },
+        {
+            "userid": "553",
+		    "username":"用户E",
+		    "orgname":"组织机构4"
+        },
+        {
+            "userid": "554",
+		    "username":"用户E",
+		    "orgname":"组织机构4"
+        },
+        {
+            "userid": "555",
+		    "username":"用户E",
+		    "orgname":"组织机构4"
+        },
+        {
+            "userid": "556",
+		    "username":"用户E",
+		    "orgname":"组织机构4"
+        },
+        {
+            "userid": "557",
+		    "username":"用户E",
+		    "orgname":"组织机构4"
+        },
+        {
+            "userid": "558",
+		    "username":"用户E",
+		    "orgname":"组织机构4"
+        },
+        {
+            "userid": "559",
+		    "username":"用户E",
+		    "orgname":"组织机构4"
+        }
+    ],
+    "processed": "0.0312001"
+}

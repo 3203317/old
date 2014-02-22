@@ -1,0 +1,33 @@
+{
+    "identifier": "id",
+    "label": "id",
+    "items": [
+        {
+            "id": "SUPERS",
+            "rolegroupdesc": "超级管理员组",
+            "addtime": "2012/11/22 22:18:12",
+            "ad_s_user_id": "1",
+            "editime": "",
+            "ed_s_user_id": "",
+            "isenable": "1",
+            "invalid": "1",
+            "isenable_text": "启用",
+            "ad_s_user_name": "admin",
+            "type": "rolegroup"
+        },
+        {
+            "id": "GUESTS",
+            "rolegroupdesc": "访客组",
+            "addtime": "2012/11/22 22:17:37",
+            "ad_s_user_id": "1",
+            "editime": "",
+            "ed_s_user_id": "",
+            "isenable": "1",
+            "invalid": "1",
+            "isenable_text": "启用",
+            "ad_s_user_name": "admin",
+            "type": "rolegroup"
+        }
+    ],
+    "processed": "2.5116044"
+}

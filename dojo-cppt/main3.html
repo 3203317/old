@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>产品公共基础管理平台</title>
+<link rel="stylesheet" type="text/css" href="http://cdn:8082/cdn/js/dojo/1.7.2/dojo/resources/dojo.css" />
+<link rel="stylesheet" type="text/css" href="http://cdn:8082/cdn/js/dojo/1.7.2/dijit/themes/mlh/mlh.css" />
+<link rel="stylesheet" type="text/css" href="http://cdn:8082/cdn/js/dojo/1.7.2/dojox/layout/resources/ToggleSplitter.css" />
+
+<!-- link rel="stylesheet" type="text/css" href="http://cdn:8082/cdn/js/dojo/1.7.2/dojox/grid/resources/Grid.css" />
+<link rel="stylesheet" type="text/css" href="http://cdn:8082/cdn/js/dojo/1.7.2/dojox/grid/resources/capecGrid.css" />
+<link rel="stylesheet" type="text/css" href="http://cdn:8082/cdn/js/dojo/1.7.2/dojox/grid/enhanced/resources/capec/EnhancedGrid.css" />
+<link rel="stylesheet" type="text/css" href="http://cdn:8082/cdn/js/dojo/1.7.2/cbtree/themes/capec/checkbox.css" /-->
+
+<link rel="stylesheet" type="text/css" href="http://cdn:8082/cdn/js/dojo/1.7.2/dijit/themes/require2.css" />
+
+
+<script type="text/javascript">
+	var djConfig = {
+		locale : location.search.match(/locale=([\w\-]+)/) ? RegExp.$1 : "zh",
+		mainId: "_main",
+		async : true,
+		bindEncoding : "UTF-8",
+		modulePaths : {
+			"internal" : "/rfs"
+		},
+		packages : [ {
+			name : "capec",
+			location : "http://cdn:8082/cdn/js/dojo/1.7.2-ext/dojox"
+		} ]
+	};
+</script>
+
+<script type="text/javascript" src="http://cdn:8082/cdn/js/dojo/1.7.2/dojo/dojo.js" data-dojo-config="isDebug:false,parseOnLoad:true"></script>
+
+</head>
+
+<body class="mlh">
+	<div id="_main_loader" class="loader"><div>页面正在加载 ...</div></div>
+	<div id="_main"></div>
+	<script type="text/javascript" src="main3/main3.js?v12"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+    "myinfo":{
+        "userid": "82",
+        "username": "王五",
+        "gendercode": "1",
+        "sex": "男",
+        "corpcode": "1010201021",
+        "corpname": "新开普",
+        domaincode: 101,
+        domainname: "产品平台"
+    },
+    "processed": "0.0312001"
+}

@@ -1,0 +1,5 @@
+[
+	{name:'定额卡B',ypcz_a:'100',ypcz_b:'200',sk_a:'300',sk_b:'400',ckqbxc_a:'123',ckqbxc_b:'345',sum:'12345'},
+	{name:'学生卡',ypcz_a:'10',ypcz_b:'200',sk_a:'300',sk_b:'400',ckqbxc_a:'123',ckqbxc_b:'345',sum:'45678'},
+	{name:'司机卡',ypcz_a:'1',ypcz_b:'200',sk_a:'300',sk_b:'400',ckqbxc_a:'123',ckqbxc_b:'345',sum:'78990'}
+]

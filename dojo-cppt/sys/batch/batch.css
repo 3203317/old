@@ -1,0 +1,15 @@
+#_capec_sys_batch {
+	height: 100%;
+	width: 100%;
+	font-size: 12px;
+}
+
+#_capec_sys_batch_top {
+	margin: 0;
+	padding: 0px;
+}
+
+#_capec_sys_batch_lGrid {
+	margin: 0;
+	padding: 0;
+}

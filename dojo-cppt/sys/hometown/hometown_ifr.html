@@ -1,0 +1,83 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title></title>
+<link rel="stylesheet" type="text/css" href="http://localhost:8082/cdn/js/dojo/1.7.2/dojo/resources/dojo.css" />
+<link rel="stylesheet" type="text/css" href="http://localhost:8082/cdn/js/dojo/1.7.2/dijit/themes/capec/capec.css" />
+<link rel="stylesheet" type="text/css" href="http://localhost:8082/cdn/js/dojo/1.7.2/dijit/themes/capec/ToggleSplitter.css" />
+<link rel="stylesheet" type="text/css" href="http://localhost:8082/cdn/js/dojo/1.7.2/dojox/grid/resources/Grid.css" />
+<link rel="stylesheet" type="text/css" href="http://localhost:8082/cdn/js/dojo/1.7.2/dojox/grid/resources/capecGrid.css" />
+<link rel="stylesheet" type="text/css" href="http://localhost:8082/cdn/js/dojo/1.7.2/dojox/grid/enhanced/resources/capec/EnhancedGrid.css" />
+
+<style>
+html,body {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	padding: 0;
+	margin: 0;
+}
+</style>
+
+<script type="text/javascript">
+	var djConfig = {
+		locale : top.location.search.match(/locale=([\w\-]+)/) ? RegExp.$1 : "zh",
+		async : true,
+		bindEncoding : "UTF-8",
+		modulePaths : {
+			"internal" : "/rfs"
+		},
+		packages : [ {
+			name : "capec",
+			location : "http://localhost:8082/cdn/js/dojo/1.7.2-ext/dojox"
+		} ]
+	};
+	var availableThemes = [
+		{ theme: "claro", author: "Dojo", baseUri: "http://resjs.newcapec.cn:8082/resjs/commons/components/dojo/dijit/themes/" },
+		{ theme: "tundra", author: "Dojo", baseUri: "http://resjs.newcapec.cn:8082/resjs/commons/components/dojo/dijit/themes/" },
+		{ theme: "capec", author: "nikolai", baseUri: "http://resjs.newcapec.cn:8082/resjs/commons/components/dojo/dijit/themes/" },
+		{ theme: "nihilo", author: "nikolai", baseUri: "http://resjs.newcapec.cn:8082/resjs/commons/components/dojo/dijit/themes/" }
+	];
+</script>
+
+<script type="text/javascript" src="http://localhost:8082/cdn/js/dojo/1.7.2/dojo/dojo.js" data-dojo-config="isDebug:false,parseOnLoad:true"></script>
+
+<script type="text/javascript">
+	require(["dojo/ready",
+ 	    "capec/dialog/DeleteConfirm",
+ 	    "dojo/_base/unload",
+ 	    "dojo/has",
+ 	    "dojox/layout/ContentPane",
+ 		"dijit/layout/BorderContainer",
+ 		"dojox/layout/ToggleSplitter"], function($ready,$DeleteConfirm,$unload,$has) {
+
+ 		$ready(function(){
+ 			new $DeleteConfirm({
+ 				img: require.toUrl("internal/images/del_32.png")
+ 			})
+
+ 			$unload.addOnWindowUnload(function(){
+ 				try{
+ 					dijit.byId("_main_tab_1602")._onUnloadHandler();
+ 				}catch($ex){console.log($ex)}
+ 			});
+
+ 			var curTheme = location.search.replace(/.*theme=([a-z]+).*/, "$1") || "claro",
+			a11y = $has("highcontrast") || /a11y=true/.test(location.search),
+			rtl = document.body.parentNode.dir == "rtl";
+			console.log("Theme: " + curTheme + ", high contrast = " + a11y + ", dir = " + (rtl ? "rtl" : "ltr"));
+
+
+ 		});
+ 	});
+</script>
+
+</head>
+
+<body class="capec">
+	<div id="_main_tab_1602" data-dojo-type="dojox.layout.ContentPane" data-dojo-props='title:"户籍管理(IFrame)",href:"hometown.html",vpath:"../../",closable: true, adjustPaths: true, renderStyles : true, executeScripts : true' style="width:100%;height:100%"></div>
+</body>
+</html>

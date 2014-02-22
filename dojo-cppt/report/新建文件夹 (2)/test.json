@@ -1,0 +1,12 @@
+[
+			{suptradeClass:'(一)、充值类',tradeClass:'1、PC电子钱包支票充值',tradeNum:'0',tradeMoney:'0'},
+			{suptradeClass:'(一)、充值类',tradeClass:'2、PC在线账户支票充值',tradeNum:'0',tradeMoney:'0'},
+			{suptradeClass:'(一)、充值类',tradeClass:'3、PC电子钱包充值',tradeNum:'0',tradeMoney:'0'},
+			{suptradeClass:'(一)、充值类',tradeClass:'4、PC在线账户充值',tradeNum:'0',tradeMoney:'0'},
+			{suptradeClass:'(一)、充值类',tradeClass:'5、终端电子钱包充值',tradeNum:'0',tradeMoney:'0'},
+			{suptradeClass:'(一)、充值类',tradeClass:'6、终端在线账户充值',tradeNum:'0',tradeMoney:'0'},
+			{suptradeClass:'(一)、充值类',tradeClass:'7、代发在线账户充值',tradeNum:'0',tradeMoney:'0'},	
+			{suptradeClass:'(二)、圈存领款类',tradeClass:'1、圈款电子钱包充值',tradeNum:'0',tradeMoney:'0'},
+			{suptradeClass:'(二)、圈存领款类',tradeClass:'2、圈存在线账户充值',tradeNum:'0',tradeMoney:'0'}
+
+]

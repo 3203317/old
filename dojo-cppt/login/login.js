@@ -1,0 +1,2 @@
+var keyLogin = function() {
+};

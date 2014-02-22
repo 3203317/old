@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SWFUpload Demos - Classic Form Demo</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="css/default.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="swfupload/swfupload.js"></script>
+<script type="text/javascript" src="js/handlers.js"></script>
+<script type="text/javascript" src="js/upLoadInit.js"></script>
+<script type="text/javascript">
+    window.onload = function () {
+      var sessionId = window.location.href.split("=")[1]
+      pageInitSWFUpload(50,4,sessionId);
+    };
+  </script>
+</head>
+<body>
+
+  <form id="form1" action="" enctype="multipart/form-data" method="post">
+  <div style="folat:left">
+              <div style="folat:left;width:380px;margin:0px auto;">
+                <font style="color: red">注意</font>：单次上传文件不能超过<font style="color: red">50</font>个，单个文件大小不能大于<font style="color: red">4M</font>。
+
+              </div>
+              <br>
+              <div class="fieldset flash" id="fsUploadProgress" style="folat:left;width:380px;height:150px;margin:0px auto;overflow-y:auto;">
+
+              </div>
+              <input type="hidden" name="hidFileID" id="hidFileID" value="" />
+              </div>
+              <div style="folat:left;width:400px;margin:0px auto;">
+              <span id="fileUploaddesc" >点击【浏览】选择要上传的文件，可以 Ctrl + A 进行全选。</span>
+               <span id="fileUploadResult" ></span>
+               <span id="fileUploadError" ></span>
+               </div>
+              <div style="margin:10px auto;text-align:center">
+               <span id="spanButtonPlaceholder"></span>&nbsp;&nbsp;&nbsp;&nbsp;<input type="button"  style="margin-top:0px;background: url('images/btnbg.jpg') no-repeat;border:0px;width: 62px; height: 23px;" id="btnSubmit" />
+              </div>
+  </form>
+</body>
+</html>

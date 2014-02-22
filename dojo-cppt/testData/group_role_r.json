@@ -1,0 +1,17 @@
+{
+    "identifier": "roleid",
+    "label": "roleid",
+    "items": [
+        {
+            "roleid": "82",
+		    "rolename":"角色A",
+		    "domainname":"组织机构1"
+        },
+        {
+            "roleid": "821",
+		    "rolename":"角色B",
+		    "domainname":"组织机构2"
+        }
+    ],
+    "processed": "0.0312001"
+}

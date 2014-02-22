@@ -1,0 +1,17 @@
+[
+	{tradeClass:'(九)、消费类',tradeNum:'0',tradeMoney:'0',order:'0'}
+	{tradeClass:'1、门户',tradeNum:'0',tradeMoney:'0',order:'1'},
+	{tradeClass:'2、其他行业',tradeNum:'0',tradeMoney:'0',order:'2'},
+	{tradeClass:'3、城市通中心消费',tradeNum:'0',tradeMoney:'0',order:'3'},
+	{tradeClass:'4、地铁',tradeNum:'0',tradeMoney:'0',order:'4'},
+	{tradeClass:'5、轻轨',tradeNum:'0',tradeMoney:'0',order:'5'},
+	{tradeClass:'6、城际列车',tradeNum:'0',tradeMoney:'0',order:'6'},
+	{tradeClass:'7、轨道交通业',tradeNum:'0',tradeMoney:'0',order:'7'},
+	{tradeClass:'8、公共汽电车业',tradeNum:'0',tradeMoney:'0',order:'8'},
+	{tradeClass:'9、出租汽车业',tradeNum:'0',tradeMoney:'0',order:'9'},
+	{tradeClass:'10、轮渡业',tradeNum:'0',tradeMoney:'0',order:'10'},
+	{tradeClass:'11、停车场',tradeNum:'0',tradeMoney:'0',order:'11'},
+	{tradeClass:'12、高速公路',tradeNum:'0',tradeMoney:'0',order:'12'},
+	{tradeClass:'13、加油业',tradeNum:'0',tradeMoney:'0',order:'13'},
+	{tradeClass:'14、自来水行业',tradeNum:'0',tradeMoney:'0',order:'14'}
+]

@@ -1,0 +1,10 @@
+{
+	status: "success",
+	opt: 1, //成功,
+	myinfo: {
+		locale: "zh",
+		theme: "night"
+	}
+	//opt: 2, msg: "验证码输入错误，请重试！"
+	//opt: 3, msg: "用户名或密码输入错误，请重试！"
+}

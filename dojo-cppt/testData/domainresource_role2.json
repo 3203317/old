@@ -1,0 +1,15 @@
+{
+    "identifier": "id",
+    "label": "itemname",
+    "items": [
+        {
+            "id": "o23",
+            "itemname": "[O]删除",
+            "p_id": "m21",
+            "type": "operate",
+            "checked": true,
+            "opt": 3
+        }
+    ],
+    "processed": "0.0312001"
+}

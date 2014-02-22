@@ -1,0 +1,1064 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!--By Supcan Report -->
+<Report>
+	<WorkSheet name="Sheet" isDefaultPrint="true">
+		<Properties>
+			<BackGround bgColor="#FFFFFF" arrange="tile" alpha="255"/>
+			<DefaultTD>
+				<TD fontIndex="0" textColor="#000000" transparent="true" leftBorder="1" topBorder="1" leftBorderColor="#C0C0C0" leftBorderStyle="solid" topBorderColor="#C0C0C0" topBorderStyle="solid" decimal="2" align="left" vAlign="middle" isProtected="false" isThousandSeparat="true" isRound="true" isPrint="true"/>
+			</DefaultTD>
+			<Other isShowZero="true" isRefOriPrecision="true" LineDistance="0" isRowHeightAutoExtendAble="true"/>
+		</Properties>
+		<Fonts>
+			<Font faceName="微软雅黑" charSet="134" height="-14" weight="400"/>
+			<Font faceName="微软雅黑" charSet="134" height="-24" weight="400"/>
+		</Fonts>
+		<Table>
+			<Col width="10"/>
+			<Col width="91"/>
+			<Col width="63"/>
+			<Col width="56"/>
+			<Col width="91"/>
+			<Col width="83"/>
+			<Col width="72"/>
+			<Col width="78"/>
+			<Col width="94"/>
+			<Col width="79"/>
+			<Col width="78"/>
+			<Col width="80"/>
+			<Col width="105"/>
+			<Col width="140" isHide="true"/>
+			<Col width="140" isHide="true"/>
+			<Col width="140"/>
+			<Col width="140"/>
+			<Col width="140"/>
+			<Col width="140"/>
+			<Col width="140"/>
+			<Col width="140"/>
+			<Col width="140"/>
+			<Col width="140"/>
+			<Col width="15"/>
+			<TR height="11" sequence="0">
+				<TD col="1" fontIndex="1" align="center"/>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="52" sequence="1">
+				<TD col="1" fontIndex="1" align="center">卡交易汇总报表（按卡类型查询）</TD>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="2">
+				<TD col="1" align="center">2012-1-1 至 2012-12-31</TD>
+				<TD col="2" align="center"/>
+				<TD col="3" align="center"/>
+				<TD col="4" align="center"/>
+				<TD col="5" align="center"/>
+				<TD col="6" align="center"/>
+				<TD col="7" align="center"/>
+				<TD col="8" align="center"/>
+				<TD col="9" align="center"/>
+				<TD col="10" align="center"/>
+				<TD col="11" align="center"/>
+				<TD col="12" align="center"/>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="3">
+				<TD col="1">第1页，共2页</TD>
+				<TD col="8" align="right">货币单位：元</TD>
+				<TD col="11">货币单位：元</TD>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="10" sequence="4">
+				<TD col="1" align="center"/>
+				<TD col="11"/>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="5" areaNumber="1">
+				<TD col="0" formula="=datarow(&apos;ds2&apos;)" isArea="true"/>
+				<TD col="1" leftBorderColor="#000000" topBorderColor="#000000" align="center" datatype="1" formula="=data(&apos;ds2&apos;, datarowNumber(), &apos;name&apos;)">定额卡B</TD>
+				<TD col="2" leftBorderColor="#000000" topBorderColor="#000000" align="center">月票充值</TD>
+				<TD col="3">月票充值</TD>
+				<TD col="4" leftBorderColor="#000000" topBorderColor="#000000" align="center">电子钱包充值</TD>
+				<TD col="5">电子钱包充值</TD>
+				<TD col="6" leftBorderColor="#000000" topBorderColor="#000000" align="center">电子钱包虚充</TD>
+				<TD col="7">电子钱包虚充</TD>
+				<TD col="8" leftBorderColor="#000000" topBorderColor="#000000" align="center">次卡钱包充值</TD>
+				<TD col="9">次卡钱包充值</TD>
+				<TD col="10" leftBorderColor="#000000" topBorderColor="#000000" align="center">次卡钱包虚充</TD>
+				<TD col="11">次卡钱包虚充</TD>
+				<TD col="12" leftBorderColor="#000000" topBorderColor="#000000">金额合计</TD>
+				<TD col="13" leftBorderColor="#000000"/>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="6" areaNumber="2">
+				<TD col="2" leftBorderColor="#000000" topBorderColor="#000000" align="center">次数</TD>
+				<TD col="3" leftBorderColor="#000000" topBorderColor="#000000" align="center">金额</TD>
+				<TD col="4" leftBorderColor="#000000" topBorderColor="#000000" align="center">次数</TD>
+				<TD col="5" leftBorderColor="#000000" topBorderColor="#000000" align="center">金额</TD>
+				<TD col="6" leftBorderColor="#000000" topBorderColor="#000000" align="center">次数</TD>
+				<TD col="7" leftBorderColor="#000000" topBorderColor="#000000" align="center">金额</TD>
+				<TD col="8" leftBorderColor="#000000" topBorderColor="#000000" align="center">次数</TD>
+				<TD col="9" leftBorderColor="#000000" topBorderColor="#000000" align="center">金额</TD>
+				<TD col="10" leftBorderColor="#000000" topBorderColor="#000000" align="center">次数</TD>
+				<TD col="11" leftBorderColor="#000000" topBorderColor="#000000" align="center">金额</TD>
+				<TD col="12" leftBorderColor="#000000" topBorderColor="#000000" align="right" datatype="1" formula="=data(&apos;ds2&apos;, datarowNumber(), &apos;sum&apos;)">12345</TD>
+				<TD col="13" leftBorderColor="#000000"/>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="7" areaNumber="3">
+				<TD col="2" leftBorderColor="#000000" topBorderColor="#000000" align="right" datatype="1" formula="=data(&apos;ds2&apos;, datarowNumber(), &apos;ypcz_a&apos;)">100</TD>
+				<TD col="3" leftBorderColor="#000000" topBorderColor="#000000" align="right" datatype="1" formula="=data(&apos;ds2&apos;, datarowNumber(), &apos;ypcz_b&apos;)">200</TD>
+				<TD col="4" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="5" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="6" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="7" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="8" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="9" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="10" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="11" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="13" leftBorderColor="#000000"/>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="8" areaNumber="4">
+				<TD col="2" leftBorderColor="#000000" topBorderColor="#000000" align="center">售卡</TD>
+				<TD col="4" leftBorderColor="#000000" topBorderColor="#000000" align="center">补卡</TD>
+				<TD col="6" leftBorderColor="#000000" topBorderColor="#000000" align="center">退卡</TD>
+				<TD col="10" leftBorderColor="#000000" topBorderColor="#000000" align="center">电子钱包红冲</TD>
+				<TD col="13" leftBorderColor="#000000"/>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="9" areaNumber="5">
+				<TD col="2" leftBorderColor="#000000" topBorderColor="#000000" align="center">数量</TD>
+				<TD col="3" leftBorderColor="#000000" topBorderColor="#000000" align="center">折旧费</TD>
+				<TD col="4" leftBorderColor="#000000" topBorderColor="#000000" align="center">数量</TD>
+				<TD col="5" leftBorderColor="#000000" topBorderColor="#000000" align="center">折旧费</TD>
+				<TD col="6" leftBorderColor="#000000" topBorderColor="#000000" align="center">数量</TD>
+				<TD col="7" leftBorderColor="#000000" topBorderColor="#000000" align="center">退卡金额</TD>
+				<TD col="8" leftBorderColor="#000000" topBorderColor="#000000" align="center">退折旧费</TD>
+				<TD col="9" leftBorderColor="#000000" topBorderColor="#000000" align="center">总退金额</TD>
+				<TD col="10" leftBorderColor="#000000" topBorderColor="#000000" align="center">次数</TD>
+				<TD col="11" leftBorderColor="#000000" topBorderColor="#000000" align="center">金额</TD>
+				<TD col="13" leftBorderColor="#000000"/>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="10" areaNumber="6">
+				<TD col="2" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="3" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="4" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="5" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="6" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="7" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="8" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="9" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="10" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="11" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="13" leftBorderColor="#000000"/>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="11" sequence="11" areaNumber="7">
+				<TD col="1" topBorderColor="#000000"/>
+				<TD col="2"/>
+				<TD col="3"/>
+				<TD col="4"/>
+				<TD col="5"/>
+				<TD col="6"/>
+				<TD col="7"/>
+				<TD col="8"/>
+				<TD col="9"/>
+				<TD col="10"/>
+				<TD col="11"/>
+				<TD col="12"/>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="12" isDataSource="true" areaNumber="1">
+				<TD col="0"/>
+				<TD col="1" leftBorderColor="#000000" topBorderColor="#000000" align="center" datatype="1">学生卡</TD>
+				<TD col="2" leftBorderColor="#000000" topBorderColor="#000000" align="center">月票充值</TD>
+				<TD col="3">月票充值</TD>
+				<TD col="4" leftBorderColor="#000000" topBorderColor="#000000" align="center">电子钱包充值</TD>
+				<TD col="5">电子钱包充值</TD>
+				<TD col="6" leftBorderColor="#000000" topBorderColor="#000000" align="center">电子钱包虚充</TD>
+				<TD col="7">电子钱包虚充</TD>
+				<TD col="8" leftBorderColor="#000000" topBorderColor="#000000" align="center">次卡钱包充值</TD>
+				<TD col="9">次卡钱包充值</TD>
+				<TD col="10" leftBorderColor="#000000" topBorderColor="#000000" align="center">次卡钱包虚充</TD>
+				<TD col="11">次卡钱包虚充</TD>
+				<TD col="12" leftBorderColor="#000000" topBorderColor="#000000">金额合计</TD>
+				<TD col="13" leftBorderColor="#000000"/>
+				<TD col="14"/>
+				<TD col="15"/>
+				<TD col="16"/>
+				<TD col="17"/>
+				<TD col="18"/>
+				<TD col="19"/>
+				<TD col="20"/>
+				<TD col="21"/>
+				<TD col="22"/>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="13" isDataSource="true" areaNumber="2">
+				<TD col="0"/>
+				<TD col="1"/>
+				<TD col="2" leftBorderColor="#000000" topBorderColor="#000000" align="center">次数</TD>
+				<TD col="3" leftBorderColor="#000000" topBorderColor="#000000" align="center">金额</TD>
+				<TD col="4" leftBorderColor="#000000" topBorderColor="#000000" align="center">次数</TD>
+				<TD col="5" leftBorderColor="#000000" topBorderColor="#000000" align="center">金额</TD>
+				<TD col="6" leftBorderColor="#000000" topBorderColor="#000000" align="center">次数</TD>
+				<TD col="7" leftBorderColor="#000000" topBorderColor="#000000" align="center">金额</TD>
+				<TD col="8" leftBorderColor="#000000" topBorderColor="#000000" align="center">次数</TD>
+				<TD col="9" leftBorderColor="#000000" topBorderColor="#000000" align="center">金额</TD>
+				<TD col="10" leftBorderColor="#000000" topBorderColor="#000000" align="center">次数</TD>
+				<TD col="11" leftBorderColor="#000000" topBorderColor="#000000" align="center">金额</TD>
+				<TD col="12" leftBorderColor="#000000" topBorderColor="#000000" align="right" datatype="1">45678</TD>
+				<TD col="13" leftBorderColor="#000000"/>
+				<TD col="14"/>
+				<TD col="15"/>
+				<TD col="16"/>
+				<TD col="17"/>
+				<TD col="18"/>
+				<TD col="19"/>
+				<TD col="20"/>
+				<TD col="21"/>
+				<TD col="22"/>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="14" isDataSource="true" areaNumber="3">
+				<TD col="0"/>
+				<TD col="1"/>
+				<TD col="2" leftBorderColor="#000000" topBorderColor="#000000" align="right" datatype="1">10</TD>
+				<TD col="3" leftBorderColor="#000000" topBorderColor="#000000" align="right" datatype="1">200</TD>
+				<TD col="4" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="5" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="6" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="7" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="8" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="9" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="10" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="11" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="12"/>
+				<TD col="13" leftBorderColor="#000000"/>
+				<TD col="14"/>
+				<TD col="15"/>
+				<TD col="16"/>
+				<TD col="17"/>
+				<TD col="18"/>
+				<TD col="19"/>
+				<TD col="20"/>
+				<TD col="21"/>
+				<TD col="22"/>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="15" isDataSource="true" areaNumber="4">
+				<TD col="0"/>
+				<TD col="1"/>
+				<TD col="2" leftBorderColor="#000000" topBorderColor="#000000" align="center">售卡</TD>
+				<TD col="3"/>
+				<TD col="4" leftBorderColor="#000000" topBorderColor="#000000" align="center">补卡</TD>
+				<TD col="5"/>
+				<TD col="6" leftBorderColor="#000000" topBorderColor="#000000" align="center">退卡</TD>
+				<TD col="7"/>
+				<TD col="8"/>
+				<TD col="9"/>
+				<TD col="10" leftBorderColor="#000000" topBorderColor="#000000" align="center">电子钱包红冲</TD>
+				<TD col="11"/>
+				<TD col="12"/>
+				<TD col="13" leftBorderColor="#000000"/>
+				<TD col="14"/>
+				<TD col="15"/>
+				<TD col="16"/>
+				<TD col="17"/>
+				<TD col="18"/>
+				<TD col="19"/>
+				<TD col="20"/>
+				<TD col="21"/>
+				<TD col="22"/>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="16" isDataSource="true" areaNumber="5">
+				<TD col="0"/>
+				<TD col="1"/>
+				<TD col="2" leftBorderColor="#000000" topBorderColor="#000000" align="center">数量</TD>
+				<TD col="3" leftBorderColor="#000000" topBorderColor="#000000" align="center">折旧费</TD>
+				<TD col="4" leftBorderColor="#000000" topBorderColor="#000000" align="center">数量</TD>
+				<TD col="5" leftBorderColor="#000000" topBorderColor="#000000" align="center">折旧费</TD>
+				<TD col="6" leftBorderColor="#000000" topBorderColor="#000000" align="center">数量</TD>
+				<TD col="7" leftBorderColor="#000000" topBorderColor="#000000" align="center">退卡金额</TD>
+				<TD col="8" leftBorderColor="#000000" topBorderColor="#000000" align="center">退折旧费</TD>
+				<TD col="9" leftBorderColor="#000000" topBorderColor="#000000" align="center">总退金额</TD>
+				<TD col="10" leftBorderColor="#000000" topBorderColor="#000000" align="center">次数</TD>
+				<TD col="11" leftBorderColor="#000000" topBorderColor="#000000" align="center">金额</TD>
+				<TD col="12"/>
+				<TD col="13" leftBorderColor="#000000"/>
+				<TD col="14"/>
+				<TD col="15"/>
+				<TD col="16"/>
+				<TD col="17"/>
+				<TD col="18"/>
+				<TD col="19"/>
+				<TD col="20"/>
+				<TD col="21"/>
+				<TD col="22"/>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="17" isDataSource="true" areaNumber="6">
+				<TD col="0"/>
+				<TD col="1"/>
+				<TD col="2" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="3" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="4" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="5" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="6" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="7" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="8" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="9" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="10" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="11" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="12"/>
+				<TD col="13" leftBorderColor="#000000"/>
+				<TD col="14"/>
+				<TD col="15"/>
+				<TD col="16"/>
+				<TD col="17"/>
+				<TD col="18"/>
+				<TD col="19"/>
+				<TD col="20"/>
+				<TD col="21"/>
+				<TD col="22"/>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="11" sequence="18" isDataSource="true" areaNumber="7">
+				<TD col="0"/>
+				<TD col="1" topBorderColor="#000000"/>
+				<TD col="2"/>
+				<TD col="3"/>
+				<TD col="4"/>
+				<TD col="5"/>
+				<TD col="6"/>
+				<TD col="7"/>
+				<TD col="8"/>
+				<TD col="9"/>
+				<TD col="10"/>
+				<TD col="11"/>
+				<TD col="12"/>
+				<TD col="13"/>
+				<TD col="14"/>
+				<TD col="15"/>
+				<TD col="16"/>
+				<TD col="17"/>
+				<TD col="18"/>
+				<TD col="19"/>
+				<TD col="20"/>
+				<TD col="21"/>
+				<TD col="22"/>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="19" isDataSource="true" areaNumber="1">
+				<TD col="0"/>
+				<TD col="1" leftBorderColor="#000000" topBorderColor="#000000" align="center" datatype="1">司机卡</TD>
+				<TD col="2" leftBorderColor="#000000" topBorderColor="#000000" align="center">月票充值</TD>
+				<TD col="3">月票充值</TD>
+				<TD col="4" leftBorderColor="#000000" topBorderColor="#000000" align="center">电子钱包充值</TD>
+				<TD col="5">电子钱包充值</TD>
+				<TD col="6" leftBorderColor="#000000" topBorderColor="#000000" align="center">电子钱包虚充</TD>
+				<TD col="7">电子钱包虚充</TD>
+				<TD col="8" leftBorderColor="#000000" topBorderColor="#000000" align="center">次卡钱包充值</TD>
+				<TD col="9">次卡钱包充值</TD>
+				<TD col="10" leftBorderColor="#000000" topBorderColor="#000000" align="center">次卡钱包虚充</TD>
+				<TD col="11">次卡钱包虚充</TD>
+				<TD col="12" leftBorderColor="#000000" topBorderColor="#000000">金额合计</TD>
+				<TD col="13" leftBorderColor="#000000"/>
+				<TD col="14"/>
+				<TD col="15"/>
+				<TD col="16"/>
+				<TD col="17"/>
+				<TD col="18"/>
+				<TD col="19"/>
+				<TD col="20"/>
+				<TD col="21"/>
+				<TD col="22"/>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="20" isDataSource="true" areaNumber="2">
+				<TD col="0"/>
+				<TD col="1"/>
+				<TD col="2" leftBorderColor="#000000" topBorderColor="#000000" align="center">次数</TD>
+				<TD col="3" leftBorderColor="#000000" topBorderColor="#000000" align="center">金额</TD>
+				<TD col="4" leftBorderColor="#000000" topBorderColor="#000000" align="center">次数</TD>
+				<TD col="5" leftBorderColor="#000000" topBorderColor="#000000" align="center">金额</TD>
+				<TD col="6" leftBorderColor="#000000" topBorderColor="#000000" align="center">次数</TD>
+				<TD col="7" leftBorderColor="#000000" topBorderColor="#000000" align="center">金额</TD>
+				<TD col="8" leftBorderColor="#000000" topBorderColor="#000000" align="center">次数</TD>
+				<TD col="9" leftBorderColor="#000000" topBorderColor="#000000" align="center">金额</TD>
+				<TD col="10" leftBorderColor="#000000" topBorderColor="#000000" align="center">次数</TD>
+				<TD col="11" leftBorderColor="#000000" topBorderColor="#000000" align="center">金额</TD>
+				<TD col="12" leftBorderColor="#000000" topBorderColor="#000000" align="right" datatype="1">78990</TD>
+				<TD col="13" leftBorderColor="#000000"/>
+				<TD col="14"/>
+				<TD col="15"/>
+				<TD col="16"/>
+				<TD col="17"/>
+				<TD col="18"/>
+				<TD col="19"/>
+				<TD col="20"/>
+				<TD col="21"/>
+				<TD col="22"/>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="21" isDataSource="true" areaNumber="3">
+				<TD col="0"/>
+				<TD col="1"/>
+				<TD col="2" leftBorderColor="#000000" topBorderColor="#000000" align="right" datatype="1">1</TD>
+				<TD col="3" leftBorderColor="#000000" topBorderColor="#000000" align="right" datatype="1">200</TD>
+				<TD col="4" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="5" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="6" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="7" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="8" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="9" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="10" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="11" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="12"/>
+				<TD col="13" leftBorderColor="#000000"/>
+				<TD col="14"/>
+				<TD col="15"/>
+				<TD col="16"/>
+				<TD col="17"/>
+				<TD col="18"/>
+				<TD col="19"/>
+				<TD col="20"/>
+				<TD col="21"/>
+				<TD col="22"/>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="22" isDataSource="true" areaNumber="4">
+				<TD col="0"/>
+				<TD col="1"/>
+				<TD col="2" leftBorderColor="#000000" topBorderColor="#000000" align="center">售卡</TD>
+				<TD col="3"/>
+				<TD col="4" leftBorderColor="#000000" topBorderColor="#000000" align="center">补卡</TD>
+				<TD col="5"/>
+				<TD col="6" leftBorderColor="#000000" topBorderColor="#000000" align="center">退卡</TD>
+				<TD col="7"/>
+				<TD col="8"/>
+				<TD col="9"/>
+				<TD col="10" leftBorderColor="#000000" topBorderColor="#000000" align="center">电子钱包红冲</TD>
+				<TD col="11"/>
+				<TD col="12"/>
+				<TD col="13" leftBorderColor="#000000"/>
+				<TD col="14"/>
+				<TD col="15"/>
+				<TD col="16"/>
+				<TD col="17"/>
+				<TD col="18"/>
+				<TD col="19"/>
+				<TD col="20"/>
+				<TD col="21"/>
+				<TD col="22"/>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="23" isDataSource="true" areaNumber="5">
+				<TD col="0"/>
+				<TD col="1"/>
+				<TD col="2" leftBorderColor="#000000" topBorderColor="#000000" align="center">数量</TD>
+				<TD col="3" leftBorderColor="#000000" topBorderColor="#000000" align="center">折旧费</TD>
+				<TD col="4" leftBorderColor="#000000" topBorderColor="#000000" align="center">数量</TD>
+				<TD col="5" leftBorderColor="#000000" topBorderColor="#000000" align="center">折旧费</TD>
+				<TD col="6" leftBorderColor="#000000" topBorderColor="#000000" align="center">数量</TD>
+				<TD col="7" leftBorderColor="#000000" topBorderColor="#000000" align="center">退卡金额</TD>
+				<TD col="8" leftBorderColor="#000000" topBorderColor="#000000" align="center">退折旧费</TD>
+				<TD col="9" leftBorderColor="#000000" topBorderColor="#000000" align="center">总退金额</TD>
+				<TD col="10" leftBorderColor="#000000" topBorderColor="#000000" align="center">次数</TD>
+				<TD col="11" leftBorderColor="#000000" topBorderColor="#000000" align="center">金额</TD>
+				<TD col="12"/>
+				<TD col="13" leftBorderColor="#000000"/>
+				<TD col="14"/>
+				<TD col="15"/>
+				<TD col="16"/>
+				<TD col="17"/>
+				<TD col="18"/>
+				<TD col="19"/>
+				<TD col="20"/>
+				<TD col="21"/>
+				<TD col="22"/>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="24" isDataSource="true" areaNumber="6">
+				<TD col="0"/>
+				<TD col="1"/>
+				<TD col="2" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="3" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="4" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="5" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="6" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="7" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="8" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="9" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="10" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="11" leftBorderColor="#000000" topBorderColor="#000000" align="right"/>
+				<TD col="12"/>
+				<TD col="13" leftBorderColor="#000000"/>
+				<TD col="14"/>
+				<TD col="15"/>
+				<TD col="16"/>
+				<TD col="17"/>
+				<TD col="18"/>
+				<TD col="19"/>
+				<TD col="20"/>
+				<TD col="21"/>
+				<TD col="22"/>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="11" sequence="25" isDataSource="true" areaNumber="7">
+				<TD col="0"/>
+				<TD col="1" topBorderColor="#000000"/>
+				<TD col="2"/>
+				<TD col="3"/>
+				<TD col="4"/>
+				<TD col="5"/>
+				<TD col="6"/>
+				<TD col="7"/>
+				<TD col="8"/>
+				<TD col="9"/>
+				<TD col="10"/>
+				<TD col="11"/>
+				<TD col="12"/>
+				<TD col="13"/>
+				<TD col="14"/>
+				<TD col="15"/>
+				<TD col="16"/>
+				<TD col="17"/>
+				<TD col="18"/>
+				<TD col="19"/>
+				<TD col="20"/>
+				<TD col="21"/>
+				<TD col="22"/>
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="26">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="27">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="28">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="29">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="30">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="31">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="32">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="33">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="34">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="35">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="36">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="37">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="38">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="39">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="40">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="41">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="42">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="43">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="44">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="45">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="46">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="47">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="48">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="49">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="50">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="51">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="52">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="53">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="54">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="55">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="56">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="57">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="58">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="59">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="60">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="61">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="62">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="63">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="64">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="65">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="66">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="67">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="68">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="69">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="70">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="71">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="72">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="73">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="74">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="75">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="76">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="77">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="78">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="79">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="80">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="81">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="82">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="83">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="84">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="85">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="86">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="87">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="88">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="89">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="90">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="91">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="92">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="93">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="94">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="95">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="96">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="97">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="98">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="99">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="100">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="101">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="102">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="103">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="104">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="105">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="106">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="107">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="108">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="109">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="110">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="111">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="112">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="113">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="114">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="115">
+				<TD col="23" topBorder="0"/>
+			</TR>
+			<TR height="15" sequence="116">
+				<TD col="0" leftBorder="0"/>
+				<TD col="1" leftBorder="0"/>
+				<TD col="2" leftBorder="0"/>
+				<TD col="3" leftBorder="0"/>
+				<TD col="4" leftBorder="0"/>
+				<TD col="5" leftBorder="0"/>
+				<TD col="6" leftBorder="0"/>
+				<TD col="7" leftBorder="0"/>
+				<TD col="8" leftBorder="0"/>
+				<TD col="9" leftBorder="0"/>
+				<TD col="10" leftBorder="0"/>
+				<TD col="11" leftBorder="0"/>
+				<TD col="12" leftBorder="0"/>
+				<TD col="13" leftBorder="0"/>
+				<TD col="14" leftBorder="0"/>
+				<TD col="15" leftBorder="0"/>
+				<TD col="16" leftBorder="0"/>
+				<TD col="17" leftBorder="0"/>
+				<TD col="18" leftBorder="0"/>
+				<TD col="19" leftBorder="0"/>
+				<TD col="20" leftBorder="0"/>
+				<TD col="21" leftBorder="0"/>
+				<TD col="22" leftBorder="0"/>
+				<TD col="23" leftBorder="0" topBorder="0"/>
+			</TR>
+		</Table>
+		<Merges>
+			<Range row1="5" col1="2" row2="5" col2="3"/>
+			<Range row1="5" col1="4" row2="5" col2="5"/>
+			<Range row1="5" col1="6" row2="5" col2="7"/>
+			<Range row1="5" col1="8" row2="5" col2="9"/>
+			<Range row1="5" col1="10" row2="5" col2="11"/>
+			<Range row1="8" col1="2" row2="8" col2="3"/>
+			<Range row1="8" col1="4" row2="8" col2="5"/>
+			<Range row1="8" col1="6" row2="8" col2="9"/>
+			<Range row1="8" col1="10" row2="8" col2="11"/>
+			<Range row1="5" col1="1" row2="10" col2="1"/>
+			<Range row1="6" col1="12" row2="10" col2="12"/>
+			<Range row1="1" col1="1" row2="1" col2="12"/>
+			<Range row1="0" col1="1" row2="0" col2="12"/>
+			<Range row1="2" col1="1" row2="2" col2="12"/>
+			<Range row1="4" col1="1" row2="4" col2="12"/>
+			<Range row1="5" col1="0" row2="11" col2="0"/>
+			<Range row1="11" col1="1" row2="11" col2="12"/>
+			<Range row1="12" col1="2" row2="12" col2="3"/>
+			<Range row1="12" col1="4" row2="12" col2="5"/>
+			<Range row1="12" col1="6" row2="12" col2="7"/>
+			<Range row1="12" col1="8" row2="12" col2="9"/>
+			<Range row1="12" col1="10" row2="12" col2="11"/>
+			<Range row1="15" col1="2" row2="15" col2="3"/>
+			<Range row1="15" col1="4" row2="15" col2="5"/>
+			<Range row1="15" col1="6" row2="15" col2="9"/>
+			<Range row1="15" col1="10" row2="15" col2="11"/>
+			<Range row1="12" col1="1" row2="17" col2="1"/>
+			<Range row1="13" col1="12" row2="17" col2="12"/>
+			<Range row1="12" col1="0" row2="18" col2="0"/>
+			<Range row1="18" col1="1" row2="18" col2="12"/>
+			<Range row1="19" col1="2" row2="19" col2="3"/>
+			<Range row1="19" col1="4" row2="19" col2="5"/>
+			<Range row1="19" col1="6" row2="19" col2="7"/>
+			<Range row1="19" col1="8" row2="19" col2="9"/>
+			<Range row1="19" col1="10" row2="19" col2="11"/>
+			<Range row1="22" col1="2" row2="22" col2="3"/>
+			<Range row1="22" col1="4" row2="22" col2="5"/>
+			<Range row1="22" col1="6" row2="22" col2="9"/>
+			<Range row1="22" col1="10" row2="22" col2="11"/>
+			<Range row1="19" col1="1" row2="24" col2="1"/>
+			<Range row1="20" col1="12" row2="24" col2="12"/>
+			<Range row1="19" col1="0" row2="25" col2="0"/>
+			<Range row1="25" col1="1" row2="25" col2="12"/>
+			<Range row1="3" col1="1" row2="3" col2="7"/>
+			<Range row1="3" col1="8" row2="3" col2="12"/>
+		</Merges>
+		<PrintPage>
+			<Paper oriantation="landscape">
+				<Margin left="19" top="25" right="19" bottom="25"/>
+			</Paper>
+			<Page>
+				<PageCode>
+					<Font faceName="微软雅黑" charSet="134" height="-14" weight="400"/>
+				</PageCode>
+			</Page>
+		</PrintPage>
+	</WorkSheet>
+	<DataSources Version="255" isAutoCalculateWhenOpen="false" isSaveCalculateResult="true">
+		<DataSource type="5"><!-- Desc: Supcan Report Component DataSource Specification -->
+<Data>
+	<ID>ds1</ID>
+	<Version>2</Version>
+	<Type>5</Type>
+	<TypeMeaning>中心数据源</TypeMeaning>
+	<Source>reportdata/datacenter.xml</Source>
+	<Memo>工资表</Memo>
+	<dataID>8001</dataID>
+	<Columns>
+		<Column>
+			<name>id</name>
+			<text>工号</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>3</sequence>
+		</Column>
+		<Column>
+			<name>name</name>
+			<text>姓名</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>4</sequence>
+		</Column>
+		<Column>
+			<name>wy</name>
+			<text>工龄</text>
+			<type>int</type>
+			<visible>true</visible>
+			<sequence>2</sequence>
+		</Column>
+		<Column>
+			<name>dept</name>
+			<text>部门</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>1</sequence>
+		</Column>
+		<Column>
+			<name>item1</name>
+			<text>基本工资</text>
+			<type>decimal</type>
+			<visible>true</visible>
+			<sequence>5</sequence>
+		</Column>
+		<Column>
+			<name>item2</name>
+			<text>工龄补贴</text>
+			<type>decimal</type>
+			<visible>true</visible>
+			<sequence>6</sequence>
+		</Column>
+		<Column>
+			<name>item3</name>
+			<text>餐费</text>
+			<type>decimal</type>
+			<visible>true</visible>
+			<sequence>7</sequence>
+		</Column>
+		<Column>
+			<name>item4</name>
+			<text>通信费</text>
+			<type>decimal</type>
+			<visible>true</visible>
+			<sequence>8</sequence>
+		</Column>
+		<Column>
+			<name>item5</name>
+			<text>独生子女费</text>
+			<type>decimal</type>
+			<visible>true</visible>
+			<sequence>9</sequence>
+		</Column>
+		<Column>
+			<name>item6</name>
+			<text>加班费</text>
+			<type>decimal</type>
+			<visible>true</visible>
+			<sequence>10</sequence>
+		</Column>
+		<Column>
+			<name>de1</name>
+			<text>还借款</text>
+			<type>decimal</type>
+			<visible>true</visible>
+			<sequence>11</sequence>
+		</Column>
+		<Column>
+			<name>de2</name>
+			<text>个税</text>
+			<type>decimal</type>
+			<visible>true</visible>
+			<sequence>12</sequence>
+		</Column>
+	</Columns>
+</Data>
+
+		</DataSource>
+		<DataSource type="4"><!-- Desc: Supcan Report Component DataSource Specification -->
+<Data>
+	<ID>ds2</ID>
+	<Version>2</Version>
+	<Type>4</Type>
+	<TypeMeaning>JSON</TypeMeaning>
+	<Source>1.json</Source>
+	<XML_RecordAble_Nodes>
+		<Node>
+			<name>jsonobject</name>
+		</Node>
+	</XML_RecordAble_Nodes>
+	<Columns>
+		<Column>
+			<name>jsonobject\name</name>
+			<text>name</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>1</sequence>
+		</Column>
+		<Column>
+			<name>jsonobject\ypcz_a</name>
+			<text>ypcz_a</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>2</sequence>
+		</Column>
+		<Column>
+			<name>jsonobject\ypcz_b</name>
+			<text>ypcz_b</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>3</sequence>
+		</Column>
+		<Column>
+			<name>jsonobject\sk_a</name>
+			<text>sk_a</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>4</sequence>
+		</Column>
+		<Column>
+			<name>jsonobject\sk_b</name>
+			<text>sk_b</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>5</sequence>
+		</Column>
+		<Column>
+			<name>jsonobject\ckqbxc_a</name>
+			<text>ckqbxc_a</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>6</sequence>
+		</Column>
+		<Column>
+			<name>jsonobject\ckqbxc_b</name>
+			<text>ckqbxc_b</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>7</sequence>
+		</Column>
+		<Column>
+			<name>jsonobject\sum</name>
+			<text>sum</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>8</sequence>
+		</Column>
+	</Columns>
+</Data>
+
+		</DataSource>
+	</DataSources>
+</Report>

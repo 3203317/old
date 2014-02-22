@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<TITLE></TITLE>
+<style type="text/css">
+</style>
+</HEAD>
+
+<BODY class="capec">
+	<form id="internal_sys_user_PassForm" data-dojo-type="dijit.form.Form" onsubmit="return false;">
+		<input id="internal_sys_user_PassForm_idText" name="id" data-dojo-type="dijit.form.TextBox" type="hidden" />
+		<table align="center">
+			<tr>
+				<td nowrap><label for="internal_sys_user_PassForm_newpassText">新设密码：</label></td>
+				<td><input id="internal_sys_user_PassForm_newpassText" name="newpass" type="password" data-dojo-type="dijit.form.ValidationTextBox" intermediateChanges="false" data-dojo-props='required:true,trim:true,regExpGen:function(){return "^[a-zA-Z0-9_]{6,16}$";}' invalidMessage="6-16个字符，支持英文大小写、数字、下划线，区分大小写"/></td>
+			</tr>
+			<tr>
+				<td nowrap><label for="internal_sys_user_PassForm_valpassText">确认密码：</label></td>
+				<td><input id="internal_sys_user_PassForm_valpassText" name="valpass" type="password" constraints="{'other': 'internal_sys_user_PassForm_newpassText'}" intermediateChanges="false" data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props='required:true,trim:true' invalidMessage="两次输入的密码不一致"/></td>
+			</tr>
+		</table>
+	</form>
+</BODY>
+</HTML>

@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<TITLE></TITLE>
+<style type="text/css">
+</style>
+</HEAD>
+
+<BODY class="capec">
+	<form id="internal_sys_org_BatchForm" data-dojo-type="dijit.form.Form" onsubmit="return false;">
+		<input id="internal_sys_org_BatchForm_idText" name="id" data-dojo-type="dijit.form.TextBox" type="hidden" />
+		<table>
+			<tr>
+				<td nowrap><label for="internal_sys_org_BatchForm_orgnameText">组织机构名称：</label></td>
+				<td><input id="internal_sys_org_BatchForm_orgnameText" name="orgname" data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props='required:true,trim:true' /></td>
+			</tr>
+			<tr>
+				<td nowrap><label for="internal_sys_org_BatchForm_batchidText">所属批次：</label></td>
+				<td><input id="internal_sys_org_BatchForm_batchidText" name="batchid" data-dojo-type="internal.widgets.comboBox.BatchComboBox" data-dojo-props="required:true,vpath:'../../'" style="width:140px" /></td>
+			</tr>
+		</table>
+		<fieldset style="border:1px solid #CCC">
+			<legend><b><input id="internal_sys_org_BatchForm_dateChk" data-dojo-type="dijit.form.CheckBox"/>调整失效期</b></legend>
+			<table>
+				<tr>
+					<td nowrap><label for="internal_sys_org_BatchForm_begindateText">开始日期：</label></td>
+					<td><input id="internal_sys_org_BatchForm_begindateText" name="begindate" data-dojo-type="dijit.form.DateTextBox"  data-dojo-props='required:true,trim:true' disabled="true" style="color:red"/></td>
+				</tr>
+				<tr>
+					<td nowrap><label for="internal_sys_org_BatchForm_enddateText">失效日期：</label></td>
+					<td><input id=internal_sys_org_BatchForm_enddateText name="enddate" data-dojo-type="dijit.form.DateTextBox"  data-dojo-props='required:true,trim:true' disabled="true" style="color:red"/></td>
+				</tr>
+			</table>
+		</fieldset>
+		<fieldset style="border:1px solid #CCC">
+			<legend><b>更新选项</b></legend>
+			<table>
+				<tr>
+					<td><input type="radio" data-dojo-type="dijit.form.RadioButton" name="update" value="1" checked="true"/>仅调整当前组织机构的批次及失效期</td>
+				</tr>
+				<tr>
+					<td><input type="radio" data-dojo-type="dijit.form.RadioButton" name="update" value="2"/>调整当前组织机构及下级组织机构批次及失效期</td>
+				</tr>
+				<tr>
+					<td><input type="radio" data-dojo-type="dijit.form.RadioButton" name="update" value="3"/>调整当前组织机构及所属用户批次及失效期</td>
+				</tr>
+				<tr>
+					<td><input type="radio" data-dojo-type="dijit.form.RadioButton" name="update" value="3"/>调整当前组织机构、下级组织机构及所属用户批次及失效期</td>
+				</tr>
+			</table>
+		</fieldset>
+	</form>
+</BODY>
+</HTML>

@@ -1,0 +1,19 @@
+{
+    "identifier": "id",
+    "label": "logtypename",
+    "items": [
+        {
+        	id: "1",
+            "logtypename": "系统运行日志"
+        },
+        {
+        	id: "2",
+            "logtypename": "用户操作日志"
+        },
+        {
+        	id: "3",
+            "logtypename": "系统异常日志"
+        }
+    ],
+    "processed": "2.5116044"
+}

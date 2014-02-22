@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<TITLE></TITLE>
+<style type="text/css">
+</style>
+</HEAD>
+
+<BODY class="capec">
+	<form id="internal_sys_log_LogForm" data-dojo-type="dijit.form.Form">
+		<input id="internal_sys_log_LogForm_codeText" name="code" data-dojo-type="dijit.form.TextBox" type="hidden" />
+		<table>
+			<tr>
+				<td nowrap><label for="internal_sys_log_LogForm_lognameText">日志名称：</label></td>
+				<td><input id="internal_sys_log_LogForm_lognameText" name="logname" data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props='required:true,trim:true'/></td>
+				<td style="width:20px"></td>
+				<td nowrap><label for="internal_sys_log_LogForm_codenameText">日志描述：</label></td>
+				<td><input id="internal_sys_log_LogForm_codename1Text" name="codename" data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props='required:true,trim:true'/></td>
+			<tr>
+				<td nowrap><label for="internal_sys_log_LogForm_codealiasText">日志类型：</label></td>
+				<td><input id=internal_sys_log_LogForm_openid6dssdText name="openid" data-dojo-type="internal.sys.log.LogTypeComboBox" data-dojo-props="vpath:'../../'" style="width:140px" /></td>
+				<td style="width:20px"></td>
+				<td nowrap><label for="internal_sys_log_LogForm_sort3Text">日志级别：</label></td>
+				<td><input id=internal_sys_log_LogForm_openid6dText name="openid" data-dojo-type="internal.widgets.comboBox.CodeComboBox" data-dojo-props="vpath:'../../',codeType:'LOGLEV'" style="width:140px" /></td>
+			</tr>
+			<tr>
+				<td nowrap><label for="internal_sys_log_LogForm_openidText">所属系统：</label></td>
+				<td><input id="internal_sys_log_LogForm_dept_codeText" name="dept_code"
+						placeholder='请选择所属系统'
+						onkeyup="this.set('value','');"
+						onpaste="return false;"
+						data-dojo-type="capec.form.ComboBoxTree"
+						data-dojo-props='required:true,trim:true,treeParams: {
+							identifier: "id",
+							fidentifier: "p_id",
+							label: "domainname",
+							rootId: "0",
+							rootLabel: "郑州新开普电子股份有限公司",
+							showRoot: false,
+							vpath: "../../",
+							dataUrl: "testData/domain.json"
+						},
+						styleParams: {
+							width: "250px",
+							height: "100px",
+							background: "white",
+							border: "1px solid #CCC"
+						}'
+					/></td>
+				<td style="width:20px"></td>
+				<td nowrap><label for="internal_sys_log_LogForm_userunitText">存储模式：</label></td>
+				<td><input id=internal_sys_log_LogForm_openid6sddsText name="openid" data-dojo-type="internal.widgets.comboBox.CodeComboBox" data-dojo-props="vpath:'../../',codeType:'LOGSTORE'" style="width:140px" /></td>
+			</tr>
+			<tr>
+				<td nowrap><label for="internal_sys_log_LogForm_openidText">报警方式：</label></td>
+				<td><input id=internal_sys_log_LogForm_openid6Text name="openid" data-dojo-type="internal.widgets.comboBox.CodeComboBox" data-dojo-props="vpath:'../../',codeType:'LOGALARM'" style="width:140px" /></td>
+				<td style="width:20px"></td>
+				<td nowrap><label for="internal_sys_log_LogForm_userunitText">是否启用：</label></td>
+				<td><input id=internal_sys_log_LogForm_openid61Text name="openid" data-dojo-type="internal.widgets.comboBox.CodeComboBox" data-dojo-props="vpath:'../../',codeType:'BOOLEAN'" style="width:140px" /></td>
+			</tr>
+			<tr>
+				<td nowrap><label for="internal_sys_log_LogForm_openidText">存储周期：</label></td>
+				<td><input id=internal_sys_log_LogForm_openid8Text name="openid" data-dojo-type="internal.widgets.comboBox.CodeComboBox" data-dojo-props="vpath:'../../',codeType:'LOGSTORETIME'" style="width:140px" /></td>
+				<td style="width:20px"></td>
+				<td nowrap><label for="internal_sys_log_LogForm_userunitText">清理周期：</label></td>
+				<td><input id=internal_sys_log_LogForm_openid623Text name="openid" data-dojo-type="internal.widgets.comboBox.CodeComboBox" data-dojo-props="vpath:'../../',codeType:'LOGCLEANTIME'" style="width:140px" /></td>
+			</tr>
+			<tr>
+				<td nowrap><label for="internal_sys_log_LogForm_rzffText">日志方法：</label></td>
+				<td colspan="4"><input id="internal_sys_log_LogForm_rzffText" name="rzff" data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props='required:true,trim:true' style="width:99%"/></td>
+			</tr>
+		</table>
+	</form>
+</BODY>
+</HTML>

@@ -1,0 +1,32 @@
+{
+    "identifier": "id",
+    "label": "itemname",
+    "items": [
+        {
+            "id": "o21",
+            "iconClass": "dijitEditorIcon dijitEditorIconNewPage",
+            "opt": 1
+        },
+        {
+            "id": "o22",
+            "iconClass": "dijitEditorIcon dijitEditorIconWikiword",
+            "opt": 2
+        },
+        {
+            "id": "o23",
+            "iconClass": "dijitEditorIcon dijitEditorIconDelete",
+            "opt": 2
+        },
+        {
+            "id": "o24",
+            "iconClass": "dijitEditorIcon dijitEditorIconLogin",
+            "opt": 2
+        },
+        {
+            "id": "o25",
+            "iconClass": "",
+            "opt": 2
+        }
+    ],
+    "processed": "0.0312001"
+}

@@ -1,0 +1,9 @@
+[
+	{deptName:'城市公交总公司',employeeNo:'2011001',employeeName:'测试1',classNO:'700',tradeClass:'售卡折旧费',tradeNum:'41',tradeMoney:'121',realSum:'0',virtalSum:'0',virtalSum1:'10'},
+	{deptName:'城市公交总公司',employeeNo:'2011001',employeeName:'测试1',classNO:'701',tradeClass:'售卡卡套费',tradeNum:'42',tradeMoney:'232',realSum:'0',virtalSum:'0',virtalSum1:'10'},
+	{deptName:'城市公交总公司',employeeNo:'560',employeeName:'次卡充值',classNO:'102',tradeClass:'次卡钱包存款1',tradeNum:'333',tradeMoney:'343',realSum:'28050',virtalSum:'10258',virtalSum1:'30'},
+	{deptName:'城市公交总公司',employeeNo:'560',employeeName:'次卡充值',classNO:'802',tradeClass:'次卡钱包虚存款2',tradeNum:'444',tradeMoney:'454',realSum:'28050',virtalSum:'10258',virtalSum1:'30'},
+	{deptName:'城市公交总公司',employeeNo:'561',employeeName:'制卡员3',classNO:'202',tradeClass:'次卡钱包存款3',tradeNum:'9542',tradeMoney:'565',realSum:'1432550',virtalSum:'385135',virtalSum1:'50'},
+	{deptName:'城市公交总公司',employeeNo:'561',employeeName:'制卡员3',classNO:'302',tradeClass:'次卡钱包虚存款4',tradeNum:'19542',tradeMoney:'676',realSum:'1432550',virtalSum:'385135',virtalSum1:'50'}
+
+]

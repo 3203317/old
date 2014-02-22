@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<TITLE></TITLE>
+<style type="text/css">
+</style>
+</HEAD>
+
+<BODY class="capec">
+	<form id="internal_sys_role_UserForm" data-dojo-type="dijit.form.Form">
+		<input id="internal_sys_role_UserForm_idText" name="id" data-dojo-type="dijit.form.TextBox" type="hidden" />
+		<table align="center">
+			<tr>
+				<td style="width:270px;height:300px">
+					<fieldset style="border:1px solid #CCC">
+						<legend><b>已分配用户</b></legend>
+						<div id="internal_sys_role_UserForm_lGrid" dojoType="internal.sys.role.UserRelatGrid" style="width:100%;height:300px;" data-dojo-props="vpath:'../../'"></div>
+					</fieldset>
+				</td>
+				<td style="width:20px"><input id="internal_sys_role_UserForm_rightBtn" dojoType="dijit.form.Button" label=">"/><br/><input id="internal_sys_role_UserForm_leftBtn" dojoType="dijit.form.Button" label="< "/></td>
+				<td style="width:270px;height:300px">
+					<fieldset style="border:1px solid #CCC">
+						<legend><b>待分配用户</b></legend>
+						<table style="width:100%">
+							<tr>
+								<td nowrap>所属组织：</td>
+								<td><input id="internal_sys_role_UserForm_dept_codeText" name="dept_code"
+										placeholder='请选择所属组织'
+										maxlength="0"
+										data-dojo-type="capec.form.ComboBoxTree"
+										key="0"
+										data-dojo-props='required:true,trim:true,treeParams: {
+											identifier: "id",
+											fidentifier: "p_id",
+											label: "orgname",
+											rootId: "0",
+											rootLabel: "郑州新开普电子股份有限公司",
+											vpath: "../../",
+											dataUrl: "testData/org.json"
+										},
+										styleParams: {
+											width: "250px",
+											height: "100px",
+											background: "white",
+											border: "1px solid #CCC"
+										}'
+									/></td>
+								<td rowspan="2"><input id="internal_sys_role_UserForm_searchBtn" dojoType="dijit.form.Button" label="查询"/></td>
+							</tr>
+							<tr>
+								<td nowrap><label for="internal_sys_role_UserForm_usernameText">用户名：</label></td>
+								<td><input id="internal_sys_role_UserForm_usernameText" name="username" data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props='trim:true' /></td>
+							</tr>
+							<tr>
+								<td colspan="3">
+									<div id="internal_sys_role_UserForm_rGrid" dojoType="internal.sys.role.UnUserRelatGrid" style="width:100%;height:248px;" data-dojo-props="vpath:'../../'"></div>
+								</td>
+							</tr>
+						</table>
+					</fieldset>
+				</td>
+			</tr>
+		</table>
+	</form>
+</BODY>
+</HTML>

@@ -1,0 +1,49 @@
+{
+    "identifier": "id",
+    "label": "domainname",
+    "items": [
+        {
+            "id": "1",
+            "domainname": "产品平台",
+            "p_id": "0",
+            "type": "domain"
+        },
+        {
+            "id": "2",
+            "domainname": "通用基础平台",
+            "p_id": "1",
+            "type": "domain"
+        },
+        {
+            "id": "3",
+            "domainname": "校园一卡通平台",
+            "p_id": "1",
+            "type": "domain"
+        },
+        {
+            "id": "4",
+            "domainname": "城市一卡通平台",
+            "p_id": "1",
+            "type": "domain"
+        },
+        {
+            "id": "5",
+            "domainname": "公共基础应用",
+            "p_id": "2",
+            "type": "domain"
+        },
+        {
+            "id": "6",
+            "domainname": "报表平台",
+            "p_id": "2",
+            "type": "domain"
+        },
+        {
+            "id": "7",
+            "domainname": "表单定制",
+            "p_id": "2",
+            "type": "domain"
+        }
+    ],
+    "processed": "0.0312001"
+}

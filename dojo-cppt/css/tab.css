@@ -1,0 +1,34 @@
+@charset "utf-8";
+/* йƶͨʽ  ҳʽ */
+*{margin:0;padding:0;}
+ul li{list-style:none;}
+.index-tab a,.index-tab a:visited{text-decoration:none;color:#4e4e4e;}
+.index-tab a:hover{text-decoration:underline;color:#007bc7;}
+input,a,img{border:0;} 
+.index-tab p{margin:0;padding:0;line-height:20px;}
+.clear{ clear:both;}
+/*Զǩ*/
+.index-tab{width:950px;padding:0;font-size:12px;font-family:"", Arial; margin:0 auto;color:#707070;}
+.newsblock{width:100%;}
+.newsblock h3{font-size:14px;font-weight:bold;}
+.newsblock .rqiehuan{float:left;width:100%;height:37px;line-height:37px;}
+.newsblock .rqiehuan li{float:left;width:232px;background:url(../images/index-tab.gif) no-repeat -6px 0;text-align: center;padding:0 7px 0 0;color:#4e4e4e;font-size:14px;font-weight:bold;}
+.newsblock #tab_04{padding:0;}
+.newsblock .rqiehuan li.cur{background: url(../images/index-tab.gif) no-repeat -246px 0;color:#005CA1;}
+.newsblock .rqiehuan li.cur a{color:#005CA1; text-decoration:none}
+.newsblock .hidden{display:none;clear:both;}
+.newsblock dd{float:left;display:block;width:100%; padding: 0 0 7px 0;background:url(../images/tabdd_end.gif) no-repeat 0 bottom;}
+.newsblock .tabdd_con{float:left;width:947px;height:160px;border-left:1px solid #e3e3e3;border-right:1px solid #e3e3e3;background:url(../images/tabdd_bg.gif) repeat-x 0 bottom;}
+.promotion{float:left;width:100%;}
+.promotion li{float:left;padding:15px 15px 0 15px;width:206px;text-align:center;}
+.promotion li a{line-height: 30px;font-weight:bold; color:#005CA1; text-decoration:underline;}
+.phone {float:left;}
+.phone li{float:left;padding:15px 10px;width:216px;_margin-right:-3px;}
+.phone li img{float:left;padding:0 7px 0 0;}
+.phone .phoner{float:left;line-height:17px;width:145px;background:none;}
+.phone .phoner h2{font-size:12px;font-weight:bold;line-height:25px;}
+.phone .phoner h2 a,.phone .phoner h2 a:visited{color:#005CA1;}
+.phone .btnfillet1{margin:5px 0;}
+.business{float:left;width:100%;}
+.business li{float:left;padding:15px 15px 0 15px;width:206px;text-align:center;}
+.business li a{line-height: 30px;font-weight:bold; color:#005CA1; text-decoration:underline;}

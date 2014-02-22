@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<TITLE></TITLE>
+<style type="text/css">
+</style>
+</HEAD>
+
+<BODY class="capec">
+	<form id="internal_sys_batch_BatchEditForm" data-dojo-type="dijit.form.Form">
+		<input id="internal_sys_batch_BatchEditForm_idText" name="id" data-dojo-type="dijit.form.TextBox" type="hidden" />
+		<table>
+			<tr>
+				<td nowrap><label for="internal_sys_batch_BatchEditForm_batchnameText">批次名称：</label></td>
+				<td><input id="internal_sys_batch_BatchEditForm_batchnameText" name="batchname" data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props='required:true,trim:true' /></td>
+			</tr>
+			<tr>
+				<td nowrap><label for="internal_sys_batch_BatchEditForm_infoText">批次描述：</label></td>
+				<td><input id="internal_sys_batch_BatchEditForm_infoText" name="info" data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props='trim:true' /></td>
+			</tr>
+			<tr>
+				<td nowrap><label for="internal_sys_batch_BatchEditForm_statusidText">批次状态：</label></td>
+				<td><input id=internal_sys_batch_BatchEditForm_statusidText name="statusid" data-dojo-type="internal.widgets.comboBox.CodeComboBox" data-dojo-props="vpath:'../../',codeType:'BATCH_STATUS'" style="width:140px" /></td>
+			</tr>
+		</table>
+		<p></p>
+		<fieldset style="border:1px solid #CCC">
+			<legend><b><input id="internal_sys_batch_BatchEditForm_dateChk" data-dojo-type="dijit.form.CheckBox"/>调整有效期</b></legend>
+			<table>
+				<tr>
+					<td nowrap><label for="internal_sys_batch_BatchEditForm_begindateText">开始日期：</label></td>
+					<td><input id="internal_sys_batch_BatchEditForm_begindateText" name="begindate" data-dojo-type="dijit.form.DateTextBox"  data-dojo-props='required:true,trim:true' disabled="true"/></td>
+				</tr>
+				<tr>
+					<td nowrap><label for="internal_sys_batch_BatchEditForm_enddateText">失效日期：</label></td>
+					<td><input id=internal_sys_batch_BatchEditForm_enddateText name="enddate" data-dojo-type="dijit.form.DateTextBox"  data-dojo-props='required:true,trim:true' disabled="true"/></td>
+				</tr>
+			</table>
+		</fieldset>
+		<p></p>
+		<fieldset style="border:1px solid #CCC">
+			<legend><b>更新选项</b></legend>
+			<table>
+				<tr>
+					<td><input type="radio" data-dojo-type="dijit.form.RadioButton" name="update" value="1" checked="true"/>仅调整当前批次有效期</td>
+				</tr>
+				<tr>
+					<td><input type="radio" data-dojo-type="dijit.form.RadioButton" name="update" value="2"/>调整当前批次及批次下组织机构的有效期</td>
+				</tr>
+				<tr>
+					<td><input type="radio" data-dojo-type="dijit.form.RadioButton" name="update" value="3"/>调整当前批次及批次下用户的有效期</td>
+				</tr>
+				<tr>
+					<td><input type="radio" data-dojo-type="dijit.form.RadioButton" name="update" value="3"/>调整当前批次、批次下组织机构、批次下用户的有效期</td>
+				</tr>
+			</table>
+		</fieldset>
+	</form>
+</BODY>
+</HTML>

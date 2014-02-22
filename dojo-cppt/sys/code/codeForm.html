@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<TITLE></TITLE>
+<style type="text/css">
+</style>
+</HEAD>
+
+<BODY class="capec">
+	<form id="internal_sys_code_CodeForm" data-dojo-type="dijit.form.Form">
+		<input id="internal_sys_code_CodeForm_codeText" name="code" data-dojo-type="dijit.form.TextBox" type="hidden" />
+		<table>
+			<tr>
+				<td nowrap><label for="internal_sys_code_CodeForm_codekeyText">代码编码：</label></td>
+				<td><input id="internal_sys_code_CodeForm_codekeyText" name="codekey" data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props='required:true,trim:true' invalidMessage="长度为1-10位中文字符"/></td>
+				<td style="width:20px"></td>
+				<td nowrap><label for="internal_sys_code_CodeForm_codenameText">代码名称：</label></td>
+				<td><input id="internal_sys_code_CodeForm_codenameText" name="codename" data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props='required:true,trim:true,regExpGen:function(){return "^[\u4E00-\u9FA5]{1,10}$";}' invalidMessage="长度为1-10位中文字符"/></td>
+			<tr>
+				<td nowrap><label for="internal_sys_code_CodeForm_codealiasText">代码别名：</label></td>
+				<td><input id="internal_sys_code_CodeForm_codealiasText" name="codealias" data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props='trim:true' invalidMessage="长度为1-10位中文字符"/></td>
+				<td style="width:20px"></td>
+				<td nowrap><label for="internal_sys_code_CodeForm_sortText">排序：</label></td>
+				<td><input id="internal_sys_code_CodeForm_sortText" name="sort" data-dojo-type="dijit.form.NumberSpinner" value="1" constraints="{min:1,max:999,places:0}"/></td>
+			</tr>
+			<tr>
+				<td nowrap><label for="internal_sys_code_CodeForm_openidText">公开：</label></td>
+				<td><input id=internal_sys_code_CodeForm_openidText name="openid" data-dojo-type="internal.widgets.comboBox.CodeComboBox" data-dojo-props="vpath:'../../',codeType:'BOOLEAN'" style="width:140px" /></td>
+				<td style="width:20px"></td>
+				<td nowrap><label for="internal_sys_code_CodeForm_userunitText">用户单位：</label></td>
+				<td><input id="internal_sys_code_CodeForm_userunitText" data-dojo-type="dijit.form.ValidationTextBox" maxlength="100" disabled="false"/></td>
+			</tr>
+			<tr>
+				<td nowrap><label for="internal_sys_code_CodeForm_infoText">代码描述：</label></td>
+				<td colspan="4"><textarea id="internal_sys_code_CodeForm_infoText" name="info" data-dojo-type="dijit.form.SimpleTextarea" data-dojo-props="maxLength:100,trim:true" style="width:99%;height:50px"></textarea></td>
+			</tr>
+		</table>
+	</form>
+</BODY>
+</HTML>

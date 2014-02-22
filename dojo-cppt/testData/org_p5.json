@@ -1,0 +1,39 @@
+{
+    "identifier": "id",
+    "label": "orgname",
+    "items": [
+        {
+            "id": "5111",
+            "p_id": "5",
+            "orgname": "研发组A1",
+            "href": "",
+            "sort": "1",
+            "icon": "dijitIconCard",
+            "addtime": "2011/11/17 13:14:56",
+            "ad_s_user_id": "1",
+            "isenable": "1",
+            "invalid": "1",
+            "editime": "",
+            "ed_s_user_id": "",
+            "type": "org",
+            "openmode": ""
+        },
+        {
+            "id": "5222",
+            "p_id": "5",
+            "orgname": "研发组B",
+            "href": "系统生成",
+            "sort": "2",
+            "icon": "dijitIconEmployee",
+            "addtime": "2011/4/12 15:06:23",
+            "ad_s_user_id": "1",
+            "isenable": "1",
+            "invalid": "1",
+            "editime": "",
+            "ed_s_user_id": "",
+            "type": "org",
+            "openmode": ""
+        }
+    ],
+    "processed": "0.0312001"
+}

@@ -1,0 +1,356 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!--By Supcan Report -->
+<Report>
+	<WorkSheet name="Sheet" isDefaultPrint="true">
+		<Properties>
+			<BackGround bgColor="#FFFFFF" arrange="tile" alpha="255"/>
+			<DefaultTD>
+				<TD fontIndex="0" textColor="#000000" transparent="true" leftBorder="1" topBorder="1" leftBorderColor="#C0C0C0" leftBorderStyle="solid" topBorderColor="#C0C0C0" topBorderStyle="solid" decimal="2" align="left" vAlign="middle" isProtected="false" isThousandSeparat="true" isRound="true" isPrint="true"/>
+			</DefaultTD>
+			<Other isShowZero="true" isRefOriPrecision="true" LineDistance="0" isRowHeightAutoExtendAble="true"/>
+		</Properties>
+		<Fonts>
+			<Font faceName="宋体" charSet="134" height="-14" weight="400"/>
+		</Fonts>
+		<Table>
+			<Col width="26"/>
+			<Col width="140"/>
+			<Col width="140"/>
+			<Col width="140"/>
+			<Col width="141"/>
+			<Col width="15"/>
+			<TR height="24" sequence="0">
+				<TD leftBorder="0" topBorder="0" datatype="1" formula="=datarow(&apos;ds2&apos;)" isArea="true"/>
+				<TD align="center" datatype="1">充值员交款汇总表</TD>
+				<TD/>
+				<TD/>
+				<TD/>
+				<TD topBorder="0" datatype="1"/>
+			</TR>
+			<TR height="24" sequence="1">
+				<TD leftBorder="0" topBorder="0"/>
+				<TD/>
+				<TD/>
+				<TD/>
+				<TD/>
+				<TD topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="2">
+				<TD leftBorder="0" topBorder="0"/>
+				<TD align="center">营业部门：</TD>
+				<TD>城市公交总公司</TD>
+				<TD/>
+				<TD/>
+				<TD topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="3">
+				<TD leftBorder="0" topBorder="0"/>
+				<TD align="center">充值人员编号</TD>
+				<TD align="center" formula="=data(&apos;ds2&apos;, datarowNumber(), &apos;employeeNo&apos;)"/>
+				<TD align="center">充值人员姓名</TD>
+				<TD align="center" formula="=data(&apos;ds2&apos;, datarowNumber(), &apos;employeeName&apos;)"/>
+				<TD topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="4">
+				<TD leftBorder="0" topBorder="0"/>
+				<TD align="right">充值科目编号</TD>
+				<TD datatype="6">交易科目</TD>
+				<TD>交易次数</TD>
+				<TD datatype="6">交易金额</TD>
+				<TD topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="5">
+				<TD leftBorder="0" topBorder="0"/>
+				<TD align="right" formula="=data(&apos;ds2&apos;, datarowNumber(), &apos;classNo&apos;)"/>
+				<TD datatype="6"/>
+				<TD/>
+				<TD datatype="6" maskid="1"/>
+				<TD topBorder="0"/>
+			</TR>
+			<TR height="24" sequence="6">
+				<TD leftBorder="0" topBorder="0"/>
+				<TD align="right">实冲小计</TD>
+				<TD datatype="6" formula="=data(&apos;ds2&apos;, datarowNumber(), &apos;virtalSum1&apos;)" maskid="1"/>
+				<TD>虚冲小计</TD>
+				<TD datatype="6" formula="=data(&apos;ds2&apos;, datarowNumber(), &apos;virtalSum&apos;)" maskid="1"/>
+				<TD topBorder="0"/>
+			</TR>
+			<TR height="26" sequence="7">
+				<TD leftBorder="0" topBorder="0"/>
+				<TD align="right">应缴金额</TD>
+				<TD datatype="6" formula="=data(&apos;ds2&apos;, datarowNumber(), &apos;realSum&apos;)" maskid="1"/>
+				<TD/>
+				<TD datatype="6"/>
+				<TD topBorder="0"/>
+			</TR>
+			<TR height="7" sequence="8" isHide="true">
+				<TD leftBorder="0" topBorder="0"/>
+				<TD leftBorder="0" align="right"/>
+				<TD leftBorder="0" formula="=data(&apos;ds2&apos;, datarowNumber(), &apos;tradeClass&apos;)"/>
+				<TD leftBorder="0" datatype="6" formula="=data(&apos;ds2&apos;, datarowNumber(), &apos;tradeNum&apos;)"/>
+				<TD leftBorder="0" datatype="6" formula="=data(&apos;ds2&apos;, datarowNumber(), &apos;tradeMoney&apos;)" maskid="1"/>
+				<TD leftBorder="0" topBorder="0"/>
+			</TR>
+			<TR height="15" sequence="9">
+				<TD leftBorder="0" topBorder="0"/>
+				<TD leftBorder="0" topBorder="0"/>
+				<TD leftBorder="0" topBorder="0"/>
+				<TD leftBorder="0" topBorder="0"/>
+				<TD leftBorder="0" topBorder="0"/>
+				<TD leftBorder="0" topBorder="0"/>
+			</TR>
+			<TR height="15" sequence="10">
+				<TD leftBorder="0" topBorder="0"/>
+				<TD leftBorder="0" topBorder="0"/>
+				<TD leftBorder="0" topBorder="0"/>
+				<TD leftBorder="0" topBorder="0"/>
+				<TD leftBorder="0" topBorder="0"/>
+				<TD leftBorder="0" topBorder="0"/>
+			</TR>
+			<TR height="15" sequence="11">
+				<TD leftBorder="0" topBorder="0"/>
+				<TD leftBorder="0" topBorder="0"/>
+				<TD leftBorder="0" topBorder="0"/>
+				<TD leftBorder="0" topBorder="0"/>
+				<TD leftBorder="0" topBorder="0"/>
+				<TD leftBorder="0" topBorder="0"/>
+			</TR>
+		</Table>
+		<Merges>
+			<Range row1="2" col1="2" row2="2" col2="4"/>
+			<Range row1="0" col1="1" row2="1" col2="4"/>
+			<Range row1="0" col1="0" row2="9" col2="0"/>
+		</Merges>
+		<PrintPage>
+			<Paper>
+				<Margin left="19" top="25" right="19" bottom="25"/>
+			</Paper>
+			<Page>
+				<PageCode>
+					<Font faceName="宋体" charSet="134" height="-14" weight="400"/>
+				</PageCode>
+			</Page>
+		</PrintPage>
+		<Summaries>
+			<Summary datasourceID="ds2" datasourceXMLNode="" isEnabled="true" isSumAtBottomRight="true" sort="0" isUniteRows="false" isPrintGridLine="false">
+				<Groups>
+					<Group id="virtalSum1" text="" align="0" isMergeBorder="true" bgColor="#FFFFFF">
+						<Font faceName="微软雅黑" charSet="134" height="-12" weight="400"/>
+						<SubTotals>
+						</SubTotals>
+					</Group>
+					<Group id="employeeNo" text="" align="0" isMergeBorder="true" bgColor="#FFFFFF">
+						<Font faceName="宋体" charSet="134" height="-12" weight="400"/>
+						<SubTotals>
+						</SubTotals>
+					</Group>
+					<Group id="employeeName" text="" align="0" isMergeBorder="true" bgColor="#FFFFFF">
+						<Font faceName="宋体" charSet="134" height="-12" weight="400"/>
+						<SubTotals>
+						</SubTotals>
+					</Group>
+					<Group id="realSum" text="" align="0" isMergeBorder="true" bgColor="#FFFFFF">
+						<Font faceName="宋体" charSet="134" height="-12" weight="400"/>
+						<SubTotals>
+						</SubTotals>
+					</Group>
+					<Group id="virtalSum" text="" align="0" isMergeBorder="true" bgColor="#FFFFFF">
+						<Font faceName="宋体" charSet="134" height="-12" weight="400"/>
+						<SubTotals>
+						</SubTotals>
+					</Group>
+				</Groups>
+			</Summary>
+		</Summaries>
+	</WorkSheet>
+	<DataSources Version="255" isAutoCalculateWhenOpen="false" isSaveCalculateResult="true">
+		<DataSource type="5"><!-- Desc: Supcan Report Component DataSource Specification -->
+<Data>
+	<ID>ds1</ID>
+	<Version>2</Version>
+	<Type>5</Type>
+	<TypeMeaning>中心数据源</TypeMeaning>
+	<Source>reportdata/datacenter.xml</Source>
+	<Memo>工资表</Memo>
+	<dataID>8001</dataID>
+	<Columns>
+		<Column>
+			<name>id</name>
+			<text>工号</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>3</sequence>
+		</Column>
+		<Column>
+			<name>name</name>
+			<text>姓名</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>4</sequence>
+		</Column>
+		<Column>
+			<name>wy</name>
+			<text>工龄</text>
+			<type>int</type>
+			<visible>true</visible>
+			<sequence>2</sequence>
+		</Column>
+		<Column>
+			<name>dept</name>
+			<text>部门</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>1</sequence>
+		</Column>
+		<Column>
+			<name>item1</name>
+			<text>基本工资</text>
+			<type>decimal</type>
+			<visible>true</visible>
+			<sequence>5</sequence>
+		</Column>
+		<Column>
+			<name>item2</name>
+			<text>工龄补贴</text>
+			<type>decimal</type>
+			<visible>true</visible>
+			<sequence>6</sequence>
+		</Column>
+		<Column>
+			<name>item3</name>
+			<text>餐费</text>
+			<type>decimal</type>
+			<visible>true</visible>
+			<sequence>7</sequence>
+		</Column>
+		<Column>
+			<name>item4</name>
+			<text>通信费</text>
+			<type>decimal</type>
+			<visible>true</visible>
+			<sequence>8</sequence>
+		</Column>
+		<Column>
+			<name>item5</name>
+			<text>独生子女费</text>
+			<type>decimal</type>
+			<visible>true</visible>
+			<sequence>9</sequence>
+		</Column>
+		<Column>
+			<name>item6</name>
+			<text>加班费</text>
+			<type>decimal</type>
+			<visible>true</visible>
+			<sequence>10</sequence>
+		</Column>
+		<Column>
+			<name>de1</name>
+			<text>还借款</text>
+			<type>decimal</type>
+			<visible>true</visible>
+			<sequence>11</sequence>
+		</Column>
+		<Column>
+			<name>de2</name>
+			<text>个税</text>
+			<type>decimal</type>
+			<visible>true</visible>
+			<sequence>12</sequence>
+		</Column>
+	</Columns>
+</Data>
+
+		</DataSource>
+		<DataSource type="4"><!-- Desc: Supcan Report Component DataSource Specification -->
+<Data>
+	<ID>ds2</ID>
+	<Version>2</Version>
+	<Type>4</Type>
+	<TypeMeaning>JSON</TypeMeaning>
+	<Source>test.json.txt</Source>
+	<XML_RecordAble_Nodes>
+		<Node>
+			<name>jsonobject</name>
+		</Node>
+	</XML_RecordAble_Nodes>
+	<Columns>
+		<Column>
+			<name>jsonobject\deptName</name>
+			<text>deptName</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>1</sequence>
+		</Column>
+		<Column>
+			<name>jsonobject\employeeNo</name>
+			<text>充值员工号</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>3</sequence>
+		</Column>
+		<Column>
+			<name>jsonobject\employeeName</name>
+			<text>充值员工姓名</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>4</sequence>
+		</Column>
+		<Column>
+			<name>jsonobject\classNO</name>
+			<text>充值科目编号</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>7</sequence>
+		</Column>
+		<Column>
+			<name>jsonobject\tradeClass</name>
+			<text>交易科目</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>8</sequence>
+		</Column>
+		<Column>
+			<name>jsonobject\tradeNum</name>
+			<text>交易次数</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>9</sequence>
+		</Column>
+		<Column>
+			<name>jsonobject\tradeMoney</name>
+			<text>交易金额</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>10</sequence>
+		</Column>
+		<Column>
+			<name>jsonobject\realSum</name>
+			<text>实冲金额</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>5</sequence>
+		</Column>
+		<Column>
+			<name>jsonobject\virtalSum</name>
+			<text>虚冲金额</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>6</sequence>
+		</Column>
+		<Column>
+			<name>jsonobject\virtalSum1</name>
+			<text>virtalSum1</text>
+			<type>string</type>
+			<visible>true</visible>
+			<sequence>2</sequence>
+		</Column>
+	</Columns>
+</Data>
+
+		</DataSource>
+	</DataSources>
+	<Masks>
+		<mask id="1" datatype="6">&apos;￥&apos; + data</mask>
+	</Masks>
+</Report>

@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<TITLE></TITLE>
+<style type="text/css">
+</style>
+</HEAD>
+
+<BODY class="capec">
+	<form id="internal_sys_batch_BatchForm" data-dojo-type="dijit.form.Form">
+		<input id="internal_sys_batch_BatchForm_idText" name="id" data-dojo-type="dijit.form.TextBox" type="hidden" />
+		<table>
+			<tr>
+				<td nowrap><label for="internal_sys_batch_BatchForm_batchnameText">批次名称：</label></td>
+				<td><input id="internal_sys_batch_BatchForm_batchnameText" name="batchname" data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props='required:true,trim:true' /></td>
+			</tr>
+			<tr>
+				<td nowrap><label for="internal_sys_batch_BatchForm_infoText">批次描述：</label></td>
+				<td><input id="internal_sys_batch_BatchForm_infoText" name="info" data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props='trim:true' /></td>
+			</tr>
+			<tr>
+				<td nowrap><label for="internal_sys_batch_BatchForm_statusidText">批次状态：</label></td>
+				<td><input id=internal_sys_batch_BatchForm_statusidText name="statusid" data-dojo-type="internal.widgets.comboBox.CodeComboBox" data-dojo-props="vpath:'../../',codeType:'BATCH_STATUS'" style="width:140px" /></td>
+			</tr>
+			<tr>
+				<td nowrap><label for="internal_sys_batch_BatchForm_begindateText">开始日期：</label></td>
+				<td><input id="internal_sys_batch_BatchForm_begindateText" name="begindate" data-dojo-type="dijit.form.DateTextBox"  data-dojo-props='required:true,trim:true' /></td>
+			</tr>
+			<tr>
+				<td nowrap><label for="internal_sys_batch_BatchForm_enddateText">失效日期：</label></td>
+				<td><input id=internal_sys_batch_BatchForm_enddateText name="enddate" data-dojo-type="dijit.form.DateTextBox"  data-dojo-props='required:true,trim:true' /></td>
+			</tr>
+		</table>
+	</form>
+</BODY>
+</HTML>

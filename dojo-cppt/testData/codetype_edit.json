@@ -1,0 +1,8 @@
+{
+    "status": "success",
+    "responseInfo":{
+	    "id": "TEST",
+	    "codetypedesc": "测试一下",
+	    "isenable_text": "禁用"
+	}
+}

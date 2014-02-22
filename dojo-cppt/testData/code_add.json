@@ -1,0 +1,21 @@
+{
+    "status": "success",
+    "responseInfo": {
+        "id": "3,EDULEVEL",
+        "tab_p_codetype_id": "EDULEVEL",
+        "code": "3",
+        "p_code": "0",
+        "codename": "研究生",
+        "codedesc": "研究生",
+        "sort": "3",
+        "addtime": "2013/3/29 13:18:44",
+        "ad_s_user_id": "1",
+        "editime": "",
+        "ed_s_user_id": "",
+        "isenable": "1",
+        "invalid": "1",
+        "isenable_text": "禁用",
+        "ad_s_user_name": "admin",
+        "type": "code"
+	}
+}

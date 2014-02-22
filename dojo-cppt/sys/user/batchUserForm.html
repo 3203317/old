@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<TITLE></TITLE>
+<style type="text/css">
+</style>
+</HEAD>
+
+<BODY class="soria">
+	<div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='liveSplitters:false,design:"sidebar",_splitterClass:"dojox.layout.ToggleSplitter"' style="height:344px">
+		<div dojoType="dijit.layout.ContentPane" region="center" splitter="true" style="margin-top:0;padding:0;width:23%">
+			<table id="internal_sys_user_BatchUserForm_batchGrid" dojoType="dojox.grid.EnhancedGrid" style="width:100%;height:100px;" rowSelector="20px">
+				<thead>
+					<tr>
+						<th field="code" width="auto">编号</th>
+						<th field="name" width="auto">姓名</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="right" splitter="true" style="margin:0;padding:0;width:77%">
+			<form id="internal_sys_user_BatchUserForm" data-dojo-type="dijit.form.Form" style="margin:0;">
+				<div style="height:332px;overflow:auto">
+					<fieldset style="border:1px solid #CCC;margin:5px 5px 0px 5px">
+						<legend><b>基本信息</b></legend>
+						<table align="center">
+							<tr>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_account_idText">用户帐号：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_account_idText" name="account_id" disabled="true" data-dojo-type="dijit.form.ValidationTextBox" /></td>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_cust_codeText">用户编号：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_cust_codeText" name="cust_code" data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props='required:true,trim:true,regExpGen:function(){return "^[A-Z_]{2,20}$";}' invalidMessage="长度为2-20位大写英文字母" /></td>
+								<td align="center" rowspan="6" style="width:100px">
+									<img src="../../inc/images/head.png" style="height:117px;width:90px" title="单击选择图片进行上传"/>
+								</td>
+							</tr>
+							<tr>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_login_aliasText">登陆别名：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_login_aliasText" name="login_alias" data-dojo-type="dijit.form.ValidationTextBox" /></td>
+								<td nowrap><label>单位名称：</label></td>
+								<td><input data-dojo-type="dijit.form.ValidationTextBox" disabled="true" /></td>
+							</tr>
+							<tr>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_nameText">姓名：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_nameText" name="name" data-dojo-type="dijit.form.ValidationTextBox" /></td>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_sexText">性别：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_sexText" name="sex" data-dojo-type="internal.widgets.comboBox.CodeComboBox" data-dojo-props="vpath:'../../',codeType:'SEX'" style="width:140px" /></td>
+							</tr>
+							<tr>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_user_type_codeText">用户类型：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_user_type_codeText" name="user_type_code" data-dojo-type="internal.widgets.comboBox.CodeComboBox" data-dojo-props="vpath:'../../',codeType:'USERTYPE'" style="width:140px" /></td>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_status_codeText">用户状态：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_status_codeText" name="status_code" data-dojo-type="internal.widgets.comboBox.CodeComboBox" data-dojo-props="vpath:'../../',codeType:'USERSTATUS'" style="width:140px" /></td>
+							</tr>
+							<tr>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_open_dateText">开通日期：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_open_dateText" name="open_date" data-dojo-type="dijit.form.DateTextBox" data-dojo-type='type:"text",
+										constraints:{min:"2004-01-01",max:"2006-12-31",formatLength:"long"},
+										required:true,
+										trim:true,
+										openOnClick:false,
+										invalidMessage:"Invalid date."'/></td>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_no_use_dateText">失效日期：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_no_use_dateText" name="no_use_date" data-dojo-type="dijit.form.DateTextBox" /></td>
+							</tr>
+							<tr>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_activation_type_codeText">激活类型：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_activation_type_codeText" name="activation_type_code" data-dojo-type="internal.widgets.comboBox.CodeComboBox" data-dojo-props="vpath:'../../',codeType:'USERACT'" style="width:140px" /></td>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_activation_dateText">激活日期：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_activation_dateText" name="activation_date" data-dojo-type="dijit.form.DateTextBox" /></td>
+							</tr>
+							<tr>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_uuidText">UUID：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_uuidText" name="uuid" data-dojo-type="dijit.form.ValidationTextBox" disabled="true" /></td>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_cust_skinText">系统皮肤：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_cust_skinText" name="cust_skin" data-dojo-type="internal.widgets.comboBox.CodeComboBox" data-dojo-props="vpath:'../../',codeType:'SYSTHEME'" style="width:140px" /></td>
+							</tr>
+							<tr>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_create_dateText">创建日期：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_create_dateText" name="create_date" data-dojo-type="dijit.form.DateTextBox" disabled="true"/></td>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_create_user_account_idText">操作员：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_create_user_account_idText" name="create_user_account_id" data-dojo-type="dijit.form.ValidationTextBox" disabled="true" /></td>
+							</tr>
+							<tr>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_dept_codeText">所属部门：</label></td>
+								<td colspan="2"><input id="internal_sys_user_BatchUserForm_dept_codeText" name="dept_code" data-dojo-type="dijit.form.ValidationTextBox" style="width:250px" /></td>
+								<td><input type="button" data-dojo-type="dijit.form.Button" label="调整部门" /></td>
+							</tr>
+						</table>
+					</fieldset>
+					<br/>
+					<fieldset style="border:1px solid #CCC;margin:5px 5px 0px 5px">
+						<legend><b>扩展信息</b></legend>
+						<table align="center">
+							<tr>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_country_codeText">国家：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_country_codeText" name="country_code" data-dojo-type="internal.widgets.comboBox.CodeComboBox" data-dojo-props="vpath:'../../',codeType:'COUNTRY'" style="width:140px" /></td>
+								<td style="width:20px"></td>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_nation_codeText">民族：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_nation_codeText" name="nation_code" data-dojo-type="internal.widgets.comboBox.CodeComboBox" data-dojo-props="vpath:'../../',codeType:'NATION'" style="width:140px" /></td>
+							</tr>
+							<tr>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_political_type_codeText">政治类型：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_political_type_codeText" name="political_type_code" data-dojo-type="internal.widgets.comboBox.CodeComboBox" data-dojo-props="vpath:'../../',codeType:'POLITICAL'" style="width:140px" /></td>
+								<td style="width:20px"></td>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_identity_codeText">身份类型：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_identity_codeText" name="identity_code" data-dojo-type="internal.widgets.comboBox.CodeComboBox" data-dojo-props="vpath:'../../',codeType:'IDENTITY'" style="width:140px" /></td>
+							</tr>
+							<tr>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_certificate_type_codeText">证件类型：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_certificate_type_codeText" name="certificate_type_code" data-dojo-type="internal.widgets.comboBox.CodeComboBox" data-dojo-props="vpath:'../../',codeType:'CERTIFICATE'" style="width:140px" /></td>
+								<td style="width:20px"></td>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_certificate_noText">证件编号：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_certificate_noText" name="certificate_no" data-dojo-type="dijit.form.ValidationTextBox" /></td>
+							</tr>
+							<tr>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_jpdmText">姓名简拼：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_jpdmText" name="jpdm" data-dojo-type="dijit.form.ValidationTextBox" /></td>
+								<td style="width:20px"></td>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_idnumberText">身份证号：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_idnumberText" name="idnumber" data-dojo-type="dijit.form.ValidationTextBox" /></td>
+							</tr>
+							<tr>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_emailText">邮件地址：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_emailText" name="email" data-dojo-type="dijit.form.ValidationTextBox" /></td>
+								<td style="width:20px"></td>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_addressText">家庭住址：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_addressText" name="address" data-dojo-type="dijit.form.ValidationTextBox" /></td>
+							</tr>
+							<tr>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_hometown_codeText">户籍地址：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_hometown_codeText" name="hometown_code" data-dojo-type="dijit.form.ValidationTextBox" /></td>
+								<td style="width:20px"></td>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_bar_codeText">条码编号：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_bar_codeText" name="bar_code" data-dojo-type="dijit.form.ValidationTextBox" /></td>
+							</tr>
+							<tr>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_first_telephoneText">首选手机：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_first_telephoneText" name="first_telephone" data-dojo-type="dijit.form.ValidationTextBox" /></td>
+								<td style="width:20px"></td>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_second_telephoneText">备选手机：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_second_telephoneText" name="second_telephone" data-dojo-type="dijit.form.ValidationTextBox" /></td>
+							</tr>
+							<tr>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_birthdayText">出生日期：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_birthdayText" name="birthday" data-dojo-type="dijit.form.DateTextBox" /></td>
+								<td style="width:20px"></td>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_regstart_dateText">注册日期：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_regstart_dateText" name="regstart_date" data-dojo-type="dijit.form.DateTextBox" /></td>
+							</tr>
+							<tr>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_permission_sdateText">许可开始：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_permission_sdateText" name="permission_sdate" data-dojo-type="dijit.form.DateTextBox" /></td>
+								<td style="width:20px"></td>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_permission_edateText">许可结束：</label></td>
+								<td><input id="internal_sys_user_BatchUserForm_permission_edateText" name="permission_edate" data-dojo-type="dijit.form.DateTextBox" /></td>
+							</tr>
+							<tr>
+								<td nowrap><label for="internal_sys_user_BatchUserForm_remarksText">备注：</label></td>
+								<td colspan="4"><textarea id="internal_sys_user_BatchUserForm_remarksText" name="remarks" data-dojo-type="dijit.form.SimpleTextarea" data-dojo-props="maxLength:100,trim:true" style="width:99%;height:50px"></textarea></td>
+							</tr>
+						</table>
+					</fieldset>
+					<br/>
+					<fieldset style="border:1px solid #CCC;margin:5px 5px 5px 5px">
+						<legend><b>自定义信息</b></legend>
+						<div id="internal_sys_user_BatchUserForm_cusGrid" dojoType="internal.widgets.grid.UserCusInfoGrid" style="width:100%;height:100px;" data-dojo-props="vpath:'../../'"></div>
+					</fieldset>
+				</div>
+			</form>
+		</div>
+	</div>
+</BODY>
+</HTML>

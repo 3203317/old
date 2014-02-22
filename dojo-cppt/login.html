@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>登陆</title>
+<link rel="stylesheet" type="text/css" href="http://localhost:8082/cdn/js/dojo/1.7.2/dojo/resources/dojo.css" />
+<link rel="stylesheet" type="text/css" href="login/login.css" />
+<script type="text/javascript" src="http://localhost:8082/cdn/js/AC_RunActiveContent/1.7/AC_RunActiveContent.js"></script>
+
+<script type="text/javascript">
+	var djConfig = {
+		locale : location.search.match(/locale=([\w\-]+)/) ? RegExp.$1 : "zh",
+		async : true,
+		bindEncoding : "UTF-8",
+		modulePaths : {
+			"internal" : "/rfs"
+		},
+		packages : [ {
+			name : "capec",
+			location : "http://localhost:8082/cdn/js/dojo/1.7.2-ext/dojox"
+		} ]
+	};
+</script>
+
+<script type="text/javascript" src="http://localhost:8082/cdn/js/dojo/1.7.2/dojo/dojo.js" data-dojo-config="isDebug:false,parseOnLoad:true"></script>
+
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+	require([ "dojo/ready", "capec/login/LoginForm" ], function($ready,
+			$LoginForm) {
+
+		$ready(function(){
+			new $LoginForm({
+				verifyUrl: "https://ha.ac.10086.cn/checkImage?1362911194603&authTimes=0",
+				//verifyUrl: "login/images/yzm.png?1=1",
+				loginUrl: "testData/login.json",
+				nextUrl: "main2.html"
+			}, "loginForm2");
+		});
+	});
+//-->
+</SCRIPT>
+</head>
+<body>
+<div class="login_wrap">
+			<div class="flash-mc">
+		<script type="text/javascript">
+AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0','width','576','height','227','src','login/images/cirlce','quality','high','pluginspage','http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash','wmode','transparent','movie','login/images/cirlce' ); //end AC code
+</script><noscript><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0" width="576" height="227">
+			<param name="movie" value="login/images/cirlce.swf" />
+			<param name="quality" value="high" />
+			<param name="wmode" value="transparent"/>
+			<embed src="login/images/cirlce.swf" width="576" height="227" quality="high" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" wmode="transparent"></embed>
+		</object>
+	</noscript></div>
+		<div id="loginForm">
+			<div id="loginForm2"></div>
+		</div>
+		</div>
+	</body>
+</html>

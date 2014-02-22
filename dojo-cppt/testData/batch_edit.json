@@ -1,0 +1,17 @@
+{
+    "status": "success",
+    "responseInfo": {
+            "id": "3",
+            "name": "测试一下",
+            "user_unit_code": "新开普",
+            "info": "永久批次",
+            "status": "正常",
+            "begin_date": "2012/11/22 22:18:44",
+            "end_date": "2012/11/22 22:18:44",
+            "uuid": "SDJFLJ1291JLDSJF",
+            "addtime": "2012/11/22 22:18:44",
+            "ad_s_user_name": "黄鑫",
+            "isenable_text": "启用",
+            "type": "batch"
+	}
+}

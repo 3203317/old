@@ -1,0 +1,13 @@
+{
+    "identifier": "id",
+    "label": "domainname",
+    "responseInfo":
+        {
+            "id": "111",
+            "domainname": "呵呵",
+            "p_id": "0",
+            "type": "domain"
+        }
+    ,
+    "processed": "0.0312001"
+}

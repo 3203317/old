@@ -1,0 +1,34 @@
+
+{
+	 "status": "success",
+	 "responseInfo": 
+	 {
+        "id": "88",
+        "p_id": "0",
+         "username": "张三",
+            "sex": "男",
+            "href": "",
+            "sort": "1",
+            "icon": "dijitIconCard",
+            "addtime": "2011/11/17 13:14:56",
+            "ad_s_user_id": "1",
+            "ad_s_user_name": "admin",
+            "isenable": "1",
+            "invalid": "1",
+            "editime": "",
+            "ed_s_user_id": "",
+            "type": "module",
+            isenable_text: "启用",
+            "openmode":"",
+	    "org_name":"增加的部门",
+	    "org_nickname":"软件开发技术部",
+	    "org_simplename":"软研部",
+	    "org_code":"007",
+	    "org_address":"六楼",
+	    "org_level":"1",
+	    "org_starttime":"2012-01-01",
+	    "org_enabletime":"2020-01-01",
+	    "org_stoptime":"2020-01-01",
+	    "org_status":"正常"
+     }
+}

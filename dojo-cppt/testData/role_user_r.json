@@ -1,0 +1,17 @@
+{
+    "identifier": "userid",
+    "label": "userid",
+    "items": [
+        {
+            "userid": "82",
+		    "username":"用户A",
+		    "orgname":"组织机构1"
+        },
+        {
+            "userid": "821",
+		    "username":"用户B",
+		    "orgname":"组织机构2"
+        }
+    ],
+    "processed": "0.0312001"
+}

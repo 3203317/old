@@ -1,0 +1,56 @@
+{
+    "identifier": "id",
+    "label": "",
+    "items": [
+        {
+            "id": "82",
+            "field": "hobby",
+            "fieldname": "爱好",
+            "fieldvalue": "星际争霸，CS，KOF",
+            "fieldtype": "string",
+        },
+        {
+            "id": "821",
+            "field": "special_skill",
+            "fieldname": "特长",
+            "fieldvalue": "无",
+            "fieldtype": "string",
+        },
+        {
+            "id": "8212",
+            "field": "special_skill",
+            "fieldname": "特长",
+            "fieldvalue": "无",
+            "fieldtype": "string",
+        },
+        {
+            "id": "8213",
+            "field": "special_skill",
+            "fieldname": "特长",
+            "fieldvalue": "无",
+            "fieldtype": "string",
+        },
+        {
+            "id": "8214",
+            "field": "special_skill",
+            "fieldname": "特长",
+            "fieldvalue": "无",
+            "fieldtype": "string",
+        },
+        {
+            "id": "8215",
+            "field": "special_skill",
+            "fieldname": "特长",
+            "fieldvalue": "无",
+            "fieldtype": "string",
+        },
+        {
+            "id": "8216",
+            "field": "special_skill",
+            "fieldname": "特长",
+            "fieldvalue": "无",
+            "fieldtype": "string",
+        }
+    ],
+    "processed": "0.0312001"
+}
