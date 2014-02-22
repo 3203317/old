@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<componentPackage>   
+	<component id="FWApplication" class="net.foreworld.flex.framework.FWApplication"/>
+	<component id="FWCheckBox" class="net.foreworld.flex.components.FWCheckBox"/>
+	<component id="FWVideoDisplay" class="net.foreworld.flex.components.FWVideoDisplay"/>
+	<component id="FWMP3Player" class="net.foreworld.flex.components.FWMP3Player"/>
+	<component id="FWBasePlugin" class="net.foreworld.flex.plugin.FWBasePlugin"/>
+	<component id="FWBaseNavigator" class="net.foreworld.flex.navigator.FWBaseNavigator"/>
+	<component id="FWBaseContainer" class="net.foreworld.flex.container.FWBaseContainer"/>
+</componentPackage>

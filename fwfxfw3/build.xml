@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="Ant Builder SWC" default="runie" basedir=".">
+	<property file="build.properties" />
+	<!--定义属性-->
+	<property name="flex.sdk.home" value="${flex.sdk.home2}" />
+	<property name="swf.dir" value="${swf.dir2}" />
+	<property name="swf.libs.dir" value="${swf.libs.dir2}" />
+	<property name="swf.bin-debug.dir" value="${swf.bin-debug.dir2}" />
+
+	<taskdef resource="flexTasks.tasks" classpath="${flex.sdk.home}/ant/lib/flexTasks.jar" />
+	<!--ant增强功能 可以使用if else for等功能-->
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<pathelement location="${basedir}/libs/ant-contrib-1.0b3.jar" />
+		</classpath>
+	</taskdef>
+
+	<tstamp prefix="date">
+		<format property="long" pattern="yyyy-MM-dd HH:mm:ss.SSS" />
+		<format property="ts" pattern="yyyyMMddHHmmss" />
+	</tstamp>
+
+	<target name="exist">
+		<echo message="判断存在文件" />
+		<!--判断compc.exe是否存在-->
+		<condition property="compc.exist">
+			<and>
+				<available file="compc.exe" filepath="${flex.sdk.home}/bin" />
+			</and>
+		</condition>
+	</target>
+
+	<!--compc.exe存在-->
+	<target name="compc.exist.true" if="compc.exist" depends="exist">
+		<echo message="我在家" />
+	</target>
+
+	<!--compc.exe不存在-->
+	<target name="compc.exist.false" unless="compc.exist" depends="exist">
+		<echo message="我在单位" />
+	</target>
+
+	<path id="swc.src.files">
+		<fileset dir="./src">
+			<!--include name="**/*.as"/-->
+			<exclude name="**/configManager/*" />
+		</fileset>
+	</path>
+
+	<pathconvert property="swc.src.swcFiles" pathsep=" " dirsep="." refid="swc.src.files">
+		<map from="\" to="/" />
+		<map from="${basedir}/src/" to="" />
+		<mapper>
+			<chainedmapper>
+				<globmapper from="*.as" to="*" />
+			</chainedmapper>
+		</mapper>
+	</pathconvert>
+
+	<!--执行清理-->
+	<target name="clean">
+		<echo message="${date.long}" />
+		<echo message="清理swc" />
+		<!--delete file="${swc.bin.dir}/${swc.name}.swc" /-->
+		<delete>
+			<fileset dir="${swc.bin.dir}" includes="*.*" defaultexcludes="false" />
+			<fileset dir="${swf.bin-debug.dir}" includes="*.*" defaultexcludes="false" />
+		</delete>
+		<!--清理swf的libs下的swc-->
+		<delete file="${swf.libs.dir}/${swc.name}.swc" />
+	</target>
+
+	<!--初始化任务-->
+	<target name="init" depends="clean">
+		<echo message="初始化" />
+		<antcall target="compc.exist.true" />
+		<antcall target="compc.exist.false" />
+
+		<!--mkdir dir="${swc.export.dir}" /-->
+	</target>
+
+	<!--打包swc-->
+	<target name="swc" depends="init">
+		<echo message="打包swc" />
+		<echo message="${basedir}" />
+		<echo message="${swc.src.swcFiles}" />
+		<echo message="${flex.sdk.home}" />
+
+		<java jar="${flex.sdk.home}/lib/compc.jar" dir="." fork="true" failonerror="true">
+			<jvmarg value="-Xmx512m" />
+			<arg value="-load-config=${flex.sdk.home}/frameworks/flex-config.xml" />
+			<arg value="-compiler.fonts.local-fonts-snapshot=${flex.sdk.home}/frameworks/localFonts.ser" />
+			<arg value="-headless-server=true" />
+			<arg value="-include-file=design.xml,src/design.xml" />
+			<arg value="-source-path=src" />
+			<arg value="-compiler.namespaces.namespace=http://www.foreworld.net/flex/framework,src/manifest.xml" />
+			<arg value="-include-namespaces=http://www.foreworld.net/flex/framework" />
+			<arg value="-compiler.external-library-path+=${flex.sdk.home}/frameworks/libs/framework.swc" />
+			<arg value="-compiler.external-library-path+=${basedir}/libs/as3corelib.swc" />
+			<arg value="-compiler.external-library-path+=${basedir}/libs/as3crypto.swc" />
+			<arg value="-o=${swc.bin.dir}/${swc.name}.swc" />
+			<arg line="-include-classes ${swc.src.swcFiles}" />
+		</java>
+	</target>
+
+	<!--copy swc文件到swf的libs目录下-->
+	<target name="copy" depends="swc">
+		<copy file="${swc.bin.dir}/${swc.name}.swc" todir="${swf.libs.dir}" />
+	</target>
+
+	<!--打包swf-->
+	<target name="swf" depends="copy">
+		<echo message="打包swf" />
+
+		<!--java jar="${flex.sdk.home}/lib/mxmlc.jar" dir="." fork="true" failonerror="true">
+			<jvmarg value="-Xmx512m" />
+			<arg value="-debug=true" />
+			<arg value="-load-config=${flex.sdk.home}/frameworks/flex-config.xml" />
+			<arg value="+flexlib=${flex.sdk.home}/frameworks" />
+			<arg value="-file-specs='${swf.dir}/src/${swf.name}.mxml'" />
+			<arg value="-output='${swf.bin-debug.dir}/${swf.name}.swf'" />
+		</java-->
+	</target>
+
+	<!--运行于IE-->
+	<target name="runie" depends="swf">
+		<echo message="运行ie" />
+	</target>
+
+	<!--运行于火狐-->
+	<target name="runff" depends="swf">
+		<echo message="运行ff" />
+	</target>
+
+	<target name="log">
+		<record name="${swc.bin.dir}/${log.name}.log" action="start" append="true" />
+		<echo message="${date.long}" />
+	</target>
+
+</project>

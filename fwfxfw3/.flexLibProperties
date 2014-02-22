@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flexLibProperties version="1">
+<includeClasses>
+<classEntry path="net.foreworld.flex.components.FWPlayer.FWScheduling"/>
+<classEntry path="net.foreworld.flex.utils.FWDateUtil"/>
+<classEntry path="net.foreworld.flex.framework.FWApplication"/>
+<classEntry path="net.foreworld.flex.event.FWEventBus"/>
+<classEntry path="net.foreworld.flex.utils.FWRandomNumberUtil"/>
+<classEntry path="net.foreworld.flex.components.FWMP3Player"/>
+<classEntry path="net.foreworld.flex.components.FWPlayer"/>
+<classEntry path="net.foreworld.flex.utils.FWStaticConst"/>
+<classEntry path="net.foreworld.flex.widget.FWBaseWidget"/>
+<classEntry path="net.foreworld.flex.action.FWBaseAction"/>
+<classEntry path="net.foreworld.flex.utils.FWEncryptUtil"/>
+<classEntry path="net.foreworld.flex.utils.SWFProfiler"/>
+<classEntry path="com.warmforestflash.drawing.DottedLine"/>
+<classEntry path="net.foreworld.flex.utils.FWHashMap"/>
+<classEntry path="net.foreworld.flex.framework.FWLoader"/>
+<classEntry path="net.foreworld.flex.utils.FWUtil"/>
+<classEntry path="net.foreworld.flex.components.FWPlayer.FWPlayerMode"/>
+<classEntry path="net.foreworld.flex.components.FWPreloader"/>
+<classEntry path="net.foreworld.flex.framework.events.FWLoaderEvent"/>
+<classEntry path="net.foreworld.flex.event.FWEvent"/>
+<classEntry path="net.foreworld.flex.utils.QueryString"/>
+<classEntry path="net.foreworld.flex.utils.FWStringUtil"/>
+<classEntry path="net.foreworld.flex.utils.TweenLite"/>
+<classEntry path="net.foreworld.flex.container.FWBaseContainer"/>
+<classEntry path="net.foreworld.flex.navigator.FWBaseNavigator"/>
+<classEntry path="net.foreworld.flex.plugin.FWBasePlugin"/>
+<classEntry path="net.foreworld.flex.components.FWCheckBox"/>
+<classEntry path="net.foreworld.flex.components.FWMP3Player.FWMP3PlayerStatus"/>
+<classEntry path="net.foreworld.flex.components.FWVideoDisplay"/>
+<classEntry path="net.foreworld.flex.components.FWPlayer.FWPlayerStatus"/>
+</includeClasses>
+<includeResources>
+<resourceEntry destPath="manifest.xml" sourcePath="manifest.xml"/>
+<resourceEntry destPath="design.xml" sourcePath="design.xml"/>
+</includeResources>
+<namespaceManifests>
+<namespaceManifestEntry manifest="manifest.xml" namespace="http://www.foreworld.net/flex/framework"/>
+</namespaceManifests>
+</flexLibProperties>

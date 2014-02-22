@@ -1,0 +1,68 @@
+-Application
+--Canvas
+---VBox
+----Button
+----TextInput
+---HBox
+----Label
+----Image
+
+-Application preinitialize; 
+--Canvas preinitialize; 
+---VBox preinitialize; 
+----Button preinitialize; 
+----Button initialize; 
+----TextInput preinitialize; 
+----TextInput initialize; 
+---VBox initialize; 
+---HBox preinitialize; 
+----Label preinitialize; 
+----Label initialize; 
+----Image preinitialize; 
+----Image initialize; 
+---HBox initialize; 
+--Canvas initialize; 
+-Application initialize; 
+----Button creationComplete; 
+----TextInput creationComplete; 
+----Label creationComplete; 
+----Image creationComplete; 
+---VBox creationComplete; 
+---HBox creationComplete; 
+--Canvas creationComplete; 
+-Application creationComplete;
+-Application applicationComplete;
+
+
+2010-12-30
+1. actionManager initManager时还有问题 可能出现关于我的Alert动作不弹出 问题可能出在此处
+2. 研究下监听器 取消的参数 原理。需要在插件加载后，监听到cfgLoaded事件后 取消往下级传递消息的功能。
+
+2011-1-11
+1.还是应用程序初始化的问题 重新思考加载步骤
+	如何保证加载顺利进行，以及配置正确？
+	
+	1.配置文件的加载放到complete中去
+	
+	2.加载配置文件成功后，添加样式管理器，容器管理器，插件管理器，右键菜单管理器，导航器管理器，action管理器初始化
+	
+	3.以上几类初始成功后，添加init管理器，以执行action和默认板块的加载
+	
+	4.module的加载有可能会在以上管理器初始化加载完成之前加载完成，所以其通知app的"我已经加载进去"这样的消息，app会得不到
+	  所以需要在其内部执行监听app的初始化是否完成的动作。
+	  
+	  
+	  
+
+2011-01-15 
+在sf.org上安家了	
+
+2011-01-31
+方向转了 继续研究rcp
+
+2011-02-06 
+没电影看了，好无聊啊
+
+2011-02-23
+真的是停不下来了，快散伙了
+还是做rcp有用，目标在一步步靠近

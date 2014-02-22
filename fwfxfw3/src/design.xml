@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<design>   
+	<namespaces>
+		<namespace prefix="fwfxfw" uri="http://www.foreworld.net/flex/framework"/>
+	</namespaces>
+	<categories>
+		<category id="FWComponents" label="FWComponents" defaultExpand="true"/>
+	</categories>
+	<components>
+		<component name="FWCheckBox" namespace="fwfxfw" category="FWComponents" displayName="FWCheckBox"/>
+		<component name="FWVideoDisplay" namespace="fwfxfw" category="FWComponents" displayName="FWVideoDisplay"/>
+		<component name="FWMP3Player" namespace="fwfxfw" category="FWComponents" displayName="FWMP3Player"/>
+	</components>
+</design>
