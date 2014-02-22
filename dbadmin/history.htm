@@ -1,0 +1,182 @@
+<HTML>
+	<HEAD>
+		<TITLE></TITLE>
+		<META NAME="GENERATOR" Content="Microsoft Visual Studio 6.0">
+	</HEAD>
+	<BODY bgColor="white">
+		<H1>Stp Database Administrator Versions History</H1>
+<h4>Version 2.3</h4>
+<ul>
+  <li>New - Optional security. You can disable the internal 
+  security, which may be useful if you have installed DBAdmin in&nbsp;a secure 
+  folder.
+  <li>New - Session timeout can be configured from Settings 
+  page now. Maximum is 24 hours, which is a limitation of IIS. 
+  <li>        New - Allows renaming tables (note, that table 
+  creation/modified dates will be changed) 
+  <li>New - Allows viewing of System tables. Read FAQ on the site if you have 
+  troubles with this feature (suggested by Ron)
+  <li>New - Added support for Linked tables (suggested by Ron).
+  <li>New - Boolean values in record edit form are now represented with 
+  checkboxes
+  <li>New - Added lookup feature for columns that related 
+  to other tables 
+  <li>New - Built-in HTML editor for Text and Memo fields.
+  <li>      New - Log-off button&nbsp;added
+  <li>Update - Find/Filter in table data view has finally replaced with true 
+  filter
+  <li>         
+   Update - Paging is now made easier (replaced to combo box)
+  <li>Bug fix - Unable (or error) to sort by columns that 
+  has a multi-word or registered words (submitted by Kevin Bates)
+  <li>Bug fix - Sometimes Default value&nbsp;got corrupted on the table's structure 
+  form
+  <li>Bug fix - When tryingt to delete a View or Stored 
+  Procedure, its name is not displayed on message box prompt
+  <li>Bug fix - Javascript error when you try to delete a table (submitted by 
+  Dominique Boyer)</li></ul>
+<h4>Version 2.1.1</h4>
+<ul>
+  <li>Bug fix&nbsp;- DBAdmin works properly when ADOX is not 
+  available. Note, that not all the features are supported with pure SQL
+  <li>Bug fix&nbsp;- MSXML version now choosen automatically, version 4 is preferred 
+  (checked first)
+  <li>Bug fix&nbsp;- Error on hosts where MSXML object is 
+  unavailable 
+  <li> Bug fix - Some strings were left without translation 
+  available.</li></ul>
+<h4>Version 2.1</h4>
+<ul>
+  <li>New - Default page size (records per page) can be set 
+  now in Settings 
+  <li>        New - Opens databases from DSN 
+  <li>New - Added feature for importing structure and data 
+  from another Access database 
+  <li>New - Jump filter added to the data view and Free-Type 
+  Query. You can now specify one-column filter and jump directly to a record 
+  matched your criteria 
+  <li>                 New - Interface's language can be choosen from 
+  Settings page 
+  <li>                    New        - Allows changing&nbsp;Locale (Language)&nbsp;of the database. 
+  <li>Updated - Some more properties of database added 
+  <li> Updated        - Improved support 
+  for multiple languages.
+  <li>Bug fix - Editing records with multiple primary keys 
+  error
+  <li>Bug fix - On some hosts there&nbsp;was impossible to 
+  set default value of the column
+  <li>Bug fix - Compacting and repairing database could 
+  reset its locale language.
+  <li>Bug fix - If not able to delete a table, was no error 
+  reported.
+  <li>Some minor improvements in the code and usability</li></ul>
+<h4>Version 2.0.2</h4>
+<ul>
+  <li>Bug fix - Javascript error on Settings page.
+  <li>Bug fix - Application hangs when trying to view data 
+  of a table with no columns
+  <li>Bug fix - Not able to open a database if folder has 
+  no write permissions.
+  <li>Bug fix - Unable to edit text fields with double 
+  quote (") in the data. 
+  <li>Bug fix&nbsp;- Database can be removed from the saved list only when 
+  another one is opened
+  <li>Other minor bug fixes</li></ul>
+<h4>Version 2.0</h4>
+<ul>
+  <li>Major - The tool was redesigned both in code and look
+  <li>New&nbsp;- Editing Views and Stored Procedures 
+  <li>New - Free-Type Query can run several SQL statements 
+  at once (separated with ";"), also as one transaction and/or ignoring errors 
+  <li>            
+       New&nbsp;- Setting/changing/removing database 
+  password 
+  <li>New - Editing column names 
+  <li>New column properties for text and memo: Allow zero 
+  length, Compress Unicode (new columns only) 
+  <li>New - several settings can be changed through a 
+  web-based interface, more will come. Uses XML file for storing
+  <li>  New - shows database file size and how much bytes can 
+  be reclaimed by compacting the&nbsp;it 
+  <li>New  - database export: select tables, procedures and/or views and DBAdmin will generate an            
+       SQL script for them.
+  <li>Bug fix -Compacting password-protected databases</li></ul>
+		<H4>Version 1.7</H4>
+		<UL>
+			<LI>
+				<DIV>Delete table bug fixed</DIV>
+			<LI>
+				<DIV>Inserting NULL values bug fixed (submitted by Ivo Vis)</DIV>
+			<LI>
+				<DIV>HTTP headers on Windows NT bug fixed (submitted by Ivo Vis)</DIV>
+			<LI>
+				<DIV>Multi-language support added</DIV>
+			<LI>
+				<DIV>Added No-Cache HTTP header</DIV>
+			<LI>
+				<DIV>Password-protected databases support</DIV>
+			<LI>
+				<DIV>Cycling Prev/Next while updating&nbsp;or adding records in table (suggested by 
+					Christopher Duncan)</DIV>
+			<LI>
+				<DIV>Page size in table's data view and Free-Type Query&nbsp;can be changed 
+					dynamicaly</DIV>
+			<LI>
+				<DIV>Checking for latest version</DIV>
+			</LI>
+		</UL>
+		<H4>Version 1.6</H4>
+		<UL>
+			<LI>
+			Creating new empty databases
+			<LI>
+			Backup and restore database files
+			<LI>
+			Compact and repair MS Access 2000/97 database
+			<LI>
+			NOT NULL field attribute dropped to NULL bug fix
+			<LI>
+				Other minor bugs and improvements</LI></UL>
+		<H4>Version 1.5.1</H4>
+		<UL>
+			<LI>
+			Date/Time field couldn't be created bug fixed (thanx to Mariann D. for letting 
+			me know)
+			<LI>
+			Endless loop when database doesn't exists and trying to retrieve tables list 
+			(thanx to Raul)
+			<LI>
+				Other minor bug fixes and improvments</LI></UL>
+		<H4>Version 1.5</H4>
+		<UL>
+			<DIV>
+				<LI>
+					<DIV>Multiple Primary Keys feature added</DIV>
+				<LI>
+					<DIV>Editing data Primary Keys columns (in case it is not an AutoNumber field)</DIV>
+				<LI>
+					<DIV>Tables' relationships viewing, creating</DIV>
+				<LI>
+					<DIV>Browse for database dialog improved. Now supports browsing on other hard 
+						drives and network mapped drives (not tested yet, if you will find a problem 
+						with it, let me know)</DIV>
+				<LI>
+					<DIV>Builds an SQL statement for creating same table with same indexes (foreign 
+						keys are not included)</DIV>
+				<LI>
+					<DIV>SQL reserverd words highlighting in Views, Procedures and table statements</DIV>
+				<LI>
+					<DIV>XML and MS Excel (.csv) export</DIV>
+				<LI>
+					<DIV>Bugs fixes</DIV>
+				</LI>
+			</DIV>
+		</UL>
+		<H4>Version 1.0</H4>
+		<UL>
+			<LI>
+				<DIV>Developed and released</DIV>
+			</LI>
+		</UL>
+	</BODY>
+</HTML>

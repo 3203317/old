@@ -1,0 +1,102 @@
+TD.title{
+	font-size: 16px;
+	color: white;
+	font-weight: bold;
+	padding-left: 5px;
+	width: 150px;
+}
+TD.subtitle{
+	font-weight: bold;
+	color: maroon;
+	padding-left: 5px;
+	padding-bottom: 2px;
+	padding-top: 2px;
+	background-color: #99cc99;
+}
+TD.contents{
+	padding: 10px;
+}
+TABLE.newtable
+{
+	margin-bottom: 20px;
+}
+BODY{
+	font-family: Verdana;
+	font-size: 75%;
+	background-color: #EAEDE6;
+	line-height: 12pt;
+}
+A
+{
+	color: blue;
+	text-decoration: none;
+}
+A:hover
+{
+	text-decoration: underline;
+	color: Red;
+}
+H1
+{
+	text-align: center;
+}
+TH
+{
+	color: white;
+	background-color: #006699;
+}
+TABLE
+{
+	font-family: Verdana;
+	font-size: 100%;
+	line-height: 12pt;
+}
+DIV.Error
+{
+	color: red;
+}
+P.Error
+{
+	color: red;
+	text-align: center;
+}
+INPUT.button
+{
+	border-right: gray 1px solid;
+	border-top: gray 1px solid;
+	font-size: 10pt;
+	border-left: gray 1px solid;
+	cursor: hand;
+	cursor: pointer;
+	color: buttontext;
+	border-bottom: gray 1px solid;
+	background-color: buttonface;
+}
+INPUT
+{
+	border-right: activecaption 1px solid;
+	border-top: activecaption 1px solid;
+	border-left: activecaption 1px solid;
+	color: buttontext;
+	border-bottom: activecaption 1px solid;
+	background-color: window;
+	font-family: Verdana;
+}
+TEXTAREA
+{
+	border-right: activecaption 1px solid;
+	border-top: activecaption 1px solid;
+	border-left: activecaption 1px solid;
+	color: buttontext;
+	border-bottom: activecaption 1px solid;
+	background-color: window;
+	font-family: 'Courier New';
+}
+TR.oddrow
+{
+	background-color: #c9d9b9;
+}
+TR.evenrow
+{
+	background-color: #c6d9ce;
+}
