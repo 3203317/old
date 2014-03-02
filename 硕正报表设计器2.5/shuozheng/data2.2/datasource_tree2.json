@@ -1,0 +1,17 @@
+{
+	"identifier": "code",
+	"label": "name",
+	"items": [
+	        { "code": "AF", "name":"SQL语句&视图", "type":"continent", "population":"900 million", "area": "30,221,532 sq km",
+	        		"timezone": "-1 UTC to +4 UTC",
+	        		"children":[{"_reference":"EG"}, {"_reference":"KE"}, {"_reference":"SD"}] },
+	        	{ "code": "EG", "name":"SQL语句1", "type":"country" },
+	        	{ "code": "KE", "name":"SQL语句2", "type":"country" },
+	        	{ "code": "SD", "name":"视图1", "type":"country" },
+	        	{ "code": "AS", "name":"存储过程", "type":"continent",
+	        			"children":[{"_reference":"CN"}, {"_reference":"IN"}, {"_reference":"RU"}, {"_reference":"MN"}] },
+	        		{ "code": "CN", "name":"存储过程1", "type":"country" },
+	        		{ "code": "IN", "name":"存储过程2", "type":"country" },
+	        		{ "code": "RU", "name":"存储过程3", "type":"country" },
+	        		{ "code": "MN", "name":"存储过程4", "type":"country" }
+]}

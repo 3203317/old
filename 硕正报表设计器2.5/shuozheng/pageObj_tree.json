@@ -1,0 +1,21 @@
+{
+	"identifier": "code",
+	"label": "name",
+	"items": [
+	        { "code": "AF", "name":"固定元素", "type":"continent", "population":"900 million", "area": "30,221,532 sq km",
+	        		"timezone": "-1 UTC to +4 UTC",
+	        		"children":[{"_reference":"EG"}, {"_reference":"KE"}, {"_reference":"SD"}] },
+	        	{ "code": "EG", "name":"报表标题", "type":"country" },
+	        	{ "code": "KE", "name":"报表表尾", "type":"country",
+	        			"children":[{"_reference":"Nairobi"}, {"_reference":"Mombasa"}] },
+	        		{ "code": "Nairobi", "name":"Nairobi", "type":"city" },
+	        		{ "code": "Mombasa", "name":"Mombasa", "type":"city" },
+	        	{ "code": "SD", "name":"等等", "type":"country",
+	        			"children":{"_reference":"Khartoum"} },
+	        		{ "code": "Khartoum", "name":"Khartoum", "type":"city" },
+	        	{ "code": "AS", "name":"自定义元素", "type":"continent",
+	        			"children":[{"_reference":"CN"}, {"_reference":"IN"}, {"_reference":"RU"}] },
+	        		{ "code": "CN", "name":"元素A", "type":"country" },
+	        		{ "code": "IN", "name":"元素B", "type":"country" },
+	        		{ "code": "RU", "name":"元素C", "type":"country" }
+]}

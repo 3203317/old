@@ -1,0 +1,22 @@
+{
+    "identifier": "code",
+    "label": "field",
+    "items": [
+        {
+            "code": "11",
+            "logical": "or",
+            "field": "p_productname",
+            "relation": "=",
+            "value": "喜羊羊",
+            reportds_code: 201
+        },
+        {
+            "code": "12",
+            "logical": "or",
+            "field": "p_productname",
+            "relation": "like",
+            "value": "美羊羊",
+            reportds_code: 201
+        }
+    ]
+}

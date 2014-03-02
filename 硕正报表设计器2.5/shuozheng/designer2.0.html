@@ -1,0 +1,236 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<TITLE>报表设计器</TITLE>
+
+<link rel="stylesheet" type="text/css" href="/dojo/resources/dojo.css" />
+<link rel="stylesheet" type="text/css"
+	href="/dojox/grid/resources/Grid.css" />
+<link rel="stylesheet" type="text/css"
+	href="/dojox/grid/resources/soriaGrid.css" />
+<link rel="stylesheet" type="text/css"
+	href="/dijit/themes/soria/soria.css" />
+<link rel="stylesheet" type="text/css"
+	href="/dojox/layout/resources/ToggleSplitter.css" />
+<style type="text/css">
+@import "/dojox/grid/enhanced/resources/EnhancedGrid.css";
+@import "/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css";
+html,body {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	padding: 0;
+	margin: 0;
+}
+
+#_main {
+	height: 100%;
+	width: 100%;
+	font-size: 12px;
+}
+
+#_main_center {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0px;
+}
+
+#_main_grid {
+	height: 100%;
+}
+</style>
+<script type="text/javascript">
+	var djConfig = {
+		async : true,
+		bindEncoding : "UTF-8",
+		packages : [ {
+			name : "fore",
+			location : "http://localhost:8083/dojoxx/fore"
+		} ]
+	};
+</script>
+
+<script type="text/javascript" src="/dojo/dojo.js"
+	data-dojo-config="isDebug:false,parseOnLoad:true"></script>
+<script type='text/javascript' src='dynaload.js?72'></script>
+<script type="text/javascript">
+	var OnReady = function() {
+		console.log("ShuoZhengOnReady");
+	}
+
+
+	require(["dojo/data/ItemFileWriteStore"],function($ItemFileWriteStore){
+		data = {
+			identifier: 'key1',
+			label: 'value2',
+			items: []
+		};
+		data.items.push({ key1: "名称", value2: "XXX统计月报" });
+		data.items.push({ key1: "说明", value2: "XXX为什么加入这样一个Label标签" });
+		data.items.push({ key1: "类型", value2: "饼状图,柱状图,趋势图" });
+		data.items.push({ key1: "坐标", value2: "C1" });
+		data.items.push({ key1: "数据源", value2: "选择..." });
+		data.items.push({ key1: "显示", value2: "是,否" });
+		data.items.push({ key1: "打印显示", value2: "是,否" });
+
+		test_store = new dojo.data.ItemFileWriteStore({data: data});
+
+	});
+
+	var _reportDesigner = {};
+
+	require([ "dojo/ready",
+				"dijit/Menu",
+				"dijit/MenuItem",
+				"dijit/layout/BorderContainer",
+			"dijit/layout/ContentPane", "dijit/form/ValidationTextBox",
+			"dijit/form/Button"], function($ready,$Menu,$MenuItem) {
+
+
+
+		_reportDesigner.addTreeMenu = function(){
+			_reportDesigner.treeMenu = new $Menu({
+				style: "display: none;",
+				targetNodeIds: [ "_reportDesigner_reportElementObjectTree" ],
+				selector: ".dijitTreeNode"
+			});
+
+			_reportDesigner.treeMenu.addChild(new $MenuItem({
+				label: "添加标签（Label）",
+				onClick: function(){
+					console.log(this.label);
+				}
+			}));
+			_reportDesigner.treeMenu.addChild(new $MenuItem({
+				label: "添加表格（Grid）",
+				onClick: function(){
+					console.log(this.label);
+				}
+			}));
+			_reportDesigner.treeMenu.addChild(new $MenuItem({
+				label: "添加图表（Chart）",
+				onClick: function(){
+					console.log(this.label);
+				}
+			}));
+		};
+
+		$ready(function() {
+			_reportDesigner.addTreeMenu();
+		});
+
+	});
+</script>
+</HEAD>
+
+<BODY class="soria">
+
+	<div data-dojo-id="continentStore"
+		data-dojo-type="dojo/data/ItemFileWriteStore"
+		data-dojo-props='url:"datasource_tree2.json"'></div>
+	<div data-dojo-id="continentModel"
+		data-dojo-type="dijit/tree/ForestStoreModel"
+		data-dojo-props='store:continentStore, query:{type:"continent"},
+		rootId:"continentRoot", rootLabel:"数据源（集）", childrenAttrs:["children"]'></div>
+
+
+
+	<div data-dojo-id="continentStore2"
+		data-dojo-type="dojo/data/ItemFileWriteStore"
+		data-dojo-props='url:"pageObj_tree2.json"'></div>
+	<div data-dojo-id="continentModel2"
+		data-dojo-type="dijit/tree/ForestStoreModel"
+		data-dojo-props='store:continentStore2, query:{type:"report"},
+		rootId:"0", rootLabel:"报表元素对象", childrenAttrs:["children"]'></div>
+
+
+	<div id="_main" data-dojo-type="dijit.layout.BorderContainer"
+		data-dojo-props='liveSplitters:false,design:"headline",splitterClass:"dojox.layout.ToggleSplitter"'>
+		<div id="_main_bottom" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='region:"center", design:"sidebar"'>
+				<div style="width:50%" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"left",splitter:true'>
+					<table dojoType="dojox/grid/DataGrid" keepSelection="true" style="width:100%"
+						summary="A customized grid summary" id="grid33dsds" store="test_store" query="{ key1: '*' }"
+						query="{ name: '*' }" rowsPerPage="20"
+						rowSelector="20px">
+						<thead>
+							<tr>
+								<th field="key1" width="auto">属性</th>
+								<th field="value2" width="auto" editable="true" type="dojox.grid.cells.Select" options="a,b,c">值</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				<div style="50%" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center",splitter:true'>
+					<div id="mytree2" data-dojo-type="fore/Tree"
+						data-dojo-props='model:continentModel,openOnDblClick:true,  onLoad:function(){ console.log("loaded mytree (first tree)"); }'>
+
+					</div>
+				</div>
+			</div>
+
+		<div id="_main_center" data-dojo-type="dijit.layout.ContentPane"
+			style="height: 70%"
+			data-dojo-props='region:"top",splitter:true,minSize:150'>
+			<div style="position: relative; width: 100%; height: 100%">
+				<script>
+					insertReport('AF', '')
+				</script>
+			</div>
+		</div>
+
+
+		<div id="_main_left" data-dojo-type="dijit.layout.ContentPane"
+			style="width: 15%"
+			data-dojo-props='region:"left",splitter:true'>
+			<div id="_reportDesigner_reportElementObjectTree" data-dojo-type="fore/Tree"
+				data-dojo-props='model:continentModel2,openOnDblClick:true,  onLoad:function(){ console.log("loaded mytree (first tree)"); }'>
+
+			</div>
+		</div>
+
+
+		<div id="_main_right" data-dojo-type="dijit.layout.ContentPane"
+			style="width: 50%"
+			data-dojo-props='region:"right",splitter:true'>
+			<div id="iconTabs" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='tabPosition:"top", style:"width: 100%; height: 10em;"'>
+				<div id="iconTab2" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"报表字段", showTitle:true, iconClass:"dijitEditorIcon dijitEditorIconCopy"'>
+					<table dojoType="dojox/grid/DataGrid" keepSelection="true" style="width:100%"
+						summary="A customized grid summary" jsid="grid" id="grid"
+						query="{ name: '*' }" rowsPerPage="20"
+						rowSelector="20px">
+						<thead>
+							<tr>
+								<th field="name" width="auto">字段名称</th>
+								<th field="type" width="auto">别名</th>
+								<th field="type1" width="auto">分组字段</th>
+								<th field="type2" width="auto">统计方式</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				<div id="iconTab1" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='title:"查询参数", tooltip:"tooltip for cut button", showTitle:true, iconClass:"dijitEditorIcon dijitEditorIconCut"'>
+					<table dojoType="dojox/grid/DataGrid" keepSelection="true" style="width:100%"
+						summary="A customized grid summary" jsid="grid2" id="grid2"
+						query="{ name: '*' }" rowsPerPage="20"
+						rowSelector="20px">
+						<thead>
+							<tr>
+								<th field="name33" width="auto">字段名称</th>
+								<th field="type33" width="auto">别名</th>
+								<th field="type33" width="auto">显示类型</th>
+								<th field="type44" width="auto">控件数据集</th>
+								<th field="type55" width="auto">显示</th>
+								<th field="type66" width="auto">必填</th>
+								<th field="type77" width="auto">默认值</th>
+								<th field="type88" width="auto">参数类型</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</BODY>
+</HTML>

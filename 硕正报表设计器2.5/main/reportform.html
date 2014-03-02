@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+    <style type="text/css">
+         body, html { width: 100%; height: 100%; margin: 0;font-family:helvetica,arial,sans-serif; font-size:90%; }
+    </style>
+    <script type="text/javascript" src="commons/js/OpenAjaxManagedHub-all.js"></script>
+  <script type="text/javascript">
+
+    function client2SecurityAlertHandler(source, alertType) {
+      // 理安全警报
+    }
+    /* Callback that is invoked upon successful connection to the Managed Hub */
+    function connectCompleted ( hubClient, success, error ) {
+      if (success) {
+    	  hubClient.subscribe('org.example.topics.textmessage', function(topic, publisherData, subscriberData){
+    		  alert(topic);
+    	  });
+      }
+    }
+
+    /* 应用程序初始化时,在回应文件load事件 */
+    function loadEventHandler() {
+      var aa =	OpenAjax.gadgets.util.getUrlParameters();
+      hubClient = new OpenAjax.hub.IframeHubClient({
+        HubClient: {
+          onSecurityAlert: client2SecurityAlertHandler
+        }
+      });
+      // 连接到ManagedHub
+      hubClient.connect( connectCompleted );
+
+
+    }
+    function clickEvent() {
+      hubClient.publish('org.example.topics.textmessage','Message from ClientApp2');
+    }
+
+    function onData1(topic, publisherData, subscriberData) {
+    	 alert(publisherData);
+        if (typeof publisherData === "string") {
+          alert(publisherData);
+        }
+      }
+
+  </script>
+    <script type="text/javascript">
+		djConfig = {
+			parseOnLoad: true
+		};
+	</script>
+	<script type="text/javascript" src="../dojo/dojo.js"></script>
+	<script type="text/javascript">
+		dojo.require("dijit.form.Button");
+		dojo.require("dojo.newcapec.Report");
+		dojo.require("dojo.parser");
+  	</script>
+  </head>
+
+
+  <body onload="loadEventHandler();">
+
+    <div id="report" style="position:relative;width:96%;height:500px" storename="ds1"  store="{'OrderID':366471223, 'Desc':'zhaopengfei', 'Date':'2008.1.11'}"    template="report/jsonsheet1.xml" data-dojo-type="dojo.newcapec.Report"></div>
+
+  </body>
+</html>

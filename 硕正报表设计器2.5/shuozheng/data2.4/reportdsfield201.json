@@ -1,0 +1,51 @@
+{
+    "identifier": "code",
+    "label": "fieldname",
+    "items": [
+        {
+            "code": "10",
+            "fieldname": "f_name",
+            "titlename": "用户名",
+            "fieldtype": "string",
+            "show": "1",
+            "sequence": "1",
+            reportds_code: 201
+        },
+        {
+            "code": "11",
+            "fieldname": "f_sex",
+            "titlename": "性别",
+            "fieldtype": "string",
+            "show": "1",
+            "sequence": "2",
+            reportds_code: 201
+        },
+        {
+            "code": "12",
+            "fieldname": "f_age",
+            "titlename": "出生日期",
+            "fieldtype": "string",
+            "show": "1",
+            "sequence": "3",
+            reportds_code: 201
+        },
+        {
+            "code": "13",
+            "fieldname": "f_addr",
+            "titlename": "住址",
+            "fieldtype": "string",
+            "show": "1",
+            "sequence": "4",
+            reportds_code: 201
+        },
+        {
+            "code": "14",
+            "fieldname": "f_idcard",
+            "titlename": "身份证",
+            "fieldtype": "string",
+            "show": "1",
+            "sequence": "5",
+            reportds_code: 201
+        }
+    ]
+}

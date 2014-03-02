@@ -1,0 +1,18 @@
+{
+	"identifier": "code",
+	"label": "name",
+	"items": [
+	        { "code": "AF", "name":"固定元素", "type":"report", "population":"900 million", "area": "30,221,532 sq km",
+	        		"timezone": "-1 UTC to +4 UTC",
+	        		"children":[{"_reference":"EG"}, {"_reference":"KE"}, {"_reference":"SD"}, {"_reference":"TB"}] },
+	        	{ "code": "EG", "name":"标题(Label)", "type":"label" },
+	        	{ "code": "KE", "name":"表尾(Label)", "type":"label" },
+	        	{ "code": "SD", "name":"表格(Grid)", "type":"country" },
+	        	{ "code": "TB", "name":"图表(Chart)", "type":"country" },
+
+	        	{ "code": "AS", "name":"自定义元素", "type":"report",
+	        			"children":[{"_reference":"CN"}, {"_reference":"IN"}, {"_reference":"RU"}] },
+	        		{ "code": "CN", "name":"元素A(Label)", "type":"country" },
+	        		{ "code": "IN", "name":"元素B(Label)", "type":"asdasd" },
+	        		{ "code": "RU", "name":"元素C(Label)", "type":"country" }
+]}

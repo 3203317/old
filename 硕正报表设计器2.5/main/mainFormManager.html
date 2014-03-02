@@ -1,0 +1,503 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<meta http-equiv="Content-type" content="text/html;charset=utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<TITLE>产品平台公共基础应用</TITLE>
+	<link rel="stylesheet" type="text/css" href="/dojo/resources/dojo.css" />
+	<link rel="stylesheet" type="text/css" href="dijit/themes/capec/capec.css" />
+	<link rel="stylesheet" type="text/css" href="/dojox/layout/resources/ToggleSplitter.css" />
+	<style type="text/css">
+		html,body{
+			width:100%;
+			height:100%;
+			overflow:hidden;
+			padding:0 0 0 0;
+			margin:0 0 0 0;
+			font:10pt Arial,Myriad,Tahoma,Verdana,sans-serif;
+		}
+	</style>
+
+	<script type="text/javascript" src="commons/js/util.js"></script>
+	<script type="text/javascript" src="commons/js/base.js"></script>
+	<script type="text/javascript" src="commons/js/form.js"></script>
+	<script type="text/javascript" src="commons/js/OpenAjaxManagedHub-all.js"></script>
+
+	<SCRIPT LANGUAGE="JavaScript">
+	<!--
+		var djConfig = {
+			locale: capec.base.locale
+		};
+	//-->
+	</SCRIPT>
+	<script type="text/javascript" src="/dojo/dojo.js" data-dojo-config="isDebug:false,parseOnLoad:true"></script>
+	<script type="text/javascript" src="commons/js/managedHub.js"></script>
+	<script type="text/javascript" src="newcapec/language.js"></script>
+	<script type="text/javascript" src="newcapec/theme.js"></script>
+	<SCRIPT LANGUAGE="JavaScript">
+	<!--
+		require(["dojo/dom",
+						"dojo/ready",
+						"dojo/parser",
+						"dojo/data/ItemFileReadStore",
+						"dojo/data/ItemFileWriteStore",
+						"dojox/layout/ToggleSplitter",
+						"dijit/layout/ContentPane",
+						"dijit/dijit",
+						"dijit/TooltipDialog",
+						"dijit/layout/BorderContainer",
+						"dijit/layout/ContentPane",
+						"dijit/layout/AccordionContainer",
+						"dijit/layout/TabContainer",
+						"dijit/Tree",
+						"dijit/tree/ForestStoreModel",
+						"dijit/form/Select",
+						"dijit/form/FilteringSelect",
+						"dijit/form/ComboBox",
+						"dijit/form/Button",
+						"dijit/Dialog"
+						/* "main/newcapec/dialog/AlertConfirm", */
+						/* "main/newcapec/dialog/AlertDialog" */
+						],function(dom,ready){
+
+			capec.main = {};
+
+			capec.main.loadsearch = function(){
+				var __store = new dojo.data.ItemFileReadStore({url: "test/hx/data.main.navTree.json"});
+				var __cbox = new dijit.form.ComboBox({
+					autoComplete: false,
+					store: __store,
+					region: "middle",
+					searchAttr: "mod_name",
+					queryExpr: "*${0}*",
+					placeHolder: "模块名",
+					pageSize: 5,
+					style: {
+						width: "70%"
+					}
+				}, dojo.byId("widget_main_cbox_module"));
+
+				dojo.connect(dijit.byId('widget_main_cbox_module'),"onChange",function($item){
+					if(dijit.byId('widget_main_cbox_module').item == null) return;
+					var __href = dijit.byId('widget_main_cbox_module').item.href;
+					if(!__href) return;
+					var __id = dijit.byId('widget_main_cbox_module').item.id;
+					var __name = dijit.byId('widget_main_cbox_module').item.mod_name;
+					//alert(__id +" "+ __name +" "+ __href);
+					capec.main.openNewTab(__id,__name,__href);
+				});
+
+				dojo.connect(dijit.byId("widget_main_btn_search"), "onClick", function($item){
+					if(dijit.byId('widget_main_cbox_module').item == null) return;
+					var __href = dijit.byId('widget_main_cbox_module').item.href;
+					if(!__href) return;
+					var __id = dijit.byId('widget_main_cbox_module').item.id;
+					var __name = dijit.byId('widget_main_cbox_module').item.mod_name;
+					//alert(__id +" "+ __name +" "+ __href);
+					capec.main.openNewTab(__id,__name,__href);
+				});
+			};
+
+			capec.main.language = function(){
+				dojo.byId("widget_main_lab_theme").innerHTML = capec.main.msg.widget_main_lab_theme;
+				dojo.byId("widget_main_lab_logout").innerHTML = capec.main.msg.widget_main_lab_logout;
+				dojo.byId("widget_main_lab_language").innerHTML = capec.main.msg.widget_main_lab_language;
+				dojo.byId("widget_main_lab_myinfo").innerHTML = capec.main.msg.widget_main_lab_myinfo;
+				dojo.byId("widget_main_lab_help").innerHTML = capec.main.msg.widget_main_lab_help;
+
+				dojo.byId("widget_main_lab_lng").innerHTML = capec.main.msg.widget_main_lab_lng;
+				dijit.byId("widget_main_btn_lngsubmit").set("label", capec.main.msg.widget_main_btn_lngsubmit);
+				dijit.byId("widget_main_btn_lngcancel").set("label", capec.main.msg.widget_main_btn_lngcancel);
+
+				dojo.byId("widget_main_lab_theme_").innerHTML = capec.main.msg.widget_main_lab_theme_;
+				dijit.byId("widget_main_btn_themesubmit").set("label", capec.main.msg.widget_main_btn_themesubmit);
+				dijit.byId("widget_main_btn_themecancel").set("label", capec.main.msg.widget_main_btn_themecancel);
+
+				dijit.byId("widget_main_copyright").set("content", capec.main.msg.widget_main_copyright);
+
+				dijit.byId("widget_main_tab_def").set("title", capec.main.msg.widget_main_tab_def);
+
+				dijit.byId("widget_main_btn_search").set("label", capec.main.msg.widget_main_btn_search);
+
+				dijit.byId("widget_main_cbox_module").set("placeHolder", capec.main.msg.widget_main_cbox_module);
+			};
+
+
+			capec.main.hideloader = function(){
+				dojo.byId("widget_main_loaderInner").innerHTML += " done.";
+				setTimeout(function hideLoader(){
+					dojo.fadeOut({
+						node: "widget_main_loader",
+						duration: 500,
+						onEnd: function($n){
+							$n.style.display = "none";
+						}
+					}).play();
+				},250);
+			};
+
+			capec.main.showLngDlg = function(){
+				dijit.popup.open({
+								popup: dijit.byId("widget_main_dlg_lng"),
+								around: dojo.byId('widget_main_lab_language')
+						});
+			};
+
+			capec.main.showThemeDlg = function(){
+				dijit.popup.open({
+								popup: dijit.byId("widget_main_dlg_theme"),
+								around: dojo.byId('widget_main_lab_theme')
+						});
+			};
+
+			/* 语言下拉框数据加载 */
+			capec.main.combLngLoadData = function(){
+				var __lngData = new dojo.data.ItemFileWriteStore({
+					data: capec.base.language[capec.base.locale]
+				});
+				dijit.byId("widget_main_comb_lng").set("options", capec.base.language[capec.base.locale].items);
+				dijit.byId("widget_main_comb_lng").set("value", capec.base.locale);
+			};
+
+			/* 皮肤数据加载 */
+			capec.main.combThemeLoadData = function(){
+				var __themeData = new dojo.data.ItemFileWriteStore({
+					data: capec.base.skin[capec.base.locale]
+				});
+				dijit.byId("widget_main_comb_theme").set("options", capec.base.skin[capec.base.locale].items);
+				dijit.byId("widget_main_comb_theme").set("value", capec.base.theme);
+			};
+
+			/* capec.main.dialog = function(){
+				capec.dialog = {};
+				capec.dialog.logout = new newcapec.dialog.AlertConfirm({
+					id: "capec.dialog.logout",
+					title: capec.main.msg.main_dlg_logout_prompt,
+					msg: capec.main.msg.main_dlg_logout_desc,
+					img: "info_32.png",
+					style: "width:300px"
+				});
+				/* deleteDialog */
+			/* 	capec.dialog.delTipDialog = new newcapec.dialog.AlertDialog({
+					id: "capec.dialog.delTipDialog",
+					title: capec.main.msg.main_dlg_logout_prompt,
+					msg: "请选择要删除的记录！",
+					img: "info_32.png",
+					style: "width:300px"
+				});
+				capec.dialog.confirmDialog = new newcapec.dialog.AlertConfirm({
+					id: "capec.dialog.confirmDialog",
+					title: capec.main.msg.main_dlg_logout_prompt,
+					msg: "您确定要执行该操作吗？",
+					img: "info_32.png",
+					style: "width:300px"
+				}); */
+				/* successDialog */
+				/* capec.dialog.successDialog = new newcapec.dialog.AlertDialog({
+					id: "capec.dialog.successDialog",
+					title: capec.main.msg.main_dlg_logout_prompt,
+					msg: "操作成功！",
+					img: "info_32.png",
+					style: "width:300px"
+				}); */
+				/* failDialog */
+				/* capec.dialog.failDialog = new newcapec.dialog.AlertDialog({
+					id: "capec.dialog.failDialog",
+					title: capec.main.msg.main_dlg_logout_prompt,
+					msg: "操作失败！",
+					img: "info_32.png",
+					style: "width:300px"
+				});
+			}; */
+
+			capec.main.bind = function(){
+				capec.main.action = {};
+				capec.main.action.logout = function(){
+					capec.form.submit({
+						url:"logout.do",
+						params: {},
+						cbe:function(){return true},
+						cba:function($data){
+							//alert($data);
+						}
+					});
+					location.href = "../login/";
+				};
+
+				capec.managedHub.subscribe("openNewTab",function($evt, $params){
+					//alert("--"+ $evt +" "+ $id +" "+ $name +" "+ $href);
+					capec.main.openNewTab($params[0], $params[1], $params[2]);
+				})
+			};
+
+			capec.main.openNewTab = function($id, $name, $href){
+				//判断href是否为空
+				if($href == undefined || $href == "") return;
+				//判断tab页是否已经存在，存在则定位到该tab页
+				if(dojo.byId("widget_main_tab_"+ $id)){
+					dijit.byId("widget_main_tab").selectChild(dijit.byId("widget_main_tab_"+ $id));
+					return;
+				}
+
+				//href数据组装
+				var __href = [];
+				__href[0] = $href;
+				__href[1] = ($href+"").indexOf("?") == -1 ? "?" : "&";
+				__href[2] = "r=";
+				__href[3] = new Date();
+
+				//创建新tab页
+				var __newTab = new dijit.layout.ContentPane({
+					id: "widget_main_tab_"+ $id,
+					title: $name,
+					//content:"<iframe frameborder='0'  height='100%' width='100%' src='"+ __href.join("") +"' id='tab_"+ $id +"' name='tab_"+ $id +"'/>",
+					//href: __href.join(""),
+					closable: true,
+					adjustPaths:true,
+					renderStyles:true,
+					style: "padding:0px"
+				});
+
+				//添加新tab页，并定位到该页面
+				dijit.byId("widget_main_tab").addChild(__newTab);
+
+				dojo.connect(__newTab, "onLoad", function(){
+					new OpenAjax.hub.IframeContainer(capec.managedHub , $id +"_"+ "tab_"+ new Date(), {
+						Container: {
+							onSecurityAlert: function(){ },
+							onConnect: function(){ },
+							onDisconnect: function(){ }
+						},
+						IframeContainer: {
+							parent: dojo.byId("widget_main_tab_"+ $id),
+							iframeAttrs: {
+								style: {
+									border:"red solid 0px",
+									height:"100%",
+									width:"100%"
+								}
+							},
+							uri: $href
+						}
+					});
+				});
+
+				__newTab.set("content", "");
+				dijit.byId("widget_main_tab").selectChild(__newTab);
+			};//capec.main.openNewTab
+			capec.main.openMenuPage = function($id, $name, $href){
+				console.log("当前有" + capec.managedHub.listContainers.length + "个容器");
+						//判断href是否为空
+						if($href == undefined || $href == "") return;
+
+						//href数据组装
+						var __href = [];
+						__href[0] = $href;
+						__href[1] = ($href+"").indexOf("?") == -1 ? "?" : "&";
+						__href[2] = "r=";
+						__href[3] = new Date();
+
+						//创建新tab页
+						var __newTab = new dijit.layout.ContentPane({
+							id: "widget_main_tab_"+ __href[3],
+							title: $name,
+							//content:"<iframe frameborder='0'  height='100%' width='100%' src='"+ __href.join("") +"' id='tab_"+ $id +"' name='tab_"+ $id +"'/>",
+							//href: __href.join(""),
+							closable: true,
+							adjustPaths:true,
+							renderStyles:true,
+							style: "padding:0px"
+						});
+
+						//添加新tab页，并定位到该页面
+						dijit.byId("widget_main_tab").addChild(__newTab);
+
+						dojo.connect(__newTab, "onLoad", function(){
+							new OpenAjax.hub.IframeContainer(capec.managedHub , $id +"_"+ "tab_"+ new Date(), {
+								Container: {
+									onSecurityAlert: function(){ },
+									onConnect: function(){ },
+									onDisconnect: function(){ }
+								},
+								IframeContainer: {
+									parent: dojo.byId("widget_main_tab_"+ __href[3]),
+									iframeAttrs: {
+										style: {
+											border:"red solid 0px",
+											height:"100%",
+											width:"100%"
+										}
+									},
+									uri: $href
+								}
+							});
+						});
+
+						__newTab.set("content", "");
+						dijit.byId("widget_main_tab").selectChild(__newTab);
+					};//end capec.main.openMenuPage
+			var sessionId = Request.QueryString("sessionId");
+			capec.main.loadtree = function(){
+				new OpenAjax.hub.IframeContainer(capec.managedHub , "widget_main_tree_"+new Date(), {
+					Container: {
+						onSecurityAlert: function(){ },
+						onConnect: function(){ },
+						onDisconnect: function(){ }
+					},
+					IframeContainer: {
+						parent: dojo.byId("widget_main_tree"),
+						iframeAttrs: {
+							style: {
+								border:"black solid 0px",
+								height:"100%",
+								width:"100%"
+							},
+							scrolling:"no"
+						},
+						uri: "http://localhost:8080/zzy/tree/menu/?sessionId="+sessionId
+					}
+				});
+			};
+			createMenuBinding = function(topic,subscribeData){
+				capec.main.openMenuPage('menuBinding','菜单UI绑定界面', 'http://localhost:8080/zzy/menu/binding/?sessionId='+sessionId+"&"+subscribeData);
+			}
+
+			forbiddenMessageBox = function(topic,subscribeData)
+			{
+				dom.byId("optFbnInfo").innerHTML  = subscribeData.info;
+				dijit.byId("opearatorForbidden").set("title",subscribeData.infoTitle);
+				dijit.byId("opearatorForbidden").show();
+			}
+
+			createNewPageForTreeMenu = function(topic,subscribeData)
+			{
+				capec.main.openNewTab('resourceMenu'+subscribeData.id,subscribeData.name,"/zzy"+subscribeData.href+"?sessionId="+sessionId);
+			}
+
+			subscribeBindEventTOAllConnection = function()
+			{
+					capec.managedHub.subscribe('net.newcapec.ui.openMenuBinding', createMenuBinding);
+					capec.managedHub.subscribe('net.newcapec.ui.operatorForbiden', forbiddenMessageBox);
+					capec.managedHub.subscribe('net.newcapec.ui.openNewPage', createNewPageForTreeMenu);
+			}
+
+			ready(function(){
+
+				dojo.registerModulePath("newcapec", "../main/newcapec");
+				capec.main.msg = dojo.i18n.getLocalization("newcapec", "main");
+				subscribeBindEventTOAllConnection();
+				capec.main.combLngLoadData();
+				capec.main.combThemeLoadData();
+
+			/* 	capec.main.dialog(); */
+
+				capec.main.bind();
+
+				capec.main.loadsearch();
+
+				capec.main.loadtree();
+
+				capec.main.language();
+				capec.main.hideloader();
+
+			});
+
+		});
+
+
+	//-->
+	</SCRIPT>
+</HEAD>
+
+<BODY>
+	<body class="soria">
+		<div id="widget_main_loader"><div id="widget_main_loaderInner">页面正在加载 ... </div></div>
+		<div id="opearatorForbidden" data-dojo-type="dijit/Dialog">
+		<div class="dijitDialogPaneContentArea">
+			<div id="optFbnInfo" style="width: 30em;"></div>
+		</div>
+
+
+		<div class="dijitDialogPaneActionBar">
+			<button id="ABdialog1button2" data-dojo-type="dijit/form/Button"
+				data-dojo-props='type:"button", onClick:function(){ dijit.byId("opearatorForbidden").onCancel(); }'>关闭</button>
+		</div>
+	</div>
+		<div id="widget_main" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='liveSplitters:false,design:"headline"'>
+					<script type="dojo/method">
+				this._splitterClass = "dojox.layout.ToggleSplitter";
+			</script>
+
+			<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"top",style:"height:65px\9;padding:0px;border:0px"'>
+				<div class="main_top">
+					<div class="main_logo"><img src="commons/images/logo.jpg" style="width:345px;height:69px" /></div>
+					<div class="main_top_right">
+						<div class="main_top_bar">
+							<ul>
+								<li><input type="checkbox" id="widget_main_chk_help"/>&nbsp;&nbsp;<label id="widget_main_lab_help">实时帮助</label></li>
+								<li><a href="javascript:void(0);" onClick="capec.main.openNewTab('personal','个人信息管理','http://localhost:8080/main/reportform.html')" class="l2"><label id="widget_main_lab_myinfo">个人信息管理</label></a></li>
+								<li><a href="javascript:void(0);" onClick="capec.main.showLngDlg();" class="l3"><label id="widget_main_lab_language">语言设置</label></a></li>
+								<li><a href="javascript:void(0);" onClick="capec.main.showThemeDlg();" class="l4"><label id="widget_main_lab_theme"></label></a></li>
+								<li style="background:none"><a href="javascript:void(0);" onClick="capec.dialog.logout.confirm(capec.main.action.logout);" class="l5"><label id="widget_main_lab_logout"></label></a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="main_clr"></div>
+				</div>
+			</div>
+
+			<div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='region:"left",splitter:true,minSize:150,maxSize:250' id="widget_main_left">
+				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"top"' id="widget_main_left_top">
+					<div id="widget_main_left_top_search">
+											<div id="widget_main_cbox_module" class="main_cbox_module" style="width:70%"
+							data-dojo-props='autoComplete:false, placeHolder:"模块名", pageSize:5'></div>
+						<div dojotype="dijit.form.Button" label="搜索" id="widget_main_btn_search"></div>
+									</div>
+				</div>
+				<div data-dojo-type="dijit.layout.ContentPane" style="overflow:hidden;background-color:#FFFFFF;padding:0px;border:0px;" data-dojo-props='id:"widget_main_tree",region:"center"'></div>
+
+			</div>
+
+			<div data-dojo-type="dijit.layout.TabContainer" id="widget_main_tab" data-dojo-props='region:"center"' selectedChild="widget_main_tab_def">
+				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props='id:"widget_main_tab_def",title:"首页",content:"<iframe frameborder=\"0\" height=\"100%\" width=\"100%\" src=\"welcome.html\" id=\"tab_def\" name=\"tab_def\"/>"'></div>
+			</div>
+
+			<div data-dojo-type="dijit.layout.ContentPane" region="bottom" id="widget_main_copyright">
+				Copyright @ 2012 郑州新开普电子股份有限公司 版权所有
+			</div>
+		</div>
+
+		<div id="widget_main_dlg_lng" data-dojo-type="dijit.TooltipDialog" data-dojo-props='"aria-describedby":"intro",
+			execute:function(){
+				var __lng = dijit.byId("widget_main_comb_lng").get("value");
+				dojo.cookie("locale",__lng,{expires:capec.base.expires});
+				location.search ="?locale="+__lng;}'>
+			<div>
+				<label id="widget_main_lab_lng" for="widget_main_comb_lng">语言：</label>
+				<select id="widget_main_comb_lng" data-dojo-type="dijit.form.Select" style="width:150px"
+					data-dojo-props='searchAttr:"value",autoComplete:true,required:true'></select>
+			</div>
+
+			<div class="dijitDialogPaneActionBar">
+				<button id="widget_main_btn_lngsubmit" data-dojo-type="dijit.form.Button" data-dojo-props='type:"submit"'>应用</button>
+				<button id="widget_main_btn_lngcancel" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button", onClick:function(){ dijit.popup.close(dijit.byId("widget_main_dlg_lng"));}'>取消</button>
+			</div>
+		</div>
+
+		<div id="widget_main_dlg_theme" data-dojo-type="dijit.TooltipDialog" data-dojo-props='"aria-describedby":"intro",
+			execute:function(){
+				capec.changetheme(dijit.byId("widget_main_comb_theme").get("value"));
+				dijit.popup.close(dijit.byId("widget_main_dlg_theme"));}'>
+			<div class="dijitDialogPaneContentArea">
+				<label id="widget_main_lab_theme_" for="widget_main_comb_theme">主题：</label>
+				<input id="widget_main_comb_theme" data-dojo-type="dijit.form.Select" style="width:150px"
+					data-dojo-props='searchAttr:"value",required:true'/>
+			</div>
+
+			<div class="dijitDialogPaneActionBar">
+				<button id="widget_main_btn_themesubmit" data-dojo-type="dijit.form.Button" data-dojo-props='type:"submit" '>应用</button>
+				<button id="widget_main_btn_themecancel" data-dojo-type="dijit.form.Button" data-dojo-props='type:"button", onClick:function(){ dijit.popup.close(dijit.byId("widget_main_dlg_theme"));}'>取消</button>
+			</div>
+		</div>
+</BODY>
+</HTML>

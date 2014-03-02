@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<TITLE>硕正报表设计器2.4</TITLE>
+
+<link rel="stylesheet" type="text/css" href="/dojo/resources/dojo.css" />
+<link rel="stylesheet" type="text/css"
+	href="/dojox/grid/resources/Grid.css" />
+<link rel="stylesheet" type="text/css"
+	href="/dojox/grid/resources/soriaGrid.css" />
+<link rel="stylesheet" type="text/css"
+	href="/dijit/themes/soria/soria.css" />
+<link rel="stylesheet" type="text/css"
+	href="/dojox/layout/resources/ToggleSplitter.css" />
+<style type="text/css">
+@import "/dojox/grid/enhanced/resources/EnhancedGrid.css";
+
+@import "/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css";
+
+html,body {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	padding: 0;
+	margin: 0;
+}
+
+</style>
+<script type="text/javascript">
+	var djConfig = {
+		async : true,
+		bindEncoding : "UTF-8",
+		packages : [ {
+			name : "fore",
+			location : "http://localhost:8083/dojoxx/fore"
+		} ]
+	};
+
+	Request = {
+			QueryString: function($item){
+				var __svalue = location.search.match(new RegExp('[\?\&]' + $item + '=([^\&]*)(\&?)','i'));
+				return __svalue ? __svalue[1] : __svalue;
+			}
+		};
+
+	String.prototype.replaceAll = function($oldText, $replaceText) {
+		return this.replace(new RegExp($oldText, "gm"), $replaceText);
+	};
+</script>
+
+<script type="text/javascript" src="/dojo/dojo.js"
+	data-dojo-config="isDebug:false,parseOnLoad:true"></script>
+<script type='text/javascript' src='dynaload.js?72'></script>
+<script type="text/javascript">
+	var OnReady = function() {
+		console.log("ShuoZhengOnReady");
+	};
+
+	var OnEvent = function(id, Event, p1, p2, p3, p4) {
+		console.log(arguments);
+	};
+
+	var _designer = {};
+	_designer.sessionId = Request.QueryString("sessionId");
+	_designer.reportId = Request.QueryString("reportId");
+	_designer.params = Request.QueryString("params").replaceAll("%27","'");
+
+	console.log(_designer.params);
+
+	require([ "dojo/ready","dojo/data/ItemFileWriteStore"], function($ready) {
+
+		_designer.resetReportDs = function(){
+			AF.func("CallFunc", "301\r\n3");
+
+			AF.func('SetSource', "ds201\r\n{'items':[{'f_name':'张三','f_sex':'男',f_addr:'河南郑州',f_age:'2012-12-25','f_idcard':'410101010101010101'},{'f_name':'李四','f_sex':'男'}]}");
+			AF.func('SetSource', "ds203\r\n{'items':[{'f_name':'王五','f_sex':'女'}]}");
+			AF.func('SetSource', "ds202\r\n{'items':[{'p_productname':'喜羊羊','p_productcode':'E101'},{'p_productname':'美羊羊','p_productcode':'F102'}]}");
+
+			var __d = {"ds189_239":[],"ds230_240":[{"NAME":"赵鹏飞","ACCOUNT_ID":"2","SEX":"1","CODE":"zpf"},{"NAME":"zzy","ACCOUNT_ID":"6","SEX":"1","CODE":"qyk"},{"NAME":"朱祝元","ACCOUNT_ID":"9","SEX":"1","CODE":"zzy"},{"NAME":"admin","ACCOUNT_ID":"1","SEX":"1","CODE":"1234"},{"NAME":"梁小凯","ACCOUNT_ID":"8","SEX":"1","CODE":"lxk"},{"NAME":"普秀霞","ACCOUNT_ID":"11","SEX":"1","CODE":"pxx"},{"NAME":"普秀霞","ACCOUNT_ID":"3","SEX":"2","CODE":"3"},{"NAME":"朱祝元","ACCOUNT_ID":"4","SEX":"1","CODE":"4"},{"NAME":"赵鹏飞","ACCOUNT_ID":"5","SEX":"1","CODE":"5"}],"ds141_234":[{"E_NO":"1   ","E_DEPTNO":"01","E_NAME":"A部门"},{"E_NO":"2   ","E_DEPTNO":"02","E_NAME":"B部门"},{"E_NO":"3   ","E_DEPTNO":"03","E_NAME":"C部门"}]};
+
+			for(var __item in __d){
+				//console.log(__item);
+				//console.log(JSON.stringify(__d[__item]));
+
+				/***/
+				var __ds = __item +'\r\n{"items":'+ JSON.stringify(__d[__item]) +'}';
+				console.log(__ds);
+
+				AF.func('SetSource', __ds);
+			}
+
+			AF.func('Calc', '');
+
+			var __json = eval("("+_designer.params+")");
+
+			var params = [];
+
+			for(var p in __json){
+				params.push({
+					field: p,
+					value: __json[p]
+				});
+			}
+			console.log(params);
+		};
+
+		_designer.loadReport = function(){
+			dojo.xhrPost({
+				async : false,
+				handleAs : "text",
+				url : "data2.4/xmlsheet33.xml?r=" + new Date(),
+				content : {},
+				load : dojo.hitch(this, function($data) {
+					if ($data == null) return;
+					var __xml = $data;
+
+					AF.func("Build", __xml);
+
+					_designer.resetReportDs();
+				}),
+				error : function($err, $ioArgs) {
+					console.log($err);
+				}
+			});
+		};
+
+		$ready(function() {
+
+			_designer.loadReport();
+		});
+	});
+</script>
+</HEAD>
+
+<BODY class="soria">
+	<div style="position: relative; width: 100%; height: 100%">
+		<script>
+			insertReport('AF', '');
+		</script>
+	</div>
+</BODY>
+</HTML>

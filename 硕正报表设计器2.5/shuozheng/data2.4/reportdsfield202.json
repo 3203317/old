@@ -1,0 +1,24 @@
+{
+    "identifier": "code",
+    "label": "fieldname",
+    "items": [
+        {
+            "code": "20",
+            "fieldname": "p_productname",
+            "titlename": "产品名称",
+            "fieldtype": "string",
+            "show": "1",
+            "sequence": "1",
+            reportds_code: 202
+        },
+        {
+            "code": "21",
+            "fieldname": "p_productcode",
+            "titlename": "产品编号",
+            "fieldtype": "string",
+            "show": "1",
+            "sequence": "2",
+            reportds_code: 202
+        }
+    ]
+}

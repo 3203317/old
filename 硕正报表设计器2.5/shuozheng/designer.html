@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<TITLE>报表设计器</TITLE>
+
+<link rel="stylesheet" type="text/css" href="/dojo/resources/dojo.css" />
+<link rel="stylesheet" type="text/css"
+	href="/dojox/grid/resources/Grid.css" />
+<link rel="stylesheet" type="text/css"
+	href="/dojox/grid/resources/soriaGrid.css" />
+<link rel="stylesheet" type="text/css"
+	href="/dijit/themes/soria/soria.css" />
+<link rel="stylesheet" type="text/css"
+	href="/dojox/layout/resources/ToggleSplitter.css" />
+<style type="text/css">
+@import "/dojox/grid/enhanced/resources/EnhancedGrid.css";
+@import "/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css";
+html,body {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	padding: 0;
+	margin: 0;
+}
+
+#_main {
+	height: 100%;
+	width: 100%;
+	font-size: 12px;
+}
+
+#_main_center {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0px;
+}
+
+#_main_grid {
+	height: 100%;
+}
+</style>
+<script type="text/javascript">
+	var djConfig = {
+		async : true,
+		bindEncoding : "UTF-8",
+		packages : [ {
+			name : "fore",
+			location : "http://localhost:8083/dojoxx/fore"
+		} ]
+	};
+</script>
+
+<script type="text/javascript" src="/dojo/dojo.js"
+	data-dojo-config="isDebug:false,parseOnLoad:true"></script>
+<script type='text/javascript' src='dynaload.js?72'></script>
+<script type="text/javascript">
+	var OnReady = function() {
+
+		console.log("ShuoZhengOnReady");
+	}
+
+	require([ "dojo/ready", "dijit/layout/BorderContainer",
+			"dijit/layout/ContentPane", "dijit/form/ValidationTextBox",
+			"dijit/form/Button" ], function($ready) {
+
+		$ready(function() {
+
+			console.log(121);
+		});
+
+	});
+</script>
+</HEAD>
+
+<BODY class="soria">
+
+	<div data-dojo-id="continentStore"
+		data-dojo-type="dojo/data/ItemFileWriteStore"
+		data-dojo-props='url:"datasource_tree.json"'></div>
+	<div data-dojo-id="continentModel"
+		data-dojo-type="dijit/tree/ForestStoreModel"
+		data-dojo-props='store:continentStore, query:{type:"continent"},
+		rootId:"continentRoot", rootLabel:"数据源（集）", childrenAttrs:["children"]'></div>
+
+
+
+	<div data-dojo-id="continentStore2"
+		data-dojo-type="dojo/data/ItemFileWriteStore"
+		data-dojo-props='url:"pageObj_tree.json"'></div>
+	<div data-dojo-id="continentModel2"
+		data-dojo-type="dijit/tree/ForestStoreModel"
+		data-dojo-props='store:continentStore2, query:{type:"continent"},
+		rootId:"continentRoot", rootLabel:"报表元素对象", childrenAttrs:["children"]'></div>
+
+
+	<div id="_main" data-dojo-type="dijit.layout.BorderContainer"
+		data-dojo-props='liveSplitters:false,design:"headline",splitterClass:"dojox.layout.ToggleSplitter"'>
+		<div id="_main_bottom" data-dojo-type="dijit.layout.ContentPane"
+			style="width: 50%"
+			data-dojo-props='region:"right",splitter:true,minSize:400'>
+			<div id="mondrian_top_bc" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='persist:true, gutters:false, style:"height: 100px; width: 100%"'>
+				<div id="top_a" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"leading", style:"width: 125px", splitter:true'>
+					<div id="mytree2" data-dojo-type="fore/Tree"
+						data-dojo-props='model:continentModel2,  onLoad:function(){ console.log("loaded mytree (first tree)"); }'>
+
+					</div>
+				</div>
+				<div id="top_b" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center", splitter:true'>
+
+
+					<form id="_frm_add" data-dojo-type="dijit/form/Form">
+						<table>
+							<tr style="height: 23px">
+								<td><label for="_main_search_txt_name2">报表标题：</label></td>
+								<td><input id="_main_search_txt_name2"
+									data-dojo-props="required:true"
+									data-dojo-type="dijit/form/ValidationTextBox" />
+								</td>
+							</tr>
+							<tr style="height: 23px">
+								<td><label for="_main_search_txt_name3">报表表尾：</label></td>
+								<td><input id="_main_search_txt_name3"
+									data-dojo-type="dijit/form/ValidationTextBox" />
+								</td>
+							</tr>
+							<tr style="height: 23px">
+								<td><label for="_frm_add_txta_memo">报表说明：</label></td>
+								<td><textarea id="_frm_add_txta_memo"
+										style="width: 300px; height: 50px"
+										data-dojo-type="dijit/form/SimpleTextarea"></textarea>
+								</td>
+							</tr>
+							<tr style="height: 23px">
+								<td><label for="_main_search_txt_name4">坐标：</label></td>
+								<td><input id="_main_search_txt_name4"
+									data-dojo-type="dijit/form/ValidationTextBox" value="C1"/>
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div id="_main_center" data-dojo-type="dijit.layout.ContentPane"
+			style="height: 70%"
+			data-dojo-props='region:"top",splitter:true,minSize:150'>
+			<div style="position: relative; width: 100%; height: 100%">
+				<script>
+					insertReport('AF', '')
+				</script>
+			</div>
+		</div>
+
+
+		<div id="_main_left" data-dojo-type="dijit.layout.ContentPane"
+			style="width: 220px"
+			data-dojo-props='region:"left",splitter:true,minSize:220'>
+			<div id="mytree" data-dojo-type="fore/Tree"
+				data-dojo-props='model:continentModel,  onLoad:function(){ console.log("loaded mytree (first tree)"); }'>
+
+			</div>
+		</div>
+
+
+		<div id="_main_right" data-dojo-type="dijit.layout.ContentPane"
+			style="width: 220px"
+			data-dojo-props='region:"center",splitter:true,minSize:220'>
+			<table dojoType="dojox/grid/DataGrid" keepSelection="true" style="width:100%"
+				summary="A customized grid summary" jsid="grid" id="grid"
+				query="{ name: '*' }" rowsPerPage="20"
+				rowSelector="20px">
+				<thead>
+					<tr>
+						<th field="name" width="auto">字段名称</th>
+						<th field="type" width="auto">别名</th>
+						<th field="type1" width="auto">分组字段</th>
+						<th field="type2" width="auto">统计方式</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</BODY>
+</HTML>
