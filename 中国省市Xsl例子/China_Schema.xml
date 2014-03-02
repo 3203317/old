@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="gb2312"?>
+<Schema xmlns="urn:schemas-microsoft-com:xml-data" xmlns:ds="urn:schemas-microsoft-com:datatypes">
+	<description>注释1</description>
+	<ElementType name="World">
+		<element type="China"/>
+	</ElementType>
+	<description>注释2</description>
+	<ElementType name="China" content="eltOnly">
+		<element type="Id"/>
+		<element type="Province"/>
+		<element type="City"/>
+		<element type="Url"/>
+	</ElementType>
+	<ElementType name="Id" ds:type="int"/>
+	<ElementType name="Province" content="textOnly" ds:type="string"/>
+	<ElementType name="City" content="textOnly" ds:type="string"/>
+	<ElementType name="Url" content="textOnly" ds:type="string"/>
+</Schema>

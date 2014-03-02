@@ -1,0 +1,32 @@
+.td2
+{
+	font-size: 9pt;
+	color: red;
+}
+.td1
+{
+	font-weight: bold;
+	font-size: 12pt;
+	color: #0000ff;
+}
+.Title
+{
+	font-weight: bolder;
+	font-size: xx-large;
+}
+.td3
+{
+	font-weight: bold;
+	font-size: 9pt;
+}
+.bt1
+{
+	border-right: blue 1px solid;
+	border-top: blue 1px solid;
+	border-left: blue 1px solid;
+	border-bottom: blue 1px solid;
+}
+.tr1
+{
+	background-color: #ccffff;
+}
