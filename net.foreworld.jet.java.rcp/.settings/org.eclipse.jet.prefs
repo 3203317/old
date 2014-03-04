@@ -1,0 +1,6 @@
+#??? ?? 09 12:03:27 CST 2011
+eclipse.preferences.version=1
+org.eclipse.jet.compiledTemplatePackage=net.foreworld.jet.java.rcp.compiled
+org.eclipse.jet.compiledTemplateSrcDir=jet2java
+org.eclipse.jet.projectPrefs=true
+org.eclipse.jet.useJava5=true

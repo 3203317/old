@@ -1,0 +1,29 @@
+td,p,li,input,select,div,span {font-size:12px;}
+	table,td,img,div,span{border: none;margin: 0px 0px 0px 0px;padding: 0px 0px 0px 0px;}
+
+	.f10 {font-size: 10px;}
+	.f12 {font-size: 12px;}
+	.f14 {font-size: 14px;}
+	.f16 {font-size: 16px;}
+
+	.lh17 {line-height:17px;}
+	.lh19 {line-height:19px;}
+
+	A:link {color:#00f;}
+	A:visited {color:#800080;}
+	A:active {color:#f00;}
+	A:hover {color:#f00;}
+
+	/*css for ddt*/
+	.tree a:link {text-decoration: none;color:#003398;font-weight: bold;}
+	.tree a:visited {text-decoration: none;color:#003398;font-weight: normal;}
+	.tree a:active,.tree a:hover {text-decoration: none;color:#FD0100;}
+	.tree {color:#222;line-height:19px;width:96%;text-align:left;}
+	.tree #channel{font-size:16px;font-weight:bold;color:#013299;text-align:center;padding:5px 0 10px 0;border-bottom:2px solid #005FA9;clear:both;margin-bottom:8px;margin-top:8px;}
+	.tree #block{margin-bottom:9px;padding-bottom:10px;padding-top:5px;border-bottom:2px dotted #006699;}
+	.tree #title{font-weight:bold;font-size:14px;clear:both;margin-bottom:5px;margin-top:5px;color:#003398}
+	.tree #author{color:#808080;float:left;margin-bottom:5px;}
+	.tree #time{color:#808080;float:right;margin-bottom:5px;}
+	.tree #description{clear:both;}
+	.tree #readall{text-align:right;font-weight:bold;}
+	.tree #readall a{text-decoration: underline;font-weight: bold;}

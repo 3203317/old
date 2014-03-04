@@ -1,0 +1,14 @@
+#Sat May 23 11:17:37 CST 2009
+eclipse.preferences.version=1
+encoding//src/Message_Zh_CN.properties=GBK
+encoding//src/net/foreworld/rss2=gbk
+encoding//src/net/foreworld/rss2/db/UpdateTime.java=gbk
+encoding//src/net/foreworld/rss2/dialogs/AttributeOfChannelDialog.java=gbk
+encoding//src/net/foreworld/rss2/dialogs/wizards/AddChannelWizardPage1.java=gbk
+encoding//src/net/foreworld/rss2/dialogs/wizards/AddChannelWizardPage2.java=gbk
+encoding//src/net/foreworld/rss2/update/UpdateJob.java=gbk
+encoding//src/net/foreworld/rss2/views/ChannelNavigatorView.java=gbk
+encoding/<project>=UTF-8
+encoding/AppPref.properties=GBK
+encoding/src=gbk
+instance/org.eclipse.core.net/org.eclipse.core.net.hasMigrated=true
