@@ -22,7 +22,7 @@ public class TestAbc {
 		// System.out.println(jsonArray.toString());
 
 		SAXReader reader = new SAXReader();
-		File file = new File("D:\\GitHub\\study\\db\\sql\\f_article.xml");
+		File file = new File("D:\\GitHub\\study\\db\\f_article.xml");
 		Document document = null;
 		try {
 			document = reader.read(file);
