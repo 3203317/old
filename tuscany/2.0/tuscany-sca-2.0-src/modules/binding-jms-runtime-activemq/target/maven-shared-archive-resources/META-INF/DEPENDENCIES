@@ -1,0 +1,47 @@
+// ------------------------------------------------------------------
+// Transitive dependencies of this project determined from the
+// maven pom organized by organization.
+// ------------------------------------------------------------------
+
+Apache Tuscany SCA JMS Binding Runtime AcytiveMQ
+
+
+From: 'an unknown organization'
+  - avalon-framework  avalon-framework:avalon-framework:jar:4.1.3
+
+  - servlet-api  javax.servlet:servlet-api:jar:2.3
+
+  - log4j  log4j:log4j:jar:1.2.12
+
+  - logkit  logkit:logkit:jar:1.0.1
+
+  - geronimo-j2ee-management_1.0_spec  org.apache.geronimo.specs:geronimo-j2ee-management_1.0_spec:jar:1.0
+
+
+From: 'Apache Software Foundation' (http://www.apache.org)
+  - J2EE Management 1.1 (http://geronimo.apache.org/specs/geronimo-j2ee-management_1.1_spec) org.apache.geronimo.specs:geronimo-j2ee-management_1.1_spec:jar:1.0.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+From: 'The Apache Software Foundation' (http://jakarta.apache.org)
+  - Logging (http://jakarta.apache.org/commons/${pom.artifactId.substring(8)}/) commons-logging:commons-logging:jar:1.1
+    License: The Apache Software License, Version 2.0  (/LICENSE.txt)
+  - Logging (http://jakarta.apache.org/commons/logging/) commons-logging:commons-logging-api:jar:1.1
+    License: The Apache Software License, Version 2.0  (/LICENSE.txt)
+
+From: 'The Apache Software Foundation' (http://www.apache.org/)
+  - Commons Net (http://commons.apache.org/net/) commons-net:commons-net:jar:2.0
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - ActiveIO :: Core (http://activemq.apache.org/activeio-core/) org.apache.activemq:activeio-core:bundle:3.1.2
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - ActiveMQ :: Core (http://activemq.apache.org/activemq-core) org.apache.activemq:activemq-core:bundle:5.3.0
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - ActiveMQ :: KahaDB (http://activemq.apache.org/kahadb) org.apache.activemq:kahadb:bundle:5.3.0
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - ActiveMQ Protocol Buffers Implementation and Compiler (http://activemq.apache.org/activemq-protobuf) org.apache.activemq.protobuf:activemq-protobuf:maven-plugin:1.0
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache Tuscany SCA JMS Binding Runtime (http://tuscany.apache.org/tuscany-modules/tuscany-binding-jms-runtime) org.apache.tuscany.sca:tuscany-binding-jms-runtime:jar:2.0
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+
+
+

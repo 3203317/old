@@ -1,0 +1,15 @@
+// ------------------------------------------------------------------
+// Transitive dependencies of this project determined from the
+// maven pom organized by organization.
+// ------------------------------------------------------------------
+
+Apache Tuscany SCA Extensibility for Eclipse Equinox
+
+
+From: 'an unknown organization'
+  - osgi  org.eclipse:osgi:jar:3.5.0-v20090520
+
+
+
+
+

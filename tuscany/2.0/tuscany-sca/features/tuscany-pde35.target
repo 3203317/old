@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+<!--
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+-->
+<target name="Eclipse PDE 3.5 Target - tuscany-distribution-all">
+<locations>
+  <location path="C:\Tuscany\SVN\2.0-tag-stage\distribution\all\target\modules" type="Directory">
+    <includeBundles>
+      <plugin id="org.springframework.asm"/>
+      <plugin id="org.apache.tuscany.sca.implementation.spring.runtime"/>
+      <plugin id="org.apache.ode.ode-bpel-compiler"/>
+      <plugin id="org.springframework.web.servlet"/>
+      <plugin id="org.apache.tuscany.sca.binding.ejb"/>
+      <plugin id="commons-collections.commons-collections"/>
+      <plugin id="org.apache.tuscany.sca.shell"/>
+      <plugin id="org.apache.tuscany.sca.implementation.python.runtime"/>
+      <plugin id="org.eclipse.emf.ecore"/>
+      <plugin id="jackson-core-asl"/>
+      <plugin id="org.apache.tuscany.sca.host.corba"/>
+      <plugin id="org.apache.tuscany.sca.binding.jms"/>
+      <plugin id="org.apache.tuscany.sca.implementation.web.runtime"/>
+      <plugin id="org.apache.tuscany.sdo.tuscany-sdo-impl"/>
+      <plugin id="org.apache.abdera.i18n"/>
+      <plugin id="org.apache.geronimo.specs.geronimo-jms_1.1_spec"/>
+      <plugin id="org.apache.tuscany.sca.builder"/>
+      <plugin id="org.apache.tuscany.sca.interface.java.jaxrs"/>
+      <plugin id="org.apache.ode.ode-dao-hibernate"/>
+      <plugin id="org.apache.tuscany.sdo.spec"/>
+      <plugin id="javax.ws.rs.jsr311-api"/>
+      <plugin id="org.apache.myfaces.core.myfaces-impl"/>
+      <plugin id="org.apache.neethi"/>
+      <plugin id="org.apache.ode.ode-bpel-obj"/>
+      <plugin id="org.jruby.jruby"/>
+      <plugin id="org.apache.ode.ode-bpel-dao"/>
+      <plugin id="org.apache.tuscany.sca.host.corba.jse"/>
+      <plugin id="org.apache.tuscany.sca.implementation.java"/>
+      <plugin id="org.apache.tuscany.sca.implementation.script"/>
+      <plugin id="org.apache.ws.commons.axiom.axiom-api"/>
+      <plugin id="org.apache.tuscany.sca.wink"/>
+      <plugin id="xerces.xercesImpl"/>
+      <plugin id="jdom.jdom"/>
+      <plugin id="commons-digester.commons-digester"/>
+      <plugin id="org.apache.tuscany.sca.databinding.sdo.axiom"/>
+      <plugin id="org.eclipse.emf.common"/>
+      <plugin id="groovy-all"/>
+      <plugin id="regexp.regexp"/>
+      <plugin id="jackson-module-json-org"/>
+      <plugin id="org.apache.tuscany.sca.xsd"/>
+      <plugin id="org.apache.httpcomponents.httpclient"/>
+      <plugin id="org.apache.tuscany.sca.implementation.python"/>
+      <plugin id="javax.servlet.servlet-api"/>
+      <plugin id="javax.mail.mail"/>
+      <plugin id="org.apache.geronimo.specs.geronimo-annotation_1.1_spec"/>
+      <plugin id="org.apache.tuscany.sca.common.java"/>
+      <plugin id="dom4j.dom4j"/>
+      <plugin id="org.apache.ode.ode-agents"/>
+      <plugin id="org.apache.commons.codec"/>
+      <plugin id="commons-discovery.commons-discovery"/>
+      <plugin id="org.apache.geronimo.specs.geronimo-ejb_3.0_spec"/>
+      <plugin id="org.apache.axis2.osgi"/>
+      <plugin id="org.apache.tuscany.sca.host.webapp"/>
+      <plugin id="net.sourceforge.stripes.stripes"/>
+      <plugin id="org.apache.tuscany.sca.domain.node"/>
+      <plugin id="org.apache.tuscany.sca.node.osgi.impl"/>
+      <plugin id="jaxen.jaxen"/>
+      <plugin id="org.apache.tuscany.sca.binding.atom.abdera"/>
+      <plugin id="org.eclipse.equinox.preferences"/>
+      <plugin id="org.apache.tuscany.sca.implementation.jaxrs"/>
+      <plugin id="org.apache.axis2.axis2-mtompolicy"/>
+      <plugin id="org.apache.tuscany.sca.policy.wspolicy"/>
+      <plugin id="org.apache.tuscany.sca.databinding.sdo"/>
+      <plugin id="org.apache.geronimo.components.geronimo-transaction"/>
+      <plugin id="org.springframework.expression"/>
+      <plugin id="org.eclipse.equinox.registry"/>
+      <plugin id="org.apache.tuscany.sca.host.corba.jse.tns"/>
+      <plugin id="org.apache.tuscany.sca.assembly"/>
+      <plugin id="org.apache.wink.wink-client-apache-httpclient"/>
+      <plugin id="org.apache.tuscany.sca.contribution"/>
+      <plugin id="org.apache.tuscany.sca.binding.jms.runtime"/>
+      <plugin id="org.apache.tuscany.sca.binding.comet"/>
+      <plugin id="org.apache.tuscany.sdo.lib"/>
+      <plugin id="org.apache.ws.commons.axiom.axiom-impl"/>
+      <plugin id="com.hazelcast.hazelcast-client"/>
+      <plugin id="org.apache.tuscany.sca.databinding.jaxb.axiom"/>
+      <plugin id="commons-pool.commons-pool"/>
+      <plugin id="org.apache.tuscany.sca.binding.corba.runtime"/>
+      <plugin id="org.springframework.aop"/>
+      <plugin id="org.apache.abdera.client"/>
+      <plugin id="org.apache.abdera.extensions-main"/>
+      <plugin id="org.apache.tuscany.sca.extensibility"/>
+      <plugin id="nu.validator.htmlparser.htmlparser"/>
+      <plugin id="org.springframework.core"/>
+      <plugin id="org.apache.tuscany.sca.implementation.bpel.runtime"/>
+      <plugin id="org.json.json"/>
+      <plugin id="org.apache.tuscany.sca.binding.ws.jaxws"/>
+      <plugin id="org.opensaml.opensaml"/>
+      <plugin id="org.apache.tuscany.sca.gateway"/>
+      <plugin id="org.apache.tuscany.sca.implementation.widget"/>
+      <plugin id="org.apache.tuscany.sca.interface.java.jaxws"/>
+      <plugin id="org.apache.geronimo.specs.geronimo-j2ee-connector_1.5_spec"/>
+      <plugin id="org.apache.xmlbeans.xmlbeans"/>
+      <plugin id="org.apache.tuscany.sca.core.web.javascript.dojo"/>
+      <plugin id="org.apache.tuscany.sca.myfaces"/>
+      <plugin id="org.apache.tuscany.sca.launcher"/>
+      <plugin id="cglib.cglib"/>
+      <plugin id="org.apache.openjpa.openjpa"/>
+      <plugin id="org.apache.tuscany.sca.binding.ws.wsdlgen"/>
+      <plugin id="org.apache.geronimo.modules.geronimo-kernel"/>
+      <plugin id="org.apache.santuario.xmlsec"/>
+      <plugin id="org.apache.ws.security.wss4j"/>
+      <plugin id="org.apache.tuscany.sca.binding.jsonrpc"/>
+      <plugin id="org.apache.rampart.rampart-policy"/>
+      <plugin id="org.apache.tuscany.sca.stripes"/>
+      <plugin id="org.apache.ode.ode-bpel-runtime"/>
+      <plugin id="org.apache.tuscany.sca.databinding.jaxb"/>
+      <plugin id="org.apache.wink.client"/>
+      <plugin id="org.apache.tuscany.sca.policy.logging"/>
+      <plugin id="org.apache.tuscany.sca.policy.security"/>
+      <plugin id="backport-util-concurrent.backport-util-concurrent"/>
+      <plugin id="org.apache.tuscany.sca.binding.rmi"/>
+      <plugin id="org.apache.tomcat.juli"/>
+      <plugin id="org.apache.tuscany.sca.binding.http"/>
+      <plugin id="org.apache.tuscany.sca.implementation.spring.webapp"/>
+      <plugin id="org.apache.tuscany.sca.interface.java"/>
+      <plugin id="org.apache.tuscany.sca.implementation.script.runtime"/>
+      <plugin id="org.apache.tuscany.sca.implementation.spring"/>
+      <plugin id="aopalliance.aopalliance"/>
+      <plugin id="org.apache.geronimo.components.geronimo-connector"/>
+      <plugin id="org.apache.tuscany.sca.core"/>
+      <plugin id="org.apache.tuscany.sca.binding.corba"/>
+      <plugin id="org.apache.tuscany.sca.deployment"/>
+      <plugin id="org.apache.tuscany.sca.domain.hazelcast"/>
+      <plugin id="org.eclipse.core.contenttype"/>
+      <plugin id="org.apache.tuscany.sca.host.http"/>
+      <plugin id="org.apache.tuscany.sca.binding.jsonp"/>
+      <plugin id="org.apache.tuscany.sca.implementation.web.client"/>
+      <plugin id="hazelcast"/>
+      <plugin id="org.apache.ode.ode-jacob-ap"/>
+      <plugin id="org.apache.rampart.rampart-trust"/>
+      <plugin id="org.apache.ode.ode-jacob"/>
+      <plugin id="org.apache.axis2.mex"/>
+      <plugin id="net.sourceforge.saxon.saxon"/>
+      <plugin id="org.apache.tuscany.sca.aspectj"/>
+      <plugin id="slf4j.jdk14"/>
+      <plugin id="jackson-xc"/>
+      <plugin id="org.apache.wink.common"/>
+      <plugin id="commons-httpclient.commons-httpclient"/>
+      <plugin id="org.eclipse.core.jobs"/>
+      <plugin id="org.apache.tuscany.sca.implementation.jaxrs.runtime"/>
+      <plugin id="org.apache.tuscany.sca.host.jetty"/>
+      <plugin id="org.apache.tuscany.sca.common.http"/>
+      <plugin id="org.directwebremoting.dwr"/>
+      <plugin id="org.apache.tuscany.sca.binding.rest.runtime"/>
+      <plugin id="org.apache.tomcat.tribes"/>
+      <plugin id="org.eclipse.emf.ecore.xmi"/>
+      <plugin id="org.eclipse.equinox.common"/>
+      <plugin id="org.apache.rampart.rampart-core"/>
+      <plugin id="tranql.tranql-connector"/>
+      <plugin id="org.apache.tuscany.sca.binding.atom"/>
+      <plugin id="org.apache.geronimo.specs.geronimo-jpa_3.0_spec"/>
+      <plugin id="org.aspectj.aspectjweaver"/>
+      <plugin id="wsdl4j.wsdl4j"/>
+      <plugin id="org.objectweb.howl.howl"/>
+      <plugin id="org.opensaml.openws"/>
+      <plugin id="org.apache.tuscany.sca.assembly.xml"/>
+      <plugin id="org.apache.geronimo.specs.geronimo-jta_1.1_spec"/>
+      <plugin id="rhino.js"/>
+      <plugin id="org.apache.tuscany.sca.databinding.json"/>
+      <plugin id="org.apache.ode.ode-bpel-api"/>
+      <plugin id="org.apache.ode.ode-bpel-epr"/>
+      <plugin id="org.apache.tuscany.sca.binding.jsonp.runtime"/>
+      <plugin id="org.codehaus.jettison.jettison"/>
+      <plugin id="org.apache.tuscany.sca.client.impl"/>
+      <plugin id="org.apache.tuscany.sca.implementation.web"/>
+      <plugin id="org.springframework.context"/>
+      <plugin id="org.apache.tuscany.sca.monitor"/>
+      <plugin id="org.apache.tuscany.sca.api"/>
+      <plugin id="commons-lang.commons-lang"/>
+      <plugin id="org.apache.derby.derby"/>
+      <plugin id="org.apache.tuscany.sca.implementation.widget.runtime.dojo"/>
+      <plugin id="log4j.log4j"/>
+      <plugin id="org.eclipse.core.runtime"/>
+      <plugin id="org.aspectj.aspectjrt"/>
+      <plugin id="org.apache.tuscany.sca.data.api"/>
+      <plugin id="org.python.jython"/>
+      <plugin id="org.apache.tuscany.sca.extensibility.equinox"/>
+      <plugin id="org.springframework.beans"/>
+      <plugin id="org.apache.abdera.extensions-json"/>
+      <plugin id="org.mortbay.jetty.util"/>
+      <plugin id="org.apache.tuscany.sca.binding.rest"/>
+      <plugin id="org.apache.bsf.bsf-utils"/>
+      <plugin id="xalan.xalan"/>
+      <plugin id="org.apache.ws.commons.schema"/>
+      <plugin id="org.apache.abdera.extensions-html"/>
+      <plugin id="org.apache.tuscany.sca.node.impl"/>
+      <plugin id="org.apache.ode.ode-utils"/>
+      <plugin id="org.apache.tuscany.sca.implementation.bpel"/>
+      <plugin id="commons-beanutils.commons-beanutils"/>
+      <plugin id="org.mortbay.jetty.server"/>
+      <plugin id="org.apache.ode.ode-bpel-schemas"/>
+      <plugin id="org.apache.tuscany.sca.common.xml"/>
+      <plugin id="org.apache.tuscany.sca.host.rmi"/>
+      <plugin id="org.apache.tuscany.sca.endpoint.tribes"/>
+      <plugin id="org.apache.tuscany.sca.node.api"/>
+      <plugin id="org.apache.commons.cli"/>
+      <plugin id="org.springframework.context.support"/>
+      <plugin id="org.apache.tuscany.sca.implementation.widget.runtime"/>
+      <plugin id="org.apache.abdera.core"/>
+      <plugin id="org.apache.tuscany.sca.implementation.java.runtime"/>
+      <plugin id="commons-logging.commons-logging"/>
+      <plugin id="org.apache.geronimo.specs.geronimo-javamail_1.4_spec"/>
+      <plugin id="org.eclipse.xsd"/>
+      <plugin id="org.apache.tuscany.sca.node.launcher.equinox"/>
+      <plugin id="org.apache.tuscany.sca.host.corba.jee"/>
+      <plugin id="org.apache.ode.ode-dao-jpa"/>
+      <plugin id="org.eclipse.emf.ecore.change"/>
+      <plugin id="org.apache.tuscany.sca.binding.ws"/>
+      <plugin id="org.eclipse.osgi.services"/>
+      <plugin id="org.apache.tuscany.sca.core.web.javascript"/>
+      <plugin id="org.apache.abdera.server"/>
+      <plugin id="org.apache.tuscany.sca.binding.ws.jaxws.ri"/>
+      <plugin id="org.apache.tuscany.sca.databinding"/>
+      <plugin id="net.sourceforge.serp.serp"/>
+      <plugin id="org.apache.tuscany.sca.databinding.axiom"/>
+      <plugin id="org.apache.ws.commons.axiom.axiom-dom"/>
+      <plugin id="org.apache.tuscany.sca.assembly.xsd"/>
+      <plugin id="jcl.over.slf4j"/>
+      <plugin id="org.apache.ode.ode-scheduler-simple"/>
+      <plugin id="jackson-mapper-asl"/>
+      <plugin id="org.apache.tuscany.sca.contribution.osgi"/>
+      <plugin id="org.apache.tuscany.sca.binding.ejb.runtime"/>
+      <plugin id="org.apache.ode.ode-bpel-store"/>
+      <plugin id="org.opensaml.xmltooling"/>
+      <plugin id="org.apache.tuscany.sca.binding.jsonrpc.runtime"/>
+      <plugin id="org.apache.tuscany.sca.implementation.osgi.runtime"/>
+      <plugin id="org.apache.tuscany.sca.core.spi"/>
+      <plugin id="org.springframework.web"/>
+      <plugin id="org.eclipse.osgi"/>
+      <plugin id="org.apache.tuscany.sca.interface.wsdl"/>
+      <plugin id="asm.asm"/>
+      <plugin id="org.apache.myfaces.core.myfaces-api"/>
+      <plugin id="javax.servlet.jstl"/>
+      <plugin id="org.apache.tuscany.sca.binding.sca.runtime"/>
+      <plugin id="org.apache.tuscany.sca.implementation.osgi"/>
+      <plugin id="slf4j.api"/>
+      <plugin id="org.apache.httpcomponents.httpcore"/>
+      <plugin id="org.apache.tuscany.sca.binding.ws.axis2"/>
+      <plugin id="org.apache.tuscany.sca.binding.http.runtime"/>
+      <plugin id="org.eclipse.equinox.app"/>
+      <plugin id="org.apache.tuscany.sca.core.databinding"/>
+      <plugin id="org.apache.tuscany.sca.binding.rmi.runtime"/>
+      <plugin id="org.apache.abdera.parser"/>
+      <plugin id="org.apache.wink.server"/>
+    </includeBundles>
+  </location>
+</locations>
+</target>

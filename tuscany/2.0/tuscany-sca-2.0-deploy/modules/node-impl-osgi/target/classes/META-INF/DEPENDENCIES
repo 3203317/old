@@ -1,0 +1,25 @@
+// ------------------------------------------------------------------
+// Transitive dependencies of this project determined from the
+// maven pom organized by organization.
+// ------------------------------------------------------------------
+
+Apache Tuscany SCA OSGi Node Implementation
+
+
+From: 'an unknown organization'
+  - osgi  org.eclipse:osgi:jar:3.5.0-v20090520
+
+  - services  org.eclipse.osgi:services:jar:3.2.0-v20090520-1800
+
+
+From: 'The Apache Software Foundation' (http://www.apache.org/)
+  - Apache Tuscany SCA Contribution OSGi Bundle (http://tuscany.apache.org/tuscany-modules/tuscany-contribution-osgi) org.apache.tuscany.sca:tuscany-contribution-osgi:jar:2.0
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache Tuscany SCA Extensibility for Eclipse Equinox (http://tuscany.apache.org/tuscany-modules/tuscany-extensibility-equinox) org.apache.tuscany.sca:tuscany-extensibility-equinox:jar:2.0
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache Tuscany SCA OSGi Implementation Extension (http://tuscany.apache.org/tuscany-modules/tuscany-implementation-osgi) org.apache.tuscany.sca:tuscany-implementation-osgi:jar:2.0
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+
+
+

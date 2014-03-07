@@ -1,0 +1,35 @@
+// ------------------------------------------------------------------
+// Transitive dependencies of this project determined from the
+// maven pom organized by organization.
+// ------------------------------------------------------------------
+
+Apache Tuscany SCA Node Equinox OSGi Launcher
+
+
+From: 'an unknown organization'
+  - servlet-api  javax.servlet:servlet-api:jar:2.5
+
+  - osgi  org.eclipse:osgi:jar:3.5.0-v20090520
+
+  - contenttype  org.eclipse.core:contenttype:jar:3.3.0-v20080604-1400
+
+  - jobs  org.eclipse.core:jobs:jar:3.4.0-v20080512
+
+  - runtime  org.eclipse.core:runtime:jar:3.4.0-v20080512
+
+  - app  org.eclipse.equinox:app:jar:1.2.0-v20090520-1800
+
+  - common  org.eclipse.equinox:common:jar:3.5.0-v20090520-1800
+
+  - preferences  org.eclipse.equinox:preferences:jar:3.2.300-v20090520-1800
+
+  - registry  org.eclipse.equinox:registry:jar:3.4.100-v20090520-1800
+
+
+From: 'The Apache Software Foundation' (http://www.apache.org/)
+  - Commons CLI (http://commons.apache.org/cli/) commons-cli:commons-cli:jar:1.2
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+
+
+

@@ -1,0 +1,58 @@
+Tuscany作为SCA规范的实现越来越得到广大编程爱好者的关注，现在Tuscany发布的最新版本为今年10月份发布的1.3.2，现在正在Mail List上做1.4的RC3投票工作。如何把Tuscany代码导入到工作空间中去，如何运行简单的示例，将是开发者面临的首要问题。
+
+　　下面就如何搭建Tuscany开发环境作详细的说明。
+
+　　一、环境准备
+
+　　JDK 1.5+ 
+　　 Apache Maven (2.0.7+)
+　　  Subversion (1.2+)
+
+　　二、源代码下载
+
+　　Tuscany代码采用svn版本控制系统，URL为https://svn.apache.org/repos/asf/tuscany/java/sca
+
+　　通过Subversion提供的svn命令下载
+svn checkout http://svn.apache.org/repos/asf/tuscany/java/sca
+
+　　三、源代码编译
+
+　　Tuscany提供的源代码提供了Maven的编译文件pom，通过命令mvn clean install -fn进行编译。
+
+　　注：
+
+　　1、编译时会自动所把需要的第三方jar下载到mvn的仓库中，默认的存储路径为：C:\Documents and Settings\user\.m2\repository
+
+　　2、由于下载等需要占用较大的内存，在编译前需要把编译的内存值设置较大值
+SET MAVEN_OPTS=-Xmx1024m
+
+　　3、由于使用了install，将运行所有的测试用例，如果节省时间或者发生错误时继续编译，则可以使用参数-Dmaven.test.skip=true
+
+　　4、如果编译需要的第三方jar在本地仓库中都已经存在，则可用-o参数，直接进行本地编译，不再联网下载。
+
+　　四、导入到Eclipse工作空间中
+
+　　需要通过运行maven的命名，生成Eclipse工程需要的.project和.classpath文件。
+
+　　mvn -o -Peclipse eclipse:eclipse -fn经过此步骤，就会根据pom.xml中定义的项目依赖和依赖的第三方jar，生成Eclipse项目需要的.project和.classpath文件。
+
+　　SCA的目录结构：
+
+　　SCA---demos       简单的bigbank应用
+　　      itest       单元测试用例
+　　      modules     SCA的实现模块
+　　      samples     示例代码
+　　      tools       eclipse plugin和mvn plugin
+　　      ......
+
+　　这时就可以通过Eclipse的导入现有项目的功能把Tuscany项目导入到Eclipse工作空间中。
+
+　　（其中目录moudles下会把每个模块编译成Eclipse project以及目录itest，samples等目录也会生成不同的项目）
+
+　　五、示例代码运行
+
+　　在samples下的每个项目中都会有针对不同功能的示例代码，如目录samples\calculator有Java实现的简单计算器服务代码，运行其调用类CalculatorClient.java，就可以看到运行结果如下：3 + 2=5.0
+3 - 2=1.0
+3 * 2=6.0
+3 / 2=1.5
+原文出处：http://gocom.primeton.com/blog16567_26284.htm

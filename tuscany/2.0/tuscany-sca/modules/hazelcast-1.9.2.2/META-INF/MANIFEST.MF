@@ -1,0 +1,28 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: talipozturk
+Build-Jdk: 1.6.0_20
+Main-Class: com.hazelcast.examples.SimpleMapTest
+Bundle-ManifestVersion: 2
+Bundle-Name: hazelcast
+Bundle-SymbolicName: hazelcast
+Bundle-Version: 1.9.2.2
+Import-Package: javax.xml.parsers, javax.xml.transform, org.w3c.dom, j
+ avax.xml.transform.dom, javax.xml.transform.stream, javax.crypto, jav
+ ax.crypto.spec, javax.crypto.interfaces
+Export-Package: com.hazelcast.cluster;uses:="com.hazelcast.impl.base, 
+ com.hazelcast.nio, com.hazelcast.core, com.hazelcast.impl, com.hazelc
+ ast.util",com.hazelcast.config;uses:="com.hazelcast.nio,org.w3c.dom",
+ com.hazelcast.core;uses:="com.hazelcast.monitor, com.hazelcast.nio, c
+ om.hazelcast.query, com.hazelcast.impl, com.hazelcast.logging, com.ha
+ zelcast.config, com.hazelcast.partition",com.hazelcast.examples;uses:
+ ="com.hazelcast.core",com.hazelcast.jmx;uses:="com.hazelcast.config, 
+ com.hazelcast.core, javax.management, com.hazelcast.impl",com.hazelca
+ st.logging,com.hazelcast.monitor;uses:="com.hazelcast.core,com.hazelc
+ ast.impl",com.hazelcast.nio;uses:="javax.crypto, com.hazelcast.impl, 
+ com.hazelcast.logging, com.hazelcast.cluster",com.hazelcast.partition
+ ;uses:="com.hazelcast.core",com.hazelcast.query;uses:="com.hazelcast.
+ nio,com.hazelcast.core,com.hazelcast.impl",com.hazelcast.util
+Bundle-ClassPath: .
+

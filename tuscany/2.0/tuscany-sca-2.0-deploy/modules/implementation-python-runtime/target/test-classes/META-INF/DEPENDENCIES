@@ -1,0 +1,15 @@
+// ------------------------------------------------------------------
+// Transitive dependencies of this project determined from the
+// maven pom organized by organization.
+// ------------------------------------------------------------------
+
+Apache Tuscany SCA Python Implementation Extension
+
+
+From: 'an unknown organization'
+  - jython  org.python:jython:jar:2.5.2-beta1
+
+
+
+
+

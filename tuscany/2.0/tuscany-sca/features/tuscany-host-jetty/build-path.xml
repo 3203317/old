@@ -1,0 +1,40 @@
+<!--
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+-->
+<project name="tuscany-host-jetty">
+  <property name="tuscany.manifest" value="C:\Tuscany\SVN\2.0-tag-stage\distribution\all\target\features\tuscany-host-jetty\tuscany-sca-manifest.jar"/>
+  <dirname property="tuscany-host-jetty.basedir" file="${ant.file.tuscany-host-jetty}"/>
+  <path id="tuscany-host-jetty.path">
+    <fileset dir="${tuscany-host-jetty.basedir}../../../modules">
+      <include name="jetty-6.1.26.jar"/>
+      <include name="jetty-util-6.1.26.jar"/>
+      <include name="servlet-api-2.5/servlet-api-2.5.jar"/>
+      <include name="tuscany-assembly-2.0.jar"/>
+      <include name="tuscany-assembly-xsd-2.0.jar"/>
+      <include name="tuscany-common-java-2.0.jar"/>
+      <include name="tuscany-common-xml-2.0.jar"/>
+      <include name="tuscany-contribution-2.0.jar"/>
+      <include name="tuscany-core-spi-2.0.jar"/>
+      <include name="tuscany-extensibility-2.0.jar"/>
+      <include name="tuscany-host-http-2.0.jar"/>
+      <include name="tuscany-host-jetty-2.0.jar"/>
+      <include name="tuscany-monitor-2.0.jar"/>
+      <include name="tuscany-sca-api-2.0.jar"/>
+    </fileset>
+  </path>
+</project>

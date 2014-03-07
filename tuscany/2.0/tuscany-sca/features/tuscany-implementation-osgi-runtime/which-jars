@@ -1,0 +1,42 @@
+<!--
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+-->
+Jars required to enable extension: tuscany-implementation-osgi-runtime
+
+XmlSchema-1.4.3.jar
+asm-3.1/asm-3.1.jar
+cglib-2.2/cglib-2.2.jar
+osgi-3.5.0-v20090520.jar
+tuscany-assembly-2.0.jar
+tuscany-assembly-xml-2.0.jar
+tuscany-assembly-xsd-2.0.jar
+tuscany-common-java-2.0.jar
+tuscany-common-xml-2.0.jar
+tuscany-contribution-2.0.jar
+tuscany-contribution-osgi-2.0.jar
+tuscany-core-2.0.jar
+tuscany-core-spi-2.0.jar
+tuscany-extensibility-2.0.jar
+tuscany-implementation-osgi-2.0.jar
+tuscany-implementation-osgi-runtime-2.0.jar
+tuscany-interface-java-2.0.jar
+tuscany-interface-wsdl-2.0.jar
+tuscany-monitor-2.0.jar
+tuscany-sca-api-2.0.jar
+tuscany-xsd-2.0.jar
+wsdl4j-1.6.2/wsdl4j-1.6.2.jar

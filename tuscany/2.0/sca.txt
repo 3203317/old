@@ -1,0 +1,20 @@
+Apache Tuscany SCA Domain Node .................... FAILURE [6.169s]
+
+是 Sun 的专用 API，可能会在未来版本中删除
+
+
+Create a Tuscany policy extension project ......... FAILURE [7.909s]
+
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-deploy-plugin:2.6:
+deploy (default-deploy) on project tuscany-policy-archetype: Failed to deploy ar
+tifacts: Could not transfer artifact org.apache.tuscany.sca:tuscany-policy-arche
+type:jar:2.5-20120913.150306-24 from/to apache.snapshots.https (https://reposito
+ry.apache.org/content/repositories/snapshots): Failed to transfer file: https://
+repository.apache.org/content/repositories/snapshots/org/apache/tuscany/sca/tusc
+any-policy-archetype/2.5-SNAPSHOT/tuscany-policy-archetype-2.5-20120913.150306-2
+4.jar. Return code is: 401, ReasonPhrase:Unauthorized. -> [Help 1]
+
+maven/archetypes/policy/pom.xml
+
+
+去掉根pom中的samples和testing

@@ -1,0 +1,76 @@
+<!--
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+-->
+<project name="tuscany-implementation-bpel-runtime">
+  <property name="tuscany.manifest" value="C:\Tuscany\SVN\2.0-tag-stage\distribution\all\target\features\tuscany-implementation-bpel-runtime\tuscany-sca-manifest.jar"/>
+  <dirname property="tuscany-implementation-bpel-runtime.basedir" file="${ant.file.tuscany-implementation-bpel-runtime}"/>
+  <path id="tuscany-implementation-bpel-runtime.path">
+    <fileset dir="${tuscany-implementation-bpel-runtime.basedir}../../../modules">
+      <include name="asm-3.1/asm-3.1.jar"/>
+      <include name="common-3.5.0-v20090520-1800.jar"/>
+      <include name="commons-codec-1.4.jar"/>
+      <include name="commons-collections-3.2/commons-collections-3.2.jar"/>
+      <include name="commons-lang-2.3/commons-lang-2.3.jar"/>
+      <include name="commons-logging-1.1.1/commons-logging-1.1.1.jar"/>
+      <include name="commons-pool-1.3/commons-pool-1.3.jar"/>
+      <include name="derby-10.4.1.3/derby-10.4.1.3.jar"/>
+      <include name="dom4j-1.6.1/dom4j-1.6.1.jar"/>
+      <include name="geronimo-connector-2.1.4.jar"/>
+      <include name="geronimo-ejb_3.0_spec-1.0.1.jar"/>
+      <include name="geronimo-j2ee-connector_1.5_spec-2.0.0.jar"/>
+      <include name="geronimo-jms_1.1_spec-1.1.1.jar"/>
+      <include name="geronimo-jpa_3.0_spec-1.1.1.jar"/>
+      <include name="geronimo-jta_1.1_spec-1.1.1.jar"/>
+      <include name="geronimo-kernel-2.0.1/geronimo-kernel-2.0.1.jar"/>
+      <include name="geronimo-transaction-2.1.4.jar"/>
+      <include name="howl-1.0.1-1/howl-1.0.1-1.jar"/>
+      <include name="jaxen-1.1.1/jaxen-1.1.1.jar"/>
+      <include name="jdom-1.0/jdom-1.0.jar"/>
+      <include name="log4j-1.2.15/log4j-1.2.15.jar"/>
+      <include name="ode-agents-1.3.2/ode-agents-1.3.2.jar"/>
+      <include name="ode-bpel-api-1.3.2/ode-bpel-api-1.3.2.jar"/>
+      <include name="ode-bpel-compiler-1.3.2/ode-bpel-compiler-1.3.2.jar"/>
+      <include name="ode-bpel-dao-1.3.2/ode-bpel-dao-1.3.2.jar"/>
+      <include name="ode-bpel-epr-1.3.2/ode-bpel-epr-1.3.2.jar"/>
+      <include name="ode-bpel-obj-1.3.2/ode-bpel-obj-1.3.2.jar"/>
+      <include name="ode-bpel-runtime-1.3.2/ode-bpel-runtime-1.3.2.jar"/>
+      <include name="ode-bpel-schemas-1.3.2/ode-bpel-schemas-1.3.2.jar"/>
+      <include name="ode-bpel-store-1.3.2/ode-bpel-store-1.3.2.jar"/>
+      <include name="ode-dao-hibernate-1.3.2/ode-dao-hibernate-1.3.2.jar"/>
+      <include name="ode-dao-jpa-1.3.2/ode-dao-jpa-1.3.2.jar"/>
+      <include name="ode-jacob-1.3.2/ode-jacob-1.3.2.jar"/>
+      <include name="ode-jacob-ap-1.3.2/ode-jacob-ap-1.3.2.jar"/>
+      <include name="ode-scheduler-simple-1.3.2/ode-scheduler-simple-1.3.2.jar"/>
+      <include name="ode-utils-1.3.2/ode-utils-1.3.2.jar"/>
+      <include name="openjpa-1.2.1/openjpa-1.2.1.jar"/>
+      <include name="regexp-1.3/regexp-1.3.jar"/>
+      <include name="saxon-9.1.0.8-dom/saxon-9.1.0.8-dom.jar"/>
+      <include name="saxon-9.1.0.8-xpath/saxon-9.1.0.8-xpath.jar"/>
+      <include name="saxon-9.1.0.8-xqj/saxon-9.1.0.8-xqj.jar"/>
+      <include name="saxon-9.1.0.8/saxon-9.1.0.8.jar"/>
+      <include name="serp-1.13.1/serp-1.13.1.jar"/>
+      <include name="slf4j-api-1.6.1.jar"/>
+      <include name="slf4j-jdk14-1.6.1.jar"/>
+      <include name="tranql-connector-1.1/tranql-connector-1.1.jar"/>
+      <include name="tuscany-implementation-bpel-runtime-2.0.jar"/>
+      <include name="xalan-2.7.0/xalan-2.7.0.jar"/>
+      <include name="xercesImpl-2.8.1/xercesImpl-2.8.1.jar"/>
+      <include name="xmlbeans-2.3.0/xmlbeans-2.3.0.jar"/>
+    </fileset>
+  </path>
+</project>

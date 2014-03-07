@@ -1,0 +1,67 @@
+<!--
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+-->
+<project name="tuscany-binding-jsonrpc-runtime">
+  <property name="tuscany.manifest" value="C:\Tuscany\SVN\2.0-tag-stage\distribution\all\target\features\tuscany-binding-jsonrpc-runtime\tuscany-sca-manifest.jar"/>
+  <dirname property="tuscany-binding-jsonrpc-runtime.basedir" file="${ant.file.tuscany-binding-jsonrpc-runtime}"/>
+  <path id="tuscany-binding-jsonrpc-runtime.path">
+    <fileset dir="${tuscany-binding-jsonrpc-runtime.basedir}../../../modules">
+      <include name="XmlSchema-1.4.3.jar"/>
+      <include name="asm-3.1/asm-3.1.jar"/>
+      <include name="axiom-api-1.2.10.jar"/>
+      <include name="axiom-impl-1.2.10/axiom-impl-1.2.10.jar"/>
+      <include name="cglib-2.2/cglib-2.2.jar"/>
+      <include name="commons-codec-1.4.jar"/>
+      <include name="commons-logging-1.1.1/commons-logging-1.1.1.jar"/>
+      <include name="geronimo-javamail_1.4_spec-1.6.jar"/>
+      <include name="httpclient-4.1.3/httpclient-4.1.3.jar"/>
+      <include name="httpcore-4.1.4/httpcore-4.1.4.jar"/>
+      <include name="jackson-core-asl-1.9.4.jar"/>
+      <include name="jackson-mapper-asl-1.9.4.jar"/>
+      <include name="jackson-module-json-org-0.9.1.jar"/>
+      <include name="jackson-xc-1.9.4.jar"/>
+      <include name="jaxen-1.1.1/jaxen-1.1.1.jar"/>
+      <include name="jettison-1.2.jar"/>
+      <include name="json-20090211/json-20090211.jar"/>
+      <include name="slf4j-api-1.6.1.jar"/>
+      <include name="slf4j-jdk14-1.6.1.jar"/>
+      <include name="tuscany-assembly-2.0.jar"/>
+      <include name="tuscany-assembly-xml-2.0.jar"/>
+      <include name="tuscany-assembly-xsd-2.0.jar"/>
+      <include name="tuscany-binding-jsonrpc-2.0.jar"/>
+      <include name="tuscany-binding-jsonrpc-runtime-2.0.jar"/>
+      <include name="tuscany-common-http-2.0.jar"/>
+      <include name="tuscany-common-java-2.0.jar"/>
+      <include name="tuscany-common-xml-2.0.jar"/>
+      <include name="tuscany-contribution-2.0.jar"/>
+      <include name="tuscany-core-2.0.jar"/>
+      <include name="tuscany-core-spi-2.0.jar"/>
+      <include name="tuscany-databinding-2.0.jar"/>
+      <include name="tuscany-databinding-json-2.0.jar"/>
+      <include name="tuscany-extensibility-2.0.jar"/>
+      <include name="tuscany-host-http-2.0.jar"/>
+      <include name="tuscany-interface-java-2.0.jar"/>
+      <include name="tuscany-interface-wsdl-2.0.jar"/>
+      <include name="tuscany-monitor-2.0.jar"/>
+      <include name="tuscany-sca-api-2.0.jar"/>
+      <include name="tuscany-web-javascript-2.0.jar"/>
+      <include name="tuscany-xsd-2.0.jar"/>
+      <include name="wsdl4j-1.6.2/wsdl4j-1.6.2.jar"/>
+    </fileset>
+  </path>
+</project>

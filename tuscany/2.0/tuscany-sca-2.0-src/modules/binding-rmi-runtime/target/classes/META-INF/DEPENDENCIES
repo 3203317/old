@@ -1,0 +1,17 @@
+// ------------------------------------------------------------------
+// Transitive dependencies of this project determined from the
+// maven pom organized by organization.
+// ------------------------------------------------------------------
+
+Apache Tuscany SCA RMI Binding Extension
+
+
+From: 'The Apache Software Foundation' (http://www.apache.org/)
+  - Apache Tuscany SCA RMI Binding Model (http://tuscany.apache.org/tuscany-modules/tuscany-binding-rmi) org.apache.tuscany.sca:tuscany-binding-rmi:jar:2.0
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache Tuscany SCA RMI Host Extension Point (http://tuscany.apache.org/tuscany-modules/tuscany-host-rmi) org.apache.tuscany.sca:tuscany-host-rmi:jar:2.0
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+
+
+

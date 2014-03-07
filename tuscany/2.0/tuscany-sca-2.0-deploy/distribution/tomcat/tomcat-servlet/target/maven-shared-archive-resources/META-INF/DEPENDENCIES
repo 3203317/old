@@ -1,0 +1,15 @@
+// ------------------------------------------------------------------
+// Transitive dependencies of this project determined from the
+// maven pom organized by organization.
+// ------------------------------------------------------------------
+
+Apache Tuscany SCA Tomcat Integration Servlet
+
+
+From: 'an unknown organization'
+  - Swizzle :: Stream (http://swizzle.codehaus.org) org.codehaus.swizzle:swizzle-stream:jar:1.0.2
+
+
+
+
+

@@ -1,0 +1,17 @@
+// ------------------------------------------------------------------
+// Transitive dependencies of this project determined from the
+// maven pom organized by organization.
+// ------------------------------------------------------------------
+
+Apache Tuscany SCA EndPoint Registry using Hazelcast
+
+
+From: 'Hazel Bilisim Ltd.' (http://www.hazelcast.com/)
+  - hazelcast (http://www.hazelcast.com/hazelcast/) com.hazelcast:hazelcast:jar:1.9.2.2
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - hazelcast-client (http://www.hazelcast.com/hazelcast-client/) com.hazelcast:hazelcast-client:jar:1.9.2.2
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+
+
+

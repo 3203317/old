@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: commons-lang.commons-lang
+Bundle-Name: commons-lang.commons-lang
+Bundle-Version: 2.3.0
+DynamicImport-Package: javax.transaction;version="1.1",javax.transacti
+ on.xa;version="1.1",*
+Bundle-ClassPath: commons-lang-2.3.jar
+Export-Package: org.apache.commons.lang.time;version=2.3.0,org.apache.
+ commons.lang.text;version=2.3.0,org.apache.commons.lang.exception;ver
+ sion=2.3.0,org.apache.commons.lang.enums;version=2.3.0,org.apache.com
+ mons.lang;version=2.3.0,org.apache.commons.lang.mutable;version=2.3.0
+ ,org.apache.commons.lang.builder;version=2.3.0,org.apache.commons.lan
+ g.math;version=2.3.0

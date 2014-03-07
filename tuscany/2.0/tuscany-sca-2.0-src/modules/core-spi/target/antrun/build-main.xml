@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="maven-antrun-" default="main"  >
+<target name="main">
+  <filter token="version" value="2.0"/>
+  <filter token="svnRevision" value="${sources.version}"/>
+  <filter token="buildtime" value="20120921-1838"/>
+  <copy filtering="on" file="D:\soft\tuscany\RC 2.0\tuscany-distribution-all-2.0-src\tuscany-sca-2.0-src\modules\core-spi/src/main/resources/org/apache/tuscany/sca/runtime/revision.properties" overwrite="true" toDir="D:\soft\tuscany\RC 2.0\tuscany-distribution-all-2.0-src\tuscany-sca-2.0-src\modules\core-spi/target/classes/org/apache/tuscany/sca/runtime"/>
+</target>
+</project>
