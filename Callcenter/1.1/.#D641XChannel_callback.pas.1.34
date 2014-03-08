@@ -1,0 +1,654 @@
+unit D641XChannel_callback;
+
+interface
+uses
+  Classes, SysUtils, LightweightCTI, UdpBroadCast, ComCtrls, TextLoger;
+type
+  THackChannel = class(TAbstractChannel);
+
+  TChannelCallback = class(TObject)
+  private
+    Finiflag : boolean; Fowner : pointer;
+    promptfiles : Tstringlist;
+    procedure OnChannelInitialized(Sender: TObject; var Channel: TAbstractChannel);
+    procedure OnChannelStatusChanged(Sender: TObject);
+    procedure OnGetDTMF(Sender: TObject; const Adtmf: string);
+    procedure OnCall(Sender: TObject; const APhoneNumber: string);
+    procedure OnResetChannel(Sender: TObject);
+    procedure OnChannelLog(Sender: TObject; const msg: string);
+    procedure OnCallIn(Sender: TObject; const ACallNumber: string);
+    procedure OnUserChannelOn(Sender: TObject; AMsg: string);
+    procedure OnUserChannelOff(Sender: TObject; AMsg: string);
+    procedure ChannelFree(var Channel: TAbstractChannel);
+    procedure SaveChannelServerType;
+    procedure UserChannelClick(Sender: TObject);
+    procedure IniUserChannelMenuItem;
+  protected
+    procedure UserListen(Channel : TAbstractChannel);
+    procedure UserCall(Channel : TAbstractChannel);
+    procedure UserCallUser(Channel : TAbstractChannel; AUserChannelID : integer);
+    procedure UserCallTrunk(Channel : TAbstractChannel; AphoneMo : string);
+    function UserListenUser(Channel : TAbstractChannel; AUserChannelID : integer) : boolean;
+  public
+    constructor Create(Owner : TObject); overload;
+    procedure ResumeChannels(const ChannelType:TChannelType);
+    procedure initChannelManager;
+    destructor Destroy; override;
+    procedure OnTrunkRun(sender:TObject);
+    procedure OnUserRun(sender:TObject);
+  end;
+
+  TCallSession = class(TAbstractSession)
+  private
+    FLoger: TDefaultLoger;
+  public
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
+
+    procedure StoreSession; override;
+  end;
+
+  function ChannelCallback(AOwner : TObject) : TChannelCallback;
+implementation
+
+uses
+  GlobalConstants, Forms, Inifiles, MainFrm, Menus, Windows;
+var
+  FChannelCallback: TChannelCallback;
+  FCallSession : TCallSession;
+//------------------------------------------------------------------------------
+// 通道回调管理器全局入口程序
+//------------------------------------------------------------------------------
+function ChannelCallback(AOwner : TObject): TChannelCallback;
+begin
+  if not Assigned(FChannelCallback) then
+  begin
+    FChannelCallback := TChannelCallback.Create(AOwner);
+  end;
+  Result := FChannelCallback;
+end;
+
+{ TCallSession }
+
+{-------------------------------------------------------------------------------
+  过程名:    TCallSession.Create
+  作者:      hxn
+  日期:      2007.09.05
+  参数:      AOwner: TComponent
+  返回值:    None
+  作用:      初始化会话所使用的持久化对象
+-------------------------------------------------------------------------------}
+constructor TCallSession.Create(AOwner: TComponent);
+begin
+  inherited;
+  FLoger := TDefaultLoger.Create(Aowner, ExePath + 'Session.txt');
+end;
+
+{-------------------------------------------------------------------------------
+  过程名:    TCallSession.Destroy
+  作者:      hxn
+  日期:      2007.09.05
+  参数:      None
+  返回值:    None
+  作用:      释放会话类的持久化对象
+-------------------------------------------------------------------------------}
+destructor TCallSession.Destroy;
+begin
+  if Assigned(FLoger) then FLoger.Free;
+  inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  过程名:    TCallSession.StoreSession
+  作者:      hxn
+  日期:      2007.09.05
+  参数:      None
+  返回值:    None
+  作用:      持久化会话
+-------------------------------------------------------------------------------}
+procedure TCallSession.StoreSession;
+const
+  LASessionType: array [TSesstionType] of string = ('呼入', '呼出');
+var
+  Astr: string;
+begin
+  Astr := Format('会话发生于 %s 至 %s 类型为：%s，电话号码为：%s。会话编号为：%s',
+    [DateTimeToStr(StartTime),
+    DateTimeToStr(EndTime), LASessionType[SesstionType], PhoneNumber, SessionID]);
+  FLoger.Info(Astr);
+end;
+
+constructor TChannelCallback.Create( Owner : TObject);
+begin
+  FOwner := Owner;  Finiflag:=false; TMainform(FOwner).Tag:=1;
+end;
+
+destructor TChannelCallback.Destroy;
+var  Achnl: TAbstractChannel;  i : integer;
+begin
+  if Finiflag then
+    with ChannelManager do begin
+      SaveChannelServerType;
+      for i:=0 to UserChannels.Count-1 do begin Achnl := THackChannel(UserChannels[i]);
+          if Assigned(Achnl) then  begin ChannelFree(Achnl); Achnl.Terminate; end;
+      end;
+      for i:=0 to TruncChannels.Count-1 do begin Achnl := THackChannel(TruncChannels[i]);
+          if Assigned(Achnl) then  begin ChannelFree(Achnl); Achnl.Terminate; end;
+      end;
+    end;
+  UdpManager.Free; inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  Procedure: TMainform.actLoadChannelManagerExecute
+  Author:    hxn
+  DateTime:  2006-08-23
+  Arguments: Sender: TObject
+  Result:    None
+  Purpose:   初始化通道管理器
+-------------------------------------------------------------------------------}
+procedure TChannelCallback.initChannelManager;
+var
+  Aname, Afile: string; I, N: Integer;
+begin
+  with ChannelManager do  begin
+    OnChannelInitialized := Self.OnChannelInitialized; Initialize; // 初始化
+    IniUserChannelMenuItem;
+    Finiflag := true; promptfiles.Free;
+    promptfiles := Tstringlist.Create;
+    ServerTypeList := Tstringlist.Create;
+
+    N := Configuration.GetChildCount(RootPath + 'ServerTypeList', 'type');
+    for I := 0 to N - 1 do begin
+      Aname := Configuration.GetNodeAttribute(RootPath + 'ServerTypeList\type', 'code', I);
+      Afile := Configuration.GetNodeAttribute(RootPath + 'ServerTypeList\type', 'value', I);
+      ServerTypeList.Values[Aname]:= Afile;
+    end;
+
+    GCResourcesDirectory := Configuration.GetNodeText(RootPath + 'ResourceDir');
+    N := Configuration.GetChildCount(RootPath + 'timepromptfiles', 'time');
+    for I := 0 to N - 1 do begin
+      Aname := Configuration.GetNodeAttribute(RootPath + 'timepromptfiles\time', 'hour', I);
+      Afile := Configuration.GetNodeAttribute(RootPath + 'timepromptfiles\time', 'file', I);
+      promptfiles.Values[Aname]:= Afile;
+    end;
+
+    GClocalphone := Configuration.GetNodeAttribute(RootPath + 'setting', 'localphone');
+    ptl_IncomingTelegram := Configuration.GetNodeAttribute(RootPath + 'protocols\IncomingTelegram', 'code');
+    ptl_UserChannelOn := Configuration.GetNodeAttribute(RootPath + 'protocols\UserChannelOn', 'code');
+    ptl_UserChannelOff := Configuration.GetNodeAttribute(RootPath + 'protocols\UserChannelOff', 'code');
+    ptl_SessionLog := Configuration.GetNodeAttribute(RootPath + 'protocols\SessionLog', 'code');
+
+    with UdpManager do
+    try
+      BroadlistenPort := strtoint(Configuration.GetNodeAttribute(RootPath + 'Broad', 'ListenPort'));
+      BroadIp := Configuration.GetNodeAttribute(RootPath + 'Broad', 'Ip');
+      BroadOutPort := strtoint(Configuration.GetNodeAttribute(RootPath + 'Broad', 'OutPort'));
+      StartListen(BroadlistenPort); OnClientConnect := OnUserChannelOn;
+      OnClientDisConnect := OnUserChannelOff;
+    except 
+    end;
+  end;
+end;
+
+procedure TChannelCallback.ResumeChannels(const ChannelType:TChannelType);
+var
+  Achnl: THackChannel;  i : integer; Channels : TList;
+begin
+  with ChannelManager do begin
+    if ChannelType = ctUser then Channels := UserChannels else Channels := TruncChannels;
+    for i:=0 to Channels.Count-1 do begin Achnl := THackChannel(Channels[i]);
+        if Assigned(Achnl) then  Achnl.Resume;
+    end;
+  end;
+end;
+{-------------------------------------------------------------------------------
+  Procedure: TChannelCallback.OnChannelInitialized
+  Author:    hxn
+  DateTime:  2007-09-04
+  Arguments: Sender: TObject; var Channel: TAbstractChannel
+  Result:    None
+  Purpose:   通道初始化事件
+-------------------------------------------------------------------------------}
+procedure TChannelCallback.OnChannelInitialized(Sender: TObject;var Channel: TAbstractChannel);
+var
+  Aitem: TListItem;  lvChannels : TListView; RunEvent:TNotifyEvent;
+begin
+  try
+    if Channel.ChannelType = ctUser then begin
+      lvChannels := TMainform(Fowner).lvUserChannels;
+      RunEvent := OnUserRun;
+      end
+    else begin
+      lvChannels := TMainform(Fowner).lvTrunkChannels;
+      RunEvent := OnTrunkRun;
+    end;
+    Channel.FVCLComObject := lvChannels;
+    // 设置通道的事件处理程序
+    Channel.OnGetDTMF := OnGetDTMF;
+    Channel.OnCallOut := OnCall;
+    Channel.OnStatusChanged := OnChannelStatusChanged;
+    Channel.OnResetChannel := OnResetChannel;
+    Channel.OnChannelLog := OnChannelLog;
+    Channel.OnCallIn :=  OnCallIn;
+    Channel.OnRun:= RunEvent;
+
+    // 将通道资料连接到视图
+    lvChannels.Items.BeginUpdate;
+    Aitem := lvChannels.Items.Add;
+    Aitem.Caption := IntToStr(Channel.ChannelID);
+    Aitem.SubItems.Add(GAChannelTypeLabels[Channel.ChannelType]);
+    Aitem.SubItems.Add(GAChannelStatusLabels[Channel.Status]);
+    Aitem.SubItems.Add(''); // DTMF码(2)
+    Aitem.SubItems.Add(''); // 电话号码(3)
+    Aitem.SubItems.Add(''); // 详细动作(4)
+    Aitem.SubItems.Add(''); // 备注(5)
+    Aitem.ImageIndex := Integer(Channel.ChannelType);
+    Aitem.StateIndex := -1;
+    lvChannels.Items.EndUpdate;
+  except
+  end;
+end;
+
+procedure TChannelCallback.ChannelFree(var Channel: TAbstractChannel);
+begin
+  try
+    Channel.OnRun :=  nil;
+    Channel.OnGetDTMF := nil;
+    Channel.OnCallOut := nil;
+    Channel.OnStatusChanged := nil;
+    Channel.OnResetChannel := nil;
+    Channel.OnChannelLog := nil;
+    Channel.OnCallIn :=  nil;
+  except
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  过程名:    TChannelCallback.OnTruncCall
+  作者:      hxn
+  日期:      2007-09-04
+  参数:      Sender: TObject; const APhoneNumber: string
+  返回值:    None
+  作用:      呼出事件处理程序
+-------------------------------------------------------------------------------}
+procedure TChannelCallback.OnCall(Sender: TObject; const APhoneNumber: string);
+var
+  Achnl: TAbstractChannel;
+begin
+  Achnl := TAbstractChannel(Sender);
+  Tlistview(Achnl.FVCLComObject).Items.Item[Achnl.ChannelID].SubItems.Strings[3] := APhoneNumber;
+end;
+
+{-------------------------------------------------------------------------------
+  过程名:    TChannelCallback.OnTruncCall
+  作者:      hxn
+  日期:      2007-09-04
+  参数:      Sender: TObject; const APhoneNumber: string
+  返回值:    None
+  作用:      呼入事件处理程序
+-------------------------------------------------------------------------------}
+procedure TChannelCallback.OnCallIn(Sender: TObject; const ACallNumber: string);
+begin
+  OnCall(Sender,ACallNumber);
+  udpmanager.SendInfo(BroadIp,BroadOutPort,ptl_IncomingTelegram+copy(inttostr(101+THackChannel(Sender).ChannelID),2,2)+ACallNumber);
+end;
+
+{-------------------------------------------------------------------------------
+  过程名:    TChannelCallback.OnTruncChannelStatusChanged
+  作者:      hxn
+  日期:      2007-09-04
+  参数:      Sender: TObject
+  返回值:    None
+  作用:      当通道状态改变时，运用此事件来修改系统界面显示内容
+-------------------------------------------------------------------------------}
+procedure TChannelCallback.OnChannelStatusChanged(Sender: TObject);
+var
+  Aitem: TListItem;
+  Achnl: TAbstractChannel;
+begin
+  Achnl := TAbstractChannel(Sender);
+  try
+    Application.ProcessMessages;
+    Aitem := Tlistview(Achnl.FVCLComObject).Items.Item[Achnl.ChannelID];
+    if Assigned(Aitem) then
+    begin
+      Aitem.SubItems.Strings[1] := GAChannelStatusLabels[Achnl.Status];
+      Aitem.ImageIndex := iif(Achnl.Status = csPlaying, 5, Integer(Achnl.ChannelType));
+      Aitem.StateIndex := iif((Achnl.Status = csFree) or (Achnl.Status = csDisable), -1, 0);
+    end;
+  finally
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  过程名:    TChannelCallback.OnTruncGetDTMF
+  作者:      hxn
+  日期:      2007-09-04
+  参数:      Sender: TObject; const Adtmf: string
+  返回值:    None
+  作用:      通道收DTMF码事件处理程序
+-------------------------------------------------------------------------------}
+procedure TChannelCallback.OnGetDTMF(Sender: TObject; const Adtmf: string);
+var
+  Achnl: TAbstractChannel;
+begin
+  Achnl := TAbstractChannel(Sender);
+  Tlistview(Achnl.FVCLComObject).Items.Item[Achnl.ChannelID].SubItems.Strings[2] := Adtmf;
+end;
+
+{-------------------------------------------------------------------------------
+  过程名:    TChannelCallback.OnTruncChannelLog
+  作者:      hxn
+  日期:      2007-09-04
+  参数:      Sender: TObject; const msg: string
+  返回值:    None
+  作用:      通道日志处理程序，通过此事件可以将系统内部发生的所有情况记录下来或
+  　　显示在用户界面上
+-------------------------------------------------------------------------------}
+procedure TChannelCallback.OnChannelLog(Sender: TObject; const msg: string);
+var
+  Achnl: TAbstractChannel;
+begin
+  Achnl := TAbstractChannel(Sender);
+  Tlistview(Achnl.FVCLComObject).Items.Item[Achnl.ChannelID].SubItems.Strings[4] := msg;
+end;
+
+{-------------------------------------------------------------------------------
+  过程名:    TChannelCallback.OnTruncChannelLog
+  作者:      hxn
+  日期:      2007-09-04
+  参数:      Sender: TObject
+  返回值:    None
+  作用:      通道重置
+-------------------------------------------------------------------------------}
+
+procedure TChannelCallback.OnResetChannel(Sender: TObject);
+var
+  Achnl: TAbstractChannel;
+begin
+  Achnl := TAbstractChannel(Sender);
+  with Tlistview(Achnl.FVCLComObject).Items.Item[Achnl.ChannelID].SubItems do
+  begin
+    Strings[2] := '';
+    Strings[3] := '';
+    Strings[4] := '';
+    Strings[5] := '';
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  过程名:    TChannelCallback.OnUserChannelOn
+  作者:      hxn
+  日期:      2007-09-04
+  参数:      Sender: TObject; const msg: string
+  返回值:    None
+  作用:      用户通道打开
+-------------------------------------------------------------------------------}
+
+procedure TChannelCallback.OnUserChannelOn(Sender: TObject; AMsg: string);
+var AchannelID : integer;  Achnl: THackChannel;
+begin
+  try
+    AchannelID := strtoint(AMsg)-1;
+    Achnl := THackChannel(ChannelManager.UserChannels[AchannelID]);
+    Achnl.ResetChannel;
+  except  end;
+end;
+
+{-------------------------------------------------------------------------------
+  过程名:    TChannelCallback.OnUserChannelOff
+  作者:      hxn
+  日期:      2007-09-04
+  参数:      Sender: TObject; const msg: string
+  返回值:    None
+  作用:      用户通道关闭
+-------------------------------------------------------------------------------}
+
+procedure TChannelCallback.OnUserChannelOff(Sender: TObject; AMsg: string);
+var AchannelID : integer;  Achnl: THackChannel;
+begin
+  try
+    AchannelID := strtoint(AMsg)-1;
+    Achnl := THackChannel(ChannelManager.UserChannels[AchannelID]);
+    Achnl.Status := csDisable;
+  except  end;
+end;
+
+procedure TChannelCallback.SaveChannelServerType;
+var F_ini : TInifile; i : integer; Achnl : THackChannel;
+begin
+  F_ini := TInifile.Create('.\channels.ini');
+  for i:=0 to ChannelManager.userChannels.Count-1 do begin
+    Achnl := THackChannel(ChannelManager.userChannels[i]);
+    if Assigned(Achnl) then F_ini.WriteString('serverType',inttostr(i),Achnl.FserverType);
+  end;
+  F_ini.Free;
+end;
+
+procedure TChannelCallback.UserChannelClick(Sender: TObject);
+var i : integer;  Achnl: THackChannel;
+begin
+  with sender as TMenuItem do  begin
+    i := TMainform(Fowner).lvUserChannels.ItemIndex;
+    if i <>-1 then begin
+      Achnl := THackChannel(ChannelManager.UserChannels[i]);
+      case tag of
+      0: begin Achnl.Terminate; Achnl.Status := csDisable; end;
+      1: begin Achnl.Status := csFree; Achnl.Resume; end;
+      2: Achnl.ResetChannel;
+      end;
+    end;
+  end;
+end;
+
+procedure TChannelCallback.IniUserChannelMenuItem;
+var item : TMenuItem; I, N : integer;  PopupMenu : TPopupMenu;
+  ATag, ACaption, AImageIndex : string;
+begin
+  PopupMenu := TMainform(Fowner).PopupMenu1;
+  with ChannelManager do begin
+    N := Configuration.GetChildCount(RootPath + 'UserChannelPopupMenu', 'MenuItem');
+    for I := 0 to N - 1 do begin
+      ATag := Configuration.GetNodeAttribute(RootPath + 'UserChannelPopupMenu\MenuItem', 'Tag', I);
+      ACaption := Configuration.GetNodeAttribute(RootPath + 'UserChannelPopupMenu\MenuItem', 'Caption', I);
+      AImageIndex := Configuration.GetNodeAttribute(RootPath + 'UserChannelPopupMenu\MenuItem', 'ImageIndex', I);
+      item := TMenuItem.Create(PopupMenu); PopupMenu.Items.Add(item);
+      item.Tag := strtoint(ATag);  item.ImageIndex := strtoint(AImageIndex);
+      item.Caption := ACaption; if ACaption <> '-' then item.OnClick := UserChannelClick;
+    end;
+  end;
+  if N > 0 then PopupMenu.AutoPopup := true;
+end;
+
+
+procedure TChannelCallback.OnTrunkRun(sender:TObject);
+var
+  N: Integer; Adtmf,Afilename: string;  Channel : TAbstractChannel; ch : char;
+  AserverType : string;  AUserChannelID : integer; T: Cardinal;
+  AUserChannel :  TAbstractChannel;  ATimeOut : boolean;
+begin  ATimeOut := false;
+  Channel := sender as TAbstractChannel;
+  while not Channel.Terminated do begin
+    if Channel.RingDetect(1) then begin
+      Channel.OffHook;  Channel.GetCallerNumber;
+      Channel.PlayFile(promptfiles.Values[inttostr(trunc(Time * 24))], '.voc',false);
+      N := 0;  ch := 'z';
+      while  (N<3) and  not (ch  in ['1','2','3']) do begin
+        application.ProcessMessages;
+        Channel.PlayFile('Voc_Service', '.voc',true);
+        Adtmf := Channel.GetDTMF(1);
+        if Adtmf<>'' then ch := Adtmf[1] else begin ch := 'z'; N :=2;end;
+        if (ch > '0') and (ch < chr(ServerTypeList.Count+49)) then AserverType := ch else N := N+1;
+      end;
+      if N = 3 then Channel.PlayFile('Voc_CallBack', '.voc',true)
+      else if N < 3 then begin
+        AUserChannelID := Channel.Schedule(AserverType,'Voc_UserBusy,Voc_PlayWaitMusic');
+        if AUserChannelID = -1 then begin
+           Channel.PlayFile('Voc_JiXuDengDai', '.voc',true);
+           while Channel.GetDTMF(1)='1' do begin
+              AUserChannelID := Channel.Schedule(AserverType,'Voc_UserBusy,Voc_PlayWaitMusic');
+              if AUserChannelID <> -1 then break
+              else Channel.PlayFile('Voc_JiXuDengDai', '.voc',true);
+           end;
+        end;
+        if AUserChannelID <>-1 then begin
+          Channel.PlayVoice(RINGBACK);
+          AUserChannel := TAbstractChannel(ChannelManager.userChannels[AUserChannelID]);
+          AUserChannel.Dial(Channel.GetCallerNumber); T := GetTickCount;
+          while not AUserChannel.OffHookDetect do begin
+            ATimeOut := GetTickCount - T > Cardinal(15 * GCTimeOutRate);
+            if ATimeOut then break else sleep(10);
+          end;
+          if not ATimeOut then begin                                         
+              Channel.PlayFileToTrunkAndUser('Voc_UserCode','.voc',false,AUserChannelID);
+              Channel.LinkTo(AUserChannelID);
+              Afilename := GCResourcesDirectory+IntToStr(THackChannel(Channel).FLinkToChannel+1);
+              Afilename := Afilename +'_'+ FormatDateTime('yyyymmddhhmmss',now)+'_'+ Channel.GetCallerNumber +'.pcm';
+              Channel.RecordFile(Afilename);
+              while not Channel.HangUpDetect do begin
+                if (THackChannel(Channel).FLinkToChannel=-100)or((THackChannel(Channel).FLinkToChannel<>-1) and AUserChannel.OffHookDetect)
+                then sleep(50);
+              end;
+
+
+
+              Channel.PlayFile('Voc_ManYiDuDiaoCha', '.voc',true);
+              Adtmf := Channel.GetDTMF(1);
+              if Adtmf<>'' then ch := Adtmf[1] else begin ch := 'z';end;
+              case ch of
+                '1' : Channel.PlayFile('d1', '.voc',false);
+                '2' : Channel.PlayFile('d2', '.voc',false);
+              end;
+              Channel.PlayFile('Voc_GoodBye', '.voc',false);
+          end;
+        end;
+      end;
+      Channel.ResetChannel;application.ProcessMessages;
+    end;
+    if Channel.OffHookDetect then
+      begin
+        Channel.PlayFile('Voc_GoodBye', '.voc',false);
+        while not Channel.HangUpDetect do sleep(50);
+        Channel.ResetChannel;application.ProcessMessages;
+      end;
+  end;
+end;
+
+procedure TChannelCallback.OnUserRun(sender:TObject);
+var
+  Channel : TAbstractChannel;
+begin
+  Channel := sender as TAbstractChannel;
+  while not Channel.Terminated do begin
+    if Channel.RingDetect then begin
+      if Channel.OffHookDetect then UserListen(Channel);
+    end
+    else
+    if Channel.OffHookDetect then begin
+      Channel.OffHook;  UserCall(Channel);
+    end;
+  end;
+end;
+
+procedure TChannelCallback.UserCall(Channel : TAbstractChannel);
+var AphoneMo : string;  AUserChannelID : integer;
+begin
+  AphoneMo := Channel.GetDTMF(-1,'',30);
+  if AphoneMo<>'' then begin
+    channel.PlayVoice(EMPTY);
+    if (AphoneMo[1] <> '*') and (length(AphoneMo)>7) then begin
+      UserCallTrunk(Channel,AphoneMo);
+    end;
+    if (AphoneMo[1] = '*') and (length(AphoneMo) = 3) then begin
+      try
+        AUserChannelID := strtoint(copy(AphoneMo,2,2));
+      except  AUserChannelID := -1; end;
+      if AUserChannelID <> -1 then UserCallUser(Channel,AUserChannelID-1);
+    end;
+    Channel.ResetChannel;Application.ProcessMessages;
+  end else sleep(50);
+end;
+
+
+procedure TChannelCallback.UserCallUser(Channel : TAbstractChannel; AUserChannelID : integer);
+var   AUserChannel : TAbstractChannel;  T : Cardinal;   ATimeOut : boolean;
+begin  ATimeOut := false;
+  AUserChannel := TAbstractChannel(ChannelManager.userChannels[AUserChannelID]);
+  Channel.PlayVoice(RINGBACK);
+  AUserChannel.Dial(Channel.GetCallerNumber); T := GetTickCount;
+  while not AUserChannel.OffHookDetect do begin
+    ATimeOut := GetTickCount - T > Cardinal(15 * GCTimeOutRate);
+    if ATimeOut then break else sleep(10);
+  end;
+  if not ATimeOut then begin
+      Channel.Linkto(AUserChannelID,ctUser);
+      while not Channel.HangUpDetect do sleep(50);
+  end;
+end;
+
+procedure TChannelCallback.UserCallTrunk(Channel : TAbstractChannel; AphoneMo : string);
+var
+  ALinkToChannel : integer;
+  ATrackChannel : TAbstractChannel;  T : Cardinal;  ATimeOut : boolean;
+begin  ATimeOut := false;
+  ALinkToChannel := Channel.Schedule('','');
+  ATrackChannel := THackChannel(ChannelManager.TruncChannels[ALinkToChannel]);
+  Channel.PlayVoice(RINGBACK);
+  ATrackChannel.Dial(AphoneMo);  T := GetTickCount;
+  while not ATrackChannel.OffHookDetect do begin
+    ATimeOut := GetTickCount - T > Cardinal(15 * GCTimeOutRate);
+    if ATimeOut then break else sleep(10);
+  end;
+  if not ATimeOut then begin
+      Channel.Linkto(ALinkToChannel,ctTrunk);
+      while not Channel.HangUpDetect do sleep(50);
+  end;
+end;
+
+procedure TChannelCallback.UserListen(Channel : TAbstractChannel);
+var AphoneMo : string;  AUserChannelID : integer; ATrunkChannel: TAbstractChannel;
+  ALinkToChannel : integer; ALinkToType : TChannelType;
+begin
+  while not Channel.HangUpDetect do begin
+    ALinkToChannel := THackChannel(Channel).FLinkToChannel;
+    if ALinkToChannel =-1 then begin sleep(10);continue;end;
+    ALinkToType := THackChannel(Channel).FLinkToType;
+    AphoneMo := Channel.GetDTMF(-1,'',30);
+    if (AphoneMo[1] = '*') and (length(AphoneMo) = 3) then begin
+      try
+        AUserChannelID := strtoint(copy(AphoneMo,2,2));
+      except  AUserChannelID := -1; end;
+      if AUserChannelID <> -1 then   begin
+        ATrunkChannel := TAbstractChannel(ChannelManager.TruncChannels[ALinkToChannel]);
+        channel.unlink(ALinkToChannel,ALinkToType,true);
+        ATrunkChannel.PlayFile('Voc_PlayWaitMusic', '.voc',true);
+        if not UserlistenUser(Channel,AUserChannelID) then
+          Channel.Linkto(ALinkToChannel,ctUser)
+        else ATrunkChannel.LinkTo(AUserChannelID);
+      end;
+    end else sleep(50);
+  end;
+  Channel.ResetChannel;Application.ProcessMessages;
+end;
+
+function TChannelCallback.UserListenUser(Channel: TAbstractChannel; AUserChannelID : integer) : boolean;
+var   AUserChannel : TAbstractChannel;  T : Cardinal;   ATimeOut : boolean;
+begin  ATimeOut := false;
+  AUserChannel := TAbstractChannel(ChannelManager.userChannels[AUserChannelID]);
+  Channel.PlayVoice(RINGBACK);
+  AUserChannel.Dial(Channel.GetCallerNumber); T := GetTickCount;
+  while not AUserChannel.OffHookDetect do begin
+    ATimeOut := GetTickCount - T > Cardinal(15 * GCTimeOutRate);
+    if ATimeOut then break else sleep(10);
+  end;
+  if not ATimeOut then begin
+      Channel.Linkto(AUserChannelID,ctUser);
+      while not Channel.HangUpDetect and not ATimeOut do begin
+        if AUserChannel.HangUpDetect then ATimeOut := true else  sleep(50);
+      end;
+  end;
+  result := not ATimeOut;
+end;
+
+end.

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration>
+  <ProjectsDir>.\Projects</ProjectsDir>
+  <ResourceDir>..\example\delphibank\voc</ResourceDir>
+  <setting localphone="037163329079" TotalInterval="1"/>
+  <ServerTypeList>
+     <type code="1" value="服务咨询"/>
+     <type code="2" value="业务受理"/>
+     <type code="3" value="投诉建议"/>
+  </ServerTypeList>
+  <timepromptfiles>
+     <time hour="0" file="Voc_GoodMorning1"/>
+     <time hour="1" file="Voc_GoodMorning1"/>
+     <time hour="2" file="Voc_GoodMorning1"/>
+     <time hour="3" file="Voc_GoodMorning1"/>
+     <time hour="4" file="Voc_GoodMorning1"/>
+     <time hour="5" file="Voc_GoodMorning1"/>
+     <time hour="6" file="Voc_GoodMorning1"/>
+     <time hour="7" file="Voc_GoodMorning1"/>
+     <time hour="8" file="Voc_GoodMorning1"/>
+     <time hour="9" file="Voc_GoodMorning1"/>
+     <time hour="10" file="Voc_GoodMorning1"/>
+     <time hour="11" file="Voc_GoodMorning1"/>
+     <time hour="12" file="Voc_GoodNoon"/>
+     <time hour="13" file="Voc_GoodNoon"/>
+     <time hour="14" file="Voc_GoodAfternoon"/>
+     <time hour="15" file="Voc_GoodAfternoon"/>
+     <time hour="16" file="Voc_GoodAfternoon"/>
+     <time hour="17" file="Voc_GoodAfternoon"/>
+     <time hour="18" file="Voc_GoodNight"/>
+     <time hour="19" file="Voc_GoodNight"/>
+     <time hour="20" file="Voc_GoodNight"/>
+     <time hour="21" file="Voc_GoodNight"/>
+     <time hour="22" file="Voc_GoodNight"/>
+     <time hour="23" file="Voc_GoodNight"/>
+  </timepromptfiles>
+  <TimeOut>5</TimeOut>
+  <Broad OutPort="8029" ListenPort="8028" Ip="10.0.81.2"/>
+  <protocols>
+    <IncomingTelegram code="01" comment=""/>
+    <UserChannelOn code="02" comment=""/>
+    <UserChannelOff code="03" comment=""/>
+    <SessionLog code="04" comment=""/>
+    <ChannelsTotal code="05" comment=""/>
+  </protocols>
+  <UserChannelPopupMenu>
+    <MenuItem Tag = "2" Caption = "重置通道" ImageIndex = "187"/>
+    <MenuItem Tag = "0" Caption = "-"        ImageIndex = "-1"/>
+    <MenuItem Tag = "1" Caption = "打开坐席" ImageIndex = "258"/>
+    <MenuItem Tag = "0" Caption = "关闭坐席" ImageIndex = "260"/>
+  </UserChannelPopupMenu>
+  <Loger type="TTextLoger"/>
+  <Adpaters>
+    <!--语音卡驱动程序适配器由type指定全限定名称，名称后由逗号分隔的是存储此适配器的DLL文件表示从DLL加载，如果没有指定表示直接加载；
+	　　TTS引擎的定义采用同样的规则。-->
+    <Driver name="D641Xdriver" type="TD641XCTICardDriver" promptVoiceIdxFile="prompt.ini" mode="1"/>
+  </Adpaters>
+  <!--<TTSEngine type="TDJTTS3Engine" dependency="D641Xdriver"/> -->
+  <!--<TaskManager name="DemoTaskManager" type="TDemoTaskManager" interval="30" maxlimitcount="10" active="true"/>  -->
+  <!--演示程序-->
+  <Demos>
+    <Script name="电话银行" dllfile="..\example\Demos\Bank.dll" scriptfile="..\example\Demos\BankScript.pas"/>
+    <Script name="呼出演示" dllfile="..\example\Demos\CallAnalyze.dll" scriptfile="..\example\Demos\CallAnalyzeScript.pas"/>
+    <Script name="外线通道录音" dllfile="..\example\Demos\RecVoice.dll" scriptfile="..\example\Demos\RecordScript.pas"/>
+    <Script name="东进TTS放音" dllfile="..\example\Demos\DJTTS3Engine.dll" scriptfile="..\example\Demos\DJTTSScript.pas"/>
+    <Script name="自动催缴、查询" dllfile="..\example\Demos\Autodun.dll" scriptfile="..\example\Demos\DunScript.pas"/>
+  </Demos>
+</Configuration>
