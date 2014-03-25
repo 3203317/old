@@ -1,0 +1,6 @@
+#??? ?? 25 15:25:52 CST 2014
+eclipse.preferences.version=1
+org.eclipse.jet.compiledTemplatePackage=nsp_jet.compiled
+org.eclipse.jet.compiledTemplateSrcDir=jet2java
+org.eclipse.jet.projectPrefs=true
+org.eclipse.jet.useJava5=true
