@@ -190,3 +190,5 @@ pip-log.txt
 .mr.developer.cfg
 *.class
 *.classpath
+
+bus/target/
