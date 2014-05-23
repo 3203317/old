@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Built-By: xinkaipuqyd
+Build-Jdk: 1.6.0_22
+Implementation-Title: function :: citycard :: plugins :: report
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: cn.newcapec.citycard.plugins
+Created-By: Maven Integration for Eclipse
+

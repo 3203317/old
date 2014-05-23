@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+            <title></title>
+            #parse("/manager/include/manageCommonHead.html")
+            <link rel="stylesheet" media="screen" href="${_project.envRoot}/styles/css/base/css/index.css" />
+            <link rel="stylesheet" media="screen" href="${_project.envRoot}/styles/css/base/css/main.css" />
+            	<script src="${_project.envRoot}/scripts/foundation/manager/manageIndex.js" ></script>
+			
+			<script>
+				function refreshTime() {
+            		var currentDate = new Date();
+            		var titleId = document.getElementById('currentTime');
+            		titleId.innerHTML = currentDate.toLocaleString();
+            		window.setTimeout("refreshTime()", 1000);
+            	}
+				$(function(){
+                	window.setTimeout("refreshTime()", 1000);
+				});
+			</script>
+</head>
+<body>
+    <div class="header-wrap">
+        <div class="logo">
+            <img src="${_project.envRoot}/styles/css/base/image/logo_03.jpg"/>
+        </div>
+        <div class="r-info pull-right">
+            <div class="btn-group cmc">
+                <span class="label pull-left" style="padding-top:13px;">当前时间：
+					<i id="currentTime">
+						12:12:12
+                    </i>
+				</span>
+            </div>
+            &nbsp;&nbsp;
+            <div class="btn-group">
+                <button type="button" class="btn btn-success">
+                    <i class="icon-user"></i>
+                   $!current_sys_user_key.realName</button>
+                    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" style="min-width:110px;">
+                        <li>
+                            <a href="#" onclick="javascript:void(0);">
+                                <i class="icon-signout"></i>
+							注销 </a>
+                        </li>
+                    </ul>
+            </div>
+            &nbsp;&nbsp;         
+        </div>
+    </div>
+    <!-- header end -->
+    <!-- menu begin -->
+    <div class="menu-wrap pull-left">
+        <dl class="">
+            <dt class="">
+                <i class="icon-calendar"></i>
+                系统管理</dt>
+                <dd>
+                    <a href="menu/menuIndex" target="mainIframe" class="">
+                        &nbsp; 菜单管理</a>
+                </dd>
+                <dd>
+                    <a href="user/userIndex" target="mainIframe" class="">
+                        &nbsp; 用户管理</a>
+                </dd>
+                <dd>
+                    <a href="help/helpIndex" target="mainIframe" class="">
+                        &nbsp; 帮助管理</a>
+                </dd>
+                <dd>
+                    <a href="config/configIndex" target="mainIframe" class="">
+                        &nbsp; 系统配置</a>
+                </dd>
+        </dl>
+        <dl class="">
+            <dt class="">
+                <i class="icon-calendar"></i>
+                公告管理</dt>
+                <dd>
+                    <a href="notice/noticeIndex" target="mainIframe" class="">
+                        &nbsp;公告管理</a>
+                </dd>
+        </dl>
+      
+    </div>
+    <!-- menu end -->
+    <!-- main begin -->
+    <div class="main-wrap mainIframe" id="mainIframe" style='overflow:-Scroll;overflow-x:hidden'>
+		<h1 >welcome login system manage！！
+        </h1>
+    </div>
+    <!-- main end -->
+    <!-- footer begin -->
+    <div class="footer-wrap">
+        <p class="copyright text-right">Copyright@LANXUM ALL Right Reserved xxx后台管理系统</p>
+        <p class="url text-right">
+            <a href="main.html" target="_blank">news.163.com</a>
+        </p>
+    </div>
+    <!-- footer end -->
+</body>
+</html>
