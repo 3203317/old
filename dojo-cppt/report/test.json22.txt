@@ -1,8 +1,0 @@
-[
-	{employeeNo:'2011001',employeeName:'测试1',classNO:'700',tradeClass:'售卡折旧费',tradeNum:'4',tradeMoney:'0',realSum:'0',virtalSum:'0'},
-	{employeeNo:'2011001',employeeName:'测试1',classNO:'701',tradeClass:'售卡卡套费',tradeNum:'4',tradeMoney:'0',realSum:'0',virtalSum:'0'},
-	{employeeNo:'560',employeeName:'次卡充值',classNO:'102',tradeClass:'次卡钱包存款',tradeNum:'162',tradeMoney:'28050',realSum:'28050',virtalSum:'10258'},
-	{employeeNo:'560',employeeName:'次卡充值',classNO:'802',tradeClass:'次卡钱包虚存款',tradeNum:'162',tradeMoney:'10268',realSum:'28050',virtalSum:'10258'},
-	{employeeNo:'561',employeeName:'制卡员3',classNO:'102',tradeClass:'次卡钱包存款',tradeNum:'9542',tradeMoney:'1432550',realSum:'1432550',virtalSum:'385135'},
-	{employeeNo:'561',employeeName:'制卡员3',classNO:'802',tradeClass:'次卡钱包虚存款',tradeNum:'9542',tradeMoney:'385135',realSum:'1432550',virtalSum:'385135'}
-]
